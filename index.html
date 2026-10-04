@@ -983,141 +983,89 @@
     ============================== -->
 
     <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbyO5p_nORex2au2rkFkSoq2yUHuUKX49RdebkpI5ZdjZYKPbLYg1r33cKA9xus1pQvuFg/exec";
 
-        const formulario =
-            document.getElementById("registroForm");
+        const formulario = document.getElementById("registroForm");
+        const resultado = document.getElementById("folioResultado");
+        const codigo = document.getElementById("codigoFolio");
+        const curpInput = document.getElementById("reg_curp");
 
-        const resultado =
-            document.getElementById("folioResultado");
-
-        const codigo =
-            document.getElementById("codigoFolio");
-
-        const curpInput =
-            document.getElementById("reg_curp");
-
-
-        /* CURP EN MAYÚSCULAS */
+        // Creamos un bloque para mostrar también la contraseña del portal.
+        const ayudaOriginal = resultado.querySelector('.folio-help');
+        const acceso = document.createElement('div');
+        acceso.id = 'datosAcceso';
+        acceso.style.cssText = 'margin-top:15px;padding:14px;background:white;border:1px solid #cfe2ff;border-radius:12px;text-align:left;font-size:12px;line-height:1.7;';
+        acceso.innerHTML = '<strong style="color:#063b91">Datos para tu plataforma</strong><br><span id="datoCorreo"></span><br><span id="datoPassword"></span><br><small style="color:#64748b">Guarda estos datos. Los necesitarás para entrar a tu plataforma de alumno.</small>';
+        resultado.insertBefore(acceso, ayudaOriginal);
 
         curpInput.addEventListener("input", function () {
-
-            this.value = this.value
-                .toUpperCase()
-                .replace(/[^A-Z0-9]/g, "")
-                .substring(0, 18);
-
+            this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, "").substring(0, 18);
         });
 
+        async function registrarEnEvolva(datos) {
+            const respuesta = await fetch(API_URL, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({ accion: "registrar", ...datos })
+            });
+            const texto = await respuesta.text();
+            let json;
+            try { json = JSON.parse(texto); }
+            catch (_) { throw new Error("El servidor devolvió una respuesta no válida."); }
+            if (!json.ok) throw new Error(json.error || "No fue posible realizar el registro.");
+            return json;
+        }
 
-        /* GENERAR FOLIO */
-
-        formulario.addEventListener("submit", function (e) {
-
+        formulario.addEventListener("submit", async function (e) {
             e.preventDefault();
 
+            const boton = formulario.querySelector('button[type="submit"]');
+            const textoBoton = boton.textContent;
 
-            const nombre =
-                document
-                    .getElementById("reg_nombre")
-                    .value
-                    .trim();
-
-
-            const email =
-                document
-                    .getElementById("reg_email")
-                    .value
-                    .trim();
-
-
-            const curp =
-                document
-                    .getElementById("reg_curp")
-                    .value
-                    .trim();
-
-
-            const curso =
-                document
-                    .getElementById("reg_curso")
-                    .value;
-
-
-            /* VALIDACIÓN */
+            const nombre = document.getElementById("reg_nombre").value.trim();
+            const email = document.getElementById("reg_email").value.trim();
+            const curp = document.getElementById("reg_curp").value.trim();
+            const curso = document.getElementById("reg_curso").value;
 
             if (!nombre || !email || !curp || !curso) {
-
-                alert(
-                    "Por favor completa todos los campos."
-                );
-
+                alert("Por favor completa todos los campos.");
                 return;
-
             }
-
-
             if (curp.length !== 18) {
-
-                alert(
-                    "La CURP debe contener 18 caracteres."
-                );
-
+                alert("La CURP debe contener 18 caracteres.");
                 return;
-
             }
 
+            boton.disabled = true;
+            boton.style.opacity = '.65';
+            boton.textContent = 'Registrando...';
 
-            /* GENERAR FOLIO */
+            try {
+                const data = await registrarEnEvolva({ nombre, email, curp, diplomado: curso });
 
-            const numero =
-                Math.floor(
-                    100000 +
-                    Math.random() * 900000
-                );
+                codigo.textContent = data.folio;
+                document.getElementById('datoCorreo').innerHTML = '<strong>Correo:</strong> ' + escapar(data.alumno?.CORREO_PERSONAL || email);
+                document.getElementById('datoPassword').innerHTML = '<strong>Contraseña:</strong> <span style="font-family:monospace;font-weight:900;color:#063b91">' + escapar(data.password || '') + '</span>';
+                resultado.style.display = "block";
 
+                setTimeout(() => resultado.scrollIntoView({ behavior: "smooth", block: "center" }), 100);
+                formulario.reset();
+                curpInput.value = '';
 
-            const folio =
-                "EVOLVA-" + numero;
-
-
-            codigo.textContent = folio;
-
-
-            /* MOSTRAR RESULTADO */
-
-            resultado.style.display = "block";
-
-
-            /* DESPLAZAR */
-
-            setTimeout(() => {
-
-                resultado.scrollIntoView({
-                    behavior: "smooth",
-                    block: "center"
-                });
-
-            }, 100);
-
-
-            /*
-             * IMPORTANTE:
-             * Actualmente el folio se genera solamente
-             * en el navegador.
-             *
-             * Para guardar realmente:
-             * - nombre
-             * - correo
-             * - CURP
-             * - diplomado
-             * - folio
-             *
-             * necesitarás conectarlo a tu Google Sheets /
-             * Apps Script o a una base de datos.
-             */
-
+            } catch (error) {
+                alert(error.message || "No fue posible completar el registro.");
+            } finally {
+                boton.disabled = false;
+                boton.style.opacity = '1';
+                boton.textContent = textoBoton;
+            }
         });
 
+        function escapar(texto) {
+            return String(texto ?? '').replace(/[&<>'"]/g, function(c) {
+                return {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c];
+            });
+        }
     </script>
 
 </body>
