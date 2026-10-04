@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Alumnos | Evolva Academy</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 font-sans antialiased flex items-center justify-center min-h-screen">
+
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4">
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-bold tracking-wide">EVOLVA <span class="text-emerald-400">ACADEMY</span></h1>
+            <p class="text-xs text-slate-400 mt-2">Plataforma Exclusiva de Alumnos</p>
+        </div>
+
+        <form class="space-y-5" onsubmit="event.preventDefault(); alert('Acceso con correo institucional simulado.');">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Correo Institucional</label>
+                <input type="email" class="w-full px-4 py-3 rounded-lg bg-slate-900 border border-slate-700 text-sm text-white focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="alumno@evolvacademy.mx" required>
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Contraseña de Sistema</label>
+                <input type="password" class="w-full px-4 py-3 rounded-lg bg-slate-900 border border-slate-700 text-sm text-white focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="••••••••" required>
+                <p class="text-[10px] text-slate-500 mt-1">Usa la contraseña fija proporcionada en tu correo de bienvenida.</p>
+            </div>
+
+            <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold py-3 rounded-xl text-sm transition cursor-pointer shadow-lg shadow-emerald-500/10">
+                Iniciar Sesión en Classroom / Clases
+            </button>
+        </form>
+
+        <div class="mt-6 text-center border-t border-slate-700 pt-4">
+            <p class="text-[11px] text-slate-400">¿Tienes problemas de acceso? Contacta a soporte a través de tu correo institucional.</p>
+        </div>
+    </div>
+
+</body>
+</html>
