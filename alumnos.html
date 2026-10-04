@@ -1530,20 +1530,17 @@ let datosConstancia = null;
 
 function llamarAPI(params){
 
-  return new Promise(function(resolve,reject){
+  return new Promise(function(resolve, reject){
 
     const callback =
       "evolvaCallback_" +
       Date.now() +
       "_" +
-      Math.floor(Math.random()*1000000);
+      Math.floor(Math.random() * 1000000);
 
-    const script =
-      document.createElement("script");
+    const script = document.createElement("script");
 
     let terminado = false;
-    let recibido = false;
-
 
     function limpiar(){
 
@@ -1559,7 +1556,6 @@ function llamarAPI(params){
 
     }
 
-
     function finalizarError(mensaje){
 
       if(terminado){
@@ -1572,24 +1568,17 @@ function llamarAPI(params){
 
       limpiar();
 
-      reject(
-        new Error(mensaje)
-      );
+      reject(new Error(mensaje));
 
     }
 
-
     const timer = setTimeout(function(){
 
-      if(terminado){
-        return;
-      }
-
       finalizarError(
-        "El servidor de Evolva Academy no respondió. Verifica que tu Apps Script esté desplegado como aplicación web y que el acceso sea para cualquier usuario."
+        "El servidor de Evolva Academy no respondió. Verifica la conexión con Google Apps Script."
       );
 
-    },20000);
+    }, 20000);
 
 
     window[callback] = function(data){
@@ -1598,7 +1587,6 @@ function llamarAPI(params){
         return;
       }
 
-      recibido = true;
       terminado = true;
 
       clearTimeout(timer);
@@ -1613,47 +1601,17 @@ function llamarAPI(params){
     script.onerror = function(){
 
       finalizarError(
-        "No fue posible conectar con el servidor de Evolva Academy. Revisa la implementación del Apps Script."
+        "No fue posible conectar con el servidor de Evolva Academy."
       );
 
     };
 
 
-    script.onload = function(){
-
-      /*
-       * Si el script cargó pero nunca ejecutó
-       * el callback, probablemente Apps Script
-       * está devolviendo JSON normal en lugar
-       * de JSONP.
-       */
-
-      setTimeout(function(){
-
-        if(
-          !terminado &&
-          !recibido
-        ){
-
-          finalizarError(
-            "El servidor respondió, pero no está enviando JSONP. Revisa la función json_() de Apps Script."
-          );
-
-        }
-
-      },1000);
-
-    };
-
-
-    const query =
-      new URLSearchParams();
-
+    const query = new URLSearchParams();
 
     Object.keys(params || {}).forEach(function(key){
 
-      const value =
-        params[key];
+      const value = params[key];
 
       if(
         value !== undefined &&
@@ -1675,12 +1633,6 @@ function llamarAPI(params){
       callback
     );
 
-
-    /*
-     * Evita que el navegador reutilice
-     * una respuesta antigua.
-     */
-
     query.set(
       "_",
       Date.now().toString()
@@ -1698,8 +1650,7 @@ function llamarAPI(params){
   });
 
 }
-
-
+  
 /* =========================================================
    UTILIDADES
 ========================================================= */
@@ -2372,11 +2323,9 @@ function renderCurso(){
    EXÁMENES
 ========================================================= */
 
-function renderExamenes(){
+  function renderExamenes(){
 
-  const items =
-    datosExamenes || [];
-
+  const items = datosExamenes || [];
 
   if(!items.length){
 
@@ -2396,16 +2345,30 @@ function renderExamenes(){
 
     items.map(function(x){
 
+      const examen =
+        x.EXAMEN ??
+        x.examen ??
+        "Examen";
+
+      const calificacion =
+        x.CALIFICACION ??
+        x.calificacion ??
+        "";
+
+      const estado =
+        x.ESTADO ??
+        x.estado ??
+        "";
+
+
       const cal =
-        x.CALIFICACION === "" ||
-        x.CALIFICACION == null
+        calificacion === "" ||
+        calificacion == null
 
           ? "Pendiente"
 
           : "Calificación: " +
-            escapeHtml(
-              x.CALIFICACION
-            );
+            escapeHtml(calificacion);
 
 
       return `
@@ -2414,22 +2377,17 @@ function renderExamenes(){
           <div>
 
             <div class="grade-name">
-              ${escapeHtml(
-                x.EXAMEN ||
-                "Examen"
-              )}
+              ${escapeHtml(examen)}
             </div>
 
             <div
               style="
-              font-size:10px;
-              color:#94a3b8;
-              margin-top:3px
+                font-size:10px;
+                color:#94a3b8;
+                margin-top:3px
               "
             >
-              ${escapeHtml(
-                x.ESTADO || ""
-              )}
+              ${escapeHtml(estado)}
             </div>
 
           </div>
