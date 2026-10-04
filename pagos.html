@@ -1,20 +1,30 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Evolva Academy | Formación Digital Profesional</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <meta name="description" content="Evolva Academy - Diplomados y formación profesional en línea.">
+    <title>Portal de Pagos | Evolva Academy</title>
+
+    <meta
+        name="description"
+        content="Portal de pagos y validación de Evolva Academy"
+    >
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
+
     <style>
 
-        /* ==============================
-           CONFIGURACIÓN GENERAL
-        ============================== */
+        /* =========================================
+           CONFIGURACIÓN
+        ========================================= */
 
         * {
             box-sizing: border-box;
@@ -27,636 +37,1221 @@
         body {
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
-            background: #f7faff;
+
+            background:
+                radial-gradient(
+                    circle at 90% 10%,
+                    rgba(38,132,255,.10),
+                    transparent 30%
+                ),
+                #f7faff;
+
             color: #172033;
         }
 
-        /* ==============================
-           COLORES EVOLVA
-        ============================== */
 
         :root {
+
             --azul-oscuro: #063b91;
             --azul: #086cff;
             --azul-claro: #2684ff;
-            --azul-suave: #edf5ff;
+
+            --azul-fondo: #edf5ff;
+
             --texto: #172033;
             --gris: #64748b;
-            --borde: #e2e8f0;
+
+            --borde: #dfe8f3;
         }
 
-        /* ==============================
+
+        /* =========================================
            HEADER
-        ============================== */
+        ========================================= */
 
         .header {
-            background: rgba(255,255,255,0.96);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid #e8eef7;
+
             position: sticky;
             top: 0;
+
             z-index: 100;
+
+            background: rgba(255,255,255,.96);
+
+            backdrop-filter: blur(14px);
+
+            border-bottom:
+                1px solid #e7eef7;
+
+            box-shadow:
+                0 4px 20px rgba(15,23,42,.04);
         }
 
+
         .header-container {
-            max-width: 1180px;
+
+            max-width: 1050px;
+
             margin: auto;
-            padding: 14px 24px;
+
+            padding:
+                13px 22px;
+
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
+
             gap: 20px;
         }
 
+
         .logo {
-            width: 180px;
+
+            width: 170px;
+
             height: auto;
+
             display: block;
         }
 
-        .btn-header {
+
+        .back-button {
+
             display: inline-flex;
+
             align-items: center;
-            justify-content: center;
-            padding: 11px 18px;
-            border-radius: 10px;
-            color: white;
+
+            gap: 6px;
+
+            padding:
+                9px 14px;
+
+            border-radius: 9px;
+
+            color: #31506f;
+
             text-decoration: none;
-            font-size: 14px;
+
+            font-size: 13px;
+
             font-weight: 700;
 
-            background: linear-gradient(
-                135deg,
-                var(--azul-oscuro),
-                var(--azul)
-            );
-
-            box-shadow: 0 6px 18px rgba(8,108,255,0.20);
-
-            transition: 0.25s ease;
+            transition: .2s ease;
         }
 
-        .btn-header:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 24px rgba(8,108,255,0.30);
-        }
 
-        /* ==============================
-           HERO
-        ============================== */
+        .back-button:hover {
 
-        .hero {
-            position: relative;
-            overflow: hidden;
-            background:
-                radial-gradient(
-                    circle at 80% 20%,
-                    rgba(38,132,255,0.15),
-                    transparent 35%
-                ),
-                radial-gradient(
-                    circle at 10% 80%,
-                    rgba(6,59,145,0.10),
-                    transparent 30%
-                ),
-                #ffffff;
-        }
+            background: var(--azul-fondo);
 
-        .hero-container {
-            max-width: 1180px;
-            margin: auto;
-            padding: 85px 24px 80px;
-            text-align: center;
-        }
-
-        .badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 8px 15px;
-            border-radius: 999px;
-
-            background: #edf5ff;
-            color: var(--azul-oscuro);
-
-            border: 1px solid #d6e8ff;
-
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-        }
-
-        .hero h1 {
-            max-width: 850px;
-            margin: 22px auto 18px;
-
-            font-size: clamp(38px, 6vw, 64px);
-            line-height: 1.05;
-            letter-spacing: -0.045em;
-            font-weight: 900;
-
-            color: #101828;
-        }
-
-        .hero h1 span {
-            background: linear-gradient(
-                90deg,
-                #063b91,
-                #086cff,
-                #2684ff
-            );
-
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-description {
-            max-width: 700px;
-            margin: auto;
-
-            font-size: 17px;
-            line-height: 1.7;
-            color: #64748b;
-        }
-
-        /* ==============================
-           CURSOS
-        ============================== */
-
-        .courses {
-            max-width: 1000px;
-            margin: -10px auto 80px;
-            padding: 0 24px;
-
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 24px;
-        }
-
-        .course-card {
-            position: relative;
-            overflow: hidden;
-
-            background: white;
-            border: 1px solid var(--borde);
-            border-radius: 20px;
-
-            padding: 30px;
-
-            box-shadow:
-                0 10px 35px rgba(15,23,42,0.06);
-
-            transition: 0.3s ease;
-        }
-
-        .course-card::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 4px;
-
-            background: linear-gradient(
-                90deg,
-                var(--azul-oscuro),
-                var(--azul),
-                var(--azul-claro)
-            );
-        }
-
-        .course-card:hover {
-            transform: translateY(-6px);
-
-            box-shadow:
-                0 18px 45px rgba(8,108,255,0.12);
-
-            border-color: #cfe2ff;
-        }
-
-        .course-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 18px;
-        }
-
-        .course-duration {
-            font-size: 12px;
-            font-weight: 800;
             color: var(--azul);
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
         }
 
-        .course-number {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* =========================================
+           CONTENEDOR
+        ========================================= */
 
-            color: white;
-            font-weight: 800;
+        main {
 
-            background: linear-gradient(
-                135deg,
-                var(--azul-oscuro),
-                var(--azul)
-            );
+            padding:
+                65px 20px 90px;
         }
 
-        .course-card h2 {
-            margin: 0 0 12px;
 
-            color: #101828;
-            font-size: 21px;
-            line-height: 1.3;
-            font-weight: 800;
-        }
+        .payment-container {
 
-        .course-card p {
-            margin: 0;
-
-            color: #64748b;
-            font-size: 14px;
-            line-height: 1.7;
-        }
-
-        /* ==============================
-           SECCIÓN REGISTRO
-        ============================== */
-
-        .registration-section {
-            padding: 20px 24px 100px;
-        }
-
-        .registration-box {
             max-width: 650px;
+
             margin: auto;
-
-            background: white;
-
-            border: 1px solid #e1eaf5;
-            border-radius: 24px;
-
-            padding: 40px;
-
-            box-shadow:
-                0 20px 60px rgba(15,23,42,0.08);
         }
 
-        .registration-header {
+
+        /* =========================================
+           ENCABEZADO
+        ========================================= */
+
+        .page-header {
+
             text-align: center;
+
             margin-bottom: 30px;
         }
 
-        .registration-icon {
+
+        .page-badge {
+
+            display: inline-flex;
+
+            padding:
+                7px 13px;
+
+            border-radius: 999px;
+
+            background:
+                var(--azul-fondo);
+
+            border:
+                1px solid #d5e7ff;
+
+            color:
+                var(--azul-oscuro);
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: .08em;
+        }
+
+
+        .page-header h1 {
+
+            margin:
+                16px 0 9px;
+
+            color:
+                #101828;
+
+            font-size:
+                clamp(28px, 5vw, 38px);
+
+            line-height: 1.1;
+
+            font-weight: 900;
+
+            letter-spacing:
+                -.03em;
+        }
+
+
+        .page-header h1 span {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--azul-oscuro),
+                    var(--azul),
+                    var(--azul-claro)
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color:
+                transparent;
+        }
+
+
+        .page-header p {
+
+            max-width: 520px;
+
+            margin: auto;
+
+            color:
+                var(--gris);
+
+            font-size: 14px;
+
+            line-height: 1.65;
+        }
+
+
+        /* =========================================
+           TARJETA PRINCIPAL
+        ========================================= */
+
+        .payment-card {
+
+            background: white;
+
+            border:
+                1px solid var(--borde);
+
+            border-radius: 24px;
+
+            padding: 32px;
+
+            box-shadow:
+                0 20px 60px
+                rgba(15,23,42,.08);
+        }
+
+
+        /* =========================================
+           SECCIÓN FOLIO
+        ========================================= */
+
+        .folio-section {
+
+            text-align: center;
+        }
+
+
+        .section-icon {
+
             width: 55px;
             height: 55px;
 
-            margin: 0 auto 15px;
+            margin:
+                0 auto 16px;
 
             border-radius: 16px;
 
             display: flex;
+
             align-items: center;
             justify-content: center;
 
-            background: #edf5ff;
-            color: var(--azul);
+            background:
+                var(--azul-fondo);
+
+            color:
+                var(--azul);
 
             font-size: 24px;
+
+            font-weight: bold;
         }
 
-        .registration-header h2 {
-            margin: 0 0 8px;
 
-            font-size: 27px;
+        .folio-section h2 {
+
+            margin: 0 0 7px;
+
+            font-size: 21px;
+
             font-weight: 900;
-            color: #101828;
+
+            color:
+                #101828;
         }
 
-        .registration-header p {
-            margin: 0;
 
-            color: #64748b;
-            font-size: 14px;
+        .folio-section p {
+
+            margin:
+                0 0 23px;
+
+            color:
+                var(--gris);
+
+            font-size: 13px;
+
             line-height: 1.6;
         }
 
-        /* ==============================
-           FORMULARIO
-        ============================== */
 
-        .form-group {
-            margin-bottom: 18px;
-        }
+        /* =========================================
+           INPUT
+        ========================================= */
 
-        .form-label {
+        .input-label {
+
             display: block;
+
+            text-align: left;
 
             margin-bottom: 7px;
 
-            color: #334155;
+            color:
+                #334155;
 
             font-size: 13px;
-            font-weight: 700;
+
+            font-weight: 800;
         }
 
-        .form-input,
-        .form-select {
+
+        .folio-input {
+
             width: 100%;
 
-            padding: 13px 14px;
+            padding:
+                14px 15px;
 
-            background: #fbfdff;
+            border:
+                1px solid #d9e3ef;
 
-            border: 1px solid #dbe4ef;
             border-radius: 11px;
+
+            background:
+                #fbfdff;
 
             outline: none;
 
-            color: #172033;
+            font-family: monospace;
 
-            font-size: 14px;
+            font-size: 15px;
 
-            transition: 0.2s ease;
+            font-weight: 700;
+
+            letter-spacing: .04em;
+
+            color:
+                #172033;
+
+            text-transform: uppercase;
+
+            transition: .2s ease;
         }
 
-        .form-input:focus,
-        .form-select:focus {
+
+        .folio-input:focus {
+
             background: white;
 
-            border-color: var(--azul);
+            border-color:
+                var(--azul);
 
             box-shadow:
-                0 0 0 4px rgba(8,108,255,0.10);
+                0 0 0 4px
+                rgba(8,108,255,.10);
         }
 
-        .form-input::placeholder {
-            color: #94a3b8;
-        }
 
-        .submit-button {
+        /* =========================================
+           BOTÓN CONSULTAR
+        ========================================= */
+
+        .primary-button {
+
             width: 100%;
 
-            margin-top: 8px;
+            margin-top: 13px;
 
             padding: 14px;
 
             border: none;
-            border-radius: 12px;
 
-            color: white;
-
-            font-size: 15px;
-            font-weight: 800;
+            border-radius: 11px;
 
             cursor: pointer;
 
-            background: linear-gradient(
-                135deg,
-                #063b91,
-                #086cff,
-                #2684ff
-            );
+            color: white;
 
-            box-shadow:
-                0 10px 25px rgba(8,108,255,0.22);
-
-            transition: 0.25s ease;
-        }
-
-        .submit-button:hover {
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 15px 32px rgba(8,108,255,0.30);
-        }
-
-        .submit-button:active {
-            transform: translateY(0);
-        }
-
-        /* ==============================
-           RESULTADO FOLIO
-        ============================== */
-
-        .folio-result {
-            margin-top: 25px;
-
-            padding: 25px;
-
-            border-radius: 16px;
-
-            text-align: center;
-
-            background: linear-gradient(
-                135deg,
-                #eff6ff,
-                #f8fbff
-            );
-
-            border: 1px solid #cfe2ff;
-        }
-
-        .folio-success {
-            margin: 0 0 6px;
-
-            color: var(--azul-oscuro);
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul-oscuro),
+                    var(--azul),
+                    var(--azul-claro)
+                );
 
             font-size: 14px;
+
             font-weight: 800;
+
+            box-shadow:
+                0 9px 22px
+                rgba(8,108,255,.20);
+
+            transition: .25s ease;
         }
 
-        .folio-description {
-            margin: 0 0 12px;
 
-            color: #64748b;
+        .primary-button:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 14px 28px
+                rgba(8,108,255,.28);
+        }
+
+
+        /* =========================================
+           DIVISOR
+        ========================================= */
+
+        .divider {
+
+            height: 1px;
+
+            background:
+                #e8eef5;
+
+            margin:
+                30px 0;
+        }
+
+
+        /* =========================================
+           INFORMACIÓN ALUMNO
+        ========================================= */
+
+        .student-box {
+
+            padding:
+                17px;
+
+            border-radius:
+                14px;
+
+            background:
+                #f8fbff;
+
+            border:
+                1px solid #e1eaf5;
+        }
+
+
+        .student-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 6px 0;
 
             font-size: 13px;
         }
 
-        .folio-code {
-            display: inline-block;
 
-            padding: 11px 20px;
+        .student-row span:first-child {
 
-            margin-bottom: 13px;
+            color:
+                #64748b;
 
-            background: white;
-
-            border: 1px solid #b9d5ff;
-
-            border-radius: 10px;
-
-            color: #063b91;
-
-            font-size: 20px;
-            font-family: monospace;
-            font-weight: 900;
-
-            letter-spacing: 0.05em;
+            font-weight: 600;
         }
 
-        .folio-help {
-            margin: 0;
 
-            color: #64748b;
+        .student-row span:last-child {
 
-            font-size: 11px;
-            line-height: 1.6;
-        }
+            color:
+                #172033;
 
-        .folio-help a {
-            color: var(--azul);
             font-weight: 800;
+
+            text-align: right;
         }
 
-        /* ==============================
+
+        /* =========================================
+           MONTOS
+        ========================================= */
+
+        .amount-box {
+
+            margin-top: 20px;
+
+            padding:
+                20px;
+
+            border-radius:
+                16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eff6ff,
+                    #f8fbff
+                );
+
+            border:
+                1px solid #cfe2ff;
+        }
+
+
+        .amount-title {
+
+            margin:
+                0 0 15px;
+
+            color:
+                var(--azul-oscuro);
+
+            font-size:
+                13px;
+
+            font-weight:
+                900;
+        }
+
+
+        .amount-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding:
+                11px 0;
+
+            border-bottom:
+                1px solid #dceaff;
+        }
+
+
+        .amount-row:last-child {
+
+            border-bottom: none;
+
+            padding-bottom: 0;
+        }
+
+
+        .amount-name {
+
+            color:
+                #64748b;
+
+            font-size:
+                13px;
+
+            font-weight:
+                600;
+        }
+
+
+        .amount-value {
+
+            color:
+                #063b91;
+
+            font-size:
+                17px;
+
+            font-weight:
+                900;
+        }
+
+
+        /* =========================================
+           DATOS BANCARIOS
+        ========================================= */
+
+        .bank-box {
+
+            margin-top:
+                20px;
+
+            padding:
+                21px;
+
+            border-radius:
+                16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #061d45,
+                    #073a88
+                );
+
+            color:
+                white;
+
+            box-shadow:
+                0 12px 30px
+                rgba(6,59,145,.18);
+        }
+
+
+        .bank-title {
+
+            margin:
+                0 0 16px;
+
+            color:
+                white;
+
+            font-size:
+                14px;
+
+            font-weight:
+                900;
+        }
+
+
+        .bank-data {
+
+            margin:
+                9px 0;
+
+            font-size:
+                12px;
+
+            color:
+                #d8e7ff;
+        }
+
+
+        .bank-data strong {
+
+            color:
+                white;
+        }
+
+
+        .clabe-container {
+
+            margin-top:
+                14px;
+
+            padding:
+                12px;
+
+            border-radius:
+                10px;
+
+            background:
+                rgba(255,255,255,.08);
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                10px;
+        }
+
+
+        .clabe {
+
+            font-family:
+                monospace;
+
+            font-size:
+                14px;
+
+            font-weight:
+                800;
+
+            letter-spacing:
+                .04em;
+
+            word-break:
+                break-all;
+        }
+
+
+        .copy-button {
+
+            flex-shrink:
+                0;
+
+            border:
+                none;
+
+            border-radius:
+                8px;
+
+            padding:
+                8px 10px;
+
+            cursor:
+                pointer;
+
+            background:
+                white;
+
+            color:
+                var(--azul-oscuro);
+
+            font-size:
+                11px;
+
+            font-weight:
+                800;
+        }
+
+
+        .copy-button:hover {
+
+            background:
+                #edf5ff;
+        }
+
+
+        /* =========================================
+           COMPROBANTE
+        ========================================= */
+
+        .upload-section {
+
+            margin-top:
+                25px;
+        }
+
+
+        .upload-title {
+
+            margin:
+                0 0 8px;
+
+            color:
+                #172033;
+
+            font-size:
+                14px;
+
+            font-weight:
+                900;
+        }
+
+
+        .upload-description {
+
+            margin:
+                0 0 15px;
+
+            color:
+                #64748b;
+
+            font-size:
+                12px;
+
+            line-height:
+                1.6;
+        }
+
+
+        .file-input {
+
+            width:
+                100%;
+
+            padding:
+                10px;
+
+            border:
+                1px solid #dbe4ef;
+
+            border-radius:
+                11px;
+
+            background:
+                #fbfdff;
+
+            color:
+                #64748b;
+
+            font-size:
+                12px;
+
+            cursor:
+                pointer;
+        }
+
+
+        .file-input::file-selector-button {
+
+            margin-right:
+                10px;
+
+            padding:
+                9px 12px;
+
+            border:
+                none;
+
+            border-radius:
+                8px;
+
+            background:
+                var(--azul-fondo);
+
+            color:
+                var(--azul-oscuro);
+
+            font-size:
+                11px;
+
+            font-weight:
+                800;
+
+            cursor:
+                pointer;
+        }
+
+
+        /* =========================================
+           BOTÓN COMPROBANTE
+        ========================================= */
+
+        .submit-payment {
+
+            width:
+                100%;
+
+            margin-top:
+                14px;
+
+            padding:
+                14px;
+
+            border:
+                none;
+
+            border-radius:
+                11px;
+
+            background:
+                #101828;
+
+            color:
+                white;
+
+            font-size:
+                14px;
+
+            font-weight:
+                800;
+
+            cursor:
+                pointer;
+
+            transition:
+                .25s ease;
+        }
+
+
+        .submit-payment:hover {
+
+            background:
+                var(--azul-oscuro);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =========================================
+           ESTADO REVISIÓN
+        ========================================= */
+
+        .review-box {
+
+            margin-top:
+                24px;
+
+            padding:
+                24px;
+
+            text-align:
+                center;
+
+            border-radius:
+                16px;
+
+            background:
+                #eff6ff;
+
+            border:
+                1px solid #cfe2ff;
+        }
+
+
+        .review-icon {
+
+            width:
+                50px;
+
+            height:
+                50px;
+
+            margin:
+                0 auto 12px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            border-radius:
+                50%;
+
+            background:
+                white;
+
+            color:
+                var(--azul);
+
+            font-size:
+                22px;
+        }
+
+
+        .review-box h3 {
+
+            margin:
+                0 0 7px;
+
+            color:
+                var(--azul-oscuro);
+
+            font-size:
+                16px;
+
+            font-weight:
+                900;
+        }
+
+
+        .review-box p {
+
+            margin:
+                0;
+
+            color:
+                #64748b;
+
+            font-size:
+                12px;
+
+            line-height:
+                1.7;
+        }
+
+
+        /* =========================================
+           MENSAJE ERROR
+        ========================================= */
+
+        .error-box {
+
+            margin-top:
+                14px;
+
+            padding:
+                12px;
+
+            border-radius:
+                10px;
+
+            background:
+                #fff5f5;
+
+            border:
+                1px solid #fecaca;
+
+            color:
+                #b91c1c;
+
+            font-size:
+                12px;
+
+            text-align:
+                center;
+        }
+
+
+        /* =========================================
            FOOTER
-        ============================== */
+        ========================================= */
 
         footer {
-            background: #071b3d;
-            color: #b9c8df;
 
-            padding: 35px 24px;
+            padding:
+                35px 20px;
 
-            text-align: center;
+            background:
+                #061b3e;
+
+            color:
+                #b8c8df;
+
+            text-align:
+                center;
         }
+
 
         .footer-logo {
-            width: 150px;
 
-            margin: 0 auto 14px;
+            width:
+                145px;
 
-            filter: brightness(0) invert(1);
+            margin:
+                0 auto 12px;
 
-            opacity: 0.95;
+            filter:
+                brightness(0) invert(1);
         }
+
 
         footer p {
-            margin: 4px 0;
 
-            font-size: 12px;
+            margin:
+                4px 0;
+
+            font-size:
+                11px;
         }
 
-        /* ==============================
+
+        /* =========================================
            RESPONSIVE
-        ============================== */
+        ========================================= */
 
-        @media (max-width: 768px) {
+        @media (max-width: 650px) {
+
+            main {
+
+                padding:
+                    45px 14px 70px;
+            }
+
 
             .header-container {
-                padding: 12px 16px;
+
+                padding:
+                    11px 15px;
             }
+
 
             .logo {
-                width: 145px;
+
+                width:
+                    140px;
             }
 
-            .btn-header {
-                padding: 9px 12px;
-                font-size: 11px;
+
+            .back-button {
+
+                font-size:
+                    11px;
+
+                padding:
+                    8px 9px;
             }
 
-            .hero-container {
-                padding: 65px 20px 60px;
+
+            .payment-card {
+
+                padding:
+                    23px 17px;
+
+                border-radius:
+                    19px;
             }
 
-            .hero h1 {
-                font-size: 40px;
+
+            .page-header h1 {
+
+                font-size:
+                    30px;
             }
 
-            .hero-description {
-                font-size: 15px;
+
+            .student-row {
+
+                flex-direction:
+                    column;
+
+                gap:
+                    2px;
             }
 
-            .courses {
-                grid-template-columns: 1fr;
-                padding: 0 18px;
-                margin-bottom: 60px;
+
+            .student-row span:last-child {
+
+                text-align:
+                    left;
             }
 
-            .course-card {
-                padding: 25px;
+
+            .clabe-container {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
             }
 
-            .registration-section {
-                padding: 10px 16px 70px;
+
+            .copy-button {
+
+                width:
+                    100%;
             }
 
-            .registration-box {
-                padding: 25px 20px;
-                border-radius: 20px;
-            }
-
-            .registration-header h2 {
-                font-size: 24px;
-            }
         }
 
-        @media (max-width: 430px) {
 
-            .header-container {
-                gap: 10px;
-            }
+        @media (max-width: 400px) {
 
             .logo {
-                width: 130px;
+
+                width:
+                    125px;
             }
 
-            .btn-header {
-                font-size: 10px;
-                padding: 8px 10px;
+
+            .back-button {
+
+                font-size:
+                    10px;
             }
 
-            .hero h1 {
-                font-size: 34px;
+
+            .page-header h1 {
+
+                font-size:
+                    27px;
             }
 
-            .badge {
-                font-size: 10px;
+
+            .payment-card {
+
+                padding:
+                    20px 14px;
             }
 
-            .course-card h2 {
-                font-size: 19px;
-            }
-
-            .folio-code {
-                font-size: 17px;
-            }
         }
 
     </style>
+
 </head>
 
 
 <body>
 
-    <!-- ==============================
+
+    <!-- =========================================
          HEADER
-    ============================== -->
+    ========================================= -->
 
     <header class="header">
 
         <div class="header-container">
 
             <a href="index.html">
+
                 <img
                     src="logo-evolva.png"
                     alt="Evolva Academy"
                     class="logo"
                 >
+
             </a>
 
-            <a href="pagos.html" class="btn-header">
-                Ya tengo mi folio →
+
+            <a
+                href="index.html"
+                class="back-button"
+            >
+                ← Regresar al inicio
             </a>
 
         </div>
@@ -664,300 +1259,345 @@
     </header>
 
 
-    <!-- ==============================
-         HERO
-    ============================== -->
+
+    <!-- =========================================
+         CONTENIDO
+    ========================================= -->
 
     <main>
 
-        <section class="hero">
+        <div class="payment-container">
 
-            <div class="hero-container">
 
-                <span class="badge">
-                    Academia Digital Profesional
+            <!-- ENCABEZADO -->
+
+            <div class="page-header">
+
+                <span class="page-badge">
+                    Portal oficial
                 </span>
 
                 <h1>
-                    Aprende hoy.
-                    <span>Evoluciona mañana.</span>
+                    Validación y
+                    <span>Pagos</span>
                 </h1>
 
-                <p class="hero-description">
-                    Desarrolla nuevas habilidades con nuestros diplomados
-                    diseñados para ayudarte a crecer profesional y
-                    personalmente.
+                <p>
+                    Ingresa tu folio de inscripción para consultar
+                    la información de tu diplomado, opciones de pago
+                    y enviar tu comprobante.
                 </p>
 
             </div>
 
-        </section>
 
 
-        <!-- ==============================
-             DIPLOMADOS
-        ============================== -->
+            <!-- TARJETA -->
 
-        <section class="courses">
-
-            <article class="course-card">
-
-                <div class="course-top">
-
-                    <span class="course-duration">
-                        Diplomado · 6 meses
-                    </span>
-
-                    <span class="course-number">
-                        01
-                    </span>
-
-                </div>
-
-                <h2>
-                    Diplomado en Finanzas Personales
-                </h2>
-
-                <p>
-                    Aprende a administrar tu dinero, organizar tu
-                    presupuesto, reducir deudas, crear un fondo de
-                    emergencia y conocer las bases para iniciar un
-                    negocio.
-                </p>
-
-            </article>
+            <div class="payment-card">
 
 
-            <article class="course-card">
+                <!-- =================================
+                     BUSCAR FOLIO
+                ================================== -->
 
-                <div class="course-top">
+                <div
+                    id="seccionFolio"
+                    class="folio-section"
+                >
 
-                    <span class="course-duration">
-                        Diplomado · 8 meses
-                    </span>
-
-                    <span class="course-number">
-                        02
-                    </span>
-
-                </div>
-
-                <h2>
-                    Diplomado en Primeros Auxilios
-                </h2>
-
-                <p>
-                    Aprende conocimientos esenciales para actuar ante
-                    emergencias, incluyendo RCP, maniobra de Heimlich,
-                    control de hemorragias y atención inicial.
-                </p>
-
-            </article>
-
-        </section>
-
-
-        <!-- ==============================
-             REGISTRO
-        ============================== -->
-
-        <section class="registration-section">
-
-            <div class="registration-box">
-
-                <div class="registration-header">
-
-                    <div class="registration-icon">
-                        ✦
+                    <div class="section-icon">
+                        #
                     </div>
 
                     <h2>
-                        Inscríbete a Evolva Academy
+                        Consulta tu inscripción
                     </h2>
 
                     <p>
-                        Completa tus datos para generar tu folio
-                        único de inscripción.
+                        Introduce el folio que recibiste
+                        al completar tu registro.
                     </p>
+
+
+                    <label
+                        for="inputFolio"
+                        class="input-label"
+                    >
+                        Folio único
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="inputFolio"
+                        class="folio-input"
+                        placeholder="EVOLVA-000000"
+                        autocomplete="off"
+                    >
+
+
+                    <button
+                        type="button"
+                        onclick="buscarFolio()"
+                        class="primary-button"
+                    >
+                        Consultar folio
+                    </button>
+
+
+                    <div
+                        id="mensajeError"
+                        style="display:none;"
+                        class="error-box"
+                    >
+                        Por favor ingresa un folio válido.
+                    </div>
 
                 </div>
 
 
-                <form id="registroForm">
 
-
-                    <!-- NOMBRE -->
-
-                    <div class="form-group">
-
-                        <label
-                            for="reg_nombre"
-                            class="form-label"
-                        >
-                            Nombre completo
-                        </label>
-
-                        <input
-                            type="text"
-                            id="reg_nombre"
-                            class="form-input"
-                            placeholder="Nombre y apellidos"
-                            autocomplete="name"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- CORREO -->
-
-                    <div class="form-group">
-
-                        <label
-                            for="reg_email"
-                            class="form-label"
-                        >
-                            Correo electrónico
-                        </label>
-
-                        <input
-                            type="email"
-                            id="reg_email"
-                            class="form-input"
-                            placeholder="tu@correo.com"
-                            autocomplete="email"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- CURP -->
-
-                    <div class="form-group">
-
-                        <label
-                            for="reg_curp"
-                            class="form-label"
-                        >
-                            CURP
-                        </label>
-
-                        <input
-                            type="text"
-                            id="reg_curp"
-                            maxlength="18"
-                            minlength="18"
-                            class="form-input"
-                            placeholder="Ingresa tu CURP"
-                            autocomplete="off"
-                            style="text-transform: uppercase;"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- CURSO -->
-
-                    <div class="form-group">
-
-                        <label
-                            for="reg_curso"
-                            class="form-label"
-                        >
-                            Diplomado que deseas cursar
-                        </label>
-
-                        <select
-                            id="reg_curso"
-                            class="form-select"
-                            required
-                        >
-
-                            <option
-                                value=""
-                                disabled
-                                selected
-                            >
-                                Selecciona un diplomado
-                            </option>
-
-                            <option value="Finanzas Personales">
-                                Diplomado en Finanzas Personales
-                            </option>
-
-                            <option value="Primeros Auxilios">
-                                Diplomado en Primeros Auxilios
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- BOTÓN -->
-
-                    <button
-                        type="submit"
-                        class="submit-button"
-                    >
-                        Generar mi folio de inscripción
-                    </button>
-
-                </form>
-
-
-                <!-- ==============================
-                     RESULTADO
-                ============================== -->
+                <!-- =================================
+                     DETALLES
+                ================================== -->
 
                 <div
-                    id="folioResultado"
-                    class="folio-result"
+                    id="seccionDetalles"
                     style="display:none;"
                 >
 
-                    <p class="folio-success">
-                        ✓ Registro exitoso
-                    </p>
+                    <div class="divider"></div>
 
-                    <p class="folio-description">
-                        Tu folio único de inscripción es:
-                    </p>
 
-                    <div
-                        id="codigoFolio"
-                        class="folio-code"
-                    >
-                        EVOLVA-0000
+                    <!-- DATOS ALUMNO -->
+
+                    <div class="student-box">
+
+                        <div class="student-row">
+
+                            <span>
+                                Alumno
+                            </span>
+
+                            <span id="lblNombre">
+                                María Pérez
+                            </span>
+
+                        </div>
+
+
+                        <div class="student-row">
+
+                            <span>
+                                Diplomado
+                            </span>
+
+                            <span id="lblCurso">
+                                Diplomado en Finanzas Personales
+                            </span>
+
+                        </div>
+
+
+                        <div class="student-row">
+
+                            <span>
+                                Folio
+                            </span>
+
+                            <span id="lblFolio">
+                                EVOLVA-000000
+                            </span>
+
+                        </div>
+
                     </div>
 
-                    <p class="folio-help">
+                        <div class="student-row">
+                            <span>Estado del pago</span>
+                            <span id="estadoPagoTexto">PENDIENTE</span>
+                        </div>
 
-                        Guarda este folio. Lo necesitarás para
-                        realizar tu proceso de pago.
 
-                        <br>
+                    <!-- =================================
+                         MONTOS
+                    ================================== -->
 
-                        <a href="pagos.html">
-                            Ir a pagos →
-                        </a>
+                    <div class="amount-box">
 
-                    </p>
+                        <p class="amount-title">
+                            Opciones de pago
+                        </p>
+
+
+                        <div class="amount-row">
+
+                            <span class="amount-name">
+                                Pago mensual
+                            </span>
+
+                            <span class="amount-value">
+                                <span id="montoMensual">Consultar</span>
+                            </span>
+
+                        </div>
+
+
+                        <div class="amount-row">
+
+                            <span class="amount-name">
+                                Pago de contado
+                            </span>
+
+                            <span class="amount-value">
+                                <span id="montoContado">Consultar</span>
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =================================
+                         BANCO
+                    ================================== -->
+
+                    <div class="bank-box">
+
+                        <p class="bank-title">
+                            Datos para transferencia SPEI
+                        </p>
+
+
+                        <p class="bank-data">
+                            <strong>Banco:</strong>
+                            <span id="datosBanco">BBVA México</span>
+                        </p>
+
+
+                        <p class="bank-data">
+                            <strong>Beneficiario:</strong>
+                            <span id="datosBeneficiario">Evolva Academy S.A. de C.V.</span>
+                        </p>
+
+
+                        <div class="clabe-container">
+
+                            <span
+                                id="clabe"
+                                class="clabe"
+                            >
+                                012345678901234567
+                            </span>
+
+
+                            <button
+                                type="button"
+                                class="copy-button"
+                                onclick="copiarClabe()"
+                            >
+                                Copiar CLABE
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =================================
+                         COMPROBANTE
+                    ================================== -->
+
+                    <div
+                        id="seccionComprobante"
+                        class="upload-section"
+                    >
+
+                        <p class="upload-title">
+                            Envía tu comprobante
+                        </p>
+
+                        <p class="upload-description">
+                            Después de realizar tu transferencia,
+                            selecciona el comprobante de pago.
+                            Puedes utilizar PDF, JPG, JPEG o PNG.
+                        </p>
+
+
+                        <form
+                            id="comprobanteForm"
+                        >
+
+                            <input
+                                type="file"
+                                id="archivoTicket"
+                                class="file-input"
+                                accept=".pdf,.jpg,.jpeg,.png"
+                                required
+                            >
+
+
+                            <button
+                                type="submit"
+                                class="submit-payment"
+                            >
+                                Enviar comprobante
+                            </button>
+
+                        </form>
+
+                    </div>
+
+
+
+                    <!-- =================================
+                         REVISIÓN
+                    ================================== -->
+
+                    <div
+                        id="estadoRevision"
+                        style="display:none;"
+                        class="review-box"
+                    >
+
+                        <div class="review-icon">
+                            ✓
+                        </div>
+
+
+                        <h3>
+                            Comprobante recibido
+                        </h3>
+
+
+                        <p>
+                            Tu comprobante ha sido enviado
+                            correctamente y se encuentra
+                            <strong>en revisión</strong>.
+                            <br><br>
+                            Una vez validado el pago, recibirás
+                            la información correspondiente
+                            en tu correo electrónico.
+                        </p>
+
+                    </div>
 
                 </div>
 
             </div>
 
-        </section>
+        </div>
 
     </main>
 
 
-    <!-- ==============================
+
+    <!-- =========================================
          FOOTER
-    ============================== -->
+    ========================================= -->
 
     <footer>
 
@@ -978,95 +1618,200 @@
     </footer>
 
 
-    <!-- ==============================
+
+    <!-- =========================================
          JAVASCRIPT
-    ============================== -->
+    ========================================= -->
 
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbyO5p_nORex2au2rkFkSoq2yUHuUKX49RdebkpI5ZdjZYKPbLYg1r33cKA9xus1pQvuFg/exec";
 
-        const formulario = document.getElementById("registroForm");
-        const resultado = document.getElementById("folioResultado");
-        const codigo = document.getElementById("codigoFolio");
-        const curpInput = document.getElementById("reg_curp");
+        const inputFolio = document.getElementById("inputFolio");
+        const detalles = document.getElementById("seccionDetalles");
+        const error = document.getElementById("mensajeError");
+        const formulario = document.getElementById("comprobanteForm");
+        let alumnoConsultado = null;
 
-        // Creamos un bloque para mostrar también la contraseña del portal.
-        const ayudaOriginal = resultado.querySelector('.folio-help');
-        const acceso = document.createElement('div');
-        acceso.id = 'datosAcceso';
-        acceso.style.cssText = 'margin-top:15px;padding:14px;background:white;border:1px solid #cfe2ff;border-radius:12px;text-align:left;font-size:12px;line-height:1.7;';
-        acceso.innerHTML = '<strong style="color:#063b91">Datos para tu plataforma</strong><br><span id="datoCorreo"></span><br><span id="datoPassword"></span><br><small style="color:#64748b">Guarda estos datos. Los necesitarás para entrar a tu plataforma de alumno.</small>';
-        resultado.insertBefore(acceso, ayudaOriginal);
-
-        curpInput.addEventListener("input", function () {
-            this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, "").substring(0, 18);
+        inputFolio.addEventListener("input", function () {
+            this.value = this.value.toUpperCase().replace(/\s/g, "");
         });
 
-        async function registrarEnEvolva(datos) {
+        async function consultarFolio(folio) {
+            const url = API_URL + '?accion=buscarFolio&folio=' + encodeURIComponent(folio);
+            const respuesta = await fetch(url, { method: 'GET' });
+            const texto = await respuesta.text();
+            let json;
+            try { json = JSON.parse(texto); }
+            catch (_) { throw new Error('El servidor devolvió una respuesta no válida.'); }
+            if (!json.ok || !json.encontrado) throw new Error(json.error || 'El folio no existe.');
+            return json;
+        }
+
+        async function buscarFolio() {
+            const folio = inputFolio.value.trim();
+            error.style.display = 'none';
+            detalles.style.display = 'none';
+
+            if (!folio) {
+                mostrarError('Por favor ingresa tu folio.');
+                return;
+            }
+            if (!/^EVOLVA-\d{6}$/.test(folio)) {
+                mostrarError('El folio debe tener el formato EVOLVA-000000.');
+                return;
+            }
+
+            const boton = document.querySelector('#seccionFolio .primary-button');
+            const texto = boton.textContent;
+            boton.disabled = true;
+            boton.style.opacity = '.65';
+            boton.textContent = 'Consultando...';
+
+            try {
+                const data = await consultarFolio(folio);
+                alumnoConsultado = data.alumno;
+
+                document.getElementById('lblNombre').textContent = alumnoConsultado.NOMBRE || '—';
+                document.getElementById('lblCurso').textContent = alumnoConsultado.DIPLOMADO || '—';
+                document.getElementById('lblFolio').textContent = alumnoConsultado.FOLIO || folio;
+
+                // Estado de pago actual.
+                const estadoPago = document.getElementById('estadoPagoTexto');
+                if (estadoPago) estadoPago.textContent = alumnoConsultado.PAGO || 'PENDIENTE';
+
+                // Montos configurables desde Apps Script.
+                const pagos = data.pagos || {};
+                const mensual = document.getElementById('montoMensual');
+                const contado = document.getElementById('montoContado');
+                if (mensual) mensual.textContent = pagos.mensual ? formatearMonto(pagos.mensual) : 'Consultar';
+                if (contado) contado.textContent = pagos.contado ? formatearMonto(pagos.contado) : 'Consultar';
+
+                // Datos bancarios.
+                if (data.banco) document.getElementById('datosBanco').textContent = data.banco;
+                if (data.beneficiario) document.getElementById('datosBeneficiario').textContent = data.beneficiario;
+                if (data.clabe) document.getElementById('clabe').textContent = data.clabe;
+
+                // Si ya está en revisión, ocultamos el formulario de comprobante.
+                if (String(alumnoConsultado.PAGO || '').toUpperCase() === 'EN REVISIÓN') {
+                    document.getElementById('seccionComprobante').style.display = 'none';
+                    document.getElementById('estadoRevision').style.display = 'block';
+                } else {
+                    document.getElementById('seccionComprobante').style.display = 'block';
+                    document.getElementById('estadoRevision').style.display = 'none';
+                }
+
+                detalles.style.display = 'block';
+                detalles.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } catch (e) {
+                mostrarError(e.message || 'No fue posible consultar el folio.');
+            } finally {
+                boton.disabled = false;
+                boton.style.opacity = '1';
+                boton.textContent = texto;
+            }
+        }
+
+        function mostrarError(mensaje) {
+            error.textContent = mensaje;
+            error.style.display = 'block';
+            detalles.style.display = 'none';
+        }
+
+        function formatearMonto(valor) {
+            const numero = Number(valor);
+            if (Number.isNaN(numero)) return String(valor);
+            return numero.toLocaleString('es-MX', { style:'currency', currency:'MXN' });
+        }
+
+        function copiarClabe() {
+            const clabe = document.getElementById('clabe').textContent.trim();
+            navigator.clipboard.writeText(clabe).then(() => {
+                const boton = document.querySelector('.copy-button');
+                const original = boton.textContent;
+                boton.textContent = '✓ Copiada';
+                setTimeout(() => boton.textContent = original, 2000);
+            }).catch(() => alert('No fue posible copiar la CLABE.'));
+        }
+
+        formulario.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (!alumnoConsultado || !alumnoConsultado.FOLIO) {
+                alert('Primero consulta un folio válido.');
+                return;
+            }
+
+            const archivo = document.getElementById('archivoTicket').files[0];
+            if (!archivo) {
+                alert('Selecciona tu comprobante.');
+                return;
+            }
+
+            const permitidos = ['application/pdf','image/jpeg','image/png'];
+            if (!permitidos.includes(archivo.type)) {
+                alert('Solo se permiten PDF, JPG, JPEG o PNG.');
+                return;
+            }
+            if (archivo.size > 6 * 1024 * 1024) {
+                alert('El comprobante debe pesar menos de 6 MB.');
+                return;
+            }
+
+            const boton = formulario.querySelector('button[type="submit"]');
+            const original = boton.textContent;
+            boton.disabled = true;
+            boton.style.opacity = '.65';
+            boton.textContent = 'Enviando comprobante...';
+
+            try {
+                const base64 = await convertirBase64(archivo);
+                const data = await enviarComprobante({
+                    folio: alumnoConsultado.FOLIO,
+                    nombreArchivo: archivo.name,
+                    mimeType: archivo.type,
+                    base64: base64
+                });
+
+                formulario.reset();
+                document.getElementById('seccionComprobante').style.display = 'none';
+                document.getElementById('estadoRevision').style.display = 'block';
+                document.getElementById('estadoRevision').scrollIntoView({ behavior:'smooth', block:'center' });
+                alert(data.mensaje || 'Comprobante recibido correctamente.');
+            } catch (e) {
+                alert(e.message || 'No fue posible enviar el comprobante.');
+            } finally {
+                boton.disabled = false;
+                boton.style.opacity = '1';
+                boton.textContent = original;
+            }
+        });
+
+        async function enviarComprobante(datos) {
             const respuesta = await fetch(API_URL, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify({ accion: "registrar", ...datos })
+                method: 'POST',
+                headers: { 'Content-Type':'text/plain;charset=utf-8' },
+                body: JSON.stringify({ accion:'comprobante', ...datos })
             });
             const texto = await respuesta.text();
             let json;
             try { json = JSON.parse(texto); }
-            catch (_) { throw new Error("El servidor devolvió una respuesta no válida."); }
-            if (!json.ok) throw new Error(json.error || "No fue posible realizar el registro.");
+            catch (_) { throw new Error('El servidor devolvió una respuesta no válida.'); }
+            if (!json.ok) throw new Error(json.error || 'No fue posible registrar el comprobante.');
             return json;
         }
 
-        formulario.addEventListener("submit", async function (e) {
-            e.preventDefault();
-
-            const boton = formulario.querySelector('button[type="submit"]');
-            const textoBoton = boton.textContent;
-
-            const nombre = document.getElementById("reg_nombre").value.trim();
-            const email = document.getElementById("reg_email").value.trim();
-            const curp = document.getElementById("reg_curp").value.trim();
-            const curso = document.getElementById("reg_curso").value;
-
-            if (!nombre || !email || !curp || !curso) {
-                alert("Por favor completa todos los campos.");
-                return;
-            }
-            if (curp.length !== 18) {
-                alert("La CURP debe contener 18 caracteres.");
-                return;
-            }
-
-            boton.disabled = true;
-            boton.style.opacity = '.65';
-            boton.textContent = 'Registrando...';
-
-            try {
-                const data = await registrarEnEvolva({ nombre, email, curp, diplomado: curso });
-
-                codigo.textContent = data.folio;
-                document.getElementById('datoCorreo').innerHTML = '<strong>Correo:</strong> ' + escapar(data.alumno?.CORREO_PERSONAL || email);
-                document.getElementById('datoPassword').innerHTML = '<strong>Contraseña:</strong> <span style="font-family:monospace;font-weight:900;color:#063b91">' + escapar(data.password || '') + '</span>';
-                resultado.style.display = "block";
-
-                setTimeout(() => resultado.scrollIntoView({ behavior: "smooth", block: "center" }), 100);
-                formulario.reset();
-                curpInput.value = '';
-
-            } catch (error) {
-                alert(error.message || "No fue posible completar el registro.");
-            } finally {
-                boton.disabled = false;
-                boton.style.opacity = '1';
-                boton.textContent = textoBoton;
-            }
-        });
-
-        function escapar(texto) {
-            return String(texto ?? '').replace(/[&<>'"]/g, function(c) {
-                return {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c];
+        function convertirBase64(archivo) {
+            return new Promise((resolve, reject) => {
+                const lector = new FileReader();
+                lector.onload = () => {
+                    const resultado = String(lector.result || '');
+                    resolve(resultado.split(',')[1] || '');
+                };
+                lector.onerror = () => reject(new Error('No fue posible leer el archivo.'));
+                lector.readAsDataURL(archivo);
             });
         }
     </script>
 
 </body>
+
 </html>
