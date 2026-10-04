@@ -981,7 +981,6 @@
     <!-- ==============================
          JAVASCRIPT
     ============================== -->
-
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbyO5p_nORex2au2rkFkSoq2yUHuUKX49RdebkpI5ZdjZYKPbLYg1r33cKA9xus1pQvuFg/exec";
 
@@ -990,7 +989,6 @@
         const codigo = document.getElementById("codigoFolio");
         const curpInput = document.getElementById("reg_curp");
 
-        // Creamos un bloque para mostrar también la contraseña del portal.
         const ayudaOriginal = resultado.querySelector('.folio-help');
         const acceso = document.createElement('div');
         acceso.id = 'datosAcceso';
@@ -1002,18 +1000,48 @@
             this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, "").substring(0, 18);
         });
 
-        async function registrarEnEvolva(datos) {
-            const respuesta = await fetch(API_URL, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify({ accion: "registrar", ...datos })
+        /*
+         * Apps Script no necesita fetch aquí.
+         * Usamos JSONP porque GitHub Pages y Apps Script
+         * pueden tener problemas de CORS con fetch.
+         */
+        function llamarAPI(params) {
+            return new Promise(function(resolve, reject) {
+                const nombreCallback = 'evolvaCallback_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+                const script = document.createElement('script');
+                let terminado = false;
+                const timer = setTimeout(function() {
+                    if (terminado) return;
+                    terminado = true;
+                    cleanup();
+                    reject(new Error('No se pudo conectar con Evolva Academy. Verifica que la implementación de Apps Script esté activa.'));
+                }, 15000);
+
+                window[nombreCallback] = function(data) {
+                    if (terminado) return;
+                    terminado = true;
+                    clearTimeout(timer);
+                    cleanup();
+                    resolve(data);
+                };
+
+                function cleanup() {
+                    delete window[nombreCallback];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                }
+
+                const query = new URLSearchParams(params);
+                query.set('callback', nombreCallback);
+                script.src = API_URL + '?' + query.toString();
+                script.onerror = function() {
+                    if (terminado) return;
+                    terminado = true;
+                    clearTimeout(timer);
+                    cleanup();
+                    reject(new Error('No fue posible conectar con el servidor de Evolva Academy.'));
+                };
+                document.head.appendChild(script);
             });
-            const texto = await respuesta.text();
-            let json;
-            try { json = JSON.parse(texto); }
-            catch (_) { throw new Error("El servidor devolvió una respuesta no válida."); }
-            if (!json.ok) throw new Error(json.error || "No fue posible realizar el registro.");
-            return json;
         }
 
         formulario.addEventListener("submit", async function (e) {
@@ -1031,6 +1059,7 @@
                 alert("Por favor completa todos los campos.");
                 return;
             }
+
             if (curp.length !== 18) {
                 alert("La CURP debe contener 18 caracteres.");
                 return;
@@ -1041,16 +1070,29 @@
             boton.textContent = 'Registrando...';
 
             try {
-                const data = await registrarEnEvolva({ nombre, email, curp, diplomado: curso });
+                const data = await llamarAPI({
+                    accion: 'registrar',
+                    nombre: nombre,
+                    email: email,
+                    curp: curp,
+                    diplomado: curso
+                });
 
-                codigo.textContent = data.folio;
+                if (!data || !data.ok) {
+                    throw new Error((data && data.error) || 'No fue posible realizar el registro.');
+                }
+
+                codigo.textContent = data.folio || '—';
                 document.getElementById('datoCorreo').innerHTML = '<strong>Correo:</strong> ' + escapar(data.alumno?.CORREO_PERSONAL || email);
                 document.getElementById('datoPassword').innerHTML = '<strong>Contraseña:</strong> <span style="font-family:monospace;font-weight:900;color:#063b91">' + escapar(data.password || '') + '</span>';
-                resultado.style.display = "block";
 
-                setTimeout(() => resultado.scrollIntoView({ behavior: "smooth", block: "center" }), 100);
+                resultado.style.display = "block";
                 formulario.reset();
                 curpInput.value = '';
+
+                setTimeout(function() {
+                    resultado.scrollIntoView({ behavior: "smooth", block: "center" });
+                }, 100);
 
             } catch (error) {
                 alert(error.message || "No fue posible completar el registro.");
