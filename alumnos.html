@@ -4,513 +4,2881 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Portal de Alumnos | Evolva Academy</title>
+
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;font-family:Arial,Helvetica,sans-serif;background:#f5f8fc;color:#172033}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f5f8fc;
+  color:#172033;
+}
+
 button,input{font:inherit}
 .hidden{display:none!important}
-:root{--azul-oscuro:#063b91;--azul:#086cff;--azul-claro:#2684ff;--azul-suave:#edf5ff;--borde:#e2eaf4;--gris:#64748b}
-#loginPage{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 80% 15%,rgba(38,132,255,.15),transparent 30%),radial-gradient(circle at 10% 90%,rgba(6,59,145,.12),transparent 30%),#f7faff}
-.login-card{width:100%;max-width:430px;background:#fff;border:1px solid var(--borde);border-radius:24px;padding:38px;box-shadow:0 25px 70px rgba(15,23,42,.1)}
-.login-logo,.sidebar-logo{width:180px;display:block;object-fit:contain}
-.login-logo{margin:0 auto 18px}
-.login-title{text-align:center;color:#101828;font-size:25px;font-weight:900;margin:0 0 7px}
-.login-subtitle{text-align:center;color:var(--gris);font-size:13px;line-height:1.6;margin:0 0 28px}
-.form-label{display:block;color:#334155;font-size:12px;font-weight:800;margin:0 0 7px}
-.form-input{width:100%;padding:13px 14px;border:1px solid #d8e2ee;border-radius:11px;background:#fbfdff;color:#172033;outline:none;font-size:14px;margin-bottom:16px}
-.form-input:focus{background:#fff;border-color:var(--azul);box-shadow:0 0 0 4px rgba(8,108,255,.1)}
-.login-button{width:100%;padding:14px;border:0;border-radius:11px;color:#fff;background:linear-gradient(135deg,var(--azul-oscuro),var(--azul),var(--azul-claro));font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 10px 25px rgba(8,108,255,.22)}
-.login-button:disabled{opacity:.65;cursor:wait}
-.login-error{display:none;margin-top:14px;padding:11px;border-radius:9px;background:#fff5f5;border:1px solid #fecaca;color:#b91c1c;font-size:12px;text-align:center}
-.login-help{text-align:center;margin-top:22px;padding-top:18px;border-top:1px solid #e8eef5;color:#94a3b8;font-size:11px;line-height:1.6}
-#platformPage{min-height:100vh}
-.sidebar{position:fixed;left:0;top:0;bottom:0;width:250px;background:#fff;border-right:1px solid var(--borde);padding:24px 16px;z-index:50;display:flex;flex-direction:column}
-.sidebar-logo{width:155px;margin:0 auto 35px}
-.menu-title{color:#94a3b8;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.1em;padding:0 12px;margin-bottom:8px}
-.menu{display:flex;flex-direction:column;gap:5px}
-.menu-item{display:flex;align-items:center;gap:12px;width:100%;padding:11px 12px;border:0;border-radius:10px;background:transparent;color:#64748b;font-size:13px;font-weight:700;cursor:pointer;text-align:left}
-.menu-item:hover,.menu-item.active{background:var(--azul-suave);color:var(--azul)}
-.menu-icon{width:20px;text-align:center;font-size:16px}
-.sidebar-bottom{margin-top:auto}
-.logout-button{width:100%;border:0;background:#fff5f5;color:#b91c1c;padding:11px;border-radius:10px;font-size:12px;font-weight:800;cursor:pointer}
-.platform-content{margin-left:250px;min-height:100vh}
-.topbar{height:75px;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-bottom:1px solid var(--borde);display:flex;align-items:center;justify-content:space-between;padding:0 35px;position:sticky;top:0;z-index:40}
-.mobile-menu{display:none;border:0;background:var(--azul-suave);color:var(--azul);border-radius:9px;padding:8px 11px;font-size:18px;cursor:pointer}
-.topbar-title{font-size:14px;font-weight:800}
-.student-profile{display:flex;align-items:center;gap:10px}
-.student-name{font-size:12px;font-weight:800}
-.student-email{font-size:10px;color:#94a3b8}
-.student-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:900;background:linear-gradient(135deg,var(--azul-oscuro),var(--azul))}
-.dashboard{max-width:1250px;margin:auto;padding:35px}
-.welcome{margin-bottom:28px}
-.welcome-badge{display:inline-block;padding:6px 11px;border-radius:999px;background:var(--azul-suave);color:var(--azul);font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.08em}
-.welcome h1{margin:13px 0 6px;color:#101828;font-size:clamp(27px,4vw,38px);font-weight:900;letter-spacing:-.03em}
-.welcome p{margin:0;color:var(--gris);font-size:14px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:25px}
-.stat-card,.panel{background:#fff;border:1px solid var(--borde);border-radius:16px;box-shadow:0 7px 25px rgba(15,23,42,.04)}
-.stat-card{padding:20px}
-.stat-icon{width:38px;height:38px;border-radius:10px;background:var(--azul-suave);color:var(--azul);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
-.stat-number{color:#101828;font-size:24px;font-weight:900}
-.stat-label{margin-top:3px;color:#64748b;font-size:11px;font-weight:600}
-.main-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:20px}
-.panel{padding:24px}
-.panel-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
-.panel-title{color:#101828;font-size:16px;font-weight:900}
-.panel-link{color:var(--azul);font-size:11px;font-weight:800;cursor:pointer}
-.course-banner{padding:22px;border-radius:15px;color:#fff;background:linear-gradient(135deg,#063b91,#086cff,#2684ff);margin-bottom:18px}
-.course-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;opacity:.8;font-weight:800}
-.course-name{font-size:21px;font-weight:900;margin-top:7px;line-height:1.25}
-.progress-container{margin-top:20px}
-.progress-info{display:flex;justify-content:space-between;font-size:10px;margin-bottom:7px;opacity:.9}
-.progress-bar{width:100%;height:7px;border-radius:999px;background:rgba(255,255,255,.25);overflow:hidden}
-.progress-value{width:0;height:100%;background:#fff;border-radius:inherit;transition:width .4s}
-.grade-list{display:flex;flex-direction:column;gap:10px}
-.grade-item,.profile-row{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:10px;background:#f8fbff;border:1px solid #e7eef7}
-.grade-name{color:#334155;font-size:12px;font-weight:700}
-.grade-score{color:var(--azul);font-size:15px;font-weight:900}
-.notice{display:flex;gap:12px;padding:13px 0;border-bottom:1px solid #edf1f6}
-.notice:last-child{border-bottom:0}
-.notice-dot{width:8px;height:8px;margin-top:5px;flex-shrink:0;border-radius:50%;background:var(--azul)}
-.notice-title{color:#334155;font-size:12px;font-weight:800}
-.notice-message{color:#64748b;font-size:11px;line-height:1.5;margin-top:3px}
-.notice-date{color:#94a3b8;font-size:10px;margin-top:3px}
-.certificate{text-align:center;padding:25px 15px}
-.certificate-icon{width:65px;height:65px;margin:0 auto 15px;border-radius:18px;display:flex;align-items:center;justify-content:center;background:var(--azul-suave);color:var(--azul);font-size:28px}
-.certificate h3{color:#101828;font-size:16px;font-weight:900;margin:0 0 7px}
-.certificate p{color:#64748b;font-size:11px;line-height:1.6;margin:0 0 17px}
-.certificate-button{display:inline-flex;padding:10px 15px;border-radius:9px;background:var(--azul);color:#fff;font-size:11px;font-weight:800;border:0;cursor:pointer}
-.certificate-button.disabled{opacity:.5;cursor:not-allowed}
-.profile-list{display:flex;flex-direction:column;gap:10px}
-.profile-row span:first-child{color:#64748b;font-size:12px;font-weight:700}
-.profile-row span:last-child{color:#172033;font-size:12px;font-weight:800;text-align:right;max-width:65%;word-break:break-word}
-.status{color:var(--azul)!important}
-.empty{padding:22px;text-align:center;color:#94a3b8;font-size:12px;border:1px dashed #dbe5f0;border-radius:12px}
-.exam-action{padding:8px 12px;border:0;border-radius:8px;background:var(--azul);color:#fff;font-size:11px;font-weight:800}
-.loading{opacity:.65}
-@media(max-width:950px){
-.sidebar{transform:translateX(-100%);transition:.25s}
-.sidebar.open{transform:translateX(0);box-shadow:15px 0 50px rgba(15,23,42,.15)}
-.platform-content{margin-left:0}
-.mobile-menu{display:block}
-.topbar{padding:0 18px}
-.stats{grid-template-columns:repeat(2,1fr)}
-.main-grid{grid-template-columns:1fr}
-.dashboard{padding:25px 18px 60px}
+
+:root{
+  --azul-oscuro:#063b91;
+  --azul:#086cff;
+  --azul-claro:#2684ff;
+  --azul-suave:#edf5ff;
+  --borde:#e2eaf4;
+  --gris:#64748b;
 }
+
+/* LOGIN */
+
+#loginPage{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  background:
+    radial-gradient(circle at 80% 15%,rgba(38,132,255,.15),transparent 30%),
+    radial-gradient(circle at 10% 90%,rgba(6,59,145,.12),transparent 30%),
+    #f7faff;
+}
+
+.login-card{
+  width:100%;
+  max-width:430px;
+  background:#fff;
+  border:1px solid var(--borde);
+  border-radius:24px;
+  padding:38px;
+  box-shadow:0 25px 70px rgba(15,23,42,.1);
+}
+
+.login-logo,
+.sidebar-logo{
+  width:180px;
+  display:block;
+  object-fit:contain;
+}
+
+.login-logo{
+  margin:0 auto 18px;
+}
+
+.login-title{
+  text-align:center;
+  color:#101828;
+  font-size:25px;
+  font-weight:900;
+  margin:0 0 7px;
+}
+
+.login-subtitle{
+  text-align:center;
+  color:var(--gris);
+  font-size:13px;
+  line-height:1.6;
+  margin:0 0 28px;
+}
+
+.form-label{
+  display:block;
+  color:#334155;
+  font-size:12px;
+  font-weight:800;
+  margin:0 0 7px;
+}
+
+.form-input{
+  width:100%;
+  padding:13px 14px;
+  border:1px solid #d8e2ee;
+  border-radius:11px;
+  background:#fbfdff;
+  color:#172033;
+  outline:none;
+  font-size:14px;
+  margin-bottom:16px;
+}
+
+.form-input:focus{
+  background:#fff;
+  border-color:var(--azul);
+  box-shadow:0 0 0 4px rgba(8,108,255,.1);
+}
+
+.login-button{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:11px;
+  color:#fff;
+  background:linear-gradient(
+    135deg,
+    var(--azul-oscuro),
+    var(--azul),
+    var(--azul-claro)
+  );
+  font-size:14px;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 10px 25px rgba(8,108,255,.22);
+}
+
+.login-button:disabled{
+  opacity:.65;
+  cursor:wait;
+}
+
+.login-error{
+  display:none;
+  margin-top:14px;
+  padding:11px;
+  border-radius:9px;
+  background:#fff5f5;
+  border:1px solid #fecaca;
+  color:#b91c1c;
+  font-size:12px;
+  text-align:center;
+  line-height:1.5;
+}
+
+.login-help{
+  text-align:center;
+  margin-top:22px;
+  padding-top:18px;
+  border-top:1px solid #e8eef5;
+  color:#94a3b8;
+  font-size:11px;
+  line-height:1.6;
+}
+
+/* PLATAFORMA */
+
+#platformPage{
+  min-height:100vh;
+}
+
+.sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  width:250px;
+  background:#fff;
+  border-right:1px solid var(--borde);
+  padding:24px 16px;
+  z-index:50;
+  display:flex;
+  flex-direction:column;
+}
+
+.sidebar-logo{
+  width:155px;
+  margin:0 auto 35px;
+}
+
+.menu-title{
+  color:#94a3b8;
+  font-size:10px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  padding:0 12px;
+  margin-bottom:8px;
+}
+
+.menu{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
+
+.menu-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  width:100%;
+  padding:11px 12px;
+  border:0;
+  border-radius:10px;
+  background:transparent;
+  color:#64748b;
+  font-size:13px;
+  font-weight:700;
+  cursor:pointer;
+  text-align:left;
+}
+
+.menu-item:hover,
+.menu-item.active{
+  background:var(--azul-suave);
+  color:var(--azul);
+}
+
+.menu-icon{
+  width:20px;
+  text-align:center;
+  font-size:16px;
+}
+
+.sidebar-bottom{
+  margin-top:auto;
+}
+
+.logout-button{
+  width:100%;
+  border:0;
+  background:#fff5f5;
+  color:#b91c1c;
+  padding:11px;
+  border-radius:10px;
+  font-size:12px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.platform-content{
+  margin-left:250px;
+  min-height:100vh;
+}
+
+.topbar{
+  height:75px;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--borde);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 35px;
+  position:sticky;
+  top:0;
+  z-index:40;
+}
+
+.mobile-menu{
+  display:none;
+  border:0;
+  background:var(--azul-suave);
+  color:var(--azul);
+  border-radius:9px;
+  padding:8px 11px;
+  font-size:18px;
+  cursor:pointer;
+}
+
+.topbar-title{
+  font-size:14px;
+  font-weight:800;
+}
+
+.student-profile{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.student-name{
+  font-size:12px;
+  font-weight:800;
+}
+
+.student-email{
+  font-size:10px;
+  color:#94a3b8;
+}
+
+.student-avatar{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-size:13px;
+  font-weight:900;
+  background:linear-gradient(
+    135deg,
+    var(--azul-oscuro),
+    var(--azul)
+  );
+}
+
+/* DASHBOARD */
+
+.dashboard{
+  max-width:1250px;
+  margin:auto;
+  padding:35px;
+}
+
+.welcome{
+  margin-bottom:28px;
+}
+
+.welcome-badge{
+  display:inline-block;
+  padding:6px 11px;
+  border-radius:999px;
+  background:var(--azul-suave);
+  color:var(--azul);
+  font-size:10px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+}
+
+.welcome h1{
+  margin:13px 0 6px;
+  color:#101828;
+  font-size:clamp(27px,4vw,38px);
+  font-weight:900;
+  letter-spacing:-.03em;
+}
+
+.welcome p{
+  margin:0;
+  color:var(--gris);
+  font-size:14px;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-bottom:25px;
+}
+
+.stat-card,
+.panel{
+  background:#fff;
+  border:1px solid var(--borde);
+  border-radius:16px;
+  box-shadow:0 7px 25px rgba(15,23,42,.04);
+}
+
+.stat-card{
+  padding:20px;
+}
+
+.stat-icon{
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  background:var(--azul-suave);
+  color:var(--azul);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:14px;
+}
+
+.stat-number{
+  color:#101828;
+  font-size:24px;
+  font-weight:900;
+}
+
+.stat-label{
+  margin-top:3px;
+  color:#64748b;
+  font-size:11px;
+  font-weight:600;
+}
+
+.main-grid{
+  display:grid;
+  grid-template-columns:1.5fr 1fr;
+  gap:20px;
+}
+
+.panel{
+  padding:24px;
+}
+
+.panel-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.panel-title{
+  color:#101828;
+  font-size:16px;
+  font-weight:900;
+}
+
+.panel-link{
+  color:var(--azul);
+  font-size:11px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.course-banner{
+  padding:22px;
+  border-radius:15px;
+  color:#fff;
+  background:linear-gradient(
+    135deg,
+    #063b91,
+    #086cff,
+    #2684ff
+  );
+  margin-bottom:18px;
+}
+
+.course-label{
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  opacity:.8;
+  font-weight:800;
+}
+
+.course-name{
+  font-size:21px;
+  font-weight:900;
+  margin-top:7px;
+  line-height:1.25;
+}
+
+.progress-container{
+  margin-top:20px;
+}
+
+.progress-info{
+  display:flex;
+  justify-content:space-between;
+  font-size:10px;
+  margin-bottom:7px;
+  opacity:.9;
+}
+
+.progress-bar{
+  width:100%;
+  height:7px;
+  border-radius:999px;
+  background:rgba(255,255,255,.25);
+  overflow:hidden;
+}
+
+.progress-value{
+  width:0;
+  height:100%;
+  background:#fff;
+  border-radius:inherit;
+  transition:width .4s;
+}
+
+.grade-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.grade-item,
+.profile-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:12px;
+  border-radius:10px;
+  background:#f8fbff;
+  border:1px solid #e7eef7;
+}
+
+.grade-name{
+  color:#334155;
+  font-size:12px;
+  font-weight:700;
+}
+
+.grade-score{
+  color:var(--azul);
+  font-size:15px;
+  font-weight:900;
+}
+
+.notice{
+  display:flex;
+  gap:12px;
+  padding:13px 0;
+  border-bottom:1px solid #edf1f6;
+}
+
+.notice:last-child{
+  border-bottom:0;
+}
+
+.notice-dot{
+  width:8px;
+  height:8px;
+  margin-top:5px;
+  flex-shrink:0;
+  border-radius:50%;
+  background:var(--azul);
+}
+
+.notice-title{
+  color:#334155;
+  font-size:12px;
+  font-weight:800;
+}
+
+.notice-message{
+  color:#64748b;
+  font-size:11px;
+  line-height:1.5;
+  margin-top:3px;
+}
+
+.notice-date{
+  color:#94a3b8;
+  font-size:10px;
+  margin-top:3px;
+}
+
+.certificate{
+  text-align:center;
+  padding:25px 15px;
+}
+
+.certificate-icon{
+  width:65px;
+  height:65px;
+  margin:0 auto 15px;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--azul-suave);
+  color:var(--azul);
+  font-size:28px;
+}
+
+.certificate h3{
+  color:#101828;
+  font-size:16px;
+  font-weight:900;
+  margin:0 0 7px;
+}
+
+.certificate p{
+  color:#64748b;
+  font-size:11px;
+  line-height:1.6;
+  margin:0 0 17px;
+}
+
+.certificate-button{
+  display:inline-flex;
+  padding:10px 15px;
+  border-radius:9px;
+  background:var(--azul);
+  color:#fff;
+  font-size:11px;
+  font-weight:800;
+  border:0;
+  cursor:pointer;
+}
+
+.certificate-button.disabled{
+  opacity:.5;
+  cursor:not-allowed;
+}
+
+.profile-list{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.profile-row span:first-child{
+  color:#64748b;
+  font-size:12px;
+  font-weight:700;
+}
+
+.profile-row span:last-child{
+  color:#172033;
+  font-size:12px;
+  font-weight:800;
+  text-align:right;
+  max-width:65%;
+  word-break:break-word;
+}
+
+.status{
+  color:var(--azul)!important;
+}
+
+.empty{
+  padding:22px;
+  text-align:center;
+  color:#94a3b8;
+  font-size:12px;
+  border:1px dashed #dbe5f0;
+  border-radius:12px;
+}
+
+.exam-action{
+  padding:8px 12px;
+  border:0;
+  border-radius:8px;
+  background:var(--azul);
+  color:#fff;
+  font-size:11px;
+  font-weight:800;
+}
+
+.loading{
+  opacity:.65;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:950px){
+
+  .sidebar{
+    transform:translateX(-100%);
+    transition:.25s;
+  }
+
+  .sidebar.open{
+    transform:translateX(0);
+    box-shadow:15px 0 50px rgba(15,23,42,.15);
+  }
+
+  .platform-content{
+    margin-left:0;
+  }
+
+  .mobile-menu{
+    display:block;
+  }
+
+  .topbar{
+    padding:0 18px;
+  }
+
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .main-grid{
+    grid-template-columns:1fr;
+  }
+
+  .dashboard{
+    padding:25px 18px 60px;
+  }
+}
+
 @media(max-width:550px){
-.login-card{padding:28px 20px}
-.stats{gap:10px}
-.stat-card{padding:15px}
-.stat-number{font-size:20px}
-.student-name,.topbar-title{display:none}
-.dashboard{padding:22px 13px 50px}
-.panel{padding:18px}
-.course-name{font-size:18px}
-.profile-row{align-items:flex-start;gap:12px}
+
+  .login-card{
+    padding:28px 20px;
+  }
+
+  .stats{
+    gap:10px;
+  }
+
+  .stat-card{
+    padding:15px;
+  }
+
+  .stat-number{
+    font-size:20px;
+  }
+
+  .student-name,
+  .topbar-title{
+    display:none;
+  }
+
+  .dashboard{
+    padding:22px 13px 50px;
+  }
+
+  .panel{
+    padding:18px;
+  }
+
+  .course-name{
+    font-size:18px;
+  }
+
+  .profile-row{
+    align-items:flex-start;
+    gap:12px;
+  }
 }
 </style>
 </head>
+
 <body>
 
+<!-- =========================
+     LOGIN
+========================= -->
+
 <section id="loginPage">
+
   <div class="login-card">
-    <img src="logo-evolva.png" alt="Evolva Academy" class="login-logo">
-    <h1 class="login-title">Portal de Alumnos</h1>
-    <p class="login-subtitle">Accede a tu plataforma académica para consultar tus cursos, calificaciones, avances y constancias.</p>
+
+    <img
+      src="logo-evolva.png"
+      alt="Evolva Academy"
+      class="login-logo"
+    >
+
+    <h1 class="login-title">
+      Portal de Alumnos
+    </h1>
+
+    <p class="login-subtitle">
+      Accede a tu plataforma académica para consultar tus cursos,
+      calificaciones, avances y constancias.
+    </p>
+
     <form id="loginForm">
-      <label class="form-label" for="email">Correo personal</label>
-      <input type="email" id="email" class="form-input" placeholder="correo@ejemplo.com" autocomplete="email" required>
-      <label class="form-label" for="password">Contraseña</label>
-      <input type="password" id="password" class="form-input" placeholder="Ingresa tu contraseña" autocomplete="current-password" required>
-      <button type="submit" id="loginButton" class="login-button">Iniciar sesión</button>
-      <div id="loginError" class="login-error"></div>
+
+      <label class="form-label" for="email">
+        Correo personal
+      </label>
+
+      <input
+        type="email"
+        id="email"
+        class="form-input"
+        placeholder="correo@ejemplo.com"
+        autocomplete="email"
+        required
+      >
+
+      <label class="form-label" for="password">
+        Contraseña
+      </label>
+
+      <input
+        type="password"
+        id="password"
+        class="form-input"
+        placeholder="Ingresa tu contraseña"
+        autocomplete="current-password"
+        required
+      >
+
+      <button
+        type="submit"
+        id="loginButton"
+        class="login-button"
+      >
+        Iniciar sesión
+      </button>
+
+      <div
+        id="loginError"
+        class="login-error"
+      ></div>
+
     </form>
-    <div class="login-help">¿Problemas para ingresar?<br>Contacta al área de soporte de <strong>Evolva Academy</strong>.</div>
+
+    <div class="login-help">
+      ¿Problemas para ingresar?<br>
+      Contacta al área de soporte de
+      <strong>Evolva Academy</strong>.
+    </div>
+
   </div>
+
 </section>
+
+
+<!-- =========================
+     PLATAFORMA
+========================= -->
 
 <section id="platformPage" class="hidden">
+
   <aside id="sidebar" class="sidebar">
-    <img src="logo-evolva.png" alt="Evolva Academy" class="sidebar-logo">
-    <div class="menu-title">Mi plataforma</div>
+
+    <img
+      src="logo-evolva.png"
+      alt="Evolva Academy"
+      class="sidebar-logo"
+    >
+
+    <div class="menu-title">
+      Mi plataforma
+    </div>
+
     <nav class="menu">
-      <button class="menu-item active" onclick="mostrarSeccion('inicio',this)"><span class="menu-icon">⌂</span>Inicio</button>
-      <button class="menu-item" onclick="mostrarSeccion('curso',this)"><span class="menu-icon">▣</span>Mi diplomado</button>
-      <button class="menu-item" onclick="mostrarSeccion('calificaciones',this)"><span class="menu-icon">★</span>Calificaciones</button>
-      <button class="menu-item" onclick="mostrarSeccion('examenes',this)"><span class="menu-icon">✓</span>Exámenes</button>
-      <button class="menu-item" onclick="mostrarSeccion('constancia',this)"><span class="menu-icon">▤</span>Constancia</button>
-      <button class="menu-item" onclick="mostrarSeccion('perfil',this)"><span class="menu-icon">◉</span>Mi perfil</button>
+
+      <button
+        class="menu-item active"
+        onclick="mostrarSeccion('inicio',this)"
+      >
+        <span class="menu-icon">⌂</span>
+        Inicio
+      </button>
+
+      <button
+        class="menu-item"
+        onclick="mostrarSeccion('curso',this)"
+      >
+        <span class="menu-icon">▣</span>
+        Mi diplomado
+      </button>
+
+      <button
+        class="menu-item"
+        onclick="mostrarSeccion('calificaciones',this)"
+      >
+        <span class="menu-icon">★</span>
+        Calificaciones
+      </button>
+
+      <button
+        class="menu-item"
+        onclick="mostrarSeccion('examenes',this)"
+      >
+        <span class="menu-icon">✓</span>
+        Exámenes
+      </button>
+
+      <button
+        class="menu-item"
+        onclick="mostrarSeccion('constancia',this)"
+      >
+        <span class="menu-icon">▤</span>
+        Constancia
+      </button>
+
+      <button
+        class="menu-item"
+        onclick="mostrarSeccion('perfil',this)"
+      >
+        <span class="menu-icon">◉</span>
+        Mi perfil
+      </button>
+
     </nav>
-    <div class="sidebar-bottom"><button class="logout-button" onclick="cerrarSesion()">Cerrar sesión</button></div>
+
+    <div class="sidebar-bottom">
+
+      <button
+        class="logout-button"
+        onclick="cerrarSesion()"
+      >
+        Cerrar sesión
+      </button>
+
+    </div>
+
   </aside>
 
+
   <div class="platform-content">
+
     <header class="topbar">
-      <button class="mobile-menu" onclick="toggleSidebar()">☰</button>
-      <div class="topbar-title">Plataforma Académica</div>
-      <div class="student-profile">
-        <div>
-          <div class="student-name" id="topNombre">Alumno</div>
-          <div class="student-email" id="topEmail">—</div>
-        </div>
-        <div class="student-avatar" id="avatar">EA</div>
+
+      <button
+        class="mobile-menu"
+        onclick="toggleSidebar()"
+      >
+        ☰
+      </button>
+
+      <div class="topbar-title">
+        Plataforma Académica
       </div>
+
+      <div class="student-profile">
+
+        <div>
+
+          <div
+            class="student-name"
+            id="topNombre"
+          >
+            Alumno
+          </div>
+
+          <div
+            class="student-email"
+            id="topEmail"
+          >
+            —
+          </div>
+
+        </div>
+
+        <div
+          class="student-avatar"
+          id="avatar"
+        >
+          EA
+        </div>
+
+      </div>
+
     </header>
 
+
     <main class="dashboard">
+
+      <!-- =========================
+           INICIO
+      ========================== -->
+
       <section id="seccion-inicio">
+
         <div class="welcome">
-          <span class="welcome-badge">Alumno activo</span>
-          <h1 id="welcomeName">¡Hola! 👋</h1>
-          <p>Bienvenido a tu plataforma de Evolva Academy.</p>
+
+          <span class="welcome-badge">
+            Alumno activo
+          </span>
+
+          <h1 id="welcomeName">
+            ¡Hola! 👋
+          </h1>
+
+          <p>
+            Bienvenido a tu plataforma de Evolva Academy.
+          </p>
+
         </div>
+
+
         <div class="stats">
-          <div class="stat-card"><div class="stat-icon">★</div><div class="stat-number" id="statPromedio">—</div><div class="stat-label">Promedio general</div></div>
-          <div class="stat-card"><div class="stat-icon">%</div><div class="stat-number" id="statAvance">0%</div><div class="stat-label">Avance del diplomado</div></div>
-          <div class="stat-card"><div class="stat-icon">✓</div><div class="stat-number" id="statExamenes">0</div><div class="stat-label">Evaluaciones registradas</div></div>
-          <div class="stat-card"><div class="stat-icon">▤</div><div class="stat-number">1</div><div class="stat-label">Diplomado activo</div></div>
+
+          <div class="stat-card">
+
+            <div class="stat-icon">
+              ★
+            </div>
+
+            <div
+              class="stat-number"
+              id="statPromedio"
+            >
+              —
+            </div>
+
+            <div class="stat-label">
+              Promedio general
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-icon">
+              %
+            </div>
+
+            <div
+              class="stat-number"
+              id="statAvance"
+            >
+              0%
+            </div>
+
+            <div class="stat-label">
+              Avance del diplomado
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-icon">
+              ✓
+            </div>
+
+            <div
+              class="stat-number"
+              id="statExamenes"
+            >
+              0
+            </div>
+
+            <div class="stat-label">
+              Evaluaciones registradas
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-icon">
+              ▤
+            </div>
+
+            <div class="stat-number">
+              1
+            </div>
+
+            <div class="stat-label">
+              Diplomado activo
+            </div>
+
+          </div>
+
         </div>
+
 
         <div class="main-grid">
+
+          <!-- DIPLOMADO -->
+
           <div class="panel">
-            <div class="panel-header"><div class="panel-title">Mi diplomado</div><span class="panel-link" onclick="mostrarSeccionPorNombre('curso')">Ver curso →</span></div>
+
+            <div class="panel-header">
+
+              <div class="panel-title">
+                Mi diplomado
+              </div>
+
+              <span
+                class="panel-link"
+                onclick="mostrarSeccionPorNombre('curso')"
+              >
+                Ver curso →
+              </span>
+
+            </div>
+
+
             <div class="course-banner">
-              <div class="course-label">Diplomado en curso</div>
-              <div class="course-name" id="courseName">—</div>
-              <div class="progress-container"><div class="progress-info"><span>Progreso</span><span id="progressText">0%</span></div><div class="progress-bar"><div class="progress-value" id="progressValue"></div></div></div>
+
+              <div class="course-label">
+                Diplomado en curso
+              </div>
+
+              <div
+                class="course-name"
+                id="courseName"
+              >
+                —
+              </div>
+
+              <div class="progress-container">
+
+                <div class="progress-info">
+
+                  <span>
+                    Progreso
+                  </span>
+
+                  <span id="progressText">
+                    0%
+                  </span>
+
+                </div>
+
+                <div class="progress-bar">
+
+                  <div
+                    class="progress-value"
+                    id="progressValue"
+                  ></div>
+
+                </div>
+
+              </div>
+
             </div>
-            <p style="color:#64748b;font-size:12px;margin:0">Continúa con tu formación para completar el diplomado y obtener tu constancia.</p>
+
+            <p
+              style="
+              color:#64748b;
+              font-size:12px;
+              margin:0
+              "
+            >
+              Continúa con tu formación para completar
+              el diplomado y obtener tu constancia.
+            </p>
+
           </div>
 
-          <div class="panel">
-            <div class="panel-header"><div class="panel-title">Calificaciones</div><span class="panel-link" onclick="mostrarSeccionPorNombre('calificaciones')">Ver todas</span></div>
-            <div id="inicioCalificaciones" class="grade-list"><div class="empty">Cargando...</div></div>
-          </div>
+
+          <!-- CALIFICACIONES -->
 
           <div class="panel">
-            <div class="panel-header"><div class="panel-title">Mi constancia</div></div>
+
+            <div class="panel-header">
+
+              <div class="panel-title">
+                Calificaciones
+              </div>
+
+              <span
+                class="panel-link"
+                onclick="mostrarSeccionPorNombre('calificaciones')"
+              >
+                Ver todas
+              </span>
+
+            </div>
+
+            <div
+              id="inicioCalificaciones"
+              class="grade-list"
+            >
+              <div class="empty">
+                Cargando...
+              </div>
+            </div>
+
+          </div>
+
+
+          <!-- CONSTANCIA -->
+
+          <div class="panel">
+
+            <div class="panel-header">
+
+              <div class="panel-title">
+                Mi constancia
+              </div>
+
+            </div>
+
             <div class="certificate">
-              <div class="certificate-icon">▤</div>
-              <h3 id="constanciaTitulo">Constancia de estudios</h3>
-              <p id="constanciaTexto">Consultando disponibilidad...</p>
-              <button id="constanciaButton" class="certificate-button disabled" disabled>Aún no disponible</button>
+
+              <div class="certificate-icon">
+                ▤
+              </div>
+
+              <h3 id="constanciaTitulo">
+                Constancia de estudios
+              </h3>
+
+              <p id="constanciaTexto">
+                Consultando disponibilidad...
+              </p>
+
+              <button
+                id="constanciaButton"
+                class="certificate-button disabled"
+                disabled
+              >
+                Aún no disponible
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <!-- AVISOS -->
+
+          <div class="panel">
+
+            <div class="panel-header">
+
+              <div class="panel-title">
+                Avisos
+              </div>
+
+            </div>
+
+            <div id="avisosInicio">
+
+              <div class="empty">
+                Cargando avisos...
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           CURSO
+      ========================== -->
+
+      <section
+        id="seccion-curso"
+        class="hidden"
+      >
+
+        <div class="welcome">
+
+          <span class="welcome-badge">
+            Formación
+          </span>
+
+          <h1>
+            Mi diplomado
+          </h1>
+
+          <p>
+            Consulta la información y avance de tu programa.
+          </p>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="course-banner">
+
+            <div class="course-label">
+              Diplomado en curso
+            </div>
+
+            <div
+              class="course-name"
+              id="courseName2"
+            >
+              —
+            </div>
+
+            <div class="progress-container">
+
+              <div class="progress-info">
+
+                <span>
+                  Avance total
+                </span>
+
+                <span id="progressText2">
+                  0%
+                </span>
+
+              </div>
+
+              <div class="progress-bar">
+
+                <div
+                  class="progress-value"
+                  id="progressValue2"
+                ></div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div
+            id="modulos"
+            class="grade-list"
+          ></div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           CALIFICACIONES
+      ========================== -->
+
+      <section
+        id="seccion-calificaciones"
+        class="hidden"
+      >
+
+        <div class="welcome">
+
+          <span class="welcome-badge">
+            Evaluaciones
+          </span>
+
+          <h1>
+            Mis calificaciones
+          </h1>
+
+          <p>
+            Consulta tu rendimiento académico.
+          </p>
+
+        </div>
+
+        <div class="panel">
+
+          <div
+            id="calificacionesLista"
+            class="grade-list"
+          >
+            <div class="empty">
+              Cargando...
             </div>
           </div>
 
-          <div class="panel">
-            <div class="panel-header"><div class="panel-title">Avisos</div></div>
-            <div id="avisosInicio"><div class="empty">Cargando avisos...</div></div>
-          </div>
         </div>
+
       </section>
 
-      <section id="seccion-curso" class="hidden">
-        <div class="welcome"><span class="welcome-badge">Formación</span><h1>Mi diplomado</h1><p>Consulta la información y avance de tu programa.</p></div>
+
+      <!-- =========================
+           EXAMENES
+      ========================== -->
+
+      <section
+        id="seccion-examenes"
+        class="hidden"
+      >
+
+        <div class="welcome">
+
+          <span class="welcome-badge">
+            Evaluaciones
+          </span>
+
+          <h1>
+            Exámenes
+          </h1>
+
+          <p>
+            Aquí aparecerán las evaluaciones registradas.
+          </p>
+
+        </div>
+
         <div class="panel">
-          <div class="course-banner"><div class="course-label">Diplomado en curso</div><div class="course-name" id="courseName2">—</div><div class="progress-container"><div class="progress-info"><span>Avance total</span><span id="progressText2">0%</span></div><div class="progress-bar"><div class="progress-value" id="progressValue2"></div></div></div></div>
-          <div id="modulos" class="grade-list"></div>
+
+          <div
+            id="examenesLista"
+            class="grade-list"
+          >
+            <div class="empty">
+              Cargando...
+            </div>
+          </div>
+
         </div>
+
       </section>
 
-      <section id="seccion-calificaciones" class="hidden">
-        <div class="welcome"><span class="welcome-badge">Evaluaciones</span><h1>Mis calificaciones</h1><p>Consulta tu rendimiento académico.</p></div>
-        <div class="panel"><div id="calificacionesLista" class="grade-list"><div class="empty">Cargando...</div></div></div>
+
+      <!-- =========================
+           CONSTANCIA
+      ========================== -->
+
+      <section
+        id="seccion-constancia"
+        class="hidden"
+      >
+
+        <div class="welcome">
+
+          <span class="welcome-badge">
+            Documentación
+          </span>
+
+          <h1>
+            Mi constancia
+          </h1>
+
+          <p>
+            Consulta la disponibilidad de tu documento académico.
+          </p>
+
+        </div>
+
+        <div class="panel">
+
+          <div class="certificate">
+
+            <div class="certificate-icon">
+              ▤
+            </div>
+
+            <h3 id="constanciaTitulo2">
+              Constancia de Diplomado
+            </h3>
+
+            <p id="constanciaTexto2">
+              Consultando disponibilidad...
+            </p>
+
+            <button
+              id="constanciaButton2"
+              class="certificate-button disabled"
+              disabled
+            >
+              Aún no disponible
+            </button>
+
+          </div>
+
+        </div>
+
       </section>
 
-      <section id="seccion-examenes" class="hidden">
-        <div class="welcome"><span class="welcome-badge">Evaluaciones</span><h1>Exámenes</h1><p>Aquí aparecerán las evaluaciones registradas.</p></div>
-        <div class="panel"><div id="examenesLista" class="grade-list"><div class="empty">Cargando...</div></div></div>
+
+      <!-- =========================
+           PERFIL
+      ========================== -->
+
+      <section
+        id="seccion-perfil"
+        class="hidden"
+      >
+
+        <div class="welcome">
+
+          <span class="welcome-badge">
+            Mi cuenta
+          </span>
+
+          <h1>
+            Mi perfil
+          </h1>
+
+          <p>
+            Información de tu cuenta académica.
+          </p>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="profile-list">
+
+            <div class="profile-row">
+              <span>Nombre</span>
+              <span id="perfilNombre">—</span>
+            </div>
+
+            <div class="profile-row">
+              <span>Correo personal</span>
+              <span id="perfilCorreo">—</span>
+            </div>
+
+            <div class="profile-row">
+              <span>Folio</span>
+              <span id="perfilFolio">—</span>
+            </div>
+
+            <div class="profile-row">
+              <span>CURP</span>
+              <span id="perfilCurp">—</span>
+            </div>
+
+            <div class="profile-row">
+              <span>Diplomado</span>
+              <span id="perfilCurso">—</span>
+            </div>
+
+            <div class="profile-row">
+              <span>Estado</span>
+              <span
+                id="perfilEstado"
+                class="status"
+              >
+                —
+              </span>
+            </div>
+
+            <div class="profile-row">
+              <span>Pago</span>
+              <span id="perfilPago">—</span>
+            </div>
+
+          </div>
+
+        </div>
+
       </section>
 
-      <section id="seccion-constancia" class="hidden">
-        <div class="welcome"><span class="welcome-badge">Documentación</span><h1>Mi constancia</h1><p>Consulta la disponibilidad de tu documento académico.</p></div>
-        <div class="panel"><div class="certificate"><div class="certificate-icon">▤</div><h3 id="constanciaTitulo2">Constancia de Diplomado</h3><p id="constanciaTexto2">Consultando disponibilidad...</p><button id="constanciaButton2" class="certificate-button disabled" disabled>Aún no disponible</button></div></div>
-      </section>
-
-      <section id="seccion-perfil" class="hidden">
-        <div class="welcome"><span class="welcome-badge">Mi cuenta</span><h1>Mi perfil</h1><p>Información de tu cuenta académica.</p></div>
-        <div class="panel"><div class="profile-list">
-          <div class="profile-row"><span>Nombre</span><span id="perfilNombre">—</span></div>
-          <div class="profile-row"><span>Correo personal</span><span id="perfilCorreo">—</span></div>
-          <div class="profile-row"><span>Folio</span><span id="perfilFolio">—</span></div>
-          <div class="profile-row"><span>CURP</span><span id="perfilCurp">—</span></div>
-          <div class="profile-row"><span>Diplomado</span><span id="perfilCurso">—</span></div>
-          <div class="profile-row"><span>Estado</span><span id="perfilEstado" class="status">—</span></div>
-          <div class="profile-row"><span>Pago</span><span id="perfilPago">—</span></div>
-        </div></div>
-      </section>
     </main>
+
   </div>
+
 </section>
 
+
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbyO5p_nORex2au2rkFkSoq2yUHuUKX49RdebkpI5ZdjZYKPbLYg1r33cKA9xus1pQvuFg/exec";
+
+/* =========================================================
+   CONFIGURACIÓN
+========================================================= */
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbyO5p_nORex2au2rkFkSoq2yUHuUKX49RdebkpI5ZdjZYKPbLYg1r33cKA9xus1pQvuFg/exec";
+
+
 let alumnoActual = null;
 let datosCalificaciones = [];
 let datosExamenes = [];
 let datosConstancia = null;
 
-function llamarAPI(params) {
-  return new Promise(function(resolve,reject) {
-    const callback = "evolvaCallback_" + Date.now() + "_" + Math.floor(Math.random()*100000);
-    const script = document.createElement("script");
+
+/* =========================================================
+   CONEXIÓN CON GOOGLE APPS SCRIPT
+   USA JSONP PARA EVITAR PROBLEMAS DE CORS
+========================================================= */
+
+function llamarAPI(params){
+
+  return new Promise(function(resolve,reject){
+
+    const callback =
+      "evolvaCallback_" +
+      Date.now() +
+      "_" +
+      Math.floor(Math.random()*1000000);
+
+    const script =
+      document.createElement("script");
+
     let terminado = false;
-    const limpiar = function() {
-      if (script.parentNode) script.parentNode.removeChild(script);
-      try { delete window[callback]; } catch(e) { window[callback] = undefined; }
-    };
-    const timer = setTimeout(function() {
-      if (terminado) return;
+    let recibido = false;
+
+
+    function limpiar(){
+
+      if(script.parentNode){
+        script.parentNode.removeChild(script);
+      }
+
+      try{
+        delete window[callback];
+      }catch(e){
+        window[callback] = undefined;
+      }
+
+    }
+
+
+    function finalizarError(mensaje){
+
+      if(terminado){
+        return;
+      }
+
       terminado = true;
-      limpiar();
-      reject(new Error("El servidor tardó demasiado en responder."));
-    },15000);
-    window[callback] = function(data) {
-      if (terminado) return;
-      terminado = true;
+
       clearTimeout(timer);
+
       limpiar();
+
+      reject(
+        new Error(mensaje)
+      );
+
+    }
+
+
+    const timer = setTimeout(function(){
+
+      if(terminado){
+        return;
+      }
+
+      finalizarError(
+        "El servidor de Evolva Academy no respondió. Verifica que tu Apps Script esté desplegado como aplicación web y que el acceso sea para cualquier usuario."
+      );
+
+    },20000);
+
+
+    window[callback] = function(data){
+
+      if(terminado){
+        return;
+      }
+
+      recibido = true;
+      terminado = true;
+
+      clearTimeout(timer);
+
+      limpiar();
+
       resolve(data);
+
     };
-    script.onerror = function() {
-      if (terminado) return;
-      terminado = true;
-      clearTimeout(timer);
-      limpiar();
-      reject(new Error("No fue posible conectar con el servidor de Evolva Academy."));
+
+
+    script.onerror = function(){
+
+      finalizarError(
+        "No fue posible conectar con el servidor de Evolva Academy. Revisa la implementación del Apps Script."
+      );
+
     };
-    const query = new URLSearchParams(params);
-    query.set("callback",callback);
-    script.src = API_URL + "?" + query.toString();
+
+
+    script.onload = function(){
+
+      /*
+       * Si el script cargó pero nunca ejecutó
+       * el callback, probablemente Apps Script
+       * está devolviendo JSON normal en lugar
+       * de JSONP.
+       */
+
+      setTimeout(function(){
+
+        if(
+          !terminado &&
+          !recibido
+        ){
+
+          finalizarError(
+            "El servidor respondió, pero no está enviando JSONP. Revisa la función json_() de Apps Script."
+          );
+
+        }
+
+      },1000);
+
+    };
+
+
+    const query =
+      new URLSearchParams();
+
+
+    Object.keys(params || {}).forEach(function(key){
+
+      const value =
+        params[key];
+
+      if(
+        value !== undefined &&
+        value !== null
+      ){
+
+        query.set(
+          key,
+          String(value)
+        );
+
+      }
+
+    });
+
+
+    query.set(
+      "callback",
+      callback
+    );
+
+
+    /*
+     * Evita que el navegador reutilice
+     * una respuesta antigua.
+     */
+
+    query.set(
+      "_",
+      Date.now().toString()
+    );
+
+
+    script.src =
+      API_URL +
+      "?" +
+      query.toString();
+
+
     document.head.appendChild(script);
+
   });
+
 }
 
-function iniciales(nombre) {
-  return String(nombre||"EA").trim().split(/\s+/).slice(0,2).map(x=>x.charAt(0).toUpperCase()).join("") || "EA";
+
+/* =========================================================
+   UTILIDADES
+========================================================= */
+
+function iniciales(nombre){
+
+  return String(nombre || "EA")
+    .trim()
+    .split(/\s+/)
+    .slice(0,2)
+    .map(function(x){
+
+      return x
+        .charAt(0)
+        .toUpperCase();
+
+    })
+    .join("") || "EA";
+
 }
-function porcentaje(v) {
+
+
+function porcentaje(v){
+
   let n = Number(v);
-  if (!isFinite(n)) n = 0;
-  if (n > 100) n = 100;
-  if (n < 0) n = 0;
+
+  if(!isFinite(n)){
+    n = 0;
+  }
+
+  if(n > 100){
+    n = 100;
+  }
+
+  if(n < 0){
+    n = 0;
+  }
+
   return Math.round(n);
-}
-function escapeHtml(v) {
-  return String(v==null?"":v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c];});
+
 }
 
-async function iniciarSesion() {
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value;
-  const error = document.getElementById("loginError");
-  const button = document.getElementById("loginButton");
+
+function escapeHtml(v){
+
+  return String(
+    v == null ? "" : v
+  ).replace(
+    /[&<>"']/g,
+    function(c){
+
+      return {
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#039;"
+      }[c];
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   LOGIN
+========================================================= */
+
+async function iniciarSesion(){
+
+  const email =
+    document
+      .getElementById("email")
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById("password")
+      .value;
+
+  const error =
+    document.getElementById(
+      "loginError"
+    );
+
+  const button =
+    document.getElementById(
+      "loginButton"
+    );
+
+
   error.style.display = "none";
-  if (!email || !password) return;
-  button.disabled = true;
-  button.textContent = "Iniciando sesión...";
-  try {
-    const r = await llamarAPI({accion:"login",email:email,password:password});
-    if (!r || !r.ok || !r.autenticado) throw new Error((r&&r.error)||"Correo o contraseña incorrectos.");
-    alumnoActual = r.alumno;
-    sessionStorage.setItem("evolvaAlumno",JSON.stringify(alumnoActual));
-    mostrarPlataforma();
-    await cargarDatos();
-  } catch(e) {
-    error.textContent = e.message || "No fue posible iniciar sesión.";
-    error.style.display = "block";
-  } finally {
-    button.disabled = false;
-    button.textContent = "Iniciar sesión";
+
+
+  if(!email || !password){
+    return;
   }
+
+
+  button.disabled = true;
+
+  button.textContent =
+    "Conectando...";
+
+
+  try{
+
+    const r =
+      await llamarAPI({
+
+        accion:"login",
+
+        email:email,
+
+        password:password
+
+      });
+
+
+    if(
+      !r ||
+      !r.ok ||
+      !r.autenticado
+    ){
+
+      throw new Error(
+        (r && r.error) ||
+        "Correo o contraseña incorrectos."
+      );
+
+    }
+
+
+    alumnoActual =
+      r.alumno;
+
+
+    if(
+      !alumnoActual ||
+      !alumnoActual.FOLIO
+    ){
+
+      throw new Error(
+        "El servidor inició sesión, pero no devolvió los datos del alumno."
+      );
+
+    }
+
+
+    sessionStorage.setItem(
+      "evolvaAlumno",
+      JSON.stringify(alumnoActual)
+    );
+
+
+    mostrarPlataforma();
+
+
+    await cargarDatos();
+
+
+  }catch(e){
+
+    console.error(
+      "Error de inicio de sesión:",
+      e
+    );
+
+
+    error.textContent =
+      e.message ||
+      "No fue posible iniciar sesión.";
+
+
+    error.style.display =
+      "block";
+
+
+  }finally{
+
+    button.disabled = false;
+
+    button.textContent =
+      "Iniciar sesión";
+
+  }
+
 }
 
-document.getElementById("loginForm").addEventListener("submit",function(e){e.preventDefault();iniciarSesion();});
 
-async function cargarDatos() {
-  if (!alumnoActual) return;
+document
+  .getElementById("loginForm")
+  .addEventListener(
+    "submit",
+    function(e){
+
+      e.preventDefault();
+
+      iniciarSesion();
+
+    }
+  );
+
+
+/* =========================================================
+   CARGAR DATOS
+========================================================= */
+
+async function cargarDatos(){
+
+  if(!alumnoActual){
+    return;
+  }
+
+
   pintarAlumno();
-  document.getElementById("inicioCalificaciones").innerHTML = '<div class="empty">Cargando...</div>';
-  document.getElementById("calificacionesLista").innerHTML = '<div class="empty">Cargando...</div>';
-  document.getElementById("examenesLista").innerHTML = '<div class="empty">Cargando...</div>';
-  document.getElementById("avisosInicio").innerHTML = '<div class="empty">Cargando avisos...</div>';
 
-  const resultados = await Promise.allSettled([
-    llamarAPI({accion:"calificaciones",folio:alumnoActual.FOLIO}),
-    llamarAPI({accion:"examenes",folio:alumnoActual.FOLIO}),
-    llamarAPI({accion:"avisos"}),
-    llamarAPI({accion:"constancia",folio:alumnoActual.FOLIO})
-  ]);
 
-  if (resultados[0].status==="fulfilled") {
-    const r = resultados[0].value;
-    datosCalificaciones = r.calificaciones || [];
-    if (r.promedio !== undefined && r.promedio !== "") alumnoActual.PROMEDIO = r.promedio;
+  document.getElementById(
+    "inicioCalificaciones"
+  ).innerHTML =
+    '<div class="empty">Cargando...</div>';
+
+
+  document.getElementById(
+    "calificacionesLista"
+  ).innerHTML =
+    '<div class="empty">Cargando...</div>';
+
+
+  document.getElementById(
+    "examenesLista"
+  ).innerHTML =
+    '<div class="empty">Cargando...</div>';
+
+
+  document.getElementById(
+    "avisosInicio"
+  ).innerHTML =
+    '<div class="empty">Cargando avisos...</div>';
+
+
+  const resultados =
+    await Promise.allSettled([
+
+      llamarAPI({
+        accion:"calificaciones",
+        folio:alumnoActual.FOLIO
+      }),
+
+      llamarAPI({
+        accion:"examenes",
+        folio:alumnoActual.FOLIO
+      }),
+
+      llamarAPI({
+        accion:"avisos"
+      }),
+
+      llamarAPI({
+        accion:"constancia",
+        folio:alumnoActual.FOLIO
+      })
+
+    ]);
+
+
+  /* CALIFICACIONES */
+
+  if(
+    resultados[0].status ===
+    "fulfilled"
+  ){
+
+    const r =
+      resultados[0].value;
+
+
+    datosCalificaciones =
+      r.calificaciones || [];
+
+
+    if(
+      r.promedio !== undefined &&
+      r.promedio !== ""
+    ){
+
+      alumnoActual.PROMEDIO =
+        r.promedio;
+
+    }
+
+
     renderCalificaciones();
-  } else {
-    document.getElementById("inicioCalificaciones").innerHTML='<div class="empty">No fue posible cargar las calificaciones.</div>';
-    document.getElementById("calificacionesLista").innerHTML='<div class="empty">No fue posible cargar las calificaciones.</div>';
+
+
+  }else{
+
+    document.getElementById(
+      "inicioCalificaciones"
+    ).innerHTML =
+      '<div class="empty">No fue posible cargar las calificaciones.</div>';
+
+
+    document.getElementById(
+      "calificacionesLista"
+    ).innerHTML =
+      '<div class="empty">No fue posible cargar las calificaciones.</div>';
+
   }
 
-  if (resultados[1].status==="fulfilled") {
-    datosExamenes = resultados[1].value.examenes || [];
+
+  /* EXÁMENES */
+
+  if(
+    resultados[1].status ===
+    "fulfilled"
+  ){
+
+    datosExamenes =
+      resultados[1].value.examenes || [];
+
+
     renderExamenes();
-  } else {
-    document.getElementById("examenesLista").innerHTML='<div class="empty">No fue posible cargar los exámenes.</div>';
+
+
+  }else{
+
+    document.getElementById(
+      "examenesLista"
+    ).innerHTML =
+      '<div class="empty">No fue posible cargar los exámenes.</div>';
+
   }
 
-  if (resultados[2].status==="fulfilled") {
-    renderAvisos(resultados[2].value.avisos || []);
-  } else {
-    document.getElementById("avisosInicio").innerHTML='<div class="empty">No fue posible cargar los avisos.</div>';
+
+  /* AVISOS */
+
+  if(
+    resultados[2].status ===
+    "fulfilled"
+  ){
+
+    renderAvisos(
+      resultados[2].value.avisos || []
+    );
+
+
+  }else{
+
+    document.getElementById(
+      "avisosInicio"
+    ).innerHTML =
+      '<div class="empty">No fue posible cargar los avisos.</div>';
+
   }
 
-  if (resultados[3].status==="fulfilled") {
-    datosConstancia = resultados[3].value.constancia || null;
+
+  /* CONSTANCIA */
+
+  if(
+    resultados[3].status ===
+    "fulfilled"
+  ){
+
+    datosConstancia =
+      resultados[3].value.constancia || null;
+
+
     renderConstancia();
-  } else {
+
+
+  }else{
+
     renderConstancia();
+
   }
+
 
   renderCurso();
+
 }
 
-function pintarAlumno() {
-  const a = alumnoActual;
-  const nombre = a.NOMBRE || "Alumno";
-  document.getElementById("topNombre").textContent = nombre;
-  document.getElementById("topEmail").textContent = a.CORREO_PERSONAL || "—";
-  document.getElementById("avatar").textContent = iniciales(nombre);
-  document.getElementById("welcomeName").textContent = "¡Hola, " + nombre.split(/\s+/)[0] + "! 👋";
-  document.getElementById("courseName").textContent = a.DIPLOMADO || "Sin diplomado";
-  document.getElementById("courseName2").textContent = a.DIPLOMADO || "Sin diplomado";
-  const avance = porcentaje(a.AVANCE);
-  document.getElementById("statAvance").textContent = avance + "%";
-  document.getElementById("progressText").textContent = avance + "%";
-  document.getElementById("progressText2").textContent = avance + "%";
-  document.getElementById("progressValue").style.width = avance + "%";
-  document.getElementById("progressValue2").style.width = avance + "%";
-  document.getElementById("statPromedio").textContent = a.PROMEDIO === "" || a.PROMEDIO == null ? "—" : a.PROMEDIO;
-  document.getElementById("perfilNombre").textContent = a.NOMBRE || "—";
-  document.getElementById("perfilCorreo").textContent = a.CORREO_PERSONAL || "—";
-  document.getElementById("perfilFolio").textContent = a.FOLIO || "—";
-  document.getElementById("perfilCurp").textContent = a.CURP || "—";
-  document.getElementById("perfilCurso").textContent = a.DIPLOMADO || "—";
-  document.getElementById("perfilEstado").textContent = a.ESTADO || "—";
-  document.getElementById("perfilPago").textContent = a.PAGO || "—";
+
+/* =========================================================
+   PINTAR ALUMNO
+========================================================= */
+
+function pintarAlumno(){
+
+  const a =
+    alumnoActual;
+
+
+  const nombre =
+    a.NOMBRE || "Alumno";
+
+
+  document.getElementById(
+    "topNombre"
+  ).textContent =
+    nombre;
+
+
+  document.getElementById(
+    "topEmail"
+  ).textContent =
+    a.CORREO_PERSONAL || "—";
+
+
+  document.getElementById(
+    "avatar"
+  ).textContent =
+    iniciales(nombre);
+
+
+  document.getElementById(
+    "welcomeName"
+  ).textContent =
+    "¡Hola, " +
+    nombre.split(/\s+/)[0] +
+    "! 👋";
+
+
+  document.getElementById(
+    "courseName"
+  ).textContent =
+    a.DIPLOMADO ||
+    "Sin diplomado";
+
+
+  document.getElementById(
+    "courseName2"
+  ).textContent =
+    a.DIPLOMADO ||
+    "Sin diplomado";
+
+
+  const avance =
+    porcentaje(a.AVANCE);
+
+
+  document.getElementById(
+    "statAvance"
+  ).textContent =
+    avance + "%";
+
+
+  document.getElementById(
+    "progressText"
+  ).textContent =
+    avance + "%";
+
+
+  document.getElementById(
+    "progressText2"
+  ).textContent =
+    avance + "%";
+
+
+  document.getElementById(
+    "progressValue"
+  ).style.width =
+    avance + "%";
+
+
+  document.getElementById(
+    "progressValue2"
+  ).style.width =
+    avance + "%";
+
+
+  document.getElementById(
+    "statPromedio"
+  ).textContent =
+    a.PROMEDIO === "" ||
+    a.PROMEDIO == null
+      ? "—"
+      : a.PROMEDIO;
+
+
+  document.getElementById(
+    "perfilNombre"
+  ).textContent =
+    a.NOMBRE || "—";
+
+
+  document.getElementById(
+    "perfilCorreo"
+  ).textContent =
+    a.CORREO_PERSONAL || "—";
+
+
+  document.getElementById(
+    "perfilFolio"
+  ).textContent =
+    a.FOLIO || "—";
+
+
+  document.getElementById(
+    "perfilCurp"
+  ).textContent =
+    a.CURP || "—";
+
+
+  document.getElementById(
+    "perfilCurso"
+  ).textContent =
+    a.DIPLOMADO || "—";
+
+
+  document.getElementById(
+    "perfilEstado"
+  ).textContent =
+    a.ESTADO || "—";
+
+
+  document.getElementById(
+    "perfilPago"
+  ).textContent =
+    a.PAGO || "—";
+
 }
 
-function renderCalificaciones() {
-  const items = datosCalificaciones || [];
-  const html = items.length ? items.map(function(x) {
-    const valor = x.calificacion === "" || x.calificacion == null ? "Pendiente" : escapeHtml(x.calificacion);
-    return '<div class="grade-item"><span class="grade-name">'+escapeHtml(x.modulo||"Evaluación")+'</span><span class="grade-score">'+valor+'</span></div>';
-  }).join("") : '<div class="empty">Todavía no hay calificaciones registradas.</div>';
-  document.getElementById("inicioCalificaciones").innerHTML = html;
-  document.getElementById("calificacionesLista").innerHTML = html;
-  document.getElementById("statExamenes").textContent = items.filter(x=>x.calificacion!=="" && x.calificacion!=null).length;
+
+/* =========================================================
+   CALIFICACIONES
+========================================================= */
+
+function renderCalificaciones(){
+
+  const items =
+    datosCalificaciones || [];
+
+
+  const html =
+    items.length
+
+      ? items.map(function(x){
+
+          const valor =
+            x.calificacion === "" ||
+            x.calificacion == null
+
+              ? "Pendiente"
+
+              : escapeHtml(
+                  x.calificacion
+                );
+
+
+          return `
+            <div class="grade-item">
+
+              <span class="grade-name">
+                ${escapeHtml(
+                  x.modulo ||
+                  "Evaluación"
+                )}
+              </span>
+
+              <span class="grade-score">
+                ${valor}
+              </span>
+
+            </div>
+          `;
+
+        }).join("")
+
+      : `
+        <div class="empty">
+          Todavía no hay calificaciones registradas.
+        </div>
+      `;
+
+
+  document.getElementById(
+    "inicioCalificaciones"
+  ).innerHTML =
+    html;
+
+
+  document.getElementById(
+    "calificacionesLista"
+  ).innerHTML =
+    html;
+
+
+  document.getElementById(
+    "statExamenes"
+  ).textContent =
+    items.filter(function(x){
+
+      return (
+        x.calificacion !== "" &&
+        x.calificacion != null
+      );
+
+    }).length;
+
 }
 
-function renderCurso() {
-  const nombres = ["Módulo 1","Módulo 2","Módulo 3","Módulo 4"];
-  const notas = datosCalificaciones || [];
-  const html = nombres.map(function(n,i) {
-    const x = notas[i] || {};
-    const val = x.calificacion === "" || x.calificacion == null ? "Pendiente" : "Calificación: " + escapeHtml(x.calificacion);
-    return '<div class="grade-item"><span class="grade-name">'+n+'</span><strong>'+val+'</strong></div>';
-  }).join("");
-  document.getElementById("modulos").innerHTML = html;
+
+/* =========================================================
+   CURSO
+========================================================= */
+
+function renderCurso(){
+
+  const nombres = [
+    "Módulo 1",
+    "Módulo 2",
+    "Módulo 3",
+    "Módulo 4"
+  ];
+
+
+  const notas =
+    datosCalificaciones || [];
+
+
+  const html =
+    nombres.map(function(n,i){
+
+      const x =
+        notas[i] || {};
+
+
+      const val =
+        x.calificacion === "" ||
+        x.calificacion == null
+
+          ? "Pendiente"
+
+          : "Calificación: " +
+            escapeHtml(
+              x.calificacion
+            );
+
+
+      return `
+        <div class="grade-item">
+
+          <span class="grade-name">
+            ${n}
+          </span>
+
+          <strong>
+            ${val}
+          </strong>
+
+        </div>
+      `;
+
+    }).join("");
+
+
+  document.getElementById(
+    "modulos"
+  ).innerHTML =
+    html;
+
 }
 
-function renderExamenes() {
-  const items = datosExamenes || [];
-  if (!items.length) {
-    document.getElementById("examenesLista").innerHTML='<div class="empty">No hay exámenes registrados para tu folio.</div>';
+
+/* =========================================================
+   EXÁMENES
+========================================================= */
+
+function renderExamenes(){
+
+  const items =
+    datosExamenes || [];
+
+
+  if(!items.length){
+
+    document.getElementById(
+      "examenesLista"
+    ).innerHTML =
+      '<div class="empty">No hay exámenes registrados para tu folio.</div>';
+
     return;
+
   }
-  document.getElementById("examenesLista").innerHTML = items.map(function(x) {
-    const cal = x.CALIFICACION === "" || x.CALIFICACION == null ? "Pendiente" : "Calificación: "+escapeHtml(x.CALIFICACION);
-    return '<div class="grade-item"><div><div class="grade-name">'+escapeHtml(x.EXAMEN||"Examen")+'</div><div style="font-size:10px;color:#94a3b8;margin-top:3px">'+escapeHtml(x.ESTADO||"")+'</div></div><span class="grade-score">'+cal+'</span></div>';
-  }).join("");
+
+
+  document.getElementById(
+    "examenesLista"
+  ).innerHTML =
+
+    items.map(function(x){
+
+      const cal =
+        x.CALIFICACION === "" ||
+        x.CALIFICACION == null
+
+          ? "Pendiente"
+
+          : "Calificación: " +
+            escapeHtml(
+              x.CALIFICACION
+            );
+
+
+      return `
+        <div class="grade-item">
+
+          <div>
+
+            <div class="grade-name">
+              ${escapeHtml(
+                x.EXAMEN ||
+                "Examen"
+              )}
+            </div>
+
+            <div
+              style="
+              font-size:10px;
+              color:#94a3b8;
+              margin-top:3px
+              "
+            >
+              ${escapeHtml(
+                x.ESTADO || ""
+              )}
+            </div>
+
+          </div>
+
+          <span class="grade-score">
+            ${cal}
+          </span>
+
+        </div>
+      `;
+
+    }).join("");
+
 }
 
-function renderAvisos(items) {
-  if (!items.length) {
-    document.getElementById("avisosInicio").innerHTML='<div class="empty">No hay avisos publicados.</div>';
+
+/* =========================================================
+   AVISOS
+========================================================= */
+
+function renderAvisos(items){
+
+  if(!items.length){
+
+    document.getElementById(
+      "avisosInicio"
+    ).innerHTML =
+      '<div class="empty">No hay avisos publicados.</div>';
+
     return;
+
   }
-  document.getElementById("avisosInicio").innerHTML = items.slice().reverse().map(function(x) {
-    return '<div class="notice"><div class="notice-dot"></div><div><div class="notice-title">'+escapeHtml(x.TITULO||"Aviso")+'</div><div class="notice-message">'+escapeHtml(x.MENSAJE||"")+'</div><div class="notice-date">'+escapeHtml(x.FECHA||"")+'</div></div></div>';
-  }).join("");
+
+
+  document.getElementById(
+    "avisosInicio"
+  ).innerHTML =
+
+    items
+      .slice()
+      .reverse()
+      .map(function(x){
+
+        return `
+          <div class="notice">
+
+            <div class="notice-dot"></div>
+
+            <div>
+
+              <div class="notice-title">
+                ${escapeHtml(
+                  x.TITULO ||
+                  "Aviso"
+                )}
+              </div>
+
+              <div class="notice-message">
+                ${escapeHtml(
+                  x.MENSAJE ||
+                  ""
+                )}
+              </div>
+
+              <div class="notice-date">
+                ${escapeHtml(
+                  x.FECHA ||
+                  ""
+                )}
+              </div>
+
+            </div>
+
+          </div>
+        `;
+
+      }).join("");
+
 }
 
-function renderConstancia() {
-  const disponible = !!(datosConstancia && datosConstancia.ARCHIVO);
-  const texto = disponible ? "Tu constancia está disponible para consulta." : "La constancia se habilitará cuando cumplas los requisitos académicos establecidos por Evolva Academy.";
-  ["constanciaTexto","constanciaTexto2"].forEach(id=>document.getElementById(id).textContent=texto);
-  const botones = [document.getElementById("constanciaButton"),document.getElementById("constanciaButton2")];
-  botones.forEach(function(btn) {
-    if (disponible) {
-      btn.disabled=false; btn.classList.remove("disabled"); btn.textContent="Abrir constancia";
-      btn.onclick=function(){window.open(datosConstancia.ARCHIVO,"_blank");};
-    } else {
-      btn.disabled=true; btn.classList.add("disabled"); btn.textContent="Aún no disponible";
+
+/* =========================================================
+   CONSTANCIA
+========================================================= */
+
+function renderConstancia(){
+
+  const disponible =
+    !!(
+      datosConstancia &&
+      datosConstancia.ARCHIVO
+    );
+
+
+  const texto =
+    disponible
+
+      ? "Tu constancia está disponible para consulta."
+
+      : "La constancia se habilitará cuando cumplas los requisitos académicos establecidos por Evolva Academy.";
+
+
+  [
+    "constanciaTexto",
+    "constanciaTexto2"
+  ].forEach(function(id){
+
+    document.getElementById(
+      id
+    ).textContent =
+      texto;
+
+  });
+
+
+  const botones = [
+
+    document.getElementById(
+      "constanciaButton"
+    ),
+
+    document.getElementById(
+      "constanciaButton2"
+    )
+
+  ];
+
+
+  botones.forEach(function(btn){
+
+    if(!btn){
+      return;
     }
+
+
+    if(disponible){
+
+      btn.disabled = false;
+
+      btn.classList.remove(
+        "disabled"
+      );
+
+      btn.textContent =
+        "Abrir constancia";
+
+
+      btn.onclick =
+        function(){
+
+          window.open(
+            datosConstancia.ARCHIVO,
+            "_blank"
+          );
+
+        };
+
+
+    }else{
+
+      btn.disabled = true;
+
+      btn.classList.add(
+        "disabled"
+      );
+
+      btn.textContent =
+        "Aún no disponible";
+
+      btn.onclick = null;
+
+    }
+
   });
+
 }
 
-function mostrarPlataforma() {
-  document.getElementById("loginPage").classList.add("hidden");
-  document.getElementById("platformPage").classList.remove("hidden");
-  window.scrollTo(0,0);
+
+/* =========================================================
+   NAVEGACIÓN
+========================================================= */
+
+function mostrarPlataforma(){
+
+  document.getElementById(
+    "loginPage"
+  ).classList.add(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "platformPage"
+  ).classList.remove(
+    "hidden"
+  );
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
 }
 
-function mostrarSeccion(nombre,boton) {
-  ["inicio","curso","calificaciones","examenes","constancia","perfil"].forEach(function(s) {
-    const el=document.getElementById("seccion-"+s);
-    if(el) el.classList.add("hidden");
+
+function mostrarSeccion(
+  nombre,
+  boton
+){
+
+  [
+    "inicio",
+    "curso",
+    "calificaciones",
+    "examenes",
+    "constancia",
+    "perfil"
+  ].forEach(function(s){
+
+    const el =
+      document.getElementById(
+        "seccion-" + s
+      );
+
+
+    if(el){
+
+      el.classList.add(
+        "hidden"
+      );
+
+    }
+
   });
-  const seleccion=document.getElementById("seccion-"+nombre);
-  if(seleccion) seleccion.classList.remove("hidden");
-  document.querySelectorAll(".menu-item").forEach(x=>x.classList.remove("active"));
-  if(boton) boton.classList.add("active");
-  document.getElementById("sidebar").classList.remove("open");
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-function mostrarSeccionPorNombre(nombre) {
-  let b=null;
-  document.querySelectorAll(".menu-item").forEach(function(x) {
-    if ((x.getAttribute("onclick")||"").includes("'"+nombre+"'")) b=x;
+
+
+  const seleccion =
+    document.getElementById(
+      "seccion-" + nombre
+    );
+
+
+  if(seleccion){
+
+    seleccion.classList.remove(
+      "hidden"
+    );
+
+  }
+
+
+  document
+    .querySelectorAll(".menu-item")
+    .forEach(function(x){
+
+      x.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  if(boton){
+
+    boton.classList.add(
+      "active"
+    );
+
+  }
+
+
+  document.getElementById(
+    "sidebar"
+  ).classList.remove(
+    "open"
+  );
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
   });
-  mostrarSeccion(nombre,b);
-}
-function toggleSidebar() { document.getElementById("sidebar").classList.toggle("open"); }
 
-function cerrarSesion() {
-  alumnoActual=null; datosCalificaciones=[]; datosExamenes=[]; datosConstancia=null;
-  sessionStorage.removeItem("evolvaAlumno");
-  document.getElementById("platformPage").classList.add("hidden");
-  document.getElementById("loginPage").classList.remove("hidden");
-  document.getElementById("loginForm").reset();
-  document.getElementById("loginError").style.display="none";
-  mostrarSeccion("inicio",document.querySelector(".menu-item"));
-  window.scrollTo(0,0);
 }
 
-(async function() {
-  try {
-    const guardado=sessionStorage.getItem("evolvaAlumno");
-    if(guardado) {
-      alumnoActual=JSON.parse(guardado);
-      if(alumnoActual && alumnoActual.FOLIO) {
-        mostrarPlataforma();
-        await cargarDatos();
+
+function mostrarSeccionPorNombre(
+  nombre
+){
+
+  let b = null;
+
+
+  document
+    .querySelectorAll(".menu-item")
+    .forEach(function(x){
+
+      if(
+        (
+          x.getAttribute(
+            "onclick"
+          ) || ""
+        ).includes(
+          "'" + nombre + "'"
+        )
+      ){
+
+        b = x;
+
       }
+
+    });
+
+
+  mostrarSeccion(
+    nombre,
+    b
+  );
+
+}
+
+
+function toggleSidebar(){
+
+  document.getElementById(
+    "sidebar"
+  ).classList.toggle(
+    "open"
+  );
+
+}
+
+
+/* =========================================================
+   CERRAR SESIÓN
+========================================================= */
+
+function cerrarSesion(){
+
+  alumnoActual = null;
+
+  datosCalificaciones = [];
+
+  datosExamenes = [];
+
+  datosConstancia = null;
+
+
+  sessionStorage.removeItem(
+    "evolvaAlumno"
+  );
+
+
+  document.getElementById(
+    "platformPage"
+  ).classList.add(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "loginPage"
+  ).classList.remove(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "loginForm"
+  ).reset();
+
+
+  document.getElementById(
+    "loginError"
+  ).style.display =
+    "none";
+
+
+  mostrarSeccion(
+    "inicio",
+    document.querySelector(
+      ".menu-item"
+    )
+  );
+
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+}
+
+
+/* =========================================================
+   SESIÓN GUARDADA
+========================================================= */
+
+(async function(){
+
+  try{
+
+    const guardado =
+      sessionStorage.getItem(
+        "evolvaAlumno"
+      );
+
+
+    if(!guardado){
+      return;
     }
-  } catch(e) {
-    sessionStorage.removeItem("evolvaAlumno");
+
+
+    alumnoActual =
+      JSON.parse(
+        guardado
+      );
+
+
+    if(
+      alumnoActual &&
+      alumnoActual.FOLIO
+    ){
+
+      mostrarPlataforma();
+
+      await cargarDatos();
+
+    }
+
+
+  }catch(e){
+
+    console.error(
+      "Error recuperando sesión:",
+      e
+    );
+
+
+    sessionStorage.removeItem(
+      "evolvaAlumno"
+    );
+
   }
+
 })();
+
 </script>
+
 </body>
 </html>
