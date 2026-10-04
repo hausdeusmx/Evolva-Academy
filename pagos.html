@@ -1622,7 +1622,6 @@
     <!-- =========================================
          JAVASCRIPT
     ========================================= -->
-
     <script>
         const API_URL = "https://script.google.com/macros/s/AKfycbyO5p_nORex2au2rkFkSoq2yUHuUKX49RdebkpI5ZdjZYKPbLYg1r33cKA9xus1pQvuFg/exec";
 
@@ -1636,15 +1635,52 @@
             this.value = this.value.toUpperCase().replace(/\s/g, "");
         });
 
+        /* JSONP: evita el problema de CORS de GitHub Pages + Apps Script. */
+        function llamarAPI(params) {
+            return new Promise(function(resolve, reject) {
+                const callback = 'evolvaPagoCallback_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+                const script = document.createElement('script');
+                let terminado = false;
+                const timer = setTimeout(function() {
+                    if (terminado) return;
+                    terminado = true;
+                    cleanup();
+                    reject(new Error('No se pudo conectar con Evolva Academy. Verifica la implementación del Apps Script.'));
+                }, 15000);
+
+                window[callback] = function(data) {
+                    if (terminado) return;
+                    terminado = true;
+                    clearTimeout(timer);
+                    cleanup();
+                    resolve(data);
+                };
+
+                function cleanup() {
+                    delete window[callback];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                }
+
+                const query = new URLSearchParams(params);
+                query.set('callback', callback);
+                script.src = API_URL + '?' + query.toString();
+                script.onerror = function() {
+                    if (terminado) return;
+                    terminado = true;
+                    clearTimeout(timer);
+                    cleanup();
+                    reject(new Error('No fue posible conectar con el servidor.'));
+                };
+                document.head.appendChild(script);
+            });
+        }
+
         async function consultarFolio(folio) {
-            const url = API_URL + '?accion=buscarFolio&folio=' + encodeURIComponent(folio);
-            const respuesta = await fetch(url, { method: 'GET' });
-            const texto = await respuesta.text();
-            let json;
-            try { json = JSON.parse(texto); }
-            catch (_) { throw new Error('El servidor devolvió una respuesta no válida.'); }
-            if (!json.ok || !json.encontrado) throw new Error(json.error || 'El folio no existe.');
-            return json;
+            const data = await llamarAPI({ accion: 'buscarFolio', folio: folio });
+            if (!data || !data.ok || !data.encontrado) {
+                throw new Error((data && data.error) || 'El folio no existe.');
+            }
+            return data;
         }
 
         async function buscarFolio() {
@@ -1656,6 +1692,7 @@
                 mostrarError('Por favor ingresa tu folio.');
                 return;
             }
+
             if (!/^EVOLVA-\d{6}$/.test(folio)) {
                 mostrarError('El folio debe tener el formato EVOLVA-000000.');
                 return;
@@ -1675,24 +1712,21 @@
                 document.getElementById('lblCurso').textContent = alumnoConsultado.DIPLOMADO || '—';
                 document.getElementById('lblFolio').textContent = alumnoConsultado.FOLIO || folio;
 
-                // Estado de pago actual.
                 const estadoPago = document.getElementById('estadoPagoTexto');
                 if (estadoPago) estadoPago.textContent = alumnoConsultado.PAGO || 'PENDIENTE';
 
-                // Montos configurables desde Apps Script.
                 const pagos = data.pagos || {};
                 const mensual = document.getElementById('montoMensual');
                 const contado = document.getElementById('montoContado');
-                if (mensual) mensual.textContent = pagos.mensual ? formatearMonto(pagos.mensual) : 'Consultar';
-                if (contado) contado.textContent = pagos.contado ? formatearMonto(pagos.contado) : 'Consultar';
+                if (mensual) mensual.textContent = pagos.mensual !== '' && pagos.mensual != null ? formatearMonto(pagos.mensual) : 'Por configurar';
+                if (contado) contado.textContent = pagos.contado !== '' && pagos.contado != null ? formatearMonto(pagos.contado) : 'Por configurar';
 
-                // Datos bancarios.
                 if (data.banco) document.getElementById('datosBanco').textContent = data.banco;
                 if (data.beneficiario) document.getElementById('datosBeneficiario').textContent = data.beneficiario;
                 if (data.clabe) document.getElementById('clabe').textContent = data.clabe;
 
-                // Si ya está en revisión, ocultamos el formulario de comprobante.
-                if (String(alumnoConsultado.PAGO || '').toUpperCase() === 'EN REVISIÓN') {
+                const pagoEstado = String(alumnoConsultado.PAGO || '').toUpperCase();
+                if (pagoEstado === 'EN REVISIÓN' || pagoEstado === 'PAGADO') {
                     document.getElementById('seccionComprobante').style.display = 'none';
                     document.getElementById('estadoRevision').style.display = 'block';
                 } else {
@@ -1725,16 +1759,23 @@
 
         function copiarClabe() {
             const clabe = document.getElementById('clabe').textContent.trim();
-            navigator.clipboard.writeText(clabe).then(() => {
+            navigator.clipboard.writeText(clabe).then(function() {
                 const boton = document.querySelector('.copy-button');
                 const original = boton.textContent;
                 boton.textContent = '✓ Copiada';
-                setTimeout(() => boton.textContent = original, 2000);
-            }).catch(() => alert('No fue posible copiar la CLABE.'));
+                setTimeout(function() { boton.textContent = original; }, 2000);
+            }).catch(function() {
+                alert('No fue posible copiar la CLABE.');
+            });
         }
 
+        /*
+         * Envía el comprobante como un formulario normal hacia Apps Script.
+         * Se utiliza un iframe oculto para no depender de CORS.
+         */
         formulario.addEventListener('submit', async function(e) {
             e.preventDefault();
+
             if (!alumnoConsultado || !alumnoConsultado.FOLIO) {
                 alert('Primero consulta un folio válido.');
                 return;
@@ -1751,6 +1792,7 @@
                 alert('Solo se permiten PDF, JPG, JPEG o PNG.');
                 return;
             }
+
             if (archivo.size > 6 * 1024 * 1024) {
                 alert('El comprobante debe pesar menos de 6 MB.');
                 return;
@@ -1760,11 +1802,11 @@
             const original = boton.textContent;
             boton.disabled = true;
             boton.style.opacity = '.65';
-            boton.textContent = 'Enviando comprobante...';
+            boton.textContent = 'Preparando comprobante...';
 
             try {
                 const base64 = await convertirBase64(archivo);
-                const data = await enviarComprobante({
+                await enviarComprobantePorFormulario({
                     folio: alumnoConsultado.FOLIO,
                     nombreArchivo: archivo.name,
                     mimeType: archivo.type,
@@ -1775,7 +1817,7 @@
                 document.getElementById('seccionComprobante').style.display = 'none';
                 document.getElementById('estadoRevision').style.display = 'block';
                 document.getElementById('estadoRevision').scrollIntoView({ behavior:'smooth', block:'center' });
-                alert(data.mensaje || 'Comprobante recibido correctamente.');
+                alert('Comprobante recibido correctamente y enviado a revisión.');
             } catch (e) {
                 alert(e.message || 'No fue posible enviar el comprobante.');
             } finally {
@@ -1785,28 +1827,81 @@
             }
         });
 
-        async function enviarComprobante(datos) {
-            const respuesta = await fetch(API_URL, {
-                method: 'POST',
-                headers: { 'Content-Type':'text/plain;charset=utf-8' },
-                body: JSON.stringify({ accion:'comprobante', ...datos })
+        function enviarComprobantePorFormulario(datos) {
+            return new Promise(function(resolve, reject) {
+                const token = 'evolva_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+                const iframeName = 'evolvaUploadFrame_' + Date.now();
+                const iframe = document.createElement('iframe');
+                iframe.name = iframeName;
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = API_URL;
+                form.target = iframeName;
+                form.style.display = 'none';
+
+                const campos = {
+                    accion: 'comprobante',
+                    folio: datos.folio,
+                    nombreArchivo: datos.nombreArchivo,
+                    mimeType: datos.mimeType,
+                    base64: datos.base64,
+                    nonce: token
+                };
+
+                Object.keys(campos).forEach(function(nombre) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = nombre;
+                    input.value = campos[nombre];
+                    form.appendChild(input);
+                });
+
+                let terminado = false;
+                const timeout = setTimeout(function() {
+                    if (terminado) return;
+                    terminado = true;
+                    limpiar();
+                    reject(new Error('El envío tardó demasiado. Intenta nuevamente con un archivo más pequeño.'));
+                }, 30000);
+
+                function limpiar() {
+                    clearTimeout(timeout);
+                    window.removeEventListener('message', recibir);
+                    if (form.parentNode) form.parentNode.removeChild(form);
+                    setTimeout(function() {
+                        if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+                    }, 500);
+                }
+
+                function recibir(evento) {
+                    const data = evento.data;
+                    if (!data || data.nonce !== token) return;
+                    if (terminado) return;
+                    terminado = true;
+                    limpiar();
+                    if (data.ok) resolve(data);
+                    else reject(new Error(data.error || 'No fue posible registrar el comprobante.'));
+                }
+
+                window.addEventListener('message', recibir);
+                document.body.appendChild(form);
+                form.submit();
             });
-            const texto = await respuesta.text();
-            let json;
-            try { json = JSON.parse(texto); }
-            catch (_) { throw new Error('El servidor devolvió una respuesta no válida.'); }
-            if (!json.ok) throw new Error(json.error || 'No fue posible registrar el comprobante.');
-            return json;
         }
 
         function convertirBase64(archivo) {
-            return new Promise((resolve, reject) => {
+            return new Promise(function(resolve, reject) {
                 const lector = new FileReader();
-                lector.onload = () => {
+                lector.onload = function() {
                     const resultado = String(lector.result || '');
                     resolve(resultado.split(',')[1] || '');
                 };
-                lector.onerror = () => reject(new Error('No fue posible leer el archivo.'));
+                lector.onerror = function() {
+                    reject(new Error('No fue posible leer el archivo.'));
+                };
                 lector.readAsDataURL(archivo);
             });
         }
