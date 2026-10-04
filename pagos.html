@@ -1941,7 +1941,7 @@
 
                 const mensual =
                     document.getElementById(
-                        "montoMensual"
+                        "montoSemanal"
                     );
 
 
@@ -1951,15 +1951,15 @@
                     );
 
 
-                if (mensual) {
+                if (semanal) {
 
-                    mensual.textContent =
-                        pagos.mensual !== "" &&
-                        pagos.mensual != null
+                    semanal.textContent =
+                        pagos.semanal !== "" &&
+                        pagos.semanal != null
                             ? formatearMonto(
-                                pagos.mensual
+                                pagos.semanal
                             )
-                            : "Por configurar";
+                            : "160";
 
                 }
 
@@ -1972,7 +1972,7 @@
                             ? formatearMonto(
                                 pagos.contado
                             )
-                            : "Por configurar";
+                            : "4,300";
 
                 }
 
