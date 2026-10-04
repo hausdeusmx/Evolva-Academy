@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolva Academy | Formación Digital Profesional</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+    <!-- Header -->
+    <header class="bg-slate-900 text-white py-4 shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-wide">EVOLVA <span class="text-emerald-400">ACADEMY</span></h1>
+            <a href="pagos.html" class="text-xs bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-semibold px-4 py-2 rounded-lg transition">Ya tengo mi Folio (Pagar)</a>
+        </div>
+    </header>
+
+    <!-- Hero / Presentación -->
+    <section class="max-w-6xl mx-auto px-6 py-16 text-center">
+        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Academia Digital</span>
+        <h2 class="text-4xl font-extrabold text-slate-900 mt-4 mb-4">Impulsa tu futuro con nuestros Diplomados</h2>
+        <p class="text-slate-600 max-w-2xl mx-auto text-base mb-10">Aprende finanzas prácticas o primeros auxilios con un método guiado, exámenes automatizados y seguimiento oportuno.</p>
+        
+        <!-- Cursos Destacados -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto mb-16">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <span class="text-xs font-semibold text-emerald-600 uppercase">6 Meses</span>
+                <h3 class="text-xl font-bold text-slate-900 mt-1 mb-2">Diplomado en Finanzas Personales</h3>
+                <p class="text-sm text-slate-500 mb-4">Domina tu presupuesto, sal de deudas, crea tu fondo de emergencia y aprende bases de negocios.</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <span class="text-xs font-semibold text-emerald-600 uppercase">8 Meses</span>
+                <h3 class="text-xl font-bold text-slate-900 mt-1 mb-2">Diplomado en Primeros Auxilios</h3>
+                <p class="text-sm text-slate-500 mb-4">Conviértete en primer respondiente: RCP, Heimlich, control de hemorragias y gestión de emergencias.</p>
+            </div>
+        </div>
+
+        <!-- Botón para abrir modal de registro o sección -->
+        <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 max-w-xl mx-auto">
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Inscríbete Ahora</h3>
+            <p class="text-xs text-slate-500 mb-6">Ingresa tus datos y tu CURP para generar tu expediente y recibir tu folio de pago único.</p>
+            
+            <form id="registroForm" class="space-y-4 text-left">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Nombre Completo</label>
+                    <input type="text" id="reg_nombre" class="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none" required placeholder="Nombre y Apellidos">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Correo Electrónico Personal</label>
+                    <input type="email" id="reg_email" class="w-full px-3 py-2.5 rounded-lg border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 outline-none" required placeholder="tu@correo.com">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">CURP (18 Caracteres)</label>
+                    <input type="text" id="reg_curp" maxlength="18" class="w-full px-3 py-2.5 rounded-lg border border-slate-300 uppercase text-sm focus:ring-2 focus:ring-emerald-500 outline-none" required placeholder="Clave CURP">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Diplomado Elegido</label>
+                    <select id="reg_curso" class="w-full px-3 py-2.5 rounded-lg border border-slate-300 bg-white text-sm focus:ring-2 focus:ring-emerald-500 outline-none" required>
+                        <option value="" disabled selected>Selecciona...</option>
+                        <option value="Finanzas Personales">Diplomado en Finanzas Personales</option>
+                        <option value="Primeros Auxilios">Diplomado en Primeros Auxilios</option>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl text-sm transition cursor-pointer">
+                    Generar Folio de Inscripción
+                </button>
+            </form>
+
+            <!-- Resultado de Folio Generado (Oculto inicialmente) -->
+            <div id="folioResultado" class="hidden mt-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-center">
+                <p class="text-xs text-emerald-800 font-semibold mb-1">¡Registro Exitoso!</p>
+                <p class="text-xs text-slate-600 mb-2">Tu Folio Único asignado es:</p>
+                <div id="codigoFolio" class="text-lg font-mono font-bold text-slate-900 bg-white py-2 px-4 rounded-lg border border-emerald-300 inline-block mb-3">EVOLVA-2026-X99</div>
+                <p class="text-[11px] text-slate-500">Guarda este folio. Lo necesitarás en <a href="pagos.html" class="text-emerald-600 underline font-semibold">pagos.evolvacademy.mx</a> para realizar tu transferencia y subir tu comprobante.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="text-center py-6 text-xs text-slate-400 border-t border-slate-200">
+        &copy; 2026 Evolva Academy. Todos los derechos reservados.
+    </footer>
+
+    <!-- Script simple para simular generación de folio -->
+    <script>
+        document.getElementById('registroForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const curp = document.getElementById('reg_curp').value.toUpperCase();
+            const randomCode = 'EVOLVA-' + Math.floor(1000 + Math.random() * 9000);
+            
+            document.getElementById('codigoFolio').innerText = randomCode;
+            document.getElementById('folioResultado').classList.remove('hidden');
+            this.reset();
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
