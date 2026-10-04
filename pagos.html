@@ -14,11 +14,8 @@
 
     <meta
         name="description"
-        content="Portal de pagos y validación de Evolva Academy"
+        content="Portal oficial de pagos de Evolva Academy"
     >
-
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
 
     <style>
 
@@ -465,6 +462,16 @@
         }
 
 
+        .primary-button:disabled {
+
+            cursor:
+                not-allowed;
+
+            transform:
+                none;
+        }
+
+
         /* =========================================
            DIVISOR
         ========================================= */
@@ -509,7 +516,7 @@
 
             gap: 15px;
 
-            padding: 6px 0;
+            padding: 7px 0;
 
             font-size: 13px;
         }
@@ -532,6 +539,79 @@
             font-weight: 800;
 
             text-align: right;
+        }
+
+
+        /* =========================================
+           ESTADO DEL PAGO
+        ========================================= */
+
+        .payment-status {
+
+            margin-top:
+                14px;
+
+            padding:
+                14px 16px;
+
+            border-radius:
+                12px;
+
+            background:
+                #f8fbff;
+
+            border:
+                1px solid #dceaff;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                12px;
+        }
+
+
+        .payment-status-label {
+
+            color:
+                #64748b;
+
+            font-size:
+                13px;
+
+            font-weight:
+                600;
+        }
+
+
+        .payment-status-value {
+
+            padding:
+                6px 10px;
+
+            border-radius:
+                999px;
+
+            background:
+                #fff7ed;
+
+            color:
+                #c2410c;
+
+            font-size:
+                11px;
+
+            font-weight:
+                900;
+
+            text-transform:
+                uppercase;
         }
 
 
@@ -628,85 +708,63 @@
 
 
         /* =========================================
-           DATOS BANCARIOS
+           STRIPE
         ========================================= */
 
-        .bank-box {
+        .stripe-payment-box {
 
             margin-top:
-                20px;
+                22px;
 
             padding:
-                21px;
+                24px;
 
             border-radius:
-                16px;
+                18px;
 
             background:
                 linear-gradient(
                     135deg,
-                    #061d45,
-                    #073a88
+                    #063b91,
+                    #086cff,
+                    #2684ff
                 );
 
             color:
                 white;
 
             box-shadow:
-                0 12px 30px
-                rgba(6,59,145,.18);
+                0 16px 35px
+                rgba(8,108,255,.22);
         }
 
 
-        .bank-title {
+        .stripe-top {
 
-            margin:
-                0 0 16px;
+            display:
+                flex;
 
-            color:
-                white;
+            align-items:
+                center;
 
-            font-size:
+            gap:
                 14px;
 
-            font-weight:
-                900;
+            margin-bottom:
+                15px;
         }
 
 
-        .bank-data {
+        .stripe-icon {
 
-            margin:
-                9px 0;
+            width:
+                50px;
 
-            font-size:
-                12px;
+            height:
+                50px;
 
-            color:
-                #d8e7ff;
-        }
-
-
-        .bank-data strong {
-
-            color:
-                white;
-        }
-
-
-        .clabe-container {
-
-            margin-top:
-                14px;
-
-            padding:
-                12px;
-
-            border-radius:
-                10px;
-
-            background:
-                rgba(255,255,255,.08);
+            flex-shrink:
+                0;
 
             display:
                 flex;
@@ -715,104 +773,55 @@
                 center;
 
             justify-content:
-                space-between;
-
-            gap:
-                10px;
-        }
-
-
-        .clabe {
-
-            font-family:
-                monospace;
-
-            font-size:
-                14px;
-
-            font-weight:
-                800;
-
-            letter-spacing:
-                .04em;
-
-            word-break:
-                break-all;
-        }
-
-
-        .copy-button {
-
-            flex-shrink:
-                0;
-
-            border:
-                none;
+                center;
 
             border-radius:
-                8px;
-
-            padding:
-                8px 10px;
-
-            cursor:
-                pointer;
+                14px;
 
             background:
-                white;
-
-            color:
-                var(--azul-oscuro);
+                rgba(255,255,255,.15);
 
             font-size:
-                11px;
-
-            font-weight:
-                800;
+                24px;
         }
 
 
-        .copy-button:hover {
-
-            background:
-                #edf5ff;
-        }
-
-
-        /* =========================================
-           COMPROBANTE
-        ========================================= */
-
-        .upload-section {
-
-            margin-top:
-                25px;
-        }
-
-
-        .upload-title {
+        .stripe-title {
 
             margin:
-                0 0 8px;
-
-            color:
-                #172033;
+                0 0 4px;
 
             font-size:
-                14px;
+                17px;
 
             font-weight:
                 900;
         }
 
 
-        .upload-description {
+        .stripe-subtitle {
 
             margin:
-                0 0 15px;
+                0;
 
             color:
-                #64748b;
+                rgba(255,255,255,.82);
+
+            font-size:
+                12px;
+
+            line-height:
+                1.5;
+        }
+
+
+        .stripe-description {
+
+            margin:
+                0 0 18px;
+
+            color:
+                rgba(255,255,255,.90);
 
             font-size:
                 12px;
@@ -822,79 +831,25 @@
         }
 
 
-        .file-input {
+        .stripe-button {
 
             width:
                 100%;
 
-            padding:
-                10px;
+            display:
+                flex;
 
-            border:
-                1px solid #dbe4ef;
+            align-items:
+                center;
 
-            border-radius:
-                11px;
+            justify-content:
+                center;
 
-            background:
-                #fbfdff;
-
-            color:
-                #64748b;
-
-            font-size:
-                12px;
-
-            cursor:
-                pointer;
-        }
-
-
-        .file-input::file-selector-button {
-
-            margin-right:
-                10px;
-
-            padding:
-                9px 12px;
-
-            border:
-                none;
-
-            border-radius:
+            gap:
                 8px;
 
-            background:
-                var(--azul-fondo);
-
-            color:
-                var(--azul-oscuro);
-
-            font-size:
-                11px;
-
-            font-weight:
-                800;
-
-            cursor:
-                pointer;
-        }
-
-
-        /* =========================================
-           BOTÓN COMPROBANTE
-        ========================================= */
-
-        .submit-payment {
-
-            width:
-                100%;
-
-            margin-top:
-                14px;
-
             padding:
-                14px;
+                15px 18px;
 
             border:
                 none;
@@ -903,46 +858,73 @@
                 11px;
 
             background:
-                #101828;
+                white;
 
             color:
-                white;
+                #063b91;
+
+            text-decoration:
+                none;
 
             font-size:
                 14px;
 
             font-weight:
-                800;
+                900;
 
             cursor:
                 pointer;
+
+            box-shadow:
+                0 8px 20px
+                rgba(0,0,0,.14);
 
             transition:
                 .25s ease;
         }
 
 
-        .submit-payment:hover {
-
-            background:
-                var(--azul-oscuro);
+        .stripe-button:hover {
 
             transform:
                 translateY(-2px);
+
+            box-shadow:
+                0 13px 25px
+                rgba(0,0,0,.20);
+        }
+
+
+        .stripe-security {
+
+            margin:
+                13px 0 0;
+
+            text-align:
+                center;
+
+            color:
+                rgba(255,255,255,.72);
+
+            font-size:
+                10px;
         }
 
 
         /* =========================================
-           ESTADO REVISIÓN
+           MENSAJE YA PAGADO
         ========================================= */
 
-        .review-box {
+        .paid-box {
+
+            display:
+                none;
 
             margin-top:
-                24px;
+                22px;
 
             padding:
-                24px;
+                22px;
 
             text-align:
                 center;
@@ -951,20 +933,20 @@
                 16px;
 
             background:
-                #eff6ff;
+                #f0fdf4;
 
             border:
-                1px solid #cfe2ff;
+                1px solid #bbf7d0;
         }
 
 
-        .review-icon {
+        .paid-icon {
 
             width:
-                50px;
+                52px;
 
             height:
-                50px;
+                52px;
 
             margin:
                 0 auto 12px;
@@ -982,50 +964,53 @@
                 50%;
 
             background:
-                white;
+                #dcfce7;
 
             color:
-                var(--azul);
+                #15803d;
 
             font-size:
-                22px;
-        }
-
-
-        .review-box h3 {
-
-            margin:
-                0 0 7px;
-
-            color:
-                var(--azul-oscuro);
-
-            font-size:
-                16px;
+                23px;
 
             font-weight:
                 900;
         }
 
 
-        .review-box p {
+        .paid-box h3 {
+
+            margin:
+                0 0 7px;
+
+            color:
+                #166534;
+
+            font-size:
+                17px;
+
+            font-weight:
+                900;
+        }
+
+
+        .paid-box p {
 
             margin:
                 0;
 
             color:
-                #64748b;
+                #4b6352;
 
             font-size:
                 12px;
 
             line-height:
-                1.7;
+                1.6;
         }
 
 
         /* =========================================
-           MENSAJE ERROR
+           ERROR
         ========================================= */
 
         .error-box {
@@ -1170,7 +1155,7 @@
             }
 
 
-            .clabe-container {
+            .payment-status {
 
                 align-items:
                     flex-start;
@@ -1180,10 +1165,10 @@
             }
 
 
-            .copy-button {
+            .stripe-payment-box {
 
-                width:
-                    100%;
+                padding:
+                    20px;
             }
 
         }
@@ -1284,8 +1269,8 @@
 
                 <p>
                     Ingresa tu folio de inscripción para consultar
-                    la información de tu diplomado, opciones de pago
-                    y enviar tu comprobante.
+                    la información de tu diplomado y realizar
+                    tu pago de forma segura.
                 </p>
 
             </div>
@@ -1381,7 +1366,7 @@
                             </span>
 
                             <span id="lblNombre">
-                                María Pérez
+                                —
                             </span>
 
                         </div>
@@ -1394,7 +1379,7 @@
                             </span>
 
                             <span id="lblCurso">
-                                Diplomado en Finanzas Personales
+                                —
                             </span>
 
                         </div>
@@ -1407,17 +1392,31 @@
                             </span>
 
                             <span id="lblFolio">
-                                EVOLVA-000000
+                                —
                             </span>
 
                         </div>
 
                     </div>
 
-                        <div class="student-row">
-                            <span>Estado del pago</span>
-                            <span id="estadoPagoTexto">PENDIENTE</span>
-                        </div>
+
+                    <!-- ESTADO DEL PAGO -->
+
+                    <div class="payment-status">
+
+                        <span class="payment-status-label">
+                            Estado del pago
+                        </span>
+
+                        <span
+                            id="estadoPagoTexto"
+                            class="payment-status-value"
+                        >
+                            PENDIENTE
+                        </span>
+
+                    </div>
+
 
 
                     <!-- =================================
@@ -1427,7 +1426,7 @@
                     <div class="amount-box">
 
                         <p class="amount-title">
-                            Opciones de pago
+                            Información de pago
                         </p>
 
 
@@ -1438,7 +1437,9 @@
                             </span>
 
                             <span class="amount-value">
-                                <span id="montoMensual">Consultar</span>
+                                <span id="montoMensual">
+                                    Consultar
+                                </span>
                             </span>
 
                         </div>
@@ -1451,7 +1452,9 @@
                             </span>
 
                             <span class="amount-value">
-                                <span id="montoContado">Consultar</span>
+                                <span id="montoContado">
+                                    Consultar
+                                </span>
                             </span>
 
                         </div>
@@ -1461,126 +1464,84 @@
 
 
                     <!-- =================================
-                         BANCO
-                    ================================== -->
-
-                    <div class="bank-box">
-
-                        <p class="bank-title">
-                            Datos para transferencia SPEI
-                        </p>
-
-
-                        <p class="bank-data">
-                            <strong>Banco:</strong>
-                            <span id="datosBanco">BBVA México</span>
-                        </p>
-
-
-                        <p class="bank-data">
-                            <strong>Beneficiario:</strong>
-                            <span id="datosBeneficiario">Evolva Academy S.A. de C.V.</span>
-                        </p>
-
-
-                        <div class="clabe-container">
-
-                            <span
-                                id="clabe"
-                                class="clabe"
-                            >
-                                012345678901234567
-                            </span>
-
-
-                            <button
-                                type="button"
-                                class="copy-button"
-                                onclick="copiarClabe()"
-                            >
-                                Copiar CLABE
-                            </button>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- =================================
-                         COMPROBANTE
+                         STRIPE
                     ================================== -->
 
                     <div
-                        id="seccionComprobante"
-                        class="upload-section"
+                        id="stripePaymentBox"
+                        class="stripe-payment-box"
                     >
 
-                        <p class="upload-title">
-                            Envía tu comprobante
+                        <div class="stripe-top">
+
+                            <div class="stripe-icon">
+                                💳
+                            </div>
+
+                            <div>
+
+                                <h3 class="stripe-title">
+                                    Paga en línea
+                                </h3>
+
+                                <p class="stripe-subtitle">
+                                    Pago seguro mediante Stripe
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <p class="stripe-description">
+                            Realiza tu pago de forma rápida y segura.
+                            Serás dirigido a la página oficial de Stripe
+                            para completar la operación.
                         </p>
 
-                        <p class="upload-description">
-                            Después de realizar tu transferencia,
-                            selecciona el comprobante de pago.
-                            Puedes utilizar PDF, JPG, JPEG o PNG.
-                        </p>
 
-
-                        <form
-                            id="comprobanteForm"
+                        <a
+                            id="stripePaymentButton"
+                            href="https://buy.stripe.com/8x228r3Wz2CE8zU3Wj2sM00"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="stripe-button"
                         >
-
-                            <input
-                                type="file"
-                                id="archivoTicket"
-                                class="file-input"
-                                accept=".pdf,.jpg,.jpeg,.png"
-                                required
-                            >
+                            💳 Pagar ahora
+                        </a>
 
 
-                            <button
-                                type="submit"
-                                class="submit-payment"
-                            >
-                                Enviar comprobante
-                            </button>
-
-                        </form>
+                        <p class="stripe-security">
+                            🔒 Pago procesado de forma segura por Stripe
+                        </p>
 
                     </div>
 
 
 
                     <!-- =================================
-                         REVISIÓN
+                         PAGADO
                     ================================== -->
 
                     <div
-                        id="estadoRevision"
-                        style="display:none;"
-                        class="review-box"
+                        id="paidBox"
+                        class="paid-box"
                     >
 
-                        <div class="review-icon">
+                        <div class="paid-icon">
                             ✓
                         </div>
 
 
                         <h3>
-                            Comprobante recibido
+                            Pago registrado
                         </h3>
 
 
                         <p>
-                            Tu comprobante ha sido enviado
-                            correctamente y se encuentra
-                            <strong>en revisión</strong>.
-                            <br><br>
-                            Una vez validado el pago, recibirás
-                            la información correspondiente
-                            en tu correo electrónico.
+                            Tu pago aparece como registrado.
+                            Si tienes alguna duda sobre tu inscripción,
+                            puedes comunicarte con Evolva Academy.
                         </p>
 
                     </div>
@@ -1622,289 +1583,630 @@
     <!-- =========================================
          JAVASCRIPT
     ========================================= -->
-    <script>
-        const API_URL = "https://script.google.com/macros/s/AKfycbyTcVS-daEhDz1N5dwZEaCHVQrm17hC5IjQZvujAiI2oXzpgS6BJhtlZlnv1yjBhYX7Yg/exec";
 
-        const inputFolio = document.getElementById("inputFolio");
-        const detalles = document.getElementById("seccionDetalles");
-        const error = document.getElementById("mensajeError");
-        const formulario = document.getElementById("comprobanteForm");
+    <script>
+
+        /* =========================================
+           API EVOLVA ACADEMY
+        ========================================= */
+
+        const API_URL =
+            "https://script.google.com/macros/s/AKfycbyTcVS-daEhDz1N5dwZEaCHVQrm17hC5IjQZvujAiI2oXzpgS6BJhtlZlnv1yjBhYX7Yg/exec";
+
+
+        /* =========================================
+           STRIPE PAYMENT LINK
+        ========================================= */
+
+        const STRIPE_PAYMENT_LINK =
+            "https://buy.stripe.com/8x228r3Wz2CE8zU3Wj2sM00";
+
+
+        /* =========================================
+           ELEMENTOS
+        ========================================= */
+
+        const inputFolio =
+            document.getElementById("inputFolio");
+
+        const detalles =
+            document.getElementById("seccionDetalles");
+
+        const error =
+            document.getElementById("mensajeError");
+
         let alumnoConsultado = null;
 
-        inputFolio.addEventListener("input", function () {
-            this.value = this.value.toUpperCase().replace(/\s/g, "");
-        });
 
-        /* JSONP: evita el problema de CORS de GitHub Pages + Apps Script. */
+        /* =========================================
+           NORMALIZAR FOLIO
+        ========================================= */
+
+        inputFolio.addEventListener(
+            "input",
+            function () {
+
+                this.value =
+                    this.value
+                        .toUpperCase()
+                        .replace(/\s/g, "");
+
+            }
+        );
+
+
+        /* =========================================
+           JSONP
+        ========================================= */
+
         function llamarAPI(params) {
-            return new Promise(function(resolve, reject) {
-                const callback = 'evolvaPagoCallback_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
-                const script = document.createElement('script');
-                let terminado = false;
-                const timer = setTimeout(function() {
-                    if (terminado) return;
-                    terminado = true;
-                    cleanup();
-                    reject(new Error('No se pudo conectar con Evolva Academy. Verifica la implementación del Apps Script.'));
-                }, 15000);
 
-                window[callback] = function(data) {
-                    if (terminado) return;
-                    terminado = true;
-                    clearTimeout(timer);
-                    cleanup();
-                    resolve(data);
-                };
+            return new Promise(
+                function(resolve, reject) {
 
-                function cleanup() {
-                    delete window[callback];
-                    if (script.parentNode) script.parentNode.removeChild(script);
+                    const callback =
+                        "evolvaPagoCallback_" +
+                        Date.now() +
+                        "_" +
+                        Math.floor(
+                            Math.random() * 100000
+                        );
+
+
+                    const script =
+                        document.createElement("script");
+
+
+                    let terminado = false;
+
+
+                    const timer =
+                        setTimeout(
+                            function() {
+
+                                if (terminado)
+                                    return;
+
+                                terminado = true;
+
+                                cleanup();
+
+                                reject(
+                                    new Error(
+                                        "No se pudo conectar con Evolva Academy. Verifica la implementación del Apps Script."
+                                    )
+                                );
+
+                            },
+                            15000
+                        );
+
+
+                    window[callback] =
+                        function(data) {
+
+                            if (terminado)
+                                return;
+
+                            terminado = true;
+
+                            clearTimeout(timer);
+
+                            cleanup();
+
+                            resolve(data);
+
+                        };
+
+
+                    function cleanup() {
+
+                        delete window[callback];
+
+                        if (
+                            script.parentNode
+                        ) {
+
+                            script.parentNode
+                                .removeChild(script);
+
+                        }
+
+                    }
+
+
+                    const query =
+                        new URLSearchParams(params);
+
+
+                    query.set(
+                        "callback",
+                        callback
+                    );
+
+
+                    script.src =
+                        API_URL +
+                        "?" +
+                        query.toString();
+
+
+                    script.onerror =
+                        function() {
+
+                            if (terminado)
+                                return;
+
+                            terminado = true;
+
+                            clearTimeout(timer);
+
+                            cleanup();
+
+                            reject(
+                                new Error(
+                                    "No fue posible conectar con el servidor."
+                                )
+                            );
+
+                        };
+
+
+                    document.head.appendChild(
+                        script
+                    );
+
                 }
+            );
 
-                const query = new URLSearchParams(params);
-                query.set('callback', callback);
-                script.src = API_URL + '?' + query.toString();
-                script.onerror = function() {
-                    if (terminado) return;
-                    terminado = true;
-                    clearTimeout(timer);
-                    cleanup();
-                    reject(new Error('No fue posible conectar con el servidor.'));
-                };
-                document.head.appendChild(script);
-            });
         }
+
+
+        /* =========================================
+           CONSULTAR FOLIO
+        ========================================= */
 
         async function consultarFolio(folio) {
-            const data = await llamarAPI({ accion: 'buscarFolio', folio: folio });
-            if (!data || !data.ok || !data.encontrado) {
-                throw new Error((data && data.error) || 'El folio no existe.');
+
+            const data =
+                await llamarAPI({
+                    accion: "buscarFolio",
+                    folio: folio
+                });
+
+
+            if (
+                !data ||
+                !data.ok ||
+                !data.encontrado
+            ) {
+
+                throw new Error(
+                    (
+                        data &&
+                        data.error
+                    ) ||
+                    "El folio no existe."
+                );
+
             }
+
+
             return data;
+
         }
+
+
+        /* =========================================
+           BUSCAR FOLIO
+        ========================================= */
 
         async function buscarFolio() {
-            const folio = inputFolio.value.trim();
-            error.style.display = 'none';
-            detalles.style.display = 'none';
+
+            const folio =
+                inputFolio.value.trim();
+
+
+            error.style.display =
+                "none";
+
+
+            detalles.style.display =
+                "none";
+
 
             if (!folio) {
-                mostrarError('Por favor ingresa tu folio.');
+
+                mostrarError(
+                    "Por favor ingresa tu folio."
+                );
+
                 return;
+
             }
 
-            if (!/^EVOLVA-\d{6}$/.test(folio)) {
-                mostrarError('El folio debe tener el formato EVOLVA-000000.');
+
+            if (
+                !/^EVOLVA-\d{6}$/.test(
+                    folio
+                )
+            ) {
+
+                mostrarError(
+                    "El folio debe tener el formato EVOLVA-000000."
+                );
+
                 return;
+
             }
 
-            const boton = document.querySelector('#seccionFolio .primary-button');
-            const texto = boton.textContent;
-            boton.disabled = true;
-            boton.style.opacity = '.65';
-            boton.textContent = 'Consultando...';
+
+            const boton =
+                document.querySelector(
+                    "#seccionFolio .primary-button"
+                );
+
+
+            const texto =
+                boton.textContent;
+
+
+            boton.disabled =
+                true;
+
+
+            boton.style.opacity =
+                ".65";
+
+
+            boton.textContent =
+                "Consultando...";
+
 
             try {
-                const data = await consultarFolio(folio);
-                alumnoConsultado = data.alumno;
 
-                document.getElementById('lblNombre').textContent = alumnoConsultado.NOMBRE || '—';
-                document.getElementById('lblCurso').textContent = alumnoConsultado.DIPLOMADO || '—';
-                document.getElementById('lblFolio').textContent = alumnoConsultado.FOLIO || folio;
+                const data =
+                    await consultarFolio(
+                        folio
+                    );
 
-                const estadoPago = document.getElementById('estadoPagoTexto');
-                if (estadoPago) estadoPago.textContent = alumnoConsultado.PAGO || 'PENDIENTE';
 
-                const pagos = data.pagos || {};
-                const mensual = document.getElementById('montoMensual');
-                const contado = document.getElementById('montoContado');
-                if (mensual) mensual.textContent = pagos.mensual !== '' && pagos.mensual != null ? formatearMonto(pagos.mensual) : 'Por configurar';
-                if (contado) contado.textContent = pagos.contado !== '' && pagos.contado != null ? formatearMonto(pagos.contado) : 'Por configurar';
+                alumnoConsultado =
+                    data.alumno;
 
-                if (data.banco) document.getElementById('datosBanco').textContent = data.banco;
-                if (data.beneficiario) document.getElementById('datosBeneficiario').textContent = data.beneficiario;
-                if (data.clabe) document.getElementById('clabe').textContent = data.clabe;
 
-                const pagoEstado = String(alumnoConsultado.PAGO || '').toUpperCase();
-                if (pagoEstado === 'EN REVISIÓN' || pagoEstado === 'PAGADO') {
-                    document.getElementById('seccionComprobante').style.display = 'none';
-                    document.getElementById('estadoRevision').style.display = 'block';
+                /* =================================
+                   DATOS DEL ALUMNO
+                ================================== */
+
+                document
+                    .getElementById(
+                        "lblNombre"
+                    )
+                    .textContent =
+                        alumnoConsultado.NOMBRE ||
+                        "—";
+
+
+                document
+                    .getElementById(
+                        "lblCurso"
+                    )
+                    .textContent =
+                        alumnoConsultado.DIPLOMADO ||
+                        "—";
+
+
+                document
+                    .getElementById(
+                        "lblFolio"
+                    )
+                    .textContent =
+                        alumnoConsultado.FOLIO ||
+                        folio;
+
+
+                /* =================================
+                   ESTADO DEL PAGO
+                ================================== */
+
+                const estadoPago =
+                    document.getElementById(
+                        "estadoPagoTexto"
+                    );
+
+
+                const pago =
+                    alumnoConsultado.PAGO ||
+                    "PENDIENTE";
+
+
+                estadoPago.textContent =
+                    pago;
+
+
+                actualizarEstadoPago(
+                    pago
+                );
+
+
+                /* =================================
+                   MONTOS
+                ================================== */
+
+                const pagos =
+                    data.pagos ||
+                    {};
+
+
+                const mensual =
+                    document.getElementById(
+                        "montoMensual"
+                    );
+
+
+                const contado =
+                    document.getElementById(
+                        "montoContado"
+                    );
+
+
+                if (mensual) {
+
+                    mensual.textContent =
+                        pagos.mensual !== "" &&
+                        pagos.mensual != null
+                            ? formatearMonto(
+                                pagos.mensual
+                            )
+                            : "Por configurar";
+
+                }
+
+
+                if (contado) {
+
+                    contado.textContent =
+                        pagos.contado !== "" &&
+                        pagos.contado != null
+                            ? formatearMonto(
+                                pagos.contado
+                            )
+                            : "Por configurar";
+
+                }
+
+
+                /* =================================
+                   MOSTRAR / OCULTAR STRIPE
+                ================================== */
+
+                const pagoEstado =
+                    String(
+                        alumnoConsultado.PAGO ||
+                        ""
+                    )
+                    .trim()
+                    .toUpperCase();
+
+
+                const stripeBox =
+                    document.getElementById(
+                        "stripePaymentBox"
+                    );
+
+
+                const paidBox =
+                    document.getElementById(
+                        "paidBox"
+                    );
+
+
+                /*
+                 * Si ya aparece como pagado,
+                 * no mostramos nuevamente
+                 * el botón de pago.
+                 */
+
+                if (
+                    pagoEstado === "PAGADO" ||
+                    pagoEstado === "APROBADO" ||
+                    pagoEstado === "COMPLETADO"
+                ) {
+
+                    stripeBox.style.display =
+                        "none";
+
+
+                    paidBox.style.display =
+                        "block";
+
                 } else {
-                    document.getElementById('seccionComprobante').style.display = 'block';
-                    document.getElementById('estadoRevision').style.display = 'none';
+
+                    stripeBox.style.display =
+                        "block";
+
+
+                    paidBox.style.display =
+                        "none";
+
                 }
 
-                detalles.style.display = 'block';
-                detalles.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } catch (e) {
-                mostrarError(e.message || 'No fue posible consultar el folio.');
-            } finally {
-                boton.disabled = false;
-                boton.style.opacity = '1';
-                boton.textContent = texto;
-            }
-        }
 
-        function mostrarError(mensaje) {
-            error.textContent = mensaje;
-            error.style.display = 'block';
-            detalles.style.display = 'none';
-        }
+                detalles.style.display =
+                    "block";
 
-        function formatearMonto(valor) {
-            const numero = Number(valor);
-            if (Number.isNaN(numero)) return String(valor);
-            return numero.toLocaleString('es-MX', { style:'currency', currency:'MXN' });
-        }
 
-        function copiarClabe() {
-            const clabe = document.getElementById('clabe').textContent.trim();
-            navigator.clipboard.writeText(clabe).then(function() {
-                const boton = document.querySelector('.copy-button');
-                const original = boton.textContent;
-                boton.textContent = '✓ Copiada';
-                setTimeout(function() { boton.textContent = original; }, 2000);
-            }).catch(function() {
-                alert('No fue posible copiar la CLABE.');
-            });
-        }
-
-        /*
-         * Envía el comprobante como un formulario normal hacia Apps Script.
-         * Se utiliza un iframe oculto para no depender de CORS.
-         */
-        formulario.addEventListener('submit', async function(e) {
-            e.preventDefault();
-
-            if (!alumnoConsultado || !alumnoConsultado.FOLIO) {
-                alert('Primero consulta un folio válido.');
-                return;
-            }
-
-            const archivo = document.getElementById('archivoTicket').files[0];
-            if (!archivo) {
-                alert('Selecciona tu comprobante.');
-                return;
-            }
-
-            const permitidos = ['application/pdf','image/jpeg','image/png'];
-            if (!permitidos.includes(archivo.type)) {
-                alert('Solo se permiten PDF, JPG, JPEG o PNG.');
-                return;
-            }
-
-            if (archivo.size > 6 * 1024 * 1024) {
-                alert('El comprobante debe pesar menos de 6 MB.');
-                return;
-            }
-
-            const boton = formulario.querySelector('button[type="submit"]');
-            const original = boton.textContent;
-            boton.disabled = true;
-            boton.style.opacity = '.65';
-            boton.textContent = 'Preparando comprobante...';
-
-            try {
-                const base64 = await convertirBase64(archivo);
-                await enviarComprobantePorFormulario({
-                    folio: alumnoConsultado.FOLIO,
-                    nombreArchivo: archivo.name,
-                    mimeType: archivo.type,
-                    base64: base64
+                detalles.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
                 });
 
-                formulario.reset();
-                document.getElementById('seccionComprobante').style.display = 'none';
-                document.getElementById('estadoRevision').style.display = 'block';
-                document.getElementById('estadoRevision').scrollIntoView({ behavior:'smooth', block:'center' });
-                alert('Comprobante recibido correctamente y enviado a revisión.');
+
             } catch (e) {
-                alert(e.message || 'No fue posible enviar el comprobante.');
+
+                mostrarError(
+                    e.message ||
+                    "No fue posible consultar el folio."
+                );
+
             } finally {
-                boton.disabled = false;
-                boton.style.opacity = '1';
-                boton.textContent = original;
+
+                boton.disabled =
+                    false;
+
+
+                boton.style.opacity =
+                    "1";
+
+
+                boton.textContent =
+                    texto;
+
             }
-        });
 
-        function enviarComprobantePorFormulario(datos) {
-            return new Promise(function(resolve, reject) {
-                const token = 'evolva_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
-                const iframeName = 'evolvaUploadFrame_' + Date.now();
-                const iframe = document.createElement('iframe');
-                iframe.name = iframeName;
-                iframe.style.display = 'none';
-                document.body.appendChild(iframe);
-
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = API_URL;
-                form.target = iframeName;
-                form.style.display = 'none';
-
-                const campos = {
-                    accion: 'comprobante',
-                    folio: datos.folio,
-                    nombreArchivo: datos.nombreArchivo,
-                    mimeType: datos.mimeType,
-                    base64: datos.base64,
-                    nonce: token
-                };
-
-                Object.keys(campos).forEach(function(nombre) {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = nombre;
-                    input.value = campos[nombre];
-                    form.appendChild(input);
-                });
-
-                let terminado = false;
-                const timeout = setTimeout(function() {
-                    if (terminado) return;
-                    terminado = true;
-                    limpiar();
-                    reject(new Error('El envío tardó demasiado. Intenta nuevamente con un archivo más pequeño.'));
-                }, 30000);
-
-                function limpiar() {
-                    clearTimeout(timeout);
-                    window.removeEventListener('message', recibir);
-                    if (form.parentNode) form.parentNode.removeChild(form);
-                    setTimeout(function() {
-                        if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
-                    }, 500);
-                }
-
-                function recibir(evento) {
-                    const data = evento.data;
-                    if (!data || data.nonce !== token) return;
-                    if (terminado) return;
-                    terminado = true;
-                    limpiar();
-                    if (data.ok) resolve(data);
-                    else reject(new Error(data.error || 'No fue posible registrar el comprobante.'));
-                }
-
-                window.addEventListener('message', recibir);
-                document.body.appendChild(form);
-                form.submit();
-            });
         }
 
-        function convertirBase64(archivo) {
-            return new Promise(function(resolve, reject) {
-                const lector = new FileReader();
-                lector.onload = function() {
-                    const resultado = String(lector.result || '');
-                    resolve(resultado.split(',')[1] || '');
-                };
-                lector.onerror = function() {
-                    reject(new Error('No fue posible leer el archivo.'));
-                };
-                lector.readAsDataURL(archivo);
-            });
+
+        /* =========================================
+           ESTADO VISUAL DEL PAGO
+        ========================================= */
+
+        function actualizarEstadoPago(
+            estado
+        ) {
+
+            const elemento =
+                document.getElementById(
+                    "estadoPagoTexto"
+                );
+
+
+            const valor =
+                String(
+                    estado ||
+                    "PENDIENTE"
+                )
+                .trim()
+                .toUpperCase();
+
+
+            elemento.textContent =
+                valor;
+
+
+            if (
+                valor === "PAGADO" ||
+                valor === "APROBADO" ||
+                valor === "COMPLETADO"
+            ) {
+
+                elemento.style.background =
+                    "#dcfce7";
+
+                elemento.style.color =
+                    "#15803d";
+
+            } else if (
+                valor === "EN REVISIÓN" ||
+                valor === "EN REVISION"
+            ) {
+
+                elemento.style.background =
+                    "#fef3c7";
+
+                elemento.style.color =
+                    "#92400e";
+
+            } else {
+
+                elemento.style.background =
+                    "#fff7ed";
+
+                elemento.style.color =
+                    "#c2410c";
+
+            }
+
         }
+
+
+        /* =========================================
+           ERROR
+        ========================================= */
+
+        function mostrarError(
+            mensaje
+        ) {
+
+            error.textContent =
+                mensaje;
+
+
+            error.style.display =
+                "block";
+
+
+            detalles.style.display =
+                "none";
+
+        }
+
+
+        /* =========================================
+           FORMATEAR MONTO
+        ========================================= */
+
+        function formatearMonto(
+            valor
+        ) {
+
+            const numero =
+                Number(valor);
+
+
+            if (
+                Number.isNaN(numero)
+            ) {
+
+                return String(valor);
+
+            }
+
+
+            return numero.toLocaleString(
+                "es-MX",
+                {
+                    style:
+                        "currency",
+
+                    currency:
+                        "MXN"
+                }
+            );
+
+        }
+
+
+        /* =========================================
+           ENTER PARA CONSULTAR
+        ========================================= */
+
+        inputFolio.addEventListener(
+            "keydown",
+            function(evento) {
+
+                if (
+                    evento.key === "Enter"
+                ) {
+
+                    buscarFolio();
+
+                }
+
+            }
+        );
+
     </script>
 
 </body>
