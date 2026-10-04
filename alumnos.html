@@ -1,40 +1,2431 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Portal de Alumnos | Evolva Academy</title>
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f8fc;
+            color: #172033;
+        }
+
+        :root {
+            --azul-oscuro: #063b91;
+            --azul: #086cff;
+            --azul-claro: #2684ff;
+            --azul-suave: #edf5ff;
+            --borde: #e2eaf4;
+            --texto: #172033;
+            --gris: #64748b;
+        }
+
+
+        /* =====================================
+           LOGIN
+        ===================================== */
+
+        #loginPage {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+
+            background:
+                radial-gradient(
+                    circle at 80% 15%,
+                    rgba(38,132,255,.15),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 10% 90%,
+                    rgba(6,59,145,.12),
+                    transparent 30%
+                ),
+                #f7faff;
+        }
+
+
+        .login-card {
+            width: 100%;
+            max-width: 430px;
+
+            background: white;
+
+            border: 1px solid var(--borde);
+
+            border-radius: 24px;
+
+            padding: 38px;
+
+            box-shadow:
+                0 25px 70px rgba(15,23,42,.10);
+        }
+
+
+        .login-logo {
+            width: 190px;
+            height: auto;
+
+            display: block;
+
+            margin: 0 auto 18px;
+        }
+
+
+        .login-title {
+            text-align: center;
+
+            color: #101828;
+
+            font-size: 24px;
+            font-weight: 900;
+
+            margin-bottom: 7px;
+        }
+
+
+        .login-subtitle {
+            text-align: center;
+
+            color: var(--gris);
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            margin-bottom: 28px;
+        }
+
+
+        .form-label {
+            display: block;
+
+            color: #334155;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            margin-bottom: 7px;
+        }
+
+
+        .form-input {
+            width: 100%;
+
+            padding: 13px 14px;
+
+            border: 1px solid #d8e2ee;
+
+            border-radius: 11px;
+
+            background: #fbfdff;
+
+            color: #172033;
+
+            outline: none;
+
+            font-size: 14px;
+
+            transition: .2s;
+        }
+
+
+        .form-input:focus {
+            background: white;
+
+            border-color: var(--azul);
+
+            box-shadow:
+                0 0 0 4px rgba(8,108,255,.10);
+        }
+
+
+        .login-button {
+            width: 100%;
+
+            margin-top: 20px;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul-oscuro),
+                    var(--azul),
+                    var(--azul-claro)
+                );
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 10px 25px rgba(8,108,255,.22);
+
+            transition: .25s;
+        }
+
+
+        .login-button:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 15px 32px rgba(8,108,255,.30);
+        }
+
+
+        .login-help {
+            text-align: center;
+
+            margin-top: 22px;
+
+            padding-top: 18px;
+
+            border-top: 1px solid #e8eef5;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+
+            line-height: 1.6;
+        }
+
+
+        .login-error {
+            display: none;
+
+            margin-top: 14px;
+
+            padding: 11px;
+
+            border-radius: 9px;
+
+            background: #fff5f5;
+
+            border: 1px solid #fecaca;
+
+            color: #b91c1c;
+
+            font-size: 12px;
+
+            text-align: center;
+        }
+
+
+        /* =====================================
+           PLATAFORMA
+        ===================================== */
+
+        #platformPage {
+            display: none;
+
+            min-height: 100vh;
+
+            background: #f5f8fc;
+        }
+
+
+        /* =====================================
+           SIDEBAR
+        ===================================== */
+
+        .sidebar {
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            width: 250px;
+
+            background: white;
+
+            border-right: 1px solid var(--borde);
+
+            padding: 24px 16px;
+
+            z-index: 50;
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        .sidebar-logo {
+            width: 155px;
+
+            margin:
+                0 auto 35px;
+        }
+
+
+        .menu-title {
+            color: #94a3b8;
+
+            font-size: 10px;
+
+            font-weight: 900;
+
+            text-transform: uppercase;
+
+            letter-spacing: .1em;
+
+            padding:
+                0 12px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .menu {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 5px;
+        }
+
+
+        .menu-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            width: 100%;
+
+            padding: 11px 12px;
+
+            border: none;
+
+            border-radius: 10px;
+
+            background: transparent;
+
+            color: #64748b;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: .2s;
+
+            text-align: left;
+        }
+
+
+        .menu-item:hover {
+
+            background: var(--azul-suave);
+
+            color: var(--azul);
+        }
+
+
+        .menu-item.active {
+
+            background: var(--azul-suave);
+
+            color: var(--azul);
+        }
+
+
+        .menu-icon {
+
+            width: 20px;
+
+            text-align: center;
+
+            font-size: 16px;
+        }
+
+
+        .sidebar-bottom {
+
+            margin-top: auto;
+        }
+
+
+        .logout-button {
+
+            width: 100%;
+
+            border: none;
+
+            background: #fff5f5;
+
+            color: #b91c1c;
+
+            padding: 11px;
+
+            border-radius: 10px;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+
+        /* =====================================
+           HEADER PLATAFORMA
+        ===================================== */
+
+        .platform-content {
+
+            margin-left: 250px;
+
+            min-height: 100vh;
+        }
+
+
+        .topbar {
+
+            height: 75px;
+
+            background: rgba(255,255,255,.95);
+
+            backdrop-filter: blur(10px);
+
+            border-bottom: 1px solid var(--borde);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding:
+                0 35px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 40;
+        }
+
+
+        .mobile-menu {
+
+            display: none;
+
+            border: none;
+
+            background: var(--azul-suave);
+
+            color: var(--azul);
+
+            border-radius: 9px;
+
+            padding: 8px 11px;
+
+            font-size: 18px;
+
+            cursor: pointer;
+        }
+
+
+        .topbar-title {
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            color: #172033;
+        }
+
+
+        .student-profile {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .student-avatar {
+
+            width: 38px;
+            height: 38px;
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: white;
+
+            font-size: 13px;
+
+            font-weight: 900;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul-oscuro),
+                    var(--azul)
+                );
+        }
+
+
+        .student-name {
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            color: #172033;
+        }
+
+
+        .student-email {
+
+            font-size: 10px;
+
+            color: #94a3b8;
+        }
+
+
+        /* =====================================
+           CONTENIDO
+        ===================================== */
+
+        .dashboard {
+
+            max-width: 1250px;
+
+            margin: auto;
+
+            padding:
+                35px;
+        }
+
+
+        .welcome {
+
+            margin-bottom: 28px;
+        }
+
+
+        .welcome-badge {
+
+            display: inline-block;
+
+            padding: 6px 11px;
+
+            border-radius: 999px;
+
+            background: var(--azul-suave);
+
+            color: var(--azul);
+
+            font-size: 10px;
+
+            font-weight: 900;
+
+            text-transform: uppercase;
+
+            letter-spacing: .08em;
+        }
+
+
+        .welcome h1 {
+
+            margin:
+                13px 0 6px;
+
+            color: #101828;
+
+            font-size:
+                clamp(27px, 4vw, 38px);
+
+            font-weight: 900;
+
+            letter-spacing: -.03em;
+        }
+
+
+        .welcome p {
+
+            margin: 0;
+
+            color: var(--gris);
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================
+           TARJETAS ESTADÍSTICAS
+        ===================================== */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .stat-card {
+
+            background: white;
+
+            border: 1px solid var(--borde);
+
+            border-radius: 16px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 7px 25px rgba(15,23,42,.04);
+        }
+
+
+        .stat-icon {
+
+            width: 38px;
+            height: 38px;
+
+            border-radius: 10px;
+
+            background: var(--azul-suave);
+
+            color: var(--azul);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-bottom: 14px;
+        }
+
+
+        .stat-number {
+
+            color: #101828;
+
+            font-size: 24px;
+
+            font-weight: 900;
+        }
+
+
+        .stat-label {
+
+            margin-top: 3px;
+
+            color: #64748b;
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================
+           GRID PRINCIPAL
+        ===================================== */
+
+        .main-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1.5fr 1fr;
+
+            gap: 20px;
+        }
+
+
+        .panel {
+
+            background: white;
+
+            border: 1px solid var(--borde);
+
+            border-radius: 18px;
+
+            padding: 24px;
+
+            box-shadow:
+                0 7px 25px rgba(15,23,42,.04);
+        }
+
+
+        .panel-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+
+        .panel-title {
+
+            color: #101828;
+
+            font-size: 16px;
+
+            font-weight: 900;
+        }
+
+
+        .panel-link {
+
+            color: var(--azul);
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+
+        /* =====================================
+           CURSO
+        ===================================== */
+
+        .course-banner {
+
+            padding: 22px;
+
+            border-radius: 15px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #063b91,
+                    #086cff,
+                    #2684ff
+                );
+
+            margin-bottom: 18px;
+        }
+
+
+        .course-label {
+
+            font-size: 10px;
+
+            text-transform: uppercase;
+
+            letter-spacing: .08em;
+
+            opacity: .8;
+
+            font-weight: 800;
+        }
+
+
+        .course-name {
+
+            font-size: 21px;
+
+            font-weight: 900;
+
+            margin-top: 7px;
+
+            line-height: 1.25;
+        }
+
+
+        .progress-container {
+
+            margin-top: 20px;
+        }
+
+
+        .progress-info {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            font-size: 10px;
+
+            margin-bottom: 7px;
+
+            opacity: .9;
+        }
+
+
+        .progress-bar {
+
+            width: 100%;
+
+            height: 7px;
+
+            border-radius: 999px;
+
+            background: rgba(255,255,255,.25);
+
+            overflow: hidden;
+        }
+
+
+        .progress-value {
+
+            width: 72%;
+
+            height: 100%;
+
+            background: white;
+
+            border-radius: inherit;
+        }
+
+
+        /* =====================================
+           CALIFICACIONES
+        ===================================== */
+
+        .grade-list {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+        }
+
+
+        .grade-item {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 12px;
+
+            border-radius: 10px;
+
+            background: #f8fbff;
+
+            border: 1px solid #e7eef7;
+        }
+
+
+        .grade-name {
+
+            color: #334155;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        .grade-score {
+
+            color: var(--azul);
+
+            font-size: 15px;
+
+            font-weight: 900;
+        }
+
+
+        /* =====================================
+           CONSTANCIA
+        ===================================== */
+
+        .certificate {
+
+            text-align: center;
+
+            padding: 25px 15px;
+        }
+
+
+        .certificate-icon {
+
+            width: 65px;
+            height: 65px;
+
+            margin: 0 auto 15px;
+
+            border-radius: 18px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: var(--azul-suave);
+
+            color: var(--azul);
+
+            font-size: 28px;
+        }
+
+
+        .certificate h3 {
+
+            color: #101828;
+
+            font-size: 16px;
+
+            font-weight: 900;
+
+            margin-bottom: 7px;
+        }
+
+
+        .certificate p {
+
+            color: #64748b;
+
+            font-size: 11px;
+
+            line-height: 1.6;
+
+            margin-bottom: 17px;
+        }
+
+
+        .certificate-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 10px 15px;
+
+            border-radius: 9px;
+
+            background: var(--azul);
+
+            color: white;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            border: none;
+
+            cursor: pointer;
+
+            opacity: .5;
+        }
+
+
+        /* =====================================
+           AVISOS
+        ===================================== */
+
+        .notice {
+
+            display: flex;
+
+            gap: 12px;
+
+            padding: 13px 0;
+
+            border-bottom: 1px solid #edf1f6;
+        }
+
+
+        .notice:last-child {
+
+            border-bottom: none;
+        }
+
+
+        .notice-dot {
+
+            width: 8px;
+            height: 8px;
+
+            margin-top: 5px;
+
+            flex-shrink: 0;
+
+            border-radius: 50%;
+
+            background: var(--azul);
+        }
+
+
+        .notice-title {
+
+            color: #334155;
+
+            font-size: 12px;
+
+            font-weight: 800;
+        }
+
+
+        .notice-date {
+
+            color: #94a3b8;
+
+            font-size: 10px;
+
+            margin-top: 3px;
+        }
+
+
+        /* =====================================
+           MÓVIL
+        ===================================== */
+
+        @media(max-width: 950px) {
+
+            .sidebar {
+
+                transform: translateX(-100%);
+
+                transition: .25s;
+
+            }
+
+
+            .sidebar.open {
+
+                transform: translateX(0);
+
+                box-shadow:
+                    15px 0 50px rgba(15,23,42,.15);
+            }
+
+
+            .platform-content {
+
+                margin-left: 0;
+            }
+
+
+            .mobile-menu {
+
+                display: block;
+            }
+
+
+            .topbar {
+
+                padding:
+                    0 18px;
+            }
+
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .main-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .dashboard {
+
+                padding:
+                    25px 18px 60px;
+            }
+        }
+
+
+        @media(max-width: 550px) {
+
+            .stats {
+
+                grid-template-columns: 1fr 1fr;
+
+                gap: 10px;
+            }
+
+
+            .stat-card {
+
+                padding: 15px;
+            }
+
+
+            .stat-number {
+
+                font-size: 20px;
+            }
+
+
+            .student-name {
+
+                display: none;
+            }
+
+
+            .topbar-title {
+
+                display: none;
+            }
+
+
+            .dashboard {
+
+                padding:
+                    22px 13px 50px;
+            }
+
+
+            .panel {
+
+                padding: 18px;
+            }
+
+
+            .course-name {
+
+                font-size: 18px;
+            }
+        }
+
+    </style>
+
 </head>
-<body class="bg-slate-900 text-slate-100 font-sans antialiased flex items-center justify-center min-h-screen">
 
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4">
-        <div class="text-center mb-8">
-            <h1 class="text-2xl font-bold tracking-wide">EVOLVA <span class="text-emerald-400">ACADEMY</span></h1>
-            <p class="text-xs text-slate-400 mt-2">Plataforma Exclusiva de Alumnos</p>
-        </div>
 
-        <form class="space-y-5" onsubmit="event.preventDefault(); alert('Acceso con correo institucional simulado.');">
-            <div>
-                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Correo Institucional</label>
-                <input type="email" class="w-full px-4 py-3 rounded-lg bg-slate-900 border border-slate-700 text-sm text-white focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="alumno@evolvacademy.mx" required>
+<body>
+
+
+<!-- ==================================================
+     LOGIN
+=================================================== -->
+
+<section id="loginPage">
+
+    <div class="login-card">
+
+        <img
+            src="logo-evolva.png"
+            alt="Evolva Academy"
+            class="login-logo"
+        >
+
+
+        <h1 class="login-title">
+            Portal de Alumnos
+        </h1>
+
+
+        <p class="login-subtitle">
+            Accede a tu plataforma académica para consultar
+            tus cursos, calificaciones, avances y constancias.
+        </p>
+
+
+        <form id="loginForm">
+
+            <div class="mb-5">
+
+                <label
+                    class="form-label"
+                    for="email"
+                >
+                    Correo institucional
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    class="form-input"
+                    placeholder="alumno@evolvacademy.mx"
+                    required
+                >
+
             </div>
 
+
             <div>
-                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Contraseña de Sistema</label>
-                <input type="password" class="w-full px-4 py-3 rounded-lg bg-slate-900 border border-slate-700 text-sm text-white focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="••••••••" required>
-                <p class="text-[10px] text-slate-500 mt-1">Usa la contraseña fija proporcionada en tu correo de bienvenida.</p>
+
+                <label
+                    class="form-label"
+                    for="password"
+                >
+                    Contraseña
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    class="form-input"
+                    placeholder="Ingresa tu contraseña"
+                    required
+                >
+
             </div>
 
-            <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold py-3 rounded-xl text-sm transition cursor-pointer shadow-lg shadow-emerald-500/10">
-                Iniciar Sesión en Classroom / Clases
+
+            <button
+                type="submit"
+                class="login-button"
+            >
+                Iniciar sesión
             </button>
+
+
+            <div
+                id="loginError"
+                class="login-error"
+            >
+                El correo o la contraseña no son correctos.
+            </div>
+
         </form>
 
-        <div class="mt-6 text-center border-t border-slate-700 pt-4">
-            <p class="text-[11px] text-slate-400">¿Tienes problemas de acceso? Contacta a soporte a través de tu correo institucional.</p>
+
+        <div class="login-help">
+
+            ¿Problemas para ingresar?
+
+            <br>
+
+            Contacta al área de soporte de
+            <strong>Evolva Academy</strong>.
+
         </div>
+
     </div>
+
+</section>
+
+
+
+<!-- ==================================================
+     PLATAFORMA
+=================================================== -->
+
+<section id="platformPage">
+
+
+    <!-- SIDEBAR -->
+
+    <aside
+        id="sidebar"
+        class="sidebar"
+    >
+
+        <img
+            src="logo-evolva.png"
+            alt="Evolva Academy"
+            class="sidebar-logo"
+        >
+
+
+        <div class="menu-title">
+            Mi plataforma
+        </div>
+
+
+        <nav class="menu">
+
+
+            <button
+                class="menu-item active"
+                onclick="mostrarSeccion('inicio', this)"
+            >
+
+                <span class="menu-icon">
+                    ⌂
+                </span>
+
+                Inicio
+
+            </button>
+
+
+            <button
+                class="menu-item"
+                onclick="mostrarSeccion('curso', this)"
+            >
+
+                <span class="menu-icon">
+                    ▣
+                </span>
+
+                Mi diplomado
+
+            </button>
+
+
+            <button
+                class="menu-item"
+                onclick="mostrarSeccion('calificaciones', this)"
+            >
+
+                <span class="menu-icon">
+                    ★
+                </span>
+
+                Calificaciones
+
+            </button>
+
+
+            <button
+                class="menu-item"
+                onclick="mostrarSeccion('examenes', this)"
+            >
+
+                <span class="menu-icon">
+                    ✓
+                </span>
+
+                Exámenes
+
+            </button>
+
+
+            <button
+                class="menu-item"
+                onclick="mostrarSeccion('constancia', this)"
+            >
+
+                <span class="menu-icon">
+                    ▤
+                </span>
+
+                Constancia
+
+            </button>
+
+
+            <button
+                class="menu-item"
+                onclick="mostrarSeccion('perfil', this)"
+            >
+
+                <span class="menu-icon">
+                    ◉
+                </span>
+
+                Mi perfil
+
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <button
+                class="logout-button"
+                onclick="cerrarSesion()"
+            >
+
+                Cerrar sesión
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- CONTENIDO -->
+
+    <div class="platform-content">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <button
+                class="mobile-menu"
+                onclick="toggleSidebar()"
+            >
+                ☰
+            </button>
+
+
+            <div class="topbar-title">
+                Plataforma Académica
+            </div>
+
+
+            <div class="student-profile">
+
+                <div>
+
+                    <div class="student-name">
+                        María Pérez
+                    </div>
+
+                    <div class="student-email">
+                        maria@evolvacademy.mx
+                    </div>
+
+                </div>
+
+
+                <div class="student-avatar">
+                    MP
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- DASHBOARD -->
+
+        <main class="dashboard">
+
+
+            <!-- =====================================
+                 INICIO
+            ====================================== -->
+
+            <section id="seccion-inicio">
+
+
+                <div class="welcome">
+
+                    <span class="welcome-badge">
+                        Alumna activa
+                    </span>
+
+
+                    <h1>
+                        ¡Hola, María! 👋
+                    </h1>
+
+
+                    <p>
+                        Bienvenida nuevamente a tu plataforma
+                        de Evolva Academy.
+                    </p>
+
+                </div>
+
+
+
+                <!-- ESTADÍSTICAS -->
+
+                <div class="stats">
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            ★
+                        </div>
+
+                        <div class="stat-number">
+                            92
+                        </div>
+
+                        <div class="stat-label">
+                            Promedio general
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            %
+                        </div>
+
+                        <div class="stat-number">
+                            72%
+                        </div>
+
+                        <div class="stat-label">
+                            Avance del diplomado
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            ✓
+                        </div>
+
+                        <div class="stat-number">
+                            8
+                        </div>
+
+                        <div class="stat-label">
+                            Evaluaciones realizadas
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            ▤
+                        </div>
+
+                        <div class="stat-number">
+                            1
+                        </div>
+
+                        <div class="stat-label">
+                            Diplomado activo
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- GRID -->
+
+                <div class="main-grid">
+
+
+                    <!-- CURSO -->
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <div class="panel-title">
+                                Mi diplomado
+                            </div>
+
+                            <span
+                                class="panel-link"
+                                onclick="mostrarSeccionPorNombre('curso')"
+                            >
+                                Ver curso →
+                            </span>
+
+                        </div>
+
+
+                        <div class="course-banner">
+
+                            <div class="course-label">
+                                Diplomado en curso
+                            </div>
+
+                            <div class="course-name">
+                                Finanzas Personales
+                            </div>
+
+
+                            <div class="progress-container">
+
+                                <div class="progress-info">
+
+                                    <span>
+                                        Progreso
+                                    </span>
+
+                                    <span>
+                                        72%
+                                    </span>
+
+                                </div>
+
+
+                                <div class="progress-bar">
+
+                                    <div
+                                        class="progress-value"
+                                    ></div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <p class="text-xs text-slate-500">
+                            Continúa con tu formación para completar
+                            el diplomado y obtener tu constancia.
+                        </p>
+
+                    </div>
+
+
+
+                    <!-- CALIFICACIONES -->
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <div class="panel-title">
+                                Calificaciones
+                            </div>
+
+                            <span
+                                class="panel-link"
+                                onclick="mostrarSeccionPorNombre('calificaciones')"
+                            >
+                                Ver todas
+                            </span>
+
+                        </div>
+
+
+                        <div class="grade-list">
+
+
+                            <div class="grade-item">
+
+                                <span class="grade-name">
+                                    Módulo 1
+                                </span>
+
+                                <span class="grade-score">
+                                    95
+                                </span>
+
+                            </div>
+
+
+                            <div class="grade-item">
+
+                                <span class="grade-name">
+                                    Módulo 2
+                                </span>
+
+                                <span class="grade-score">
+                                    90
+                                </span>
+
+                            </div>
+
+
+                            <div class="grade-item">
+
+                                <span class="grade-name">
+                                    Módulo 3
+                                </span>
+
+                                <span class="grade-score">
+                                    91
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- CONSTANCIA -->
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <div class="panel-title">
+                                Mi constancia
+                            </div>
+
+                        </div>
+
+
+                        <div class="certificate">
+
+                            <div class="certificate-icon">
+                                ▤
+                            </div>
+
+
+                            <h3>
+                                Constancia de estudios
+                            </h3>
+
+
+                            <p>
+                                Tu constancia estará disponible
+                                cuando completes los requisitos
+                                académicos del diplomado.
+                            </p>
+
+
+                            <button
+                                class="certificate-button"
+                                disabled
+                            >
+                                Descargar constancia
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- AVISOS -->
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+
+                            <div class="panel-title">
+                                Avisos
+                            </div>
+
+                        </div>
+
+
+                        <div class="notice">
+
+                            <div class="notice-dot"></div>
+
+                            <div>
+
+                                <div class="notice-title">
+                                    Nuevo módulo disponible
+                                </div>
+
+                                <div class="notice-date">
+                                    Hace 2 días
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="notice">
+
+                            <div class="notice-dot"></div>
+
+                            <div>
+
+                                <div class="notice-title">
+                                    Revisa tus calificaciones
+                                </div>
+
+                                <div class="notice-date">
+                                    Hace 5 días
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="notice">
+
+                            <div class="notice-dot"></div>
+
+                            <div>
+
+                                <div class="notice-title">
+                                    Bienvenida a Evolva Academy
+                                </div>
+
+                                <div class="notice-date">
+                                    01/10/2026
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =====================================
+                 SECCIÓN CURSO
+            ====================================== -->
+
+            <section
+                id="seccion-curso"
+                class="hidden"
+            >
+
+                <div class="welcome">
+
+                    <span class="welcome-badge">
+                        Formación
+                    </span>
+
+                    <h1>
+                        Mi diplomado
+                    </h1>
+
+                    <p>
+                        Consulta el contenido y avance de tu programa.
+                    </p>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="course-banner">
+
+                        <div class="course-label">
+                            Diplomado en curso
+                        </div>
+
+                        <div class="course-name">
+                            Finanzas Personales
+                        </div>
+
+                        <div class="progress-container">
+
+                            <div class="progress-info">
+
+                                <span>
+                                    Avance total
+                                </span>
+
+                                <span>
+                                    72%
+                                </span>
+
+                            </div>
+
+                            <div class="progress-bar">
+
+                                <div class="progress-value"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="space-y-3">
+
+                        <div class="grade-item">
+                            Módulo 1 — Fundamentos financieros
+                            <strong>✓</strong>
+                        </div>
+
+                        <div class="grade-item">
+                            Módulo 2 — Presupuesto personal
+                            <strong>✓</strong>
+                        </div>
+
+                        <div class="grade-item">
+                            Módulo 3 — Ahorro y emergencias
+                            <strong>✓</strong>
+                        </div>
+
+                        <div class="grade-item">
+                            Módulo 4 — Inversiones
+                            <strong>En curso</strong>
+                        </div>
+
+                        <div class="grade-item">
+                            Módulo 5 — Emprendimiento
+                            <strong>Pendiente</strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =====================================
+                 CALIFICACIONES
+            ====================================== -->
+
+            <section
+                id="seccion-calificaciones"
+                class="hidden"
+            >
+
+                <div class="welcome">
+
+                    <span class="welcome-badge">
+                        Evaluaciones
+                    </span>
+
+                    <h1>
+                        Mis calificaciones
+                    </h1>
+
+                    <p>
+                        Consulta tu rendimiento académico.
+                    </p>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="grade-list">
+
+                        <div class="grade-item">
+
+                            <span class="grade-name">
+                                Módulo 1 — Fundamentos
+                            </span>
+
+                            <span class="grade-score">
+                                95
+                            </span>
+
+                        </div>
+
+
+                        <div class="grade-item">
+
+                            <span class="grade-name">
+                                Módulo 2 — Presupuesto
+                            </span>
+
+                            <span class="grade-score">
+                                90
+                            </span>
+
+                        </div>
+
+
+                        <div class="grade-item">
+
+                            <span class="grade-name">
+                                Módulo 3 — Ahorro
+                            </span>
+
+                            <span class="grade-score">
+                                91
+                            </span>
+
+                        </div>
+
+
+                        <div class="grade-item">
+
+                            <span class="grade-name">
+                                Módulo 4 — Inversiones
+                            </span>
+
+                            <span class="grade-score">
+                                92
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =====================================
+                 EXÁMENES
+            ====================================== -->
+
+            <section
+                id="seccion-examenes"
+                class="hidden"
+            >
+
+                <div class="welcome">
+
+                    <span class="welcome-badge">
+                        Evaluaciones
+                    </span>
+
+                    <h1>
+                        Exámenes
+                    </h1>
+
+                    <p>
+                        Aquí aparecerán las evaluaciones disponibles.
+                    </p>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="grade-item">
+
+                        <span class="grade-name">
+                            Evaluación del Módulo 4
+                        </span>
+
+                        <button
+                            class="px-3 py-2 rounded-lg bg-blue-600 text-white text-xs font-bold"
+                        >
+                            Comenzar
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =====================================
+                 CONSTANCIA
+            ====================================== -->
+
+            <section
+                id="seccion-constancia"
+                class="hidden"
+            >
+
+                <div class="welcome">
+
+                    <span class="welcome-badge">
+                        Documentación
+                    </span>
+
+                    <h1>
+                        Mi constancia
+                    </h1>
+
+                    <p>
+                        Descarga tus documentos académicos.
+                    </p>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="certificate">
+
+                        <div class="certificate-icon">
+                            ▤
+                        </div>
+
+                        <h3>
+                            Constancia de Diplomado
+                        </h3>
+
+                        <p>
+                            La constancia se habilitará automáticamente
+                            cuando cumplas con todos los requisitos
+                            académicos establecidos por Evolva Academy.
+                        </p>
+
+                        <button
+                            class="certificate-button"
+                            disabled
+                        >
+                            Aún no disponible
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =====================================
+                 PERFIL
+            ====================================== -->
+
+            <section
+                id="seccion-perfil"
+                class="hidden"
+            >
+
+                <div class="welcome">
+
+                    <span class="welcome-badge">
+                        Mi cuenta
+                    </span>
+
+                    <h1>
+                        Mi perfil
+                    </h1>
+
+                    <p>
+                        Información de tu cuenta académica.
+                    </p>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="student-box">
+
+                        <div class="student-row">
+
+                            <span>
+                                Nombre
+                            </span>
+
+                            <span>
+                                María Pérez
+                            </span>
+
+                        </div>
+
+
+                        <div class="student-row">
+
+                            <span>
+                                Correo personal
+                            </span>
+
+                            <span>
+                                maria@email.com
+                            </span>
+
+                        </div>
+
+
+                        <div class="student-row">
+
+                            <span>
+                                Correo institucional
+                            </span>
+
+                            <span>
+                                maria@evolvacademy.mx
+                            </span>
+
+                        </div>
+
+
+                        <div class="student-row">
+
+                            <span>
+                                Diplomado
+                            </span>
+
+                            <span>
+                                Finanzas Personales
+                            </span>
+
+                        </div>
+
+
+                        <div class="student-row">
+
+                            <span>
+                                Estado
+                            </span>
+
+                            <span style="color:#086cff;">
+                                Alumna activa
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</section>
+
+
+
+<script>
+
+
+    /* ==========================================
+       LOGIN
+    ========================================== */
+
+    document
+        .getElementById("loginForm")
+        .addEventListener("submit", function(e) {
+
+            e.preventDefault();
+
+            const email =
+                document.getElementById("email").value;
+
+            const password =
+                document.getElementById("password").value;
+
+
+            if (!email || !password) {
+
+                document
+                    .getElementById("loginError")
+                    .style.display = "block";
+
+                return;
+
+            }
+
+
+            /*
+             * TEMPORALMENTE:
+             * cualquier correo y contraseña
+             * permiten entrar.
+             *
+             * Después conectaremos esto
+             * con Google Apps Script.
+             */
+
+            document
+                .getElementById("loginPage")
+                .style.display = "none";
+
+
+            document
+                .getElementById("platformPage")
+                .style.display = "block";
+
+
+            window.scrollTo(0, 0);
+
+        });
+
+
+
+    /* ==========================================
+       CAMBIAR SECCIÓN
+    ========================================== */
+
+    function mostrarSeccion(nombre, boton) {
+
+        const secciones = [
+            "inicio",
+            "curso",
+            "calificaciones",
+            "examenes",
+            "constancia",
+            "perfil"
+        ];
+
+
+        secciones.forEach(function(seccion) {
+
+            const elemento =
+                document.getElementById(
+                    "seccion-" + seccion
+                );
+
+
+            if (elemento) {
+
+                elemento.classList.add("hidden");
+
+            }
+
+        });
+
+
+        const seleccion =
+            document.getElementById(
+                "seccion-" + nombre
+            );
+
+
+        if (seleccion) {
+
+            seleccion.classList.remove("hidden");
+
+        }
+
+
+        document
+            .querySelectorAll(".menu-item")
+            .forEach(function(item) {
+
+                item.classList.remove("active");
+
+            });
+
+
+        if (boton) {
+
+            boton.classList.add("active");
+
+        }
+
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+
+        document
+            .getElementById("sidebar")
+            .classList.remove("open");
+
+    }
+
+
+
+    /* ==========================================
+       ABRIR SECCIÓN DESDE DASHBOARD
+    ========================================== */
+
+    function mostrarSeccionPorNombre(nombre) {
+
+        const botones =
+            document.querySelectorAll(".menu-item");
+
+
+        let botonEncontrado = null;
+
+
+        botones.forEach(function(boton) {
+
+            if (
+                boton
+                .getAttribute("onclick")
+                ?.includes("'" + nombre + "'")
+            ) {
+
+                botonEncontrado = boton;
+
+            }
+
+        });
+
+
+        mostrarSeccion(
+            nombre,
+            botonEncontrado
+        );
+
+    }
+
+
+
+    /* ==========================================
+       SIDEBAR MÓVIL
+    ========================================== */
+
+    function toggleSidebar() {
+
+        document
+            .getElementById("sidebar")
+            .classList.toggle("open");
+
+    }
+
+
+
+    /* ==========================================
+       CERRAR SESIÓN
+    ========================================== */
+
+    function cerrarSesion() {
+
+        document
+            .getElementById("platformPage")
+            .style.display = "none";
+
+
+        document
+            .getElementById("loginPage")
+            .style.display = "flex";
+
+
+        document
+            .getElementById("loginForm")
+            .reset();
+
+
+        window.scrollTo(0, 0);
+
+    }
+
+
+</script>
+
 
 </body>
 </html>
