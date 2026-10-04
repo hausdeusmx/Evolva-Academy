@@ -1,93 +1,1826 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Portal de Pagos | Evolva Academy</title>
+
+    <meta
+        name="description"
+        content="Portal de pagos y validación de Evolva Academy"
+    >
+
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-</head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased">
 
-    <header class="bg-slate-900 text-white py-4 shadow-md">
-        <div class="max-w-3xl mx-auto px-6 flex justify-between items-center">
-            <h1 class="text-xl font-bold tracking-wide">EVOLVA <span class="text-emerald-400">ACADEMY</span></h1>
-            <a href="index.html" class="text-xs text-slate-300 hover:text-white transition">← Regresar al Inicio</a>
-        </div>
-    </header>
 
-    <main class="max-w-xl mx-auto px-6 py-12">
-        <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-8">
-            <h2 class="text-2xl font-extrabold text-slate-900 text-center mb-2">Validación y Pagos</h2>
-            <p class="text-xs text-slate-500 text-center mb-6">Ingresa tu Folio Único para consultar montos, cuentas bancarias y subir tu comprobante.</p>
+    <style>
 
-            <!-- Paso 1: Ingresar Folio -->
-            <div id="seccionFolio" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-700 mb-1">Tu Folio Único</label>
-                    <input type="text" id="inputFolio" class="w-full px-4 py-3 rounded-lg border border-slate-300 uppercase font-mono text-sm focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="Ej. EVOLVA-8492">
-                </div>
-                <button onclick="buscarFolio()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-3 rounded-xl text-sm transition cursor-pointer">
-                    Consultar Folio
-                </button>
-            </div>
+        /* =========================================
+           CONFIGURACIÓN
+        ========================================= */
 
-            <!-- Paso 2: Detalles de Pago (Oculto hasta buscar folio) -->
-            <div id="seccionDetalles" class="hidden space-y-6 mt-6 pt-6 border-t border-slate-100">
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs space-y-1">
-                    <p><strong>Alumno:</strong> <span id="lblNombre">María Pérez</span></p>
-                    <p><strong>Diplomado:</strong> <span id="lblCurso">Diplomado en Finanzas Personales</span></p>
-                </div>
-
-                <!-- Montos -->
-                <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 text-xs space-y-2 text-emerald-900">
-                    <p class="font-bold">Montos Disponibles para Transferencia:</p>
-                    <p>• <strong>Pago Mensual:</strong> $XXX.00 MXN</p>
-                    <p>• <strong>Pago de Contado (Total):</strong> $X,XXX.00 MXN</p>
-                </div>
-
-                <!-- Datos Bancarios -->
-                <div class="bg-slate-900 text-white p-4 rounded-xl text-xs space-y-1">
-                    <p class="font-bold text-emerald-400 mb-2">Datos para Transferencia (SPEI):</p>
-                    <p>• Banco: BBVA México</p>
-                    <p>• CLABE: 012345678901234567</p>
-                    <p>• Beneficiario: Evolva Academy S.A. de C.V.</p>
-                </div>
-
-                <!-- Subir Comprobante -->
-                <form id="comprobanteForm" class="space-y-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-700 mb-2">Sube tu comprobante de pago (PDF o Imagen)</label>
-                        <input type="file" id="archivoTicket" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer border border-slate-200 rounded-lg p-2" required>
-                    </div>
-                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-slate-950 font-semibold py-3 rounded-xl text-sm transition cursor-pointer">
-                        Enviar Comprobante
-                    </button>
-                </form>
-
-                <!-- Estado En Revisión (Oculto hasta subir) -->
-                <div id="estadoRevision" class="hidden bg-amber-50 border border-amber-200 text-amber-800 p-4 rounded-xl text-center space-y-1">
-                    <p class="font-bold text-sm">EN REVISIÓN</p>
-                    <p class="text-xs">Hemos recibido tu comprobante. Una vez validado en el sistema bancario, te enviaremos tu correo institucional a tu correo personal.</p>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <script>
-        function buscarFolio() {
-            const folio = document.getElementById('inputFolio').value;
-            if(folio.trim() !== "") {
-                document.getElementById('seccionDetalles').classList.remove('hidden');
-            } else {
-                alert('Por favor ingresa un folio válido.');
-            }
+        * {
+            box-sizing: border-box;
         }
 
-        document.getElementById('comprobanteForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            document.getElementById('comprobanteForm').classList.add('hidden');
-            document.getElementById('estadoRevision').classList.remove('hidden');
-        });
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 90% 10%,
+                    rgba(38,132,255,.10),
+                    transparent 30%
+                ),
+                #f7faff;
+
+            color: #172033;
+        }
+
+
+        :root {
+
+            --azul-oscuro: #063b91;
+            --azul: #086cff;
+            --azul-claro: #2684ff;
+
+            --azul-fondo: #edf5ff;
+
+            --texto: #172033;
+            --gris: #64748b;
+
+            --borde: #dfe8f3;
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .header {
+
+            position: sticky;
+            top: 0;
+
+            z-index: 100;
+
+            background: rgba(255,255,255,.96);
+
+            backdrop-filter: blur(14px);
+
+            border-bottom:
+                1px solid #e7eef7;
+
+            box-shadow:
+                0 4px 20px rgba(15,23,42,.04);
+        }
+
+
+        .header-container {
+
+            max-width: 1050px;
+
+            margin: auto;
+
+            padding:
+                13px 22px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .logo {
+
+            width: 170px;
+
+            height: auto;
+
+            display: block;
+        }
+
+
+        .back-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding:
+                9px 14px;
+
+            border-radius: 9px;
+
+            color: #31506f;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            transition: .2s ease;
+        }
+
+
+        .back-button:hover {
+
+            background: var(--azul-fondo);
+
+            color: var(--azul);
+        }
+
+
+        /* =========================================
+           CONTENEDOR
+        ========================================= */
+
+        main {
+
+            padding:
+                65px 20px 90px;
+        }
+
+
+        .payment-container {
+
+            max-width: 650px;
+
+            margin: auto;
+        }
+
+
+        /* =========================================
+           ENCABEZADO
+        ========================================= */
+
+        .page-header {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+        }
+
+
+        .page-badge {
+
+            display: inline-flex;
+
+            padding:
+                7px 13px;
+
+            border-radius: 999px;
+
+            background:
+                var(--azul-fondo);
+
+            border:
+                1px solid #d5e7ff;
+
+            color:
+                var(--azul-oscuro);
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: .08em;
+        }
+
+
+        .page-header h1 {
+
+            margin:
+                16px 0 9px;
+
+            color:
+                #101828;
+
+            font-size:
+                clamp(28px, 5vw, 38px);
+
+            line-height: 1.1;
+
+            font-weight: 900;
+
+            letter-spacing:
+                -.03em;
+        }
+
+
+        .page-header h1 span {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--azul-oscuro),
+                    var(--azul),
+                    var(--azul-claro)
+                );
+
+            -webkit-background-clip: text;
+
+            -webkit-text-fill-color:
+                transparent;
+        }
+
+
+        .page-header p {
+
+            max-width: 520px;
+
+            margin: auto;
+
+            color:
+                var(--gris);
+
+            font-size: 14px;
+
+            line-height: 1.65;
+        }
+
+
+        /* =========================================
+           TARJETA PRINCIPAL
+        ========================================= */
+
+        .payment-card {
+
+            background: white;
+
+            border:
+                1px solid var(--borde);
+
+            border-radius: 24px;
+
+            padding: 32px;
+
+            box-shadow:
+                0 20px 60px
+                rgba(15,23,42,.08);
+        }
+
+
+        /* =========================================
+           SECCIÓN FOLIO
+        ========================================= */
+
+        .folio-section {
+
+            text-align: center;
+        }
+
+
+        .section-icon {
+
+            width: 55px;
+            height: 55px;
+
+            margin:
+                0 auto 16px;
+
+            border-radius: 16px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background:
+                var(--azul-fondo);
+
+            color:
+                var(--azul);
+
+            font-size: 24px;
+
+            font-weight: bold;
+        }
+
+
+        .folio-section h2 {
+
+            margin: 0 0 7px;
+
+            font-size: 21px;
+
+            font-weight: 900;
+
+            color:
+                #101828;
+        }
+
+
+        .folio-section p {
+
+            margin:
+                0 0 23px;
+
+            color:
+                var(--gris);
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================================
+           INPUT
+        ========================================= */
+
+        .input-label {
+
+            display: block;
+
+            text-align: left;
+
+            margin-bottom: 7px;
+
+            color:
+                #334155;
+
+            font-size: 13px;
+
+            font-weight: 800;
+        }
+
+
+        .folio-input {
+
+            width: 100%;
+
+            padding:
+                14px 15px;
+
+            border:
+                1px solid #d9e3ef;
+
+            border-radius: 11px;
+
+            background:
+                #fbfdff;
+
+            outline: none;
+
+            font-family: monospace;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            letter-spacing: .04em;
+
+            color:
+                #172033;
+
+            text-transform: uppercase;
+
+            transition: .2s ease;
+        }
+
+
+        .folio-input:focus {
+
+            background: white;
+
+            border-color:
+                var(--azul);
+
+            box-shadow:
+                0 0 0 4px
+                rgba(8,108,255,.10);
+        }
+
+
+        /* =========================================
+           BOTÓN CONSULTAR
+        ========================================= */
+
+        .primary-button {
+
+            width: 100%;
+
+            margin-top: 13px;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            cursor: pointer;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul-oscuro),
+                    var(--azul),
+                    var(--azul-claro)
+                );
+
+            font-size: 14px;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 9px 22px
+                rgba(8,108,255,.20);
+
+            transition: .25s ease;
+        }
+
+
+        .primary-button:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 14px 28px
+                rgba(8,108,255,.28);
+        }
+
+
+        /* =========================================
+           DIVISOR
+        ========================================= */
+
+        .divider {
+
+            height: 1px;
+
+            background:
+                #e8eef5;
+
+            margin:
+                30px 0;
+        }
+
+
+        /* =========================================
+           INFORMACIÓN ALUMNO
+        ========================================= */
+
+        .student-box {
+
+            padding:
+                17px;
+
+            border-radius:
+                14px;
+
+            background:
+                #f8fbff;
+
+            border:
+                1px solid #e1eaf5;
+        }
+
+
+        .student-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 6px 0;
+
+            font-size: 13px;
+        }
+
+
+        .student-row span:first-child {
+
+            color:
+                #64748b;
+
+            font-weight: 600;
+        }
+
+
+        .student-row span:last-child {
+
+            color:
+                #172033;
+
+            font-weight: 800;
+
+            text-align: right;
+        }
+
+
+        /* =========================================
+           MONTOS
+        ========================================= */
+
+        .amount-box {
+
+            margin-top: 20px;
+
+            padding:
+                20px;
+
+            border-radius:
+                16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eff6ff,
+                    #f8fbff
+                );
+
+            border:
+                1px solid #cfe2ff;
+        }
+
+
+        .amount-title {
+
+            margin:
+                0 0 15px;
+
+            color:
+                var(--azul-oscuro);
+
+            font-size:
+                13px;
+
+            font-weight:
+                900;
+        }
+
+
+        .amount-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding:
+                11px 0;
+
+            border-bottom:
+                1px solid #dceaff;
+        }
+
+
+        .amount-row:last-child {
+
+            border-bottom: none;
+
+            padding-bottom: 0;
+        }
+
+
+        .amount-name {
+
+            color:
+                #64748b;
+
+            font-size:
+                13px;
+
+            font-weight:
+                600;
+        }
+
+
+        .amount-value {
+
+            color:
+                #063b91;
+
+            font-size:
+                17px;
+
+            font-weight:
+                900;
+        }
+
+
+        /* =========================================
+           DATOS BANCARIOS
+        ========================================= */
+
+        .bank-box {
+
+            margin-top:
+                20px;
+
+            padding:
+                21px;
+
+            border-radius:
+                16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #061d45,
+                    #073a88
+                );
+
+            color:
+                white;
+
+            box-shadow:
+                0 12px 30px
+                rgba(6,59,145,.18);
+        }
+
+
+        .bank-title {
+
+            margin:
+                0 0 16px;
+
+            color:
+                white;
+
+            font-size:
+                14px;
+
+            font-weight:
+                900;
+        }
+
+
+        .bank-data {
+
+            margin:
+                9px 0;
+
+            font-size:
+                12px;
+
+            color:
+                #d8e7ff;
+        }
+
+
+        .bank-data strong {
+
+            color:
+                white;
+        }
+
+
+        .clabe-container {
+
+            margin-top:
+                14px;
+
+            padding:
+                12px;
+
+            border-radius:
+                10px;
+
+            background:
+                rgba(255,255,255,.08);
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                10px;
+        }
+
+
+        .clabe {
+
+            font-family:
+                monospace;
+
+            font-size:
+                14px;
+
+            font-weight:
+                800;
+
+            letter-spacing:
+                .04em;
+
+            word-break:
+                break-all;
+        }
+
+
+        .copy-button {
+
+            flex-shrink:
+                0;
+
+            border:
+                none;
+
+            border-radius:
+                8px;
+
+            padding:
+                8px 10px;
+
+            cursor:
+                pointer;
+
+            background:
+                white;
+
+            color:
+                var(--azul-oscuro);
+
+            font-size:
+                11px;
+
+            font-weight:
+                800;
+        }
+
+
+        .copy-button:hover {
+
+            background:
+                #edf5ff;
+        }
+
+
+        /* =========================================
+           COMPROBANTE
+        ========================================= */
+
+        .upload-section {
+
+            margin-top:
+                25px;
+        }
+
+
+        .upload-title {
+
+            margin:
+                0 0 8px;
+
+            color:
+                #172033;
+
+            font-size:
+                14px;
+
+            font-weight:
+                900;
+        }
+
+
+        .upload-description {
+
+            margin:
+                0 0 15px;
+
+            color:
+                #64748b;
+
+            font-size:
+                12px;
+
+            line-height:
+                1.6;
+        }
+
+
+        .file-input {
+
+            width:
+                100%;
+
+            padding:
+                10px;
+
+            border:
+                1px solid #dbe4ef;
+
+            border-radius:
+                11px;
+
+            background:
+                #fbfdff;
+
+            color:
+                #64748b;
+
+            font-size:
+                12px;
+
+            cursor:
+                pointer;
+        }
+
+
+        .file-input::file-selector-button {
+
+            margin-right:
+                10px;
+
+            padding:
+                9px 12px;
+
+            border:
+                none;
+
+            border-radius:
+                8px;
+
+            background:
+                var(--azul-fondo);
+
+            color:
+                var(--azul-oscuro);
+
+            font-size:
+                11px;
+
+            font-weight:
+                800;
+
+            cursor:
+                pointer;
+        }
+
+
+        /* =========================================
+           BOTÓN COMPROBANTE
+        ========================================= */
+
+        .submit-payment {
+
+            width:
+                100%;
+
+            margin-top:
+                14px;
+
+            padding:
+                14px;
+
+            border:
+                none;
+
+            border-radius:
+                11px;
+
+            background:
+                #101828;
+
+            color:
+                white;
+
+            font-size:
+                14px;
+
+            font-weight:
+                800;
+
+            cursor:
+                pointer;
+
+            transition:
+                .25s ease;
+        }
+
+
+        .submit-payment:hover {
+
+            background:
+                var(--azul-oscuro);
+
+            transform:
+                translateY(-2px);
+        }
+
+
+        /* =========================================
+           ESTADO REVISIÓN
+        ========================================= */
+
+        .review-box {
+
+            margin-top:
+                24px;
+
+            padding:
+                24px;
+
+            text-align:
+                center;
+
+            border-radius:
+                16px;
+
+            background:
+                #eff6ff;
+
+            border:
+                1px solid #cfe2ff;
+        }
+
+
+        .review-icon {
+
+            width:
+                50px;
+
+            height:
+                50px;
+
+            margin:
+                0 auto 12px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            border-radius:
+                50%;
+
+            background:
+                white;
+
+            color:
+                var(--azul);
+
+            font-size:
+                22px;
+        }
+
+
+        .review-box h3 {
+
+            margin:
+                0 0 7px;
+
+            color:
+                var(--azul-oscuro);
+
+            font-size:
+                16px;
+
+            font-weight:
+                900;
+        }
+
+
+        .review-box p {
+
+            margin:
+                0;
+
+            color:
+                #64748b;
+
+            font-size:
+                12px;
+
+            line-height:
+                1.7;
+        }
+
+
+        /* =========================================
+           MENSAJE ERROR
+        ========================================= */
+
+        .error-box {
+
+            margin-top:
+                14px;
+
+            padding:
+                12px;
+
+            border-radius:
+                10px;
+
+            background:
+                #fff5f5;
+
+            border:
+                1px solid #fecaca;
+
+            color:
+                #b91c1c;
+
+            font-size:
+                12px;
+
+            text-align:
+                center;
+        }
+
+
+        /* =========================================
+           FOOTER
+        ========================================= */
+
+        footer {
+
+            padding:
+                35px 20px;
+
+            background:
+                #061b3e;
+
+            color:
+                #b8c8df;
+
+            text-align:
+                center;
+        }
+
+
+        .footer-logo {
+
+            width:
+                145px;
+
+            margin:
+                0 auto 12px;
+
+            filter:
+                brightness(0) invert(1);
+        }
+
+
+        footer p {
+
+            margin:
+                4px 0;
+
+            font-size:
+                11px;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 650px) {
+
+            main {
+
+                padding:
+                    45px 14px 70px;
+            }
+
+
+            .header-container {
+
+                padding:
+                    11px 15px;
+            }
+
+
+            .logo {
+
+                width:
+                    140px;
+            }
+
+
+            .back-button {
+
+                font-size:
+                    11px;
+
+                padding:
+                    8px 9px;
+            }
+
+
+            .payment-card {
+
+                padding:
+                    23px 17px;
+
+                border-radius:
+                    19px;
+            }
+
+
+            .page-header h1 {
+
+                font-size:
+                    30px;
+            }
+
+
+            .student-row {
+
+                flex-direction:
+                    column;
+
+                gap:
+                    2px;
+            }
+
+
+            .student-row span:last-child {
+
+                text-align:
+                    left;
+            }
+
+
+            .clabe-container {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+            }
+
+
+            .copy-button {
+
+                width:
+                    100%;
+            }
+
+        }
+
+
+        @media (max-width: 400px) {
+
+            .logo {
+
+                width:
+                    125px;
+            }
+
+
+            .back-button {
+
+                font-size:
+                    10px;
+            }
+
+
+            .page-header h1 {
+
+                font-size:
+                    27px;
+            }
+
+
+            .payment-card {
+
+                padding:
+                    20px 14px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         HEADER
+    ========================================= -->
+
+    <header class="header">
+
+        <div class="header-container">
+
+            <a href="index.html">
+
+                <img
+                    src="logo-evolva.png"
+                    alt="Evolva Academy"
+                    class="logo"
+                >
+
+            </a>
+
+
+            <a
+                href="index.html"
+                class="back-button"
+            >
+                ← Regresar al inicio
+            </a>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =========================================
+         CONTENIDO
+    ========================================= -->
+
+    <main>
+
+        <div class="payment-container">
+
+
+            <!-- ENCABEZADO -->
+
+            <div class="page-header">
+
+                <span class="page-badge">
+                    Portal oficial
+                </span>
+
+                <h1>
+                    Validación y
+                    <span>Pagos</span>
+                </h1>
+
+                <p>
+                    Ingresa tu folio de inscripción para consultar
+                    la información de tu diplomado, opciones de pago
+                    y enviar tu comprobante.
+                </p>
+
+            </div>
+
+
+
+            <!-- TARJETA -->
+
+            <div class="payment-card">
+
+
+                <!-- =================================
+                     BUSCAR FOLIO
+                ================================== -->
+
+                <div
+                    id="seccionFolio"
+                    class="folio-section"
+                >
+
+                    <div class="section-icon">
+                        #
+                    </div>
+
+                    <h2>
+                        Consulta tu inscripción
+                    </h2>
+
+                    <p>
+                        Introduce el folio que recibiste
+                        al completar tu registro.
+                    </p>
+
+
+                    <label
+                        for="inputFolio"
+                        class="input-label"
+                    >
+                        Folio único
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="inputFolio"
+                        class="folio-input"
+                        placeholder="EVOLVA-000000"
+                        autocomplete="off"
+                    >
+
+
+                    <button
+                        type="button"
+                        onclick="buscarFolio()"
+                        class="primary-button"
+                    >
+                        Consultar folio
+                    </button>
+
+
+                    <div
+                        id="mensajeError"
+                        style="display:none;"
+                        class="error-box"
+                    >
+                        Por favor ingresa un folio válido.
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================
+                     DETALLES
+                ================================== -->
+
+                <div
+                    id="seccionDetalles"
+                    style="display:none;"
+                >
+
+                    <div class="divider"></div>
+
+
+                    <!-- DATOS ALUMNO -->
+
+                    <div class="student-box">
+
+                        <div class="student-row">
+
+                            <span>
+                                Alumno
+                            </span>
+
+                            <span id="lblNombre">
+                                María Pérez
+                            </span>
+
+                        </div>
+
+
+                        <div class="student-row">
+
+                            <span>
+                                Diplomado
+                            </span>
+
+                            <span id="lblCurso">
+                                Diplomado en Finanzas Personales
+                            </span>
+
+                        </div>
+
+
+                        <div class="student-row">
+
+                            <span>
+                                Folio
+                            </span>
+
+                            <span id="lblFolio">
+                                EVOLVA-000000
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =================================
+                         MONTOS
+                    ================================== -->
+
+                    <div class="amount-box">
+
+                        <p class="amount-title">
+                            Opciones de pago
+                        </p>
+
+
+                        <div class="amount-row">
+
+                            <span class="amount-name">
+                                Pago mensual
+                            </span>
+
+                            <span class="amount-value">
+                                $XXX.00 MXN
+                            </span>
+
+                        </div>
+
+
+                        <div class="amount-row">
+
+                            <span class="amount-name">
+                                Pago de contado
+                            </span>
+
+                            <span class="amount-value">
+                                $X,XXX.00 MXN
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =================================
+                         BANCO
+                    ================================== -->
+
+                    <div class="bank-box">
+
+                        <p class="bank-title">
+                            Datos para transferencia SPEI
+                        </p>
+
+
+                        <p class="bank-data">
+                            <strong>Banco:</strong>
+                            BBVA México
+                        </p>
+
+
+                        <p class="bank-data">
+                            <strong>Beneficiario:</strong>
+                            Evolva Academy S.A. de C.V.
+                        </p>
+
+
+                        <div class="clabe-container">
+
+                            <span
+                                id="clabe"
+                                class="clabe"
+                            >
+                                012345678901234567
+                            </span>
+
+
+                            <button
+                                type="button"
+                                class="copy-button"
+                                onclick="copiarClabe()"
+                            >
+                                Copiar CLABE
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =================================
+                         COMPROBANTE
+                    ================================== -->
+
+                    <div
+                        id="seccionComprobante"
+                        class="upload-section"
+                    >
+
+                        <p class="upload-title">
+                            Envía tu comprobante
+                        </p>
+
+                        <p class="upload-description">
+                            Después de realizar tu transferencia,
+                            selecciona el comprobante de pago.
+                            Puedes utilizar PDF, JPG, JPEG o PNG.
+                        </p>
+
+
+                        <form
+                            id="comprobanteForm"
+                        >
+
+                            <input
+                                type="file"
+                                id="archivoTicket"
+                                class="file-input"
+                                accept=".pdf,.jpg,.jpeg,.png"
+                                required
+                            >
+
+
+                            <button
+                                type="submit"
+                                class="submit-payment"
+                            >
+                                Enviar comprobante
+                            </button>
+
+                        </form>
+
+                    </div>
+
+
+
+                    <!-- =================================
+                         REVISIÓN
+                    ================================== -->
+
+                    <div
+                        id="estadoRevision"
+                        style="display:none;"
+                        class="review-box"
+                    >
+
+                        <div class="review-icon">
+                            ✓
+                        </div>
+
+
+                        <h3>
+                            Comprobante recibido
+                        </h3>
+
+
+                        <p>
+                            Tu comprobante ha sido enviado
+                            correctamente y se encuentra
+                            <strong>en revisión</strong>.
+                            <br><br>
+                            Una vez validado el pago, recibirás
+                            la información correspondiente
+                            en tu correo electrónico.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
+
+    <footer>
+
+        <img
+            src="logo-evolva.png"
+            alt="Evolva Academy"
+            class="footer-logo"
+        >
+
+        <p>
+            Formación que impulsa tu evolución.
+        </p>
+
+        <p>
+            © 2026 Evolva Academy. Todos los derechos reservados.
+        </p>
+
+    </footer>
+
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================= -->
+
+    <script>
+
+
+        /* =========================================
+           ELEMENTOS
+        ========================================= */
+
+        const inputFolio =
+            document.getElementById("inputFolio");
+
+        const detalles =
+            document.getElementById("seccionDetalles");
+
+        const error =
+            document.getElementById("mensajeError");
+
+        const formulario =
+            document.getElementById("comprobanteForm");
+
+
+
+        /* =========================================
+           FOLIO EN MAYÚSCULAS
+        ========================================= */
+
+        inputFolio.addEventListener(
+            "input",
+            function () {
+
+                this.value = this.value
+                    .toUpperCase()
+                    .replace(/\s/g, "");
+
+            }
+        );
+
+
+
+        /* =========================================
+           BUSCAR FOLIO
+        ========================================= */
+
+        function buscarFolio() {
+
+            const folio =
+                inputFolio.value.trim();
+
+
+            error.style.display =
+                "none";
+
+
+            if (!folio) {
+
+                error.style.display =
+                    "block";
+
+                detalles.style.display =
+                    "none";
+
+                return;
+            }
+
+
+            /*
+             * Actualmente esta parte solamente
+             * muestra los detalles.
+             *
+             * Aquí posteriormente se puede
+             * conectar Google Apps Script para
+             * comprobar que el folio realmente
+             * existe en tu base de datos.
+             */
+
+
+            document.getElementById(
+                "lblFolio"
+            ).textContent = folio;
+
+
+            detalles.style.display =
+                "block";
+
+
+            detalles.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+
+        }
+
+
+
+        /* =========================================
+           COPIAR CLABE
+        ========================================= */
+
+        function copiarClabe() {
+
+            const clabe =
+                document.getElementById(
+                    "clabe"
+                ).textContent.trim();
+
+
+            navigator.clipboard.writeText(clabe)
+                .then(() => {
+
+                    const boton =
+                        document.querySelector(
+                            ".copy-button"
+                        );
+
+                    const textoOriginal =
+                        boton.textContent;
+
+
+                    boton.textContent =
+                        "✓ Copiada";
+
+
+                    setTimeout(() => {
+
+                        boton.textContent =
+                            textoOriginal;
+
+                    }, 2000);
+
+                })
+                .catch(() => {
+
+                    alert(
+                        "No fue posible copiar la CLABE."
+                    );
+
+                });
+
+        }
+
+
+
+        /* =========================================
+           ENVIAR COMPROBANTE
+        ========================================= */
+
+        formulario.addEventListener(
+            "submit",
+            function (e) {
+
+                e.preventDefault();
+
+
+                const archivo =
+                    document.getElementById(
+                        "archivoTicket"
+                    ).files[0];
+
+
+                if (!archivo) {
+
+                    alert(
+                        "Selecciona tu comprobante."
+                    );
+
+                    return;
+                }
+
+
+                /*
+                 * AQUÍ SE CONECTARÁ POSTERIORMENTE
+                 * CON GOOGLE APPS SCRIPT.
+                 *
+                 * Por ahora solamente muestra
+                 * el estado de revisión.
+                 */
+
+
+                document.getElementById(
+                    "seccionComprobante"
+                ).style.display =
+                    "none";
+
+
+                document.getElementById(
+                    "estadoRevision"
+                ).style.display =
+                    "block";
+
+
+                document.getElementById(
+                    "estadoRevision"
+                ).scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+            }
+        );
+
+
     </script>
+
 </body>
+
 </html>
