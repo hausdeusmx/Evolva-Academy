@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscripción | Evolva Academy</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f7faff; color: #172033; }
+        :root { --azul-oscuro: #063b91; --azul: #086cff; }
+
+        .header { background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid #e8eef7; position: sticky; top: 0; z-index: 100; }
+        .header-container { max-width: 1180px; margin: auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .logo { width: 180px; height: auto; display: block; }
+        .btn-header { padding: 11px 18px; border-radius: 10px; color: white; text-decoration: none; font-size: 14px; font-weight: 700; background: linear-gradient(135deg, var(--azul-oscuro), var(--azul)); }
+
+        .registration-section { padding: 50px 24px 80px; }
+        .registration-box { max-width: 650px; margin: auto; background: white; border: 1px solid #e1eaf5; border-radius: 24px; padding: 40px; box-shadow: 0 20px 60px rgba(15,23,42,0.08); }
+        .registration-header { text-align: center; margin-bottom: 30px; }
+        .registration-icon { width: 55px; height: 55px; margin: 0 auto 15px; border-radius: 16px; display: flex; align-items: center; justify-content: center; background: #edf5ff; color: var(--azul); font-size: 24px; }
+        
+        .form-group { margin-bottom: 18px; }
+        .form-label { display: block; margin-bottom: 7px; color: #334155; font-size: 13px; font-weight: 700; }
+        .form-input, .form-select { width: 100%; padding: 13px 14px; background: #fbfdff; border: 1px solid #dbe4ef; border-radius: 11px; outline: none; font-size: 14px; }
+        .form-input:focus, .form-select:focus { border-color: var(--azul); box-shadow: 0 0 0 4px rgba(8,108,255,0.10); }
+
+        .submit-button { width: 100%; margin-top: 8px; padding: 14px; border: none; border-radius: 12px; color: white; font-size: 15px; font-weight: 800; cursor: pointer; background: linear-gradient(135deg, #063b91, #086cff); box-shadow: 0 10px 25px rgba(8,108,255,0.22); }
+        .submit-button:hover { transform: translateY(-2px); }
+
+        .folio-result { margin-top: 25px; padding: 25px; border-radius: 16px; text-align: center; background: #eff6ff; border: 1px solid #cfe2ff; }
+        .folio-code { display: inline-block; padding: 11px 20px; margin: 10px 0; background: white; border: 1px solid #b9d5ff; border-radius: 10px; color: #063b91; font-size: 20px; font-family: monospace; font-weight: 900; }
+
+        footer { background: #071b3d; color: #b9c8df; padding: 35px 24px; text-align: center; }
+        .footer-logo { width: 150px; margin: 0 auto 14px; filter: brightness(0) invert(1); }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html"><img src="logo-evolva.png" alt="Evolva Academy" class="logo"></a>
+            <a href="pagos.html" class="btn-header">Ya tengo mi folio →</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="registration-section">
+            <div class="registration-box">
+                <div class="registration-header">
+                    <div class="registration-icon">✦</div>
+                    <h2>Formulario de Inscripción</h2>
+                    <p>Completa tus datos para registrarte y generar tu folio único.</p>
+                </div>
+
+                <form id="registroForm">
+                    <div class="form-group">
+                        <label for="reg_curso" class="form-label">Diplomado que deseas cursar</label>
+                        <select id="reg_curso" class="form-select" required>
+                            <option value="" disabled selected>Selecciona un diplomado</option>
+                            <option value="Finanzas Personales">Diplomado en Finanzas Personales</option>
+                            <option value="Primeros Auxilios">Diplomado en Primeros Auxilios</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg_nombre" class="form-label">Nombre completo</label>
+                        <input type="text" id="reg_nombre" class="form-input" placeholder="Nombre y apellidos" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg_edad" class="form-label">Edad</label>
+                        <input type="number" id="reg_edad" class="form-input" placeholder="Ej. 25" min="15" max="100" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg_estado" class="form-label">Estado de residencia</label>
+                        <input type="text" id="reg_estado" class="form-input" placeholder="Ej. Chihuahua" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg_curp" class="form-label">CURP</label>
+                        <input type="text" id="reg_curp" maxlength="18" minlength="18" class="form-input" placeholder="18 caracteres" style="text-transform: uppercase;" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg_fecha" class="form-label">Fecha de Nacimiento</label>
+                        <input type="date" id="reg_fecha" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reg_email" class="form-label">Correo electrónico</label>
+                        <input type="email" id="reg_email" class="form-input" placeholder="tu@correo.com" required>
+                    </div>
+
+                    <button type="submit" class="submit-button">Generar mi folio de inscripción</button>
+                </form>
+
+                <div id="folioResultado" class="folio-result" style="display:none;">
+                    <p style="color:#063b91; font-weight:800; margin:0 0 5px;">✓ Registro exitoso</p>
+                    <p style="color:#64748b; font-size:13px; margin:0;">Tu folio único de inscripción es:</p>
+                    <div id="codigoFolio" class="folio-code">EVOLVA-0000</div>
+                    <p style="font-size:11px; color:#64748b;">Guarda este folio. Lo necesitarás para realizar tu pago.<br><a href="pagos.html" style="color:#086cff; font-weight:800;">Ir a pagos →</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <img src="logo-evolva.png" alt="Evolva Academy" class="footer-logo">
+        <p>Formación que impulsa tu evolución. © 2026 Evolva Academy.</p>
+    </footer>
+
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbyTcVS-daEhDz1N5dwZEaCHVQrm17hC5IjQZvujAiI2oXzpgS6BJhtlZlnv1yjBhYX7Yg/exec";
+
+        // Autoseleccionar diplomado si viene desde diplomados.html
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const diplomadoParam = urlParams.get('diplomado');
+            if (diplomadoParam) {
+                const selectCurso = document.getElementById('reg_curso');
+                selectCurso.value = diplomadoParam;
+            }
+        });
+
+        const formulario = document.getElementById("registroForm");
+        const resultado = document.getElementById("folioResultado");
+        const codigo = document.getElementById("codigoFolio");
+        const curpInput = document.getElementById("reg_curp");
+
+        const ayudaOriginal = resultado.querySelector('p:last-child');
+        const acceso = document.createElement('div');
+        acceso.id = 'datosAcceso';
+        acceso.style.cssText = 'margin:15px 0;padding:12px;background:white;border:1px solid #cfe2ff;border-radius:10px;text-align:left;font-size:12px;';
+        acceso.innerHTML = '<strong style="color:#063b91">Datos para tu plataforma</strong><br><span id="datoCorreo"></span><br><span id="datoPassword"></span>';
+        resultado.insertBefore(acceso, ayudaOriginal);
+
+        curpInput.addEventListener("input", function () {
+            this.value = this.value.toUpperCase().replace(/[^A-Z0-9]/g, "").substring(0, 18);
+        });
+
+        function llamarAPI(params) {
+            return new Promise(function(resolve, reject) {
+                const nombreCallback = 'evolvaCallback_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+                const script = document.createElement('script');
+                let terminado = false;
+                const timer = setTimeout(function() {
+                    if (terminado) return;
+                    terminado = true;
+                    cleanup();
+                    reject(new Error('No se pudo conectar con Evolva Academy.'));
+                }, 15000);
+
+                window[nombreCallback] = function(data) {
+                    if (terminado) return;
+                    terminado = true;
+                    clearTimeout(timer);
+                    cleanup();
+                    resolve(data);
+                };
+
+                function cleanup() {
+                    delete window[nombreCallback];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                }
+
+                const query = new URLSearchParams(params);
+                query.set('callback', nombreCallback);
+                script.src = API_URL + '?' + query.toString();
+                script.onerror = function() {
+                    if (terminado) return;
+                    terminado = true;
+                    clearTimeout(timer);
+                    cleanup();
+                    reject(new Error('No fue posible conectar con el servidor.'));
+                };
+                document.head.appendChild(script);
+            });
+        }
+
+        formulario.addEventListener("submit", async function (e) {
+            e.preventDefault();
+            const boton = formulario.querySelector('button[type="submit"]');
+            const textoBoton = boton.textContent;
+
+            const curso = document.getElementById("reg_curso").value;
+            const nombre = document.getElementById("reg_nombre").value.trim();
+            const edad = document.getElementById("reg_edad").value.trim();
+            const estado = document.getElementById("reg_estado").value.trim();
+            const curp = document.getElementById("reg_curp").value.trim();
+            const fecha = document.getElementById("reg_fecha").value;
+            const email = document.getElementById("reg_email").value.trim();
+
+            if (!curso || !nombre || !edad || !estado || !curp || !fecha || !email) {
+                alert("Por favor completa todos los campos.");
+                return;
+            }
+
+            if (curp.length !== 18) {
+                alert("La CURP debe contener exactamente 18 caracteres.");
+                return;
+            }
+
+            boton.disabled = true;
+            boton.style.opacity = '.65';
+            boton.textContent = 'Registrando...';
+
+            try {
+                const data = await llamarAPI({
+                    accion: 'registrar',
+                    diplomado: curso,
+                    nombre: nombre,
+                    edad: edad,
+                    estado: estado,
+                    curp: curp,
+                    fecha: fecha,
+                    email: email
+                });
+
+                if (!data || !data.ok) {
+                    throw new Error((data && data.error) || 'No fue posible realizar el registro.');
+                }
+
+                codigo.textContent = data.folio || '—';
+                document.getElementById('datoCorreo').innerHTML = '<strong>Correo:</strong> ' + data.alumno?.CORREO_PERSONAL;
+                document.getElementById('datoPassword').innerHTML = '<strong>Contraseña:</strong> <span style="font-family:monospace;font-weight:900;color:#063b91">' + data.password + '</span>';
+
+                resultado.style.display = "block";
+                formulario.reset();
+                curpInput.value = '';
+
+                setTimeout(() => resultado.scrollIntoView({ behavior: "smooth", block: "center" }), 100);
+            } catch (error) {
+                alert(error.message || "No fue posible completar el registro.");
+            } finally {
+                boton.disabled = false;
+                boton.style.opacity = '1';
+                boton.textContent = textoBoton;
+            }
+        });
+    </script>
+</body>
+</html>
