@@ -15,22 +15,29 @@
         .logo { width: 180px; height: auto; display: block; }
         .btn-header { padding: 11px 18px; border-radius: 10px; color: white; text-decoration: none; font-size: 14px; font-weight: 700; background: linear-gradient(135deg, var(--azul-oscuro), var(--azul)); }
 
-        .container { max-width: 1000px; margin: 60px auto; padding: 0 24px; }
-        .section-title { font-size: 32px; font-weight: 900; color: #101828; text-align: center; margin-bottom: 40px; }
+        .container { max-width: 900px; margin: 50px auto; padding: 0 24px; }
+        .section-title { font-size: 32px; font-weight: 900; color: #101828; text-align: center; margin-bottom: 10px; }
+        .section-subtitle { text-align: center; color: #64748b; font-size: 15px; margin-bottom: 40px; }
+
+        .course-card { background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 35px; box-shadow: 0 10px 35px rgba(15,23,42,0.06); margin-bottom: 40px; }
+        .course-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+        .course-duration { font-size: 12px; font-weight: 800; color: var(--azul); text-transform: uppercase; background: #edf5ff; padding: 6px 12px; border-radius: 8px; }
         
-        .courses-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-        .course-card { background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 30px; box-shadow: 0 10px 35px rgba(15,23,42,0.06); display: flex; flex-direction: column; justify-content: space-between; }
-        .course-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-        .course-duration { font-size: 12px; font-weight: 800; color: var(--azul); text-transform: uppercase; }
-        .course-card h2 { margin: 0 0 12px; color: #101828; font-size: 21px; font-weight: 800; }
-        .course-card p { margin: 0 0 20px; color: #64748b; font-size: 14px; line-height: 1.7; }
-        .btn-inscripcion { display: inline-block; text-align: center; padding: 12px; background: #063b91; color: white; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 14px; transition: 0.2s; }
-        .btn-inscripcion:hover { background: #086cff; }
+        .course-card h2 { margin: 0 0 10px; color: #101828; font-size: 24px; font-weight: 900; }
+        .modalidad { font-size: 13px; color: #063b91; font-weight: 700; margin-bottom: 15px; }
+        .perfil { background: #f8fbff; border-left: 4px solid var(--azul); padding: 12px 15px; border-radius: 0 10px 10px 0; font-size: 14px; color: #334155; margin-bottom: 25px; line-height: 1.6; }
+        
+        .modules-title { font-size: 17px; font-weight: 800; color: #101828; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; }
+        
+        .module-item { margin-bottom: 14px; font-size: 14px; }
+        .module-item strong { color: #063b91; display: block; margin-bottom: 3px; }
+        .module-item span { color: #64748b; line-height: 1.5; display: block; }
+
+        .btn-inscripcion { display: block; text-align: center; margin-top: 30px; padding: 14px; background: linear-gradient(135deg, #063b91, #086cff); color: white; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 15px; box-shadow: 0 6px 18px rgba(8,108,255,0.2); transition: 0.2s; }
+        .btn-inscripcion:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(8,108,255,0.3); }
 
         footer { background: #071b3d; color: #b9c8df; padding: 35px 24px; text-align: center; margin-top: 80px; }
         .footer-logo { width: 150px; margin: 0 auto 14px; filter: brightness(0) invert(1); }
-
-        @media(max-width: 768px) { .courses-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -44,32 +51,113 @@
 
     <main class="container">
         <h1 class="section-title">Nuestros Diplomados Disponibles</h1>
+        <p class="section-subtitle">Conoce a detalle el contenido curricular, la duración y el perfil de egreso de cada programa.</p>
         
-        <div class="courses-grid">
-            <article class="course-card">
-                <div>
-                    <div class="course-top">
-                        <span class="course-duration">Diplomado · 6 meses</span>
-                        <span style="font-weight:800; color:#063b91;">01</span>
-                    </div>
-                    <h2>Diplomado en Finanzas Personales</h2>
-                    <p>Aprende a administrar tu dinero, organizar tu presupuesto, reducir deudas, crear un fondo de emergencia y conocer las bases para iniciar un negocio propio.</p>
-                </div>
-                <a href="inscripcion.html?diplomado=Finanzas+Personales" class="btn-inscripcion">Inscribirme a este diplomado</a>
-            </article>
+        <!-- DIPLOMADO 1 -->
+        <article class="course-card">
+            <div class="course-top">
+                <span class="course-duration">Duración: 8 Meses</span>
+                <span style="font-weight:900; color:#063b91; font-size:18px;">01</span>
+            </div>
+            <h2>Diplomado en Primeros Auxilios y Gestión de Emergencias</h2>
+            <div class="modalidad">Modalidad: 100% En Línea (Videos guiados, evaluaciones automatizadas y seguimiento técnico oportuno)</div>
+            
+            <div class="perfil">
+                <strong>Perfil del Egresado:</strong> Capacitado como primer respondiente seguro, con la capacidad teórica y práctica de evaluar riesgos, aplicar soporte vital básico, controlar hemorragias y gestionar crisis de salud antes de la llegada de los servicios médicos profesionales.
+            </div>
 
-            <article class="course-card">
-                <div>
-                    <div class="course-top">
-                        <span class="course-duration">Diplomado · 8 meses</span>
-                        <span style="font-weight:800; color:#063b91;">02</span>
-                    </div>
-                    <h2>Diplomado en Primeros Auxilios</h2>
-                    <p>Aprende conocimientos esenciales para actuar ante emergencias, incluyendo RCP, maniobra de Heimlich, control de hemorragias y atención inicial oportuna.</p>
-                </div>
-                <a href="inscripcion.html?diplomado=Primeros+Auxilios" class="btn-inscripcion">Inscribirme a este diplomado</a>
-            </article>
-        </div>
+            <div class="modules-title">Estructura Curricular Mensual</div>
+
+            <div class="module-item">
+                <strong>Módulo I: Introducción, Marco Legal y Evaluación de la Escena</strong>
+                <span>Responsabilidades y obligaciones del primer respondiente, análisis seguro de entornos y activación correcta de los servicios de emergencia (911).</span>
+            </div>
+
+            <div class="module-item">
+                <strong>Módulo II: Soporte Vital Básico (SVB) y Reanimación Cardiopulmonar (RCP)</strong>
+                <span>Anatomía básica de emergencia, técnica correcta de compresiones torácicas en adultos, niños y lactantes, y uso conceptual de Desfibriladores Externos Automáticos (DEA).</span>
+            </div>
+
+            <div class="module-item">
+                <strong>Módulo III: Obstrucción de Vía Aérea (Maniobra de Heimlich)</strong>
+                <span>Diferenciación de atragantamientos parciales y totales, ejecución de la maniobra en adultos, niños, embarazadas y auto-aplicación.</span>
+            </div>
+
+            <div class="module-item">
+                <strong>Módulo IV: Control de Hemorragias y Heridas</strong>
+                <span>Tipos de sangrado, técnicas de presión directa, uso de vendajes, protocolos de curación básica y criterios para el manejo de torniquetes.</span>
+            </div>
+
+            <div class="module-item">
+                <strong>Módulo V: Lesiones en Huesos, Articulaciones y Músculos</strong>
+                <span>Identificación de fracturas abiertas y cerradas, esguinces, luxaciones y técnicas de inmovilización provisional con recursos accesibles.</span>
+            </div>
+
+            <div class="module-item">
+                <strong>Módulo VI: Quemaduras, Intoxicaciones y Envenenamientos</strong>
+                <span>Clasificación de quemaduras por grado, atención correcta (eliminación de mitos caseros) y actuación ante sustancias tóxicas, productos químicos o picaduras ponzoñosas.</span>
+            </div>
+
+            <div class="module-item">
+                <strong>Módulo VII: Urgencias Médicas Comunes (Síncopes, Convulsiones y Diabetes)</strong>
+                <span>Manejo de desmayos, contención de crisis convulsivas (epilepsia) y protocolos ante alteraciones agudas de los niveles de azúcar en la sangre.</span>
+            </div>
+
+            <div class="module-item">
+                <strong>Módulo VIII: Proyecto Integrador y Simulacro Práctico Final</strong>
+                <span>Evaluación integral de casos clínicos simulados en video, examen teórico acumulativo y emisión de la certificación oficial del diplomado.</span>
+            </div>
+
+            <a href="inscripcion.html?diplomado=Primeros+Auxilios" class="btn-inscripcion">Inscribirme a este Diplomado</a>
+        </article>
+
+        <!-- DIPLOMADO 2 -->
+        <article class="course-card">
+            <div class="course-top">
+                <span class="course-duration">Duración: 6 Meses</span>
+                <span style="font-weight:900; color:#063b91; font-size:18px;">02</span>
+            </div>
+            <h2>Diplomado en Finanzas Personales y Control Económico</h2>
+            <div class="modalidad">Modalidad: 100% En Línea (Curaduría de contenidos prácticos, plantillas digitales, exámenes y seguimiento de progreso)</div>
+            
+            <div class="perfil">
+                <strong>Perfil del Egresado:</strong> Capaz de tomar el control absoluto de sus recursos financieros, estructurar presupuestos inteligentes, eliminar deudas mediante estrategias financieras probadas, crear fondos de protección y administrar las bases económicas de un pequeño negocio.
+            </div>
+
+            <div class="modules-title">Estructura Curricular Mensual</div>
+
+            <div class="module-item">
+                <strong>Módulo I: Psicología del Dinero y Diagnóstico Financiero</strong>
+                <span>Análisis de la relación personal con el gasto, identificación de fugas invisibles de dinero ("gastos hormiga") y establecimiento de metas financieras claras.</span>
+            </div>
+
+            <div class="module-item">
+                <strong>Módulo II: El Presupuesto Inteligente y Herramientas Digitales</strong>
+                <span>Aplicación práctica de la regla de distribución de ingresos (50/30/20) y uso inicial de herramientas digitales u hojas de cálculo para el registro diario.</span>
+            </div>
+
+            <div class="module-item">
+                <strong>Módulo III: Estrategias Avanzadas para la Liquidación de Deudas</strong>
+                <span>Metodologías estructuradas para el pago de tarjetas de crédito y préstamos utilizando los sistemas de "Bola de Nieve" y "Avalancha".</span>
+            </div>
+
+            <div class="module-item">
+                <strong>Módulo IV: Fondo de Emergencia y Cuentas de Ahorro Estratégicas</strong>
+                <span>Dimensionamiento del fondo de protección personal, cálculo de meses de cobertura y criterios de seguridad para el resguardo del capital.</span>
+            </div>
+
+            <div class="module-item">
+                <strong>Módulo V: Finanzas Básicas para Emprendedores y Negocios</strong>
+                <span>Separación de finanzas personales y comerciales, cálculo de costos operativos, punto de equilibrio y fijación de precios en entornos digitales.</span>
+            </div>
+
+            <div class="module-item">
+                <strong>Módulo VI: Proyecto Integrador y Plan de Libertad Financiera</strong>
+                <span>Consolidación del Plan Financiero Personal de Evolva Academy, evaluación teórica final y emisión de la certificación oficial del diplomado.</span>
+            </div>
+
+            <a href="inscripcion.html?diplomado=Finanzas+Personales" class="btn-inscripcion">Inscribirme a este Diplomado</a>
+        </article>
     </main>
 
     <footer>
