@@ -2,17 +2,10 @@
 <html lang="es">
 
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
-
-<title>
-Certificado | Evolva Academy
-</title>
+<title>Certificado | Evolva Academy</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
@@ -25,761 +18,534 @@ Certificado | Evolva Academy
 }
 
 body{
-
     min-height:100vh;
-
     background:#eef3f9;
-
-    font-family:
-    Arial,
-    Helvetica,
-    sans-serif;
-
+    font-family:Arial,Helvetica,sans-serif;
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
     padding:25px;
 }
 
-
-/* ======================================
+/* ==============================
    CERTIFICADO
-====================================== */
+============================== */
 
 .certificado{
-
     position:relative;
-
     width:1120px;
-
-    min-height:790px;
-
-    background:white;
-
+    height:790px;
+    background:#fff;
     overflow:hidden;
-
     border:1px solid #d8e2ef;
-
-    box-shadow:
-    0 20px 55px
-    rgba(0,45,120,.15);
+    box-shadow:0 20px 55px rgba(0,45,120,.15);
 }
 
-
 .borde{
-
     position:absolute;
-
     inset:14px;
-
     border:2px solid #dbe7f7;
-
     pointer-events:none;
 }
 
-
-/* ======================================
+/* ==============================
    DECORACIÓN
-====================================== */
+============================== */
 
 .decoracion-izquierda{
-
     position:absolute;
-
     left:-130px;
-
     top:100px;
-
     width:250px;
-
     height:590px;
-
-    border:
-    32px solid
-    rgba(8,120,255,.06);
-
+    border:32px solid rgba(8,120,255,.06);
     border-radius:50%;
-
     transform:rotate(15deg);
 }
 
-
 .decoracion-derecha{
-
     position:absolute;
-
     right:-130px;
-
     top:100px;
-
     width:250px;
-
     height:590px;
-
-    border:
-    32px solid
-    rgba(7,59,159,.06);
-
+    border:32px solid rgba(7,59,159,.06);
     border-radius:50%;
-
     transform:rotate(-15deg);
 }
 
-
-/* ======================================
+/* ==============================
    ESTADO
-====================================== */
+============================== */
 
 .estado{
-
     position:absolute;
-
     top:30px;
-
     right:35px;
-
     padding:6px 13px;
-
     border-radius:30px;
-
     background:#eaf8ef;
-
     color:#168144;
-
     font-size:9px;
-
     font-weight:bold;
-
     letter-spacing:1px;
-
     z-index:5;
 }
 
-
-/* ======================================
+/* ==============================
    ENCABEZADO
-====================================== */
+============================== */
 
 .encabezado{
-
     position:relative;
-
     text-align:center;
-
-    padding-top:50px;
-
+    padding-top:48px;
     z-index:2;
 }
 
-
 .logo{
-
-    width:290px;
-
-    max-width:70%;
-
+    width:265px;
+    max-width:65%;
     display:block;
-
-    margin:0 auto 18px;
+    margin:0 auto 14px;
 }
-
 
 .linea{
-
-    width:120px;
-
+    width:110px;
     height:4px;
-
     margin:auto;
-
     border-radius:20px;
-
-    background:
-    linear-gradient(
-        90deg,
-        #073b9f,
-        #0878ff
-    );
+    background:linear-gradient(90deg,#073b9f,#0878ff);
 }
-
 
 .otorgan{
-
-    margin-top:22px;
-
+    margin-top:18px;
     color:#687587;
-
-    font-size:17px;
+    font-size:16px;
 }
 
-
 .titulo{
-
-    margin-top:5px;
-
-    font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-    font-size:68px;
-
+    margin-top:2px;
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:62px;
     letter-spacing:5px;
-
     color:#073b9f;
 }
 
-
 .subtitulo{
-
-    margin-top:5px;
-
-    font-size:13px;
-
+    margin-top:3px;
+    font-size:12px;
     letter-spacing:2px;
-
     color:#7c8796;
-
     text-transform:uppercase;
 }
 
-
-/* ======================================
+/* ==============================
    CONTENIDO
-====================================== */
+============================== */
 
 .contenido{
-
     position:relative;
-
     text-align:center;
-
-    padding:
-    35px
-    90px
-    0;
-
+    padding:28px 90px 0;
     z-index:2;
 }
 
-
 .texto{
-
-    font-size:17px;
-
+    font-size:16px;
     color:#566173;
 }
 
-
 .nombre{
-
-    margin-top:10px;
-
-    font-family:
-    Georgia,
-    "Times New Roman",
-    serif;
-
-    font-size:43px;
-
+    margin-top:7px;
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:39px;
     font-weight:bold;
-
     color:#172033;
 }
 
-
 .curp{
-
-    margin-top:8px;
-
-    font-size:13px;
-
+    margin-top:5px;
+    font-size:12px;
     color:#788496;
 }
 
-
 .texto-diplomado{
-
-    margin-top:25px;
-
-    margin-bottom:13px;
+    margin-top:19px;
+    margin-bottom:10px;
 }
 
-
-/* ======================================
+/* ==============================
    DIPLOMADO
-====================================== */
+============================== */
 
 .diplomado{
-
     display:inline-block;
-
-    padding:
-    14px
-    32px;
-
-    border-radius:12px;
-
+    padding:11px 28px;
+    border-radius:10px;
     border:1px solid #cfe0f6;
-
-    background:
-    linear-gradient(
-        90deg,
-        #eef6ff,
-        #f9fcff
-    );
-
+    background:linear-gradient(90deg,#eef6ff,#f9fcff);
     color:#073b9f;
-
-    font-size:29px;
-
+    font-size:25px;
     font-weight:800;
 }
 
-
 .descripcion{
-
-    max-width:810px;
-
-    margin:22px auto 0;
-
+    max-width:780px;
+    margin:16px auto 0;
     color:#4e5969;
-
-    font-size:16px;
-
-    line-height:1.65;
+    font-size:14px;
+    line-height:1.5;
 }
 
-
-/* ======================================
-   INFORMACIÓN
-====================================== */
+/* ==============================
+   INFORMACIÓN INFERIOR
+============================== */
 
 .informacion{
-
-    position:relative;
+    position:absolute;
+    left:90px;
+    right:90px;
+    bottom:105px;
 
     display:grid;
+    grid-template-columns:1fr 1.4fr 1fr;
 
-    grid-template-columns:
-    1fr
-    1fr
-    1fr;
+    align-items:end;
 
     gap:35px;
 
-    margin:
-    45px
-    100px
-    0;
-
-    z-index:2;
+    z-index:4;
 }
-
 
 .dato{
-
     text-align:center;
+    min-width:0;
 }
 
-
 .valor{
-
-    min-height:24px;
-
-    font-size:14px;
-
+    min-height:22px;
+    font-size:13px;
     font-weight:bold;
-
     color:#172033;
 }
 
-
 .etiqueta{
-
-    margin-top:7px;
-
-    font-size:10px;
-
+    margin-top:6px;
+    font-size:9px;
     letter-spacing:1px;
-
     color:#7b8798;
-
     text-transform:uppercase;
 }
 
-
-/* ======================================
+/* ==============================
    FIRMA
-====================================== */
+============================== */
 
 .firma{
-
-    min-height:38px;
-
-    color:#123c9c;
-
     font-family:
     "Brush Script MT",
     "Segoe Script",
     cursive;
 
-    font-size:28px;
-}
+    font-size:30px;
 
+    color:#123c9c;
+
+    height:38px;
+
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+}
 
 .linea-firma{
-
     width:190px;
-
     height:1px;
-
     background:#8b96a5;
-
-    margin:
-    2px auto
-    6px;
+    margin:3px auto 6px;
 }
 
+.cargo{
+    font-size:12px;
+    font-weight:bold;
+    color:#172033;
+}
 
 .firma-digital{
-
     font-family:monospace;
-
-    font-size:8px;
-
-    color:#7c8796;
-
-    margin-top:4px;
+    font-size:7px;
+    color:#8994a3;
+    margin-top:5px;
 }
 
-
-/* ======================================
+/* ==============================
    QR
-====================================== */
+============================== */
 
 .qr{
-
     position:absolute;
-
     right:35px;
-
-    bottom:28px;
-
-    width:120px;
-
+    bottom:25px;
+    width:105px;
     text-align:center;
-
-    z-index:4;
+    z-index:5;
 }
 
-
 #qrcode{
-
-    width:100px;
-
-    height:100px;
-
+    width:90px;
+    height:90px;
     margin:auto;
 }
 
-
 #qrcode img,
 #qrcode canvas{
-
-    width:100px !important;
-
-    height:100px !important;
+    width:90px !important;
+    height:90px !important;
 }
 
-
 .qr-texto{
-
-    margin-top:5px;
-
-    font-size:8px;
-
+    margin-top:4px;
+    font-size:7px;
     line-height:1.25;
-
     color:#7b8796;
 }
 
-
-/* ======================================
+/* ==============================
    PIE
-====================================== */
+============================== */
 
 .pie{
-
     position:absolute;
 
-    bottom:22px;
+    left:55px;
+    bottom:28px;
 
-    left:50%;
-
-    transform:translateX(-50%);
-
-    width:55%;
+    width:calc(100% - 190px);
 
     text-align:center;
 
-    font-size:9px;
+    font-size:8px;
 
     color:#9aa4b2;
 
     z-index:2;
 }
 
-
-/* ======================================
+/* ==============================
    CARGANDO
-====================================== */
+============================== */
 
 #cargando{
-
     position:fixed;
-
     inset:0;
-
-    background:
-    rgba(255,255,255,.96);
-
+    background:rgba(255,255,255,.96);
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
     z-index:1000;
 }
 
-
 .spinner{
-
     width:45px;
-
     height:45px;
-
-    border:
-    4px solid #dce8f8;
-
+    border:4px solid #dce8f8;
     border-top-color:#0878ff;
-
     border-radius:50%;
-
-    animation:
-    girar .8s linear infinite;
-
-    margin:
-    auto
-    auto
-    15px;
+    animation:girar .8s linear infinite;
+    margin:auto auto 15px;
 }
 
-
 @keyframes girar{
-
     to{
         transform:rotate(360deg);
     }
-
 }
 
-
-/* ======================================
+/* ==============================
    ERROR
-====================================== */
+============================== */
 
 #error{
-
     display:none;
-
     position:fixed;
-
     inset:0;
-
     background:#eef3f9;
-
     justify-content:center;
-
     align-items:center;
-
     padding:20px;
-
     z-index:2000;
 }
 
-
 .error-box{
-
     max-width:500px;
-
     padding:35px;
-
     background:white;
-
     border-radius:15px;
-
     text-align:center;
-
-    box-shadow:
-    0 15px 40px
-    rgba(0,0,0,.12);
+    box-shadow:0 15px 40px rgba(0,0,0,.12);
 }
 
-
 .error-box h2{
-
     color:#c62828;
-
     margin-bottom:12px;
 }
 
-
 .error-box p{
-
     color:#606b7a;
-
     line-height:1.5;
 }
 
-
-/* ======================================
+/* ==============================
    IMPRESIÓN
-====================================== */
+============================== */
 
 @media print{
 
     body{
-
         background:white;
-
         padding:0;
     }
 
-
     .certificado{
-
         width:100%;
-
         height:190mm;
-
         min-height:190mm;
-
         border:none;
-
         box-shadow:none;
     }
 
-
     #cargando,
     #error{
-
         display:none !important;
     }
 
-
     @page{
-
         size:A4 landscape;
-
         margin:0;
     }
 }
 
-
-/* ======================================
+/* ==============================
    CELULAR
-====================================== */
+============================== */
 
 @media(max-width:800px){
 
     body{
         padding:8px;
+        align-items:flex-start;
     }
-
 
     .certificado{
-
         width:100%;
-
-        min-height:900px;
+        height:auto;
+        min-height:1050px;
     }
-
 
     .titulo{
-
-        font-size:48px;
+        font-size:42px;
     }
-
 
     .nombre{
-
-        font-size:30px;
+        font-size:29px;
     }
-
 
     .diplomado{
-
-        font-size:21px;
+        font-size:20px;
     }
 
-
     .contenido{
-
         padding-left:25px;
-
         padding-right:25px;
     }
 
-
     .informacion{
-
-        grid-template-columns:1fr;
-
-        margin-left:40px;
-
-        margin-right:40px;
-
-        gap:18px;
-    }
-
-
-    .qr{
 
         position:relative;
 
+        left:auto;
         right:auto;
-
         bottom:auto;
 
+        display:block;
+
         margin:
-        25px
-        auto;
+        35px 40px 0;
     }
 
+    .dato{
+        margin-bottom:22px;
+    }
+
+    .qr{
+        position:relative;
+
+        right:auto;
+        bottom:auto;
+
+        margin:20px auto 0;
+    }
 
     .pie{
+        position:relative;
+
+        left:auto;
+        bottom:auto;
 
         width:80%;
+
+        margin:
+        20px auto 25px;
+
+        transform:none;
+    }
+
+}
+
+
+/* ==============================
+   CELULAR PEQUEÑO
+============================== */
+
+@media(max-width:480px){
+
+    .certificado{
+        min-height:1100px;
+    }
+
+    .logo{
+        width:220px;
+    }
+
+    .titulo{
+        font-size:36px;
+    }
+
+    .otorgan{
+        font-size:14px;
+    }
+
+    .nombre{
+        font-size:25px;
+    }
+
+    .descripcion{
+        font-size:13px;
     }
 
 }
 
 </style>
-
 </head>
 
 
 <body>
 
 
-<!-- ======================================
+<!-- ==============================
      CARGANDO
-====================================== -->
+============================== -->
 
 <div id="cargando">
 
@@ -796,9 +562,9 @@ body{
 </div>
 
 
-<!-- ======================================
+<!-- ==============================
      ERROR
-====================================== -->
+============================== -->
 
 <div id="error">
 
@@ -817,9 +583,9 @@ body{
 </div>
 
 
-<!-- ======================================
+<!-- ==============================
      CERTIFICADO
-====================================== -->
+============================== -->
 
 <div
 class="certificado"
@@ -837,11 +603,11 @@ id="certificado"
     class="estado"
     id="estado"
     >
-        CERTIFICADO VÁLIDO
+        ✓ CERTIFICADO VÁLIDO
     </div>
 
 
-    <!-- LOGO -->
+    <!-- ENCABEZADO -->
 
     <header class="encabezado">
 
@@ -868,7 +634,7 @@ id="certificado"
     </header>
 
 
-    <!-- ALUMNO -->
+    <!-- CONTENIDO -->
 
     <main class="contenido">
 
@@ -893,9 +659,7 @@ id="certificado"
         </div>
 
 
-        <p
-        class="texto texto-diplomado"
-        >
+        <p class="texto texto-diplomado">
             ha concluido satisfactoriamente el
         </p>
 
@@ -922,7 +686,7 @@ id="certificado"
     </main>
 
 
-    <!-- DATOS -->
+    <!-- INFORMACIÓN INFERIOR -->
 
     <section class="informacion">
 
@@ -950,13 +714,13 @@ id="certificado"
         <div class="dato">
 
             <div class="firma">
-                Evolva Academy
+                Alexis Soto
             </div>
 
             <div class="linea-firma"></div>
 
-            <div class="valor">
-                Firma digital
+            <div class="cargo">
+                Director General
             </div>
 
             <div
@@ -967,7 +731,7 @@ id="certificado"
             </div>
 
             <div class="etiqueta">
-                Validación electrónica
+                Firma digital
             </div>
 
         </div>
@@ -1009,10 +773,7 @@ id="certificado"
 
 
     <div class="pie">
-
-        Certificado electrónico ·
-        Evolva Academy
-
+        Certificado electrónico · Evolva Academy
     </div>
 
 </div>
@@ -1058,7 +819,7 @@ else{
 
 
 /* ==========================================
-   CONSULTAR
+   CONSULTAR CERTIFICADO
 ========================================== */
 
 async function consultarCertificado(folio){
@@ -1070,22 +831,19 @@ async function consultarCertificado(folio){
         "?accion=buscarfolio&folio=" +
         encodeURIComponent(folio);
 
-
         const respuesta =
         await fetch(url);
-
 
         if(!respuesta.ok){
 
             throw new Error(
                 "No fue posible conectar con Evolva Academy."
             );
-        }
 
+        }
 
         const datos =
         await respuesta.json();
-
 
         console.log(
             "Apps Script:",
@@ -1108,6 +866,7 @@ async function consultarCertificado(folio){
             throw new Error(
                 "El certificado no existe."
             );
+
         }
 
 
@@ -1121,6 +880,7 @@ async function consultarCertificado(folio){
             throw new Error(
                 "El folio no existe."
             );
+
         }
 
 
@@ -1144,7 +904,7 @@ async function consultarCertificado(folio){
 
 
 /* ==========================================
-   CARGAR DATOS
+   CARGAR CERTIFICADO
 ========================================== */
 
 function cargarCertificado(
@@ -1225,9 +985,7 @@ function cargarCertificado(
         : fechaActual();
 
 
-    /*
-     * Identificador de firma
-     */
+    /* Firma digital */
 
     document.getElementById(
         "firmaDigital"
@@ -1235,18 +993,12 @@ function cargarCertificado(
         "EVOLVA-" + folio;
 
 
-    /*
-     * QR
-     */
+    /* QR */
 
-    generarQR(
-        folio
-    );
+    generarQR(folio);
 
 
-    /*
-     * Mostrar certificado
-     */
+    /* Mostrar */
 
     document.getElementById(
         "cargando"
@@ -1257,7 +1009,7 @@ function cargarCertificado(
 
 
 /* ==========================================
-   QR
+   GENERAR QR
 ========================================== */
 
 function generarQR(folio){
@@ -1267,14 +1019,8 @@ function generarQR(folio){
         "qrcode"
     );
 
-
     contenedor.innerHTML = "";
 
-
-    /*
-     * El QR lleva a validar.html
-     * con el folio.
-     */
 
     const url =
     window.location.origin +
@@ -1291,11 +1037,8 @@ function generarQR(folio){
         contenedor,
         {
             text:url,
-
-            width:100,
-
-            height:100,
-
+            width:90,
+            height:90,
             correctLevel:
             QRCode.CorrectLevel.M
         }
@@ -1313,7 +1056,6 @@ function formatearFecha(fecha){
     const f =
     new Date(fecha);
 
-
     if(
         isNaN(
             f.getTime()
@@ -1323,7 +1065,6 @@ function formatearFecha(fecha){
         return fecha;
 
     }
-
 
     return f.toLocaleDateString(
         "es-MX",
@@ -1386,5 +1127,4 @@ function mostrarError(mensaje){
 </script>
 
 </body>
-
 </html>
