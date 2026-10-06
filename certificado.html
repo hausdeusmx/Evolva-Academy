@@ -2,593 +2,774 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Certificado | Evolva Academy</title>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            min-height: 100vh;
-            background: #eef3f9;
-            font-family: Arial, Helvetica, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 25px;
-        }
-
-        /* =====================================
-           CERTIFICADO
-        ===================================== */
 
-        .certificado {
-            position: relative;
-            width: 1120px;
-            min-height: 790px;
-            background: #fff;
-            overflow: hidden;
+<meta charset="UTF-8">
 
-            border: 1px solid #d7e1ef;
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
 
-            box-shadow:
-                0 20px 55px rgba(0, 50, 120, .15);
-        }
+<title>
+Certificado | Evolva Academy
+</title>
 
-        .borde {
-            position: absolute;
-            inset: 14px;
-            border: 2px solid #dce8f8;
-            pointer-events: none;
-        }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-        /* =====================================
-           DECORACIÓN
-        ===================================== */
+<style>
 
-        .decoracion {
-            position: absolute;
-            pointer-events: none;
-        }
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-        .decoracion-izquierda {
-            left: -120px;
-            top: 100px;
+body{
 
-            width: 240px;
-            height: 600px;
+    min-height:100vh;
 
-            border: 32px solid rgba(8, 120, 255, .06);
-            border-radius: 50%;
+    background:#eef3f9;
 
-            transform: rotate(15deg);
-        }
+    font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
 
-        .decoracion-derecha {
-            right: -120px;
-            top: 100px;
+    display:flex;
 
-            width: 240px;
-            height: 600px;
+    justify-content:center;
 
-            border: 32px solid rgba(7, 59, 159, .06);
-            border-radius: 50%;
+    align-items:center;
 
-            transform: rotate(-15deg);
-        }
+    padding:25px;
+}
 
-        /* =====================================
-           ENCABEZADO
-        ===================================== */
 
-        .encabezado {
-            position: relative;
-            text-align: center;
-            padding-top: 50px;
-        }
+/* ======================================
+   CERTIFICADO
+====================================== */
 
-        .logo {
-            width: 290px;
-            max-width: 70%;
-            height: auto;
-            display: block;
-            margin: 0 auto 18px;
-        }
+.certificado{
 
-        .linea {
-            width: 115px;
-            height: 4px;
+    position:relative;
 
-            margin: auto;
+    width:1120px;
 
-            border-radius: 20px;
+    min-height:790px;
 
-            background: linear-gradient(
-                90deg,
-                #073b9f,
-                #0878ff
-            );
-        }
+    background:white;
 
-        .otorgan {
-            margin-top: 21px;
+    overflow:hidden;
 
-            color: #697587;
+    border:1px solid #d8e2ef;
 
-            font-size: 17px;
-        }
+    box-shadow:
+    0 20px 55px
+    rgba(0,45,120,.15);
+}
 
-        .titulo {
-            margin-top: 5px;
 
-            font-family: Georgia, "Times New Roman", serif;
+.borde{
 
-            font-size: 68px;
+    position:absolute;
 
-            letter-spacing: 5px;
+    inset:14px;
 
-            color: #073b9f;
-        }
+    border:2px solid #dbe7f7;
 
-        .subtitulo {
-            margin-top: 5px;
+    pointer-events:none;
+}
 
-            font-size: 13px;
 
-            letter-spacing: 2px;
+/* ======================================
+   DECORACIÓN
+====================================== */
 
-            color: #7b8796;
+.decoracion-izquierda{
 
-            text-transform: uppercase;
-        }
+    position:absolute;
 
-        /* =====================================
-           CONTENIDO
-        ===================================== */
+    left:-130px;
 
-        .contenido {
-            position: relative;
+    top:100px;
 
-            text-align: center;
+    width:250px;
 
-            padding:
-                35px
-                90px
-                0;
-        }
+    height:590px;
 
-        .texto {
-            font-size: 17px;
-            color: #566173;
-        }
+    border:
+    32px solid
+    rgba(8,120,255,.06);
 
-        .nombre {
-            margin-top: 10px;
+    border-radius:50%;
 
-            font-family:
-                Georgia,
-                "Times New Roman",
-                serif;
+    transform:rotate(15deg);
+}
 
-            font-size: 43px;
 
-            font-weight: bold;
+.decoracion-derecha{
 
-            color: #172033;
-        }
+    position:absolute;
 
-        .curp {
-            margin-top: 8px;
+    right:-130px;
 
-            font-size: 13px;
+    top:100px;
 
-            color: #788496;
-        }
+    width:250px;
 
-        .texto-diplomado {
-            margin-top: 24px;
-            margin-bottom: 13px;
-        }
+    height:590px;
 
-        /* =====================================
-           DIPLOMADO
-        ===================================== */
+    border:
+    32px solid
+    rgba(7,59,159,.06);
 
-        .diplomado {
-            display: inline-block;
+    border-radius:50%;
 
-            padding:
-                14px
-                32px;
+    transform:rotate(-15deg);
+}
 
-            border-radius: 12px;
 
-            border: 1px solid #cfe0f6;
+/* ======================================
+   ESTADO
+====================================== */
 
-            background:
-                linear-gradient(
-                    90deg,
-                    #eef6ff,
-                    #f9fcff
-                );
+.estado{
 
-            color: #073b9f;
+    position:absolute;
 
-            font-size: 29px;
+    top:30px;
 
-            font-weight: 800;
-        }
+    right:35px;
 
-        .descripcion {
-            max-width: 810px;
+    padding:6px 13px;
 
-            margin:
-                22px auto
-                0;
+    border-radius:30px;
 
-            color: #4e5969;
+    background:#eaf8ef;
 
-            font-size: 16px;
+    color:#168144;
 
-            line-height: 1.65;
-        }
+    font-size:9px;
 
-        /* =====================================
-           DATOS
-        ===================================== */
+    font-weight:bold;
 
-        .informacion {
-            position: relative;
+    letter-spacing:1px;
 
-            display: grid;
+    z-index:5;
+}
 
-            grid-template-columns:
-                1fr
-                1fr
-                1fr;
 
-            gap: 35px;
+/* ======================================
+   ENCABEZADO
+====================================== */
 
-            margin:
-                45px
-                100px
-                0;
-        }
+.encabezado{
 
-        .dato {
-            text-align: center;
-        }
+    position:relative;
 
-        .valor {
-            min-height: 24px;
+    text-align:center;
 
-            font-size: 14px;
+    padding-top:50px;
 
-            font-weight: bold;
+    z-index:2;
+}
 
-            color: #172033;
-        }
 
-        .etiqueta {
-            margin-top: 7px;
+.logo{
 
-            font-size: 10px;
+    width:290px;
 
-            letter-spacing: 1px;
+    max-width:70%;
 
-            color: #7b8798;
+    display:block;
 
-            text-transform: uppercase;
-        }
+    margin:0 auto 18px;
+}
 
-        /* =====================================
-           FIRMA
-        ===================================== */
 
-        .firma {
-            min-height: 38px;
+.linea{
 
-            color: #123c9c;
+    width:120px;
 
-            font-family:
-                "Brush Script MT",
-                "Segoe Script",
-                cursive;
+    height:4px;
 
-            font-size: 27px;
-        }
+    margin:auto;
 
-        .linea-firma {
-            width: 180px;
+    border-radius:20px;
 
-            height: 1px;
+    background:
+    linear-gradient(
+        90deg,
+        #073b9f,
+        #0878ff
+    );
+}
 
-            margin:
-                2px auto
-                6px;
 
-            background: #8b96a5;
-        }
+.otorgan{
 
-        /* =====================================
-           QR
-        ===================================== */
+    margin-top:22px;
 
-        .qr {
-            position: absolute;
+    color:#687587;
 
-            right: 38px;
-            bottom: 28px;
+    font-size:17px;
+}
 
-            width: 115px;
 
-            text-align: center;
-        }
+.titulo{
 
-        #qrcode {
-            width: 100px;
-            height: 100px;
+    margin-top:5px;
 
-            margin: auto;
-        }
+    font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
 
-        #qrcode img,
-        #qrcode canvas {
-            width: 100px !important;
-            height: 100px !important;
-        }
+    font-size:68px;
 
-        .qr-texto {
-            margin-top: 5px;
+    letter-spacing:5px;
 
-            font-size: 8px;
+    color:#073b9f;
+}
 
-            line-height: 1.25;
 
-            color: #7b8796;
-        }
+.subtitulo{
 
-        /* =====================================
-           ESTADO
-        ===================================== */
+    margin-top:5px;
 
-        .estado {
-            position: absolute;
+    font-size:13px;
 
-            top: 28px;
-            right: 32px;
+    letter-spacing:2px;
 
-            padding:
-                5px
-                10px;
+    color:#7c8796;
 
-            border-radius: 20px;
+    text-transform:uppercase;
+}
 
-            background: #eaf8ef;
 
-            color: #188344;
+/* ======================================
+   CONTENIDO
+====================================== */
 
-            font-size: 9px;
+.contenido{
 
-            font-weight: bold;
+    position:relative;
 
-            letter-spacing: 1px;
-        }
+    text-align:center;
 
-        /* =====================================
-           PIE
-        ===================================== */
+    padding:
+    35px
+    90px
+    0;
 
-        .pie {
-            position: absolute;
+    z-index:2;
+}
 
-            left: 50%;
-            bottom: 23px;
 
-            transform: translateX(-50%);
+.texto{
 
-            width: 55%;
+    font-size:17px;
 
-            text-align: center;
+    color:#566173;
+}
 
-            color: #9aa4b2;
 
-            font-size: 9px;
-        }
+.nombre{
 
-        /* =====================================
-           CARGANDO
-        ===================================== */
+    margin-top:10px;
 
-        .cargando {
-            position: fixed;
+    font-family:
+    Georgia,
+    "Times New Roman",
+    serif;
 
-            inset: 0;
+    font-size:43px;
 
-            display: flex;
+    font-weight:bold;
 
-            justify-content: center;
-            align-items: center;
+    color:#172033;
+}
 
-            background: rgba(255,255,255,.95);
 
-            z-index: 100;
-        }
+.curp{
 
-        .cargando div {
-            text-align: center;
-            color: #073b9f;
-        }
+    margin-top:8px;
 
-        .spinner {
-            width: 45px;
-            height: 45px;
+    font-size:13px;
 
-            margin: auto auto 15px;
+    color:#788496;
+}
 
-            border: 4px solid #dce8f8;
 
-            border-top-color: #0878ff;
+.texto-diplomado{
 
-            border-radius: 50%;
+    margin-top:25px;
 
-            animation:
-                girar .8s linear infinite;
-        }
+    margin-bottom:13px;
+}
 
-        @keyframes girar {
 
-            to {
-                transform: rotate(360deg);
-            }
+/* ======================================
+   DIPLOMADO
+====================================== */
 
-        }
+.diplomado{
 
-        /* =====================================
-           ERROR
-        ===================================== */
+    display:inline-block;
 
-        .error {
-            display: none;
+    padding:
+    14px
+    32px;
 
-            position: fixed;
+    border-radius:12px;
 
-            inset: 0;
+    border:1px solid #cfe0f6;
 
-            background: #eef3f9;
+    background:
+    linear-gradient(
+        90deg,
+        #eef6ff,
+        #f9fcff
+    );
 
-            justify-content: center;
-            align-items: center;
+    color:#073b9f;
 
-            padding: 25px;
+    font-size:29px;
 
-            z-index: 200;
-        }
+    font-weight:800;
+}
 
-        .error-box {
-            max-width: 500px;
 
-            background: white;
+.descripcion{
 
-            padding: 35px;
+    max-width:810px;
 
-            border-radius: 15px;
+    margin:22px auto 0;
 
-            text-align: center;
+    color:#4e5969;
 
-            box-shadow:
-                0 15px 40px rgba(0,0,0,.1);
-        }
+    font-size:16px;
 
-        .error-box h2 {
-            color: #c62828;
-            margin-bottom: 12px;
-        }
+    line-height:1.65;
+}
 
-        .error-box p {
-            color: #606b7a;
-            line-height: 1.5;
-        }
 
-        /* =====================================
-           RESPONSIVE
-        ===================================== */
+/* ======================================
+   INFORMACIÓN
+====================================== */
 
-        @media(max-width:800px) {
+.informacion{
 
-            body {
-                padding: 8px;
-            }
+    position:relative;
 
-            .certificado {
-                min-height: 900px;
-                width: 100%;
-            }
+    display:grid;
 
-            .titulo {
-                font-size: 48px;
-            }
+    grid-template-columns:
+    1fr
+    1fr
+    1fr;
 
-            .nombre {
-                font-size: 30px;
-            }
+    gap:35px;
 
-            .diplomado {
-                font-size: 21px;
-            }
+    margin:
+    45px
+    100px
+    0;
 
-            .contenido {
-                padding-left: 25px;
-                padding-right: 25px;
-            }
+    z-index:2;
+}
 
-            .informacion {
-                grid-template-columns: 1fr;
 
-                margin-left: 40px;
-                margin-right: 40px;
+.dato{
 
-                gap: 18px;
-            }
+    text-align:center;
+}
 
-            .qr {
-                position: relative;
 
-                right: auto;
-                bottom: auto;
+.valor{
 
-                margin:
-                    20px
-                    auto;
-            }
+    min-height:24px;
 
-            .pie {
-                width: 80%;
-            }
+    font-size:14px;
 
-        }
+    font-weight:bold;
 
-        /* =====================================
-           IMPRESIÓN
-        ===================================== */
+    color:#172033;
+}
 
-        @media print {
 
-            body {
-                background: white;
-                padding: 0;
-            }
+.etiqueta{
 
-            .certificado {
-                width: 100%;
-                height: 190mm;
-                min-height: 190mm;
+    margin-top:7px;
 
-                border: none;
-                box-shadow: none;
-            }
+    font-size:10px;
 
-            .cargando {
-                display: none !important;
-            }
+    letter-spacing:1px;
 
-            @page {
-                size: A4 landscape;
-                margin: 0;
-            }
+    color:#7b8798;
 
-        }
+    text-transform:uppercase;
+}
 
-    </style>
+
+/* ======================================
+   FIRMA
+====================================== */
+
+.firma{
+
+    min-height:38px;
+
+    color:#123c9c;
+
+    font-family:
+    "Brush Script MT",
+    "Segoe Script",
+    cursive;
+
+    font-size:28px;
+}
+
+
+.linea-firma{
+
+    width:190px;
+
+    height:1px;
+
+    background:#8b96a5;
+
+    margin:
+    2px auto
+    6px;
+}
+
+
+.firma-digital{
+
+    font-family:monospace;
+
+    font-size:8px;
+
+    color:#7c8796;
+
+    margin-top:4px;
+}
+
+
+/* ======================================
+   QR
+====================================== */
+
+.qr{
+
+    position:absolute;
+
+    right:35px;
+
+    bottom:28px;
+
+    width:120px;
+
+    text-align:center;
+
+    z-index:4;
+}
+
+
+#qrcode{
+
+    width:100px;
+
+    height:100px;
+
+    margin:auto;
+}
+
+
+#qrcode img,
+#qrcode canvas{
+
+    width:100px !important;
+
+    height:100px !important;
+}
+
+
+.qr-texto{
+
+    margin-top:5px;
+
+    font-size:8px;
+
+    line-height:1.25;
+
+    color:#7b8796;
+}
+
+
+/* ======================================
+   PIE
+====================================== */
+
+.pie{
+
+    position:absolute;
+
+    bottom:22px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:55%;
+
+    text-align:center;
+
+    font-size:9px;
+
+    color:#9aa4b2;
+
+    z-index:2;
+}
+
+
+/* ======================================
+   CARGANDO
+====================================== */
+
+#cargando{
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+    rgba(255,255,255,.96);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    z-index:1000;
+}
+
+
+.spinner{
+
+    width:45px;
+
+    height:45px;
+
+    border:
+    4px solid #dce8f8;
+
+    border-top-color:#0878ff;
+
+    border-radius:50%;
+
+    animation:
+    girar .8s linear infinite;
+
+    margin:
+    auto
+    auto
+    15px;
+}
+
+
+@keyframes girar{
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+
+/* ======================================
+   ERROR
+====================================== */
+
+#error{
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:#eef3f9;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:20px;
+
+    z-index:2000;
+}
+
+
+.error-box{
+
+    max-width:500px;
+
+    padding:35px;
+
+    background:white;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    box-shadow:
+    0 15px 40px
+    rgba(0,0,0,.12);
+}
+
+
+.error-box h2{
+
+    color:#c62828;
+
+    margin-bottom:12px;
+}
+
+
+.error-box p{
+
+    color:#606b7a;
+
+    line-height:1.5;
+}
+
+
+/* ======================================
+   IMPRESIÓN
+====================================== */
+
+@media print{
+
+    body{
+
+        background:white;
+
+        padding:0;
+    }
+
+
+    .certificado{
+
+        width:100%;
+
+        height:190mm;
+
+        min-height:190mm;
+
+        border:none;
+
+        box-shadow:none;
+    }
+
+
+    #cargando,
+    #error{
+
+        display:none !important;
+    }
+
+
+    @page{
+
+        size:A4 landscape;
+
+        margin:0;
+    }
+}
+
+
+/* ======================================
+   CELULAR
+====================================== */
+
+@media(max-width:800px){
+
+    body{
+        padding:8px;
+    }
+
+
+    .certificado{
+
+        width:100%;
+
+        min-height:900px;
+    }
+
+
+    .titulo{
+
+        font-size:48px;
+    }
+
+
+    .nombre{
+
+        font-size:30px;
+    }
+
+
+    .diplomado{
+
+        font-size:21px;
+    }
+
+
+    .contenido{
+
+        padding-left:25px;
+
+        padding-right:25px;
+    }
+
+
+    .informacion{
+
+        grid-template-columns:1fr;
+
+        margin-left:40px;
+
+        margin-right:40px;
+
+        gap:18px;
+    }
+
+
+    .qr{
+
+        position:relative;
+
+        right:auto;
+
+        bottom:auto;
+
+        margin:
+        25px
+        auto;
+    }
+
+
+    .pie{
+
+        width:80%;
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -596,17 +777,17 @@
 <body>
 
 
-<!-- ==========================================
+<!-- ======================================
      CARGANDO
-=========================================== -->
+====================================== -->
 
-<div class="cargando" id="cargando">
+<div id="cargando">
 
-    <div>
+    <div style="text-align:center">
 
         <div class="spinner"></div>
 
-        <strong>
+        <strong style="color:#073b9f">
             Verificando certificado...
         </strong>
 
@@ -615,11 +796,11 @@
 </div>
 
 
-<!-- ==========================================
+<!-- ======================================
      ERROR
-=========================================== -->
+====================================== -->
 
-<div class="error" id="error">
+<div id="error">
 
     <div class="error-box">
 
@@ -636,37 +817,38 @@
 </div>
 
 
-<!-- ==========================================
+<!-- ======================================
      CERTIFICADO
-=========================================== -->
+====================================== -->
 
-<div class="certificado" id="certificado">
+<div
+class="certificado"
+id="certificado"
+>
 
     <div class="borde"></div>
 
+    <div class="decoracion-izquierda"></div>
 
-    <div class="decoracion decoracion-izquierda"></div>
-
-    <div class="decoracion decoracion-derecha"></div>
+    <div class="decoracion-derecha"></div>
 
 
-    <!-- ESTADO -->
-
-    <div class="estado">
+    <div
+    class="estado"
+    id="estado"
+    >
         CERTIFICADO VÁLIDO
     </div>
 
 
-    <!-- ======================================
-         ENCABEZADO
-    ======================================= -->
+    <!-- LOGO -->
 
     <header class="encabezado">
 
         <img
-            src="logo-evolva.png"
-            class="logo"
-            alt="Evolva Academy"
+        src="logo-evolva.png"
+        alt="Evolva Academy"
+        class="logo"
         >
 
         <div class="linea"></div>
@@ -686,9 +868,7 @@
     </header>
 
 
-    <!-- ======================================
-         CONTENIDO
-    ======================================= -->
+    <!-- ALUMNO -->
 
     <main class="contenido">
 
@@ -698,31 +878,31 @@
 
 
         <div
-            class="nombre"
-            id="nombre"
+        class="nombre"
+        id="nombre"
         >
             —
         </div>
 
 
         <div
-            class="curp"
-            id="curp"
+        class="curp"
+        id="curp"
         >
             CURP: —
         </div>
 
 
         <p
-            class="texto texto-diplomado"
+        class="texto texto-diplomado"
         >
             ha concluido satisfactoriamente el
         </p>
 
 
         <div
-            class="diplomado"
-            id="diplomado"
+        class="diplomado"
+        id="diplomado"
         >
             —
         </div>
@@ -730,20 +910,19 @@
 
         <p class="descripcion">
 
-            Por haber cumplido satisfactoriamente con los
-            requisitos académicos establecidos por
-            <strong>Evolva Academy</strong>, se expide el presente
-            diploma como constancia de participación y acreditación
-            del programa de formación correspondiente.
+            Por haber cumplido satisfactoriamente con
+            los requisitos académicos establecidos por
+            <strong>Evolva Academy</strong>, se expide
+            el presente diploma como constancia de
+            acreditación del programa de formación
+            correspondiente.
 
         </p>
 
     </main>
 
 
-    <!-- ======================================
-         DATOS
-    ======================================= -->
+    <!-- DATOS -->
 
     <section class="informacion">
 
@@ -753,8 +932,8 @@
         <div class="dato">
 
             <div
-                class="valor"
-                id="folio"
+            class="valor"
+            id="folio"
             >
                 —
             </div>
@@ -766,14 +945,11 @@
         </div>
 
 
-        <!-- FIRMA DIGITAL -->
+        <!-- FIRMA -->
 
         <div class="dato">
 
-            <div
-                class="firma"
-                id="firma"
-            >
+            <div class="firma">
                 Evolva Academy
             </div>
 
@@ -781,6 +957,13 @@
 
             <div class="valor">
                 Firma digital
+            </div>
+
+            <div
+            class="firma-digital"
+            id="firmaDigital"
+            >
+                —
             </div>
 
             <div class="etiqueta">
@@ -795,8 +978,8 @@
         <div class="dato">
 
             <div
-                class="valor"
-                id="fecha"
+            class="valor"
+            id="fecha"
             >
                 —
             </div>
@@ -811,35 +994,24 @@
     </section>
 
 
-    <!-- ======================================
-         QR
-    ======================================= -->
+    <!-- QR -->
 
     <div class="qr">
 
         <div id="qrcode"></div>
 
         <div class="qr-texto">
-
             Escanea para verificar
             la autenticidad
-
         </div>
 
     </div>
 
 
-    <!-- ======================================
-         PIE
-    ======================================= -->
-
     <div class="pie">
 
         Certificado electrónico ·
-        Evolva Academy ·
-        <span id="horas">
-            40 horas
-        </span>
+        Evolva Academy
 
     </div>
 
@@ -848,136 +1020,119 @@
 
 <script>
 
-/* =====================================================
-   CONFIGURACIÓN
-===================================================== */
-
-/*
-   AQUÍ VA LA URL DE TU APPS SCRIPT.
-
-   Ejemplo:
-
-   const API_URL =
-   "https://script.google.com/macros/s/AKfycby-9ln5UlpJiMrWbIoW4dpXICsT0KZDSh2k_Y-efPwk6RQADcH80-1MHz08grqtFOrJuQ/exec";
-*/
+/* ==========================================
+   APPS SCRIPT
+========================================== */
 
 const API_URL =
-    "PEGA_AQUI_TU_URL_DE_APPS_SCRIPT";
+"https://script.google.com/macros/s/AKfycby-9ln5UlpJiMrWbIoW4dpXICsT0KZDSh2k_Y-efPwk6RQADcH80-1MHz08grqtFOrJuQ/exec";
 
 
-/* =====================================================
-   OBTENER FOLIO DE LA URL
-===================================================== */
+/* ==========================================
+   OBTENER FOLIO
+========================================== */
 
 const parametros =
-    new URLSearchParams(
-        window.location.search
-    );
+new URLSearchParams(
+    window.location.search
+);
 
 const folioURL =
-    parametros.get("folio");
+parametros.get("folio");
 
 
-/* =====================================================
-   SI NO HAY FOLIO
-===================================================== */
-
-if (!folioURL) {
+if(!folioURL){
 
     mostrarError(
-        "No se proporcionó un folio de certificado."
+        "Este certificado no contiene un folio."
     );
 
-} else {
+}
+else{
 
-    cargarCertificado(
+    consultarCertificado(
         folioURL
     );
 
 }
 
 
-/* =====================================================
-   CONSULTAR APPS SCRIPT
-===================================================== */
+/* ==========================================
+   CONSULTAR
+========================================== */
 
-async function cargarCertificado(folio) {
+async function consultarCertificado(folio){
 
-    try {
+    try{
 
         const url =
-            API_URL +
-            "?accion=buscarfolio&folio=" +
-            encodeURIComponent(folio);
+        API_URL +
+        "?accion=buscarfolio&folio=" +
+        encodeURIComponent(folio);
 
 
         const respuesta =
-            await fetch(url);
+        await fetch(url);
 
 
-        if (!respuesta.ok) {
+        if(!respuesta.ok){
 
             throw new Error(
-                "No fue posible conectar con la API."
+                "No fue posible conectar con Evolva Academy."
             );
-
         }
 
 
         const datos =
-            await respuesta.json();
+        await respuesta.json();
 
 
         console.log(
-            "Respuesta API:",
+            "Apps Script:",
             datos
         );
 
 
-        /*
-           AQUÍ SE ESPERA QUE TU API
-           DEVUELVA LOS DATOS DEL ALUMNO.
-
-           Ejemplo:
-
-           {
-             ok: true,
-             data: {
-                folio: "...",
-                nombre: "...",
-                curp: "...",
-                diplomado: "..."
-             }
-           }
-        */
+        const alumno =
+        datos.data ||
+        datos.alumno ||
+        datos.resultado ||
+        datos;
 
 
-        if (
+        if(
             datos.ok === false ||
-            !datos.data
-        ) {
+            !alumno
+        ){
 
             throw new Error(
                 "El certificado no existe."
             );
-
         }
 
 
-        const alumno =
-            datos.data;
+        const folioReal =
+        alumno.FOLIO ||
+        alumno.folio;
 
 
-        mostrarCertificado(
-            alumno
+        if(!folioReal){
+
+            throw new Error(
+                "El folio no existe."
+            );
+        }
+
+
+        cargarCertificado(
+            alumno,
+            folioReal
         );
 
+    }
+    catch(error){
 
-    } catch (error) {
-
-        console.error(
-            error
-        );
+        console.error(error);
 
         mostrarError(
             error.message
@@ -988,50 +1143,59 @@ async function cargarCertificado(folio) {
 }
 
 
-/* =====================================================
-   MOSTRAR CERTIFICADO
-===================================================== */
+/* ==========================================
+   CARGAR DATOS
+========================================== */
 
-function mostrarCertificado(alumno) {
+function cargarCertificado(
+    alumno,
+    folio
+){
+
+    const nombre =
+    alumno.NOMBRE ||
+    alumno.nombre ||
+    "Alumno";
 
 
-    /*
-       NOMBRE
-    */
+    const curp =
+    alumno.CURP ||
+    alumno.curp ||
+    "";
+
+
+    const diplomado =
+    alumno.DIPLOMADO ||
+    alumno.diplomado ||
+    "Diplomado";
+
+
+    const estado =
+    alumno.ESTADO ||
+    alumno.estado ||
+    "VÁLIDO";
+
+
+    const fecha =
+    alumno.FECHA_EMISION ||
+    alumno.fechaEmision ||
+    alumno.FECHA ||
+    alumno.fecha ||
+    "";
+
 
     document.getElementById(
         "nombre"
     ).textContent =
-        alumno.nombre ||
-        alumno.NOMBRE ||
-        "—";
+        nombre;
 
-
-    /*
-       CURP
-    */
-
-    const curp =
-        alumno.curp ||
-        alumno.CURP ||
-        "";
 
     document.getElementById(
         "curp"
     ).textContent =
         curp
         ? "CURP: " + curp
-        : "CURP: —";
-
-
-    /*
-       FOLIO
-    */
-
-    const folio =
-        alumno.folio ||
-        alumno.FOLIO ||
-        folioURL;
+        : "CURP no registrado";
 
 
     document.getElementById(
@@ -1040,62 +1204,17 @@ function mostrarCertificado(alumno) {
         folio;
 
 
-    /*
-       DIPLOMADO
-    */
-
-    let diplomado =
-        alumno.diplomado ||
-        alumno.DIPLOMADO ||
-        "Diplomado";
-
-
-    /*
-       Normalizamos el nombre
-    */
-
-    const texto =
-        diplomado.toString().toLowerCase();
-
-
-    if (
-        texto.includes("primer")
-    ) {
-
-        diplomado =
-            "Diplomado en Primeros Auxilios";
-
-    }
-
-    else if (
-        texto.includes("finanz")
-    ) {
-
-        diplomado =
-            "Diplomado en Finanzas";
-
-    }
-
-
     document.getElementById(
         "diplomado"
     ).textContent =
         diplomado;
 
 
-    /*
-       FECHA
-
-       Si posteriormente tu Sheets
-       tiene una fecha de emisión,
-       podemos utilizarla aquí.
-    */
-
-    const fecha =
-        alumno.fecha ||
-        alumno.FECHA ||
-        alumno.fechaEmision ||
-        "";
+    document.getElementById(
+        "estado"
+    ).textContent =
+        "✓ CERTIFICADO " +
+        String(estado).toUpperCase();
 
 
     document.getElementById(
@@ -1103,42 +1222,31 @@ function mostrarCertificado(alumno) {
     ).textContent =
         fecha
         ? formatearFecha(fecha)
-        : "Fecha de emisión";
+        : fechaActual();
 
 
     /*
-       FIRMA DIGITAL
-
-       Utilizamos el folio como
-       identificador del certificado.
-    */
+     * Identificador de firma
+     */
 
     document.getElementById(
-        "firma"
+        "firmaDigital"
     ).textContent =
-        "EA-" +
-        folio.substring(
-            Math.max(
-                0,
-                folio.length - 8
-            )
-        );
+        "EVOLVA-" + folio;
 
 
     /*
-       QR
-    */
+     * QR
+     */
 
     generarQR(
-        folio,
-        alumno,
-        diplomado
+        folio
     );
 
 
     /*
-       OCULTAR CARGANDO
-    */
+     * Mostrar certificado
+     */
 
     document.getElementById(
         "cargando"
@@ -1148,106 +1256,107 @@ function mostrarCertificado(alumno) {
 }
 
 
-/* =====================================================
-   GENERAR QR
-===================================================== */
+/* ==========================================
+   QR
+========================================== */
 
-function generarQR(
-    folio,
-    alumno,
-    diplomado
-) {
+function generarQR(folio){
 
     const contenedor =
-        document.getElementById(
-            "qrcode"
-        );
+    document.getElementById(
+        "qrcode"
+    );
 
 
     contenedor.innerHTML = "";
 
 
     /*
-       El QR apunta al mismo certificado.
+     * El QR lleva a validar.html
+     * con el folio.
+     */
 
-       Si el archivo está en:
-
-       certificado.html
-
-       entonces:
-
-       certificado.html?folio=...
-    */
-
-    const urlValidacion =
-        window.location.origin +
-        window.location.pathname +
-        "?folio=" +
-        encodeURIComponent(folio);
+    const url =
+    window.location.origin +
+    window.location.pathname
+    .replace(
+        "certificado.html",
+        "validar.html"
+    ) +
+    "?folio=" +
+    encodeURIComponent(folio);
 
 
     new QRCode(
         contenedor,
         {
+            text:url,
 
-            text:
-                urlValidacion,
+            width:100,
 
-            width: 100,
-
-            height: 100,
+            height:100,
 
             correctLevel:
-                QRCode.CorrectLevel.M
-
+            QRCode.CorrectLevel.M
         }
     );
 
 }
 
 
-/* =====================================================
+/* ==========================================
    FECHA
-===================================================== */
+========================================== */
 
-function formatearFecha(fecha) {
+function formatearFecha(fecha){
 
-    const fechaObj =
-        new Date(fecha);
+    const f =
+    new Date(fecha);
 
 
-    if (
+    if(
         isNaN(
-            fechaObj.getTime()
+            f.getTime()
         )
-    ) {
+    ){
 
         return fecha;
 
     }
 
 
-    return fechaObj.toLocaleDateString(
+    return f.toLocaleDateString(
         "es-MX",
         {
-
-            day: "2-digit",
-
-            month: "long",
-
-            year: "numeric"
-
+            day:"2-digit",
+            month:"long",
+            year:"numeric"
         }
     );
 
 }
 
 
-/* =====================================================
-   ERROR
-===================================================== */
+function fechaActual(){
 
-function mostrarError(mensaje) {
+    return new Date()
+    .toLocaleDateString(
+        "es-MX",
+        {
+            day:"2-digit",
+            month:"long",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* ==========================================
+   ERROR
+========================================== */
+
+function mostrarError(mensaje){
 
     document.getElementById(
         "cargando"
@@ -1275,7 +1384,6 @@ function mostrarError(mensaje) {
 }
 
 </script>
-
 
 </body>
 
