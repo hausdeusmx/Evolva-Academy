@@ -2,1276 +2,3404 @@
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Inscripción | Evolva Academy</title>
 
-    <!-- Cloudflare Turnstile -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <!-- CLOUDFLARE TURNSTILE -->
+    <script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+        async
+        defer>
+    </script>
 
-    <!-- Tailwind -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
     <style>
+
+        /* =====================================================
+           RESET
+        ===================================================== */
+
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f7faff;
-            color: #172033;
-        }
 
         :root {
-            --azul-oscuro: #063b91;
-            --azul: #086cff;
+
+            --blue-950: #071a38;
+            --blue-900: #082b63;
+            --blue-800: #0b3d91;
+            --blue-700: #075fd5;
+            --blue-600: #087cff;
+            --blue-100: #eaf4ff;
+            --blue-50: #f5f9ff;
+
+            --text: #172033;
+            --muted: #718096;
+
+            --border: #e3eaf3;
+
+            --white: #ffffff;
+
         }
 
-        .header {
-            background: rgba(255, 255, 255, 0.96);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid #e8eef7;
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+
+            color: var(--text);
+
+            background:
+
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(8,124,255,.10),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 90% 20%,
+                    rgba(11,61,145,.08),
+                    transparent 30%
+                ),
+
+                linear-gradient(
+                    180deg,
+                    #f7faff 0%,
+                    #eef5fc 100%
+                );
+
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        header {
+
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
+
+            background:
+                rgba(255,255,255,.88);
+
+            backdrop-filter:
+                blur(18px);
+
+            -webkit-backdrop-filter:
+                blur(18px);
+
+            border-bottom:
+                1px solid rgba(226,234,244,.8);
+
         }
 
-        .header-container {
-            max-width: 1180px;
+
+        .header-inner {
+
+            width: min(
+                1180px,
+                calc(100% - 40px)
+            );
+
+            height: 76px;
+
             margin: auto;
-            padding: 14px 24px;
+
             display: flex;
+
             align-items: center;
+
             justify-content: space-between;
+
         }
 
-        .logo {
-            width: 180px;
-            height: auto;
-            display: block;
-        }
 
-        .btn-header {
-            padding: 11px 18px;
-            border-radius: 10px;
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--azul-oscuro), var(--azul));
-        }
+        .brand {
 
-        .registration-section {
-            padding: 50px 24px 80px;
-        }
-
-        .registration-box {
-            max-width: 650px;
-            margin: auto;
-            background: white;
-            border: 1px solid #e1eaf5;
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
-        }
-
-        .registration-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .registration-header h2 {
-            margin: 0 0 8px;
-            color: #172033;
-            font-size: 28px;
-            font-weight: 800;
-        }
-
-        .registration-header p {
-            margin: 0;
-            color: #64748b;
-            font-size: 14px;
-        }
-
-        .registration-icon {
-            width: 55px;
-            height: 55px;
-            margin: 0 auto 15px;
-            border-radius: 16px;
             display: flex;
+
             align-items: center;
-            justify-content: center;
-            background: #edf5ff;
-            color: var(--azul);
-            font-size: 24px;
+
+            text-decoration: none;
+
         }
 
-        .form-group {
-            margin-bottom: 18px;
-        }
 
-        .form-label {
+        .brand img {
+
+            width: 185px;
+
             display: block;
-            margin-bottom: 7px;
-            color: #334155;
+
+        }
+
+
+        .header-action {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            padding:
+                11px
+                17px;
+
+            border-radius: 12px;
+
+            background:
+                #edf5ff;
+
+            color:
+                var(--blue-800);
+
+            text-decoration: none;
+
             font-size: 13px;
-            font-weight: 700;
+
+            font-weight: 800;
+
+            border:
+                1px solid #dcecff;
+
+            transition:
+                .25s ease;
+
         }
 
-        .form-input,
-        .form-select {
-            width: 100%;
-            padding: 13px 14px;
-            background: #fbfdff;
-            border: 1px solid #dbe4ef;
-            border-radius: 11px;
-            outline: none;
-            font-size: 14px;
-            transition: 0.2s;
+
+        .header-action:hover {
+
+            background:
+                #e1efff;
+
+            transform:
+                translateY(-1px);
+
         }
 
-        .form-input:focus,
-        .form-select:focus {
-            border-color: var(--azul);
-            box-shadow: 0 0 0 4px rgba(8, 108, 255, 0.10);
-        }
 
-        /* TURNSTILE */
+        /* =====================================================
+           HERO
+        ===================================================== */
 
-        .captcha-container {
-            margin: 25px 0 10px;
-            padding: 16px;
-            background: #f8fbff;
-            border: 1px solid #e1eaf5;
-            border-radius: 14px;
-        }
+        .hero {
 
-        .captcha-title {
+            position: relative;
+
+            padding:
+                55px
+                20px
+                30px;
+
             text-align: center;
-            margin-bottom: 10px;
-            color: #334155;
-            font-size: 12px;
-            font-weight: 700;
+
+            overflow: hidden;
+
         }
+
+
+        .hero::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 420px;
+            height: 420px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(8,124,255,.07);
+
+            filter:
+                blur(5px);
+
+            top: -250px;
+            left: -150px;
+
+        }
+
+
+        .hero::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 350px;
+            height: 350px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(8,76,180,.06);
+
+            right: -150px;
+            top: -160px;
+
+        }
+
+
+        .hero-content {
+
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 780px;
+
+            margin: auto;
+
+        }
+
+
+        .hero-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding:
+                7px
+                13px;
+
+            border-radius: 50px;
+
+            background:
+                rgba(255,255,255,.85);
+
+            border:
+                1px solid #dbe9f8;
+
+            color:
+                var(--blue-700);
+
+            font-size: 11px;
+
+            font-weight: 900;
+
+            letter-spacing:
+                .6px;
+
+            text-transform:
+                uppercase;
+
+            box-shadow:
+                0 5px 20px
+                rgba(21,55,100,.05);
+
+        }
+
+
+        .hero-badge span {
+
+            width: 7px;
+            height: 7px;
+
+            background:
+                #159447;
+
+            border-radius: 50%;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(21,148,71,.10);
+
+        }
+
+
+        .hero h1 {
+
+            margin-top: 18px;
+
+            font-size:
+                clamp(30px, 5vw, 48px);
+
+            line-height:
+                1.08;
+
+            letter-spacing:
+                -1.5px;
+
+            font-weight:
+                900;
+
+            color:
+                var(--blue-950);
+
+        }
+
+
+        .hero h1 strong {
+
+            color:
+                var(--blue-700);
+
+        }
+
+
+        .hero p {
+
+            max-width: 610px;
+
+            margin:
+                15px auto 0;
+
+            color:
+                var(--muted);
+
+            font-size: 15px;
+
+            line-height: 1.7;
+
+        }
+
+
+        /* =====================================================
+           CONTENEDOR
+        ===================================================== */
+
+        .page {
+
+            width: min(
+                980px,
+                calc(100% - 30px)
+            );
+
+            margin:
+                10px auto 80px;
+
+        }
+
+
+        /* =====================================================
+           CARD PRINCIPAL
+        ===================================================== */
+
+        .form-card {
+
+            background:
+                rgba(255,255,255,.96);
+
+            border:
+                1px solid
+                rgba(220,229,240,.95);
+
+            border-radius:
+                28px;
+
+            overflow:
+                hidden;
+
+            box-shadow:
+
+                0 30px 80px
+                rgba(17,43,75,.10),
+
+                0 8px 25px
+                rgba(17,43,75,.04);
+
+        }
+
+
+        .card-top {
+
+            height: 7px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--blue-900),
+                    var(--blue-600),
+                    #36a2ff
+                );
+
+        }
+
+
+        .card-content {
+
+            padding:
+                40px;
+
+        }
+
+
+        /* =====================================================
+           ENCABEZADO FORMULARIO
+        ===================================================== */
+
+        .form-heading {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 16px;
+
+            margin-bottom:
+                32px;
+
+        }
+
+
+        .form-heading-icon {
+
+            flex: 0 0 auto;
+
+            width: 54px;
+            height: 54px;
+
+            border-radius:
+                16px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color:
+                var(--blue-700);
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #edf6ff,
+                    #dceeff
+                );
+
+            border:
+                1px solid
+                #d6e9ff;
+
+        }
+
+
+        .form-heading-icon svg {
+
+            width: 26px;
+            height: 26px;
+
+        }
+
+
+        .form-heading h2 {
+
+            font-size: 22px;
+
+            font-weight: 900;
+
+            color:
+                var(--blue-950);
+
+        }
+
+
+        .form-heading p {
+
+            margin-top: 4px;
+
+            font-size: 13px;
+
+            color:
+                var(--muted);
+
+        }
+
+
+        /* =====================================================
+           SECCIONES
+        ===================================================== */
+
+        .section-label {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin:
+                30px 0 17px;
+
+            font-size: 12px;
+
+            font-weight: 900;
+
+            letter-spacing:
+                .6px;
+
+            text-transform:
+                uppercase;
+
+            color:
+                var(--blue-800);
+
+        }
+
+
+        .section-label::after {
+
+            content: "";
+
+            height: 1px;
+
+            flex: 1;
+
+            background:
+                #e8eef5;
+
+        }
+
+
+        /* =====================================================
+           DIPLOMADOS
+        ===================================================== */
+
+        .courses {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 14px;
+
+        }
+
+
+        .course-option {
+
+            position: relative;
+
+        }
+
+
+        .course-option input {
+
+            position: absolute;
+
+            opacity: 0;
+
+            pointer-events: none;
+
+        }
+
+
+        .course-card {
+
+            min-height: 105px;
+
+            padding:
+                17px;
+
+            border:
+                1.5px solid
+                #e1e9f3;
+
+            border-radius:
+                16px;
+
+            cursor: pointer;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            background:
+                #fff;
+
+            transition:
+                .25s ease;
+
+        }
+
+
+        .course-card:hover {
+
+            border-color:
+                #a9cef9;
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 10px 25px
+                rgba(8,108,255,.07);
+
+        }
+
+
+        .course-option input:checked
+        + .course-card {
+
+            border-color:
+                var(--blue-600);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f1f8ff,
+                    #e8f3ff
+                );
+
+            box-shadow:
+                0 10px 30px
+                rgba(8,108,255,.10);
+
+        }
+
+
+        .course-icon {
+
+            width: 48px;
+            height: 48px;
+
+            flex: 0 0 48px;
+
+            border-radius:
+                13px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                #edf5ff;
+
+            color:
+                var(--blue-700);
+
+        }
+
+
+        .course-icon svg {
+
+            width: 23px;
+            height: 23px;
+
+        }
+
+
+        .course-info {
+
+            min-width: 0;
+
+        }
+
+
+        .course-info small {
+
+            display: block;
+
+            color:
+                #8491a3;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                .6px;
+
+            margin-bottom:
+                4px;
+
+        }
+
+
+        .course-info strong {
+
+            display: block;
+
+            color:
+                var(--blue-950);
+
+            font-size: 14px;
+
+            line-height:
+                1.3;
+
+        }
+
+
+        .course-check {
+
+            margin-left: auto;
+
+            width: 21px;
+            height: 21px;
+
+            border-radius: 50%;
+
+            border:
+                1.5px solid
+                #cbd8e7;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex: 0 0 auto;
+
+        }
+
+
+        .course-option input:checked
+        + .course-card
+        .course-check {
+
+            border-color:
+                var(--blue-600);
+
+            background:
+                var(--blue-600);
+
+            color:
+                white;
+
+        }
+
+
+        .course-check svg {
+
+            width: 12px;
+            height: 12px;
+
+            display: none;
+
+        }
+
+
+        .course-option input:checked
+        + .course-card
+        .course-check svg {
+
+            display: block;
+
+        }
+
+
+        /* =====================================================
+           GRID FORM
+        ===================================================== */
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                18px 16px;
+
+        }
+
+
+        .field {
+
+            position: relative;
+
+        }
+
+
+        .field.full {
+
+            grid-column:
+                1 / -1;
+
+        }
+
+
+        .field label {
+
+            display: block;
+
+            margin-bottom:
+                7px;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            color:
+                #39475a;
+
+        }
+
+
+        .field-wrap {
+
+            position: relative;
+
+        }
+
+
+        .field-icon {
+
+            position: absolute;
+
+            left: 14px;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            color:
+                #9aa9bb;
+
+            pointer-events:
+                none;
+
+        }
+
+
+        .field-icon svg {
+
+            width: 18px;
+            height: 18px;
+
+        }
+
+
+        .field input {
+
+            width: 100%;
+
+            height: 50px;
+
+            padding:
+                0 15px 0 43px;
+
+            border:
+                1px solid
+                #dce5ef;
+
+            border-radius:
+                12px;
+
+            background:
+                #fbfdff;
+
+            color:
+                var(--text);
+
+            font-size:
+                14px;
+
+            outline:
+                none;
+
+            transition:
+                .2s ease;
+
+        }
+
+
+        .field input::placeholder {
+
+            color:
+                #aab5c3;
+
+        }
+
+
+        .field input:hover {
+
+            border-color:
+                #c5d5e7;
+
+        }
+
+
+        .field input:focus {
+
+            background:
+                #fff;
+
+            border-color:
+                var(--blue-600);
+
+            box-shadow:
+                0 0 0 4px
+                rgba(8,108,255,.09);
+
+        }
+
+
+        /* =====================================================
+           TURNSTILE
+        ===================================================== */
+
+        .security-box {
+
+            margin-top:
+                28px;
+
+            padding:
+                20px;
+
+            border:
+                1px solid
+                #e1eaf4;
+
+            border-radius:
+                16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f9fcff,
+                    #f3f8fd
+                );
+
+        }
+
+
+        .security-heading {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom:
+                14px;
+
+        }
+
+
+        .security-icon {
+
+            width: 34px;
+            height: 34px;
+
+            border-radius:
+                10px;
+
+            background:
+                #e7f2ff;
+
+            color:
+                var(--blue-700);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+        }
+
+
+        .security-icon svg {
+
+            width: 17px;
+            height: 17px;
+
+        }
+
+
+        .security-heading strong {
+
+            font-size:
+                13px;
+
+            color:
+                var(--blue-950);
+
+        }
+
+
+        .security-heading span {
+
+            display: block;
+
+            margin-top:
+                2px;
+
+            font-size:
+                11px;
+
+            color:
+                #8290a1;
+
+        }
+
 
         .captcha-box {
+
+            min-height:
+                65px;
+
             display: flex;
-            justify-content: center;
+
             align-items: center;
-            min-height: 65px;
+
+            justify-content: center;
+
         }
+
 
         .captcha-error {
+
             display: none;
-            text-align: center;
-            margin-top: 8px;
-            color: #dc2626;
-            font-size: 12px;
-            font-weight: 700;
+
+            margin-top:
+                8px;
+
+            text-align:
+                center;
+
+            color:
+                #d62f2f;
+
+            font-size:
+                11px;
+
+            font-weight:
+                800;
+
         }
+
+
+        /* =====================================================
+           BOTÓN
+        ===================================================== */
+
+        .submit-area {
+
+            margin-top:
+                25px;
+
+        }
+
 
         .submit-button {
+
+            position: relative;
+
             width: 100%;
-            margin-top: 8px;
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            color: white;
-            font-size: 15px;
-            font-weight: 800;
-            cursor: pointer;
-            background: linear-gradient(135deg, #063b91, #086cff);
-            box-shadow: 0 10px 25px rgba(8, 108, 255, 0.22);
-            transition: 0.2s;
+
+            min-height:
+                56px;
+
+            border:
+                none;
+
+            border-radius:
+                14px;
+
+            cursor:
+                pointer;
+
+            color:
+                white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #082f70,
+                    #0767dc,
+                    #0785ff
+                );
+
+            font-size:
+                14px;
+
+            font-weight:
+                900;
+
+            letter-spacing:
+                .2px;
+
+            box-shadow:
+                0 13px 30px
+                rgba(7,103,220,.23);
+
+            transition:
+                .25s ease;
+
+            overflow:
+                hidden;
+
         }
+
+
+        .submit-button::before {
+
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    110deg,
+                    transparent 30%,
+                    rgba(255,255,255,.18),
+                    transparent 70%
+                );
+
+            transform:
+                translateX(-100%);
+
+            transition:
+                .6s ease;
+
+        }
+
+
+        .submit-button:hover::before {
+
+            transform:
+                translateX(100%);
+
+        }
+
 
         .submit-button:hover {
-            transform: translateY(-2px);
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 17px 35px
+                rgba(7,103,220,.28);
+
         }
+
+
+        .submit-button:active {
+
+            transform:
+                translateY(0);
+
+        }
+
 
         .submit-button:disabled {
-            cursor: not-allowed;
-            transform: none;
+
+            cursor:
+                not-allowed;
+
+            transform:
+                none;
+
+            opacity:
+                .65;
+
         }
 
-        .folio-result {
-            margin-top: 25px;
-            padding: 25px;
-            border-radius: 16px;
-            text-align: center;
-            background: #eff6ff;
-            border: 1px solid #cfe2ff;
-        }
-
-        .folio-code {
-            display: inline-block;
-            padding: 11px 20px;
-            margin: 10px 0;
-            background: white;
-            border: 1px solid #b9d5ff;
-            border-radius: 10px;
-            color: #063b91;
-            font-size: 20px;
-            font-family: monospace;
-            font-weight: 900;
-        }
 
         .security-note {
-            text-align: center;
-            color: #94a3b8;
-            font-size: 10px;
-            margin-top: 12px;
-            line-height: 1.5;
+
+            text-align:
+                center;
+
+            margin-top:
+                11px;
+
+            color:
+                #9aa7b7;
+
+            font-size:
+                10px;
+
         }
+
+
+        /* =====================================================
+           RESULTADO
+        ===================================================== */
+
+        .result {
+
+            display:
+                none;
+
+            margin-top:
+                28px;
+
+            border:
+                1px solid
+                #cfe2f8;
+
+            border-radius:
+                20px;
+
+            overflow:
+                hidden;
+
+            background:
+                #fff;
+
+            box-shadow:
+                0 18px 45px
+                rgba(16,65,120,.10);
+
+        }
+
+
+        .result-header {
+
+            padding:
+                20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #082f70,
+                    #086cff
+                );
+
+            color:
+                white;
+
+            text-align:
+                center;
+
+        }
+
+
+        .success-circle {
+
+            width: 45px;
+            height: 45px;
+
+            margin:
+                0 auto 10px;
+
+            border-radius:
+                50%;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            background:
+                rgba(255,255,255,.16);
+
+            border:
+                1px solid
+                rgba(255,255,255,.25);
+
+        }
+
+
+        .success-circle svg {
+
+            width: 22px;
+            height: 22px;
+
+        }
+
+
+        .result-header h3 {
+
+            font-size:
+                18px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .result-header p {
+
+            margin-top:
+                4px;
+
+            opacity:
+                .82;
+
+            font-size:
+                11px;
+
+        }
+
+
+        .result-body {
+
+            padding:
+                25px;
+
+            text-align:
+                center;
+
+        }
+
+
+        .folio-label {
+
+            color:
+                #8492a5;
+
+            font-size:
+                11px;
+
+            font-weight:
+                800;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                1px;
+
+        }
+
+
+        .folio-code {
+
+            display:
+                inline-block;
+
+            margin:
+                9px 0 20px;
+
+            padding:
+                12px 24px;
+
+            border:
+                1px dashed
+                #8bbcf3;
+
+            border-radius:
+                12px;
+
+            background:
+                #f1f8ff;
+
+            color:
+                var(--blue-800);
+
+            font-family:
+                "Courier New",
+                monospace;
+
+            font-size:
+                22px;
+
+            font-weight:
+                900;
+
+            letter-spacing:
+                1px;
+
+        }
+
+
+        .access-box {
+
+            text-align:
+                left;
+
+            padding:
+                17px;
+
+            border:
+                1px solid
+                #e2eaf3;
+
+            border-radius:
+                13px;
+
+            background:
+                #f9fbfd;
+
+        }
+
+
+        .access-title {
+
+            color:
+                var(--blue-800);
+
+            font-size:
+                12px;
+
+            font-weight:
+                900;
+
+            margin-bottom:
+                9px;
+
+        }
+
+
+        .access-data {
+
+            color:
+                #59677a;
+
+            font-size:
+                12px;
+
+            line-height:
+                2;
+
+        }
+
+
+        .password {
+
+            color:
+                var(--blue-800);
+
+            font-family:
+                monospace;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .result-footer {
+
+            margin-top:
+                18px;
+
+            color:
+                #788699;
+
+            font-size:
+                11px;
+
+            line-height:
+                1.7;
+
+        }
+
+
+        .payment-link {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            gap:
+                6px;
+
+            margin-top:
+                12px;
+
+            padding:
+                10px 15px;
+
+            border-radius:
+                10px;
+
+            color:
+                var(--blue-700);
+
+            background:
+                #edf6ff;
+
+            text-decoration:
+                none;
+
+            font-weight:
+                900;
+
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
 
         footer {
-            background: #071b3d;
-            color: #b9c8df;
-            padding: 35px 24px;
-            text-align: center;
+
+            padding:
+                45px 20px;
+
+            text-align:
+                center;
+
+            color:
+                #9aaac0;
+
+            background:
+                #071a38;
+
         }
+
 
         .footer-logo {
-            width: 150px;
-            margin: 0 auto 14px;
-            filter: brightness(0) invert(1);
+
+            width:
+                145px;
+
+            margin:
+                0 auto 14px;
+
+            filter:
+                brightness(0)
+                invert(1);
+
+            opacity:
+                .9;
+
         }
 
-        @media (max-width: 600px) {
 
-            .header-container {
-                padding: 12px 16px;
-            }
+        footer p {
 
-            .logo {
-                width: 140px;
-            }
+            font-size:
+                11px;
 
-            .btn-header {
-                padding: 9px 12px;
-                font-size: 12px;
-            }
-
-            .registration-section {
-                padding: 25px 14px 50px;
-            }
-
-            .registration-box {
-                padding: 25px 18px;
-                border-radius: 18px;
-            }
-
-            .registration-header h2 {
-                font-size: 23px;
-            }
         }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 700px) {
+
+            .header-inner {
+
+                width:
+                    calc(100% - 28px);
+
+                height:
+                    68px;
+
+            }
+
+
+            .brand img {
+
+                width:
+                    145px;
+
+            }
+
+
+            .header-action {
+
+                padding:
+                    9px 11px;
+
+                font-size:
+                    11px;
+
+            }
+
+
+            .hero {
+
+                padding:
+                    38px 18px 25px;
+
+            }
+
+
+            .hero h1 {
+
+                letter-spacing:
+                    -1px;
+
+            }
+
+
+            .hero p {
+
+                font-size:
+                    13px;
+
+            }
+
+
+            .page {
+
+                width:
+                    calc(100% - 20px);
+
+                margin-bottom:
+                    50px;
+
+            }
+
+
+            .form-card {
+
+                border-radius:
+                    21px;
+
+            }
+
+
+            .card-content {
+
+                padding:
+                    25px 17px;
+
+            }
+
+
+            .form-heading {
+
+                align-items:
+                    flex-start;
+
+            }
+
+
+            .courses {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .form-grid {
+
+                grid-template-columns:
+                    1fr;
+
+                gap:
+                    15px;
+
+            }
+
+
+            .field.full {
+
+                grid-column:
+                    auto;
+
+            }
+
+
+            .security-box {
+
+                padding:
+                    15px 10px;
+
+            }
+
+
+            .result-body {
+
+                padding:
+                    21px 16px;
+
+            }
+
+
+            .folio-code {
+
+                font-size:
+                    18px;
+
+                padding:
+                    11px 17px;
+
+            }
+
+        }
+
+
+        @media (max-width: 390px) {
+
+            .header-action {
+
+                font-size:
+                    0;
+
+                width:
+                    38px;
+                height:
+                    38px;
+
+                padding:
+                    0;
+
+                justify-content:
+                    center;
+
+            }
+
+
+            .header-action::before {
+
+                content:
+                    "→";
+
+                font-size:
+                    18px;
+
+            }
+
+
+            .hero h1 {
+
+                font-size:
+                    29px;
+
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
-    <!-- ============================= -->
-    <!-- HEADER -->
-    <!-- ============================= -->
 
-    <header class="header">
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
-        <div class="header-container">
+<header>
 
-            <a href="index.html">
-                <img
-                    src="logo-evolva.png"
-                    alt="Evolva Academy"
-                    class="logo"
-                >
-            </a>
+    <div class="header-inner">
 
-            <a
-                href="pagos.html"
-                class="btn-header"
+        <a
+            href="index.html"
+            class="brand"
+        >
+
+            <img
+                src="logo-evolva.png"
+                alt="Evolva Academy"
             >
-                Ya tengo mi folio →
-            </a>
+
+        </a>
+
+
+        <a
+            href="pagos.html"
+            class="header-action"
+        >
+
+            Ya tengo mi folio
+
+            <span>→</span>
+
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-badge">
+
+            <span></span>
+
+            Inscripciones abiertas
 
         </div>
 
-    </header>
+
+        <h1>
+
+            Da el siguiente paso en
+
+            <strong>tu evolución.</strong>
+
+        </h1>
 
 
-    <!-- ============================= -->
-    <!-- CONTENIDO -->
-    <!-- ============================= -->
+        <p>
 
-    <main>
+            Completa tu registro para formar parte
+            de Evolva Academy y obtener tus datos
+            de acceso a nuestra plataforma académica.
 
-        <section class="registration-section">
+        </p>
 
-            <div class="registration-box">
+    </div>
 
-                <div class="registration-header">
+</section>
 
-                    <div class="registration-icon">
-                        ✦
-                    </div>
 
-                    <h2>
-                        Formulario de Inscripción
-                    </h2>
 
-                    <p>
-                        Completa tus datos para registrarte y generar tu folio único.
-                    </p>
+<!-- =====================================================
+     FORMULARIO
+===================================================== -->
+
+<main class="page">
+
+    <div class="form-card">
+
+        <div class="card-top"></div>
+
+
+        <div class="card-content">
+
+
+            <!-- ENCABEZADO -->
+
+            <div class="form-heading">
+
+                <div class="form-heading-icon">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+
+                        <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+                        />
+
+                        <circle
+                            cx="9"
+                            cy="7"
+                            r="4"
+                        />
+
+                        <path
+                            d="M22 21v-2a4 4 0 0 0-3-3.87"
+                        />
+
+                        <path
+                            d="M16 3.13a4 4 0 0 1 0 7.75"
+                        />
+
+                    </svg>
 
                 </div>
 
 
-                <!-- ============================= -->
-                <!-- FORMULARIO -->
-                <!-- ============================= -->
+                <div>
 
-                <form id="registroForm">
+                    <h2>
+                        Datos de inscripción
+                    </h2>
 
-                    <!-- DIPLOMADO -->
-
-                    <div class="form-group">
-
-                        <label
-                            for="reg_curso"
-                            class="form-label"
-                        >
-                            Diplomado que deseas cursar
-                        </label>
-
-                        <select
-                            id="reg_curso"
-                            class="form-select"
-                            required
-                        >
-
-                            <option
-                                value=""
-                                disabled
-                                selected
-                            >
-                                Selecciona un diplomado
-                            </option>
-
-                            <option value="Finanzas Personales">
-                                Diplomado en Finanzas Personales
-                            </option>
-
-                            <option value="Primeros Auxilios">
-                                Diplomado en Primeros Auxilios
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <!-- NOMBRE -->
-
-                    <div class="form-group">
-
-                        <label
-                            for="reg_nombre"
-                            class="form-label"
-                        >
-                            Nombre completo
-                        </label>
-
-                        <input
-                            type="text"
-                            id="reg_nombre"
-                            class="form-input"
-                            placeholder="Nombre y apellidos"
-                            autocomplete="name"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- EDAD -->
-
-                    <div class="form-group">
-
-                        <label
-                            for="reg_edad"
-                            class="form-label"
-                        >
-                            Edad
-                        </label>
-
-                        <input
-                            type="number"
-                            id="reg_edad"
-                            class="form-input"
-                            placeholder="Ej. 25"
-                            min="15"
-                            max="100"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- ESTADO -->
-
-                    <div class="form-group">
-
-                        <label
-                            for="reg_estado"
-                            class="form-label"
-                        >
-                            Estado de residencia
-                        </label>
-
-                        <input
-                            type="text"
-                            id="reg_estado"
-                            class="form-input"
-                            placeholder="Ej. Chihuahua"
-                            autocomplete="address-level1"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- CURP -->
-
-                    <div class="form-group">
-
-                        <label
-                            for="reg_curp"
-                            class="form-label"
-                        >
-                            CURP
-                        </label>
-
-                        <input
-                            type="text"
-                            id="reg_curp"
-                            maxlength="18"
-                            minlength="18"
-                            class="form-input"
-                            placeholder="18 caracteres"
-                            style="text-transform: uppercase;"
-                            autocomplete="off"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- FECHA -->
-
-                    <div class="form-group">
-
-                        <label
-                            for="reg_fecha"
-                            class="form-label"
-                        >
-                            Fecha de Nacimiento
-                        </label>
-
-                        <input
-                            type="date"
-                            id="reg_fecha"
-                            class="form-input"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- CORREO -->
-
-                    <div class="form-group">
-
-                        <label
-                            for="reg_email"
-                            class="form-label"
-                        >
-                            Correo electrónico
-                        </label>
-
-                        <input
-                            type="email"
-                            id="reg_email"
-                            class="form-input"
-                            placeholder="tu@correo.com"
-                            autocomplete="email"
-                            required
-                        >
-
-                    </div>
-
-
-                    <!-- ============================= -->
-                    <!-- CLOUDFLARE TURNSTILE -->
-                    <!-- ============================= -->
-
-                    <div class="captcha-container">
-
-                        <div class="captcha-title">
-                            Verificación de seguridad
-                        </div>
-
-                        <div class="captcha-box">
-
-                            <div
-                                class="cf-turnstile"
-                                id="turnstileWidget"
-                                data-sitekey="0x4AAAAAAFO3iozVUJMFOZFC"
-                                data-theme="light"
-                                data-language="es"
-                            ></div>
-
-                        </div>
-
-                        <div
-                            id="captchaError"
-                            class="captcha-error"
-                        >
-                            Completa la verificación de seguridad.
-                        </div>
-
-                    </div>
-
-
-                    <!-- BOTÓN -->
-
-                    <button
-                        type="submit"
-                        class="submit-button"
-                    >
-                        Generar mi folio de inscripción
-                    </button>
-
-
-                    <div class="security-note">
-                        Esta inscripción está protegida mediante Cloudflare Turnstile.
-                    </div>
-
-                </form>
-
-
-                <!-- ============================= -->
-                <!-- RESULTADO -->
-                <!-- ============================= -->
-
-                <div
-                    id="folioResultado"
-                    class="folio-result"
-                    style="display:none;"
-                >
-
-                    <p
-                        style="
-                            color:#063b91;
-                            font-weight:800;
-                            margin:0 0 5px;
-                        "
-                    >
-                        ✓ Registro exitoso
-                    </p>
-
-                    <p
-                        style="
-                            color:#64748b;
-                            font-size:13px;
-                            margin:0;
-                        "
-                    >
-                        Tu folio único de inscripción es:
-                    </p>
-
-                    <div
-                        id="codigoFolio"
-                        class="folio-code"
-                    >
-                        EVOLVA-0000
-                    </div>
-
-                    <div
-                        id="datosAcceso"
-                        style="
-                            margin:15px 0;
-                            padding:12px;
-                            background:white;
-                            border:1px solid #cfe2ff;
-                            border-radius:10px;
-                            text-align:left;
-                            font-size:12px;
-                        "
-                    >
-
-                        <strong style="color:#063b91">
-                            Datos para tu plataforma
-                        </strong>
-
-                        <br>
-
-                        <span id="datoCorreo"></span>
-
-                        <br>
-
-                        <span id="datoPassword"></span>
-
-                    </div>
-
-                    <p
-                        style="
-                            font-size:11px;
-                            color:#64748b;
-                        "
-                    >
-
-                        Guarda este folio.
-                        Lo necesitarás para realizar tu pago.
-
-                        <br>
-
-                        <a
-                            href="pagos.html"
-                            style="
-                                color:#086cff;
-                                font-weight:800;
-                            "
-                        >
-                            Ir a pagos →
-                        </a>
-
+                    <p>
+                        Información personal y académica
                     </p>
 
                 </div>
 
             </div>
 
-        </section>
-
-    </main>
 
 
-    <!-- ============================= -->
-    <!-- FOOTER -->
-    <!-- ============================= -->
-
-    <footer>
-
-        <img
-            src="logo-evolva.png"
-            alt="Evolva Academy"
-            class="footer-logo"
-        >
-
-        <p>
-            Formación que impulsa tu evolución.
-            © 2026 Evolva Academy.
-        </p>
-
-    </footer>
+            <form id="registroForm">
 
 
-    <!-- ============================= -->
-    <!-- JAVASCRIPT -->
-    <!-- ============================= -->
+                <!-- =================================================
+                     DIPLOMADO
+                ================================================== -->
 
-    <script>
-
-        /* ==========================================
-           API DE EVOLVA ACADEMY
-        ========================================== */
-
-        const API_URL =
-            "https://script.google.com/macros/s/AKfycbyTcVS-daEhDz1N5dwZEaCHVQrm17hC5IjQZvujAiI2oXzpgS6BJhtlZlnv1yjBhYX7Yg/exec";
+                <div class="section-label">
+                    Selecciona tu diplomado
+                </div>
 
 
-        /* ==========================================
-           ELEMENTOS
-        ========================================== */
-
-        const formulario =
-            document.getElementById("registroForm");
-
-        const resultado =
-            document.getElementById("folioResultado");
-
-        const codigo =
-            document.getElementById("codigoFolio");
-
-        const curpInput =
-            document.getElementById("reg_curp");
-
-        const captchaError =
-            document.getElementById("captchaError");
+                <div class="courses">
 
 
-        /* ==========================================
-           AUTODETECTAR DIPLOMADO
-        ========================================== */
+                    <!-- FINANZAS -->
 
-        window.addEventListener(
-            "DOMContentLoaded",
-            function () {
+                    <label class="course-option">
 
-                const urlParams =
-                    new URLSearchParams(
-                        window.location.search
-                    );
+                        <input
+                            type="radio"
+                            name="diplomado"
+                            id="cursoFinanzas"
+                            value="Finanzas Personales"
+                            required
+                        >
 
-                const diplomadoParam =
-                    urlParams.get("diplomado");
 
-                if (diplomadoParam) {
+                        <div class="course-card">
 
-                    const selectCurso =
-                        document.getElementById(
-                            "reg_curso"
+                            <div class="course-icon">
+
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                >
+
+                                    <rect
+                                        x="3"
+                                        y="5"
+                                        width="18"
+                                        height="14"
+                                        rx="2"
+                                    />
+
+                                    <path
+                                        d="M7 9h10M7 13h4"
+                                    />
+
+                                    <circle
+                                        cx="17"
+                                        cy="14"
+                                        r="1"
+                                    />
+
+                                </svg>
+
+                            </div>
+
+
+                            <div class="course-info">
+
+                                <small>
+                                    Diplomado
+                                </small>
+
+                                <strong>
+                                    Finanzas Personales
+                                </strong>
+
+                            </div>
+
+
+                            <div class="course-check">
+
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="3"
+                                >
+
+                                    <path
+                                        d="m5 12 4 4L19 6"
+                                    />
+
+                                </svg>
+
+                            </div>
+
+                        </div>
+
+                    </label>
+
+
+
+                    <!-- PRIMEROS AUXILIOS -->
+
+                    <label class="course-option">
+
+                        <input
+                            type="radio"
+                            name="diplomado"
+                            id="cursoAuxilios"
+                            value="Primeros Auxilios"
+                            required
+                        >
+
+
+                        <div class="course-card">
+
+                            <div class="course-icon">
+
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                >
+
+                                    <path
+                                        d="M12 21s-8-4.35-8-10a4.5 4.5 0 0 1 8-2.5A4.5 4.5 0 0 1 20 11c0 5.65-8 10-8 10Z"
+                                    />
+
+                                    <path
+                                        d="M12 8v6M9 11h6"
+                                    />
+
+                                </svg>
+
+                            </div>
+
+
+                            <div class="course-info">
+
+                                <small>
+                                    Diplomado
+                                </small>
+
+                                <strong>
+                                    Primeros Auxilios
+                                </strong>
+
+                            </div>
+
+
+                            <div class="course-check">
+
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="3"
+                                >
+
+                                    <path
+                                        d="m5 12 4 4L19 6"
+                                    />
+
+                                </svg>
+
+                            </div>
+
+                        </div>
+
+                    </label>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     DATOS PERSONALES
+                ================================================== -->
+
+                <div class="section-label">
+                    Datos personales
+                </div>
+
+
+                <div class="form-grid">
+
+
+                    <!-- NOMBRE -->
+
+                    <div class="field full">
+
+                        <label for="reg_nombre">
+                            Nombre completo
+                        </label>
+
+
+                        <div class="field-wrap">
+
+                            <span class="field-icon">
+
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                >
+
+                                    <circle
+                                        cx="12"
+                                        cy="8"
+                                        r="4"
+                                    />
+
+                                    <path
+                                        d="M4 21a8 8 0 0 1 16 0"
+                                    />
+
+                                </svg>
+
+                            </span>
+
+
+                            <input
+                                type="text"
+                                id="reg_nombre"
+                                placeholder="Nombre y apellidos"
+                                autocomplete="name"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- EDAD -->
+
+                    <div class="field">
+
+                        <label for="reg_edad">
+                            Edad
+                        </label>
+
+
+                        <div class="field-wrap">
+
+                            <span class="field-icon">
+
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                >
+
+                                    <circle
+                                        cx="12"
+                                        cy="12"
+                                        r="9"
+                                    />
+
+                                    <path
+                                        d="M12 7v5l3 2"
+                                    />
+
+                                </svg>
+
+                            </span>
+
+
+                            <input
+                                type="number"
+                                id="reg_edad"
+                                placeholder="Ej. 25"
+                                min="15"
+                                max="100"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ESTADO -->
+
+                    <div class="field">
+
+                        <label for="reg_estado">
+                            Estado de residencia
+                        </label>
+
+
+                        <div class="field-wrap">
+
+                            <span class="field-icon">
+
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                >
+
+                                    <path
+                                        d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"
+                                    />
+
+                                    <circle
+                                        cx="12"
+                                        cy="9"
+                                        r="2.5"
+                                    />
+
+                                </svg>
+
+                            </span>
+
+
+                            <input
+                                type="text"
+                                id="reg_estado"
+                                placeholder="Ej. Chihuahua"
+                                autocomplete="address-level1"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- CURP -->
+
+                    <div class="field full">
+
+                        <label for="reg_curp">
+                            CURP
+                        </label>
+
+
+                        <div class="field-wrap">
+
+                            <span class="field-icon">
+
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                >
+
+                                    <rect
+                                        x="4"
+                                        y="3"
+                                        width="16"
+                                        height="18"
+                                        rx="2"
+                                    />
+
+                                    <path
+                                        d="M8 7h8M8 11h8M8 15h5"
+                                    />
+
+                                </svg>
+
+                            </span>
+
+
+                            <input
+                                type="text"
+                                id="reg_curp"
+                                maxlength="18"
+                                minlength="18"
+                                placeholder="Ingresa los 18 caracteres de tu CURP"
+                                autocomplete="off"
+                                style="text-transform:uppercase;"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- FECHA -->
+
+                    <div class="field">
+
+                        <label for="reg_fecha">
+                            Fecha de nacimiento
+                        </label>
+
+
+                        <div class="field-wrap">
+
+                            <span class="field-icon">
+
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                >
+
+                                    <rect
+                                        x="3"
+                                        y="5"
+                                        width="18"
+                                        height="16"
+                                        rx="2"
+                                    />
+
+                                    <path
+                                        d="M16 3v4M8 3v4M3 10h18"
+                                    />
+
+                                </svg>
+
+                            </span>
+
+
+                            <input
+                                type="date"
+                                id="reg_fecha"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- CORREO -->
+
+                    <div class="field">
+
+                        <label for="reg_email">
+                            Correo electrónico
+                        </label>
+
+
+                        <div class="field-wrap">
+
+                            <span class="field-icon">
+
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.8"
+                                >
+
+                                    <rect
+                                        x="3"
+                                        y="5"
+                                        width="18"
+                                        height="14"
+                                        rx="2"
+                                    />
+
+                                    <path
+                                        d="m3 7 9 6 9-6"
+                                    />
+
+                                </svg>
+
+                            </span>
+
+
+                            <input
+                                type="email"
+                                id="reg_email"
+                                placeholder="tu@correo.com"
+                                autocomplete="email"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     SEGURIDAD
+                ================================================== -->
+
+                <div class="security-box">
+
+
+                    <div class="security-heading">
+
+                        <div class="security-icon">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                            >
+
+                                <path
+                                    d="M12 3 20 6v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-3Z"
+                                />
+
+                                <path
+                                    d="m9 12 2 2 4-4"
+                                />
+
+                            </svg>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Verificación de seguridad
+                            </strong>
+
+                            <span>
+                                Protegemos tu registro contra registros automáticos.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="captcha-box">
+
+                        <div
+                            class="cf-turnstile"
+                            id="turnstileWidget"
+                            data-sitekey="0x4AAAAAAFO3iozVUJMFOZFC"
+                            data-theme="light"
+                            data-language="es"
+                        ></div>
+
+                    </div>
+
+
+                    <div
+                        id="captchaError"
+                        class="captcha-error"
+                    >
+                        Completa la verificación de seguridad.
+                    </div>
+
+                </div>
+
+
+
+                <!-- =================================================
+                     BOTÓN
+                ================================================== -->
+
+                <div class="submit-area">
+
+                    <button
+                        type="submit"
+                        class="submit-button"
+                    >
+
+                        Generar mi folio de inscripción
+                        <span> →</span>
+
+                    </button>
+
+
+                    <div class="security-note">
+
+                        Tus datos serán utilizados únicamente
+                        para gestionar tu inscripción académica.
+
+                    </div>
+
+                </div>
+
+            </form>
+
+
+
+            <!-- =================================================
+                 RESULTADO
+            ================================================== -->
+
+            <div
+                id="folioResultado"
+                class="result"
+            >
+
+
+                <div class="result-header">
+
+                    <div class="success-circle">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2.5"
+                        >
+
+                            <path
+                                d="m5 12 4 4L19 6"
+                            />
+
+                        </svg>
+
+                    </div>
+
+
+                    <h3>
+                        ¡Registro completado!
+                    </h3>
+
+
+                    <p>
+                        Tus datos fueron registrados correctamente.
+                    </p>
+
+                </div>
+
+
+                <div class="result-body">
+
+
+                    <div class="folio-label">
+                        Tu folio de inscripción
+                    </div>
+
+
+                    <div
+                        id="codigoFolio"
+                        class="folio-code"
+                    >
+                        EVOLVA-000000
+                    </div>
+
+
+                    <div class="access-box">
+
+                        <div class="access-title">
+
+                            Datos de acceso a tu plataforma
+
+                        </div>
+
+
+                        <div
+                            id="datoCorreo"
+                            class="access-data"
+                        ></div>
+
+
+                        <div
+                            id="datoPassword"
+                            class="access-data"
+                        ></div>
+
+                    </div>
+
+
+                    <div class="result-footer">
+
+                        Guarda tu folio y contraseña.
+                        Los necesitarás para continuar con tu proceso.
+
+                        <br>
+
+
+                        <a
+                            href="pagos.html"
+                            class="payment-link"
+                        >
+
+                            Continuar con el pago
+
+                            <span>→</span>
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <img
+        src="logo-evolva.png"
+        alt="Evolva Academy"
+        class="footer-logo"
+    >
+
+    <p>
+        Formación que impulsa tu evolución.
+        © 2026 Evolva Academy.
+    </p>
+
+</footer>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   API
+===================================================== */
+
+const API_URL =
+    "https://script.google.com/macros/s/AKfycbyTcVS-daEhDz1N5dwZEaCHVQrm17hC5IjQZvujAiI2oXzpgS6BJhtlZlnv1yjBhYX7Yg/exec";
+
+
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
+const formulario =
+    document.getElementById(
+        "registroForm"
+    );
+
+
+const resultado =
+    document.getElementById(
+        "folioResultado"
+    );
+
+
+const codigo =
+    document.getElementById(
+        "codigoFolio"
+    );
+
+
+const curpInput =
+    document.getElementById(
+        "reg_curp"
+    );
+
+
+const captchaError =
+    document.getElementById(
+        "captchaError"
+    );
+
+
+
+/* =====================================================
+   AUTODETECTAR DIPLOMADO
+===================================================== */
+
+window.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const urlParams =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const diplomadoParam =
+            urlParams.get(
+                "diplomado"
+            );
+
+
+        if (
+            diplomadoParam ===
+            "Finanzas Personales"
+        ) {
+
+            document
+                .getElementById(
+                    "cursoFinanzas"
+                )
+                .checked = true;
+
+        }
+
+
+        if (
+            diplomadoParam ===
+            "Primeros Auxilios"
+        ) {
+
+            document
+                .getElementById(
+                    "cursoAuxilios"
+                )
+                .checked = true;
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   CURP
+===================================================== */
+
+curpInput.addEventListener(
+    "input",
+    function () {
+
+        this.value =
+            this.value
+                .toUpperCase()
+                .replace(
+                    /[^A-Z0-9]/g,
+                    ""
+                )
+                .substring(
+                    0,
+                    18
+                );
+
+    }
+);
+
+
+
+/* =====================================================
+   JSONP
+===================================================== */
+
+function llamarAPI(params) {
+
+    return new Promise(
+        function (
+            resolve,
+            reject
+        ) {
+
+            const nombreCallback =
+                "evolvaCallback_" +
+                Date.now() +
+                "_" +
+                Math.floor(
+                    Math.random() *
+                    100000
+                );
+
+
+            const script =
+                document.createElement(
+                    "script"
+                );
+
+
+            let terminado =
+                false;
+
+
+            const timer =
+                setTimeout(
+                    function () {
+
+                        if (terminado)
+                            return;
+
+
+                        terminado = true;
+
+
+                        cleanup();
+
+
+                        reject(
+                            new Error(
+                                "No se pudo conectar con Evolva Academy."
+                            )
                         );
 
-                    selectCurso.value =
-                        diplomadoParam;
+                    },
+                    20000
+                );
+
+
+            window[
+                nombreCallback
+            ] =
+                function (data) {
+
+                    if (terminado)
+                        return;
+
+
+                    terminado = true;
+
+
+                    clearTimeout(
+                        timer
+                    );
+
+
+                    cleanup();
+
+
+                    resolve(data);
+
+                };
+
+
+            function cleanup() {
+
+                delete window[
+                    nombreCallback
+                ];
+
+
+                if (
+                    script.parentNode
+                ) {
+
+                    script.parentNode
+                        .removeChild(
+                            script
+                        );
 
                 }
 
             }
-        );
 
 
-        /* ==========================================
-           CURP
-        ========================================== */
+            const query =
+                new URLSearchParams(
+                    params
+                );
 
-        curpInput.addEventListener(
-            "input",
-            function () {
 
-                this.value =
-                    this.value
-                        .toUpperCase()
-                        .replace(/[^A-Z0-9]/g, "")
-                        .substring(0, 18);
+            query.set(
+                "callback",
+                nombreCallback
+            );
+
+
+            script.src =
+                API_URL +
+                "?" +
+                query.toString();
+
+
+            script.onerror =
+                function () {
+
+                    if (terminado)
+                        return;
+
+
+                    terminado = true;
+
+
+                    clearTimeout(
+                        timer
+                    );
+
+
+                    cleanup();
+
+
+                    reject(
+                        new Error(
+                            "No fue posible conectar con el servidor."
+                        )
+                    );
+
+                };
+
+
+            document.head.appendChild(
+                script
+            );
+
+        }
+    );
+
+}
+
+
+
+/* =====================================================
+   ENVIAR FORMULARIO
+===================================================== */
+
+formulario.addEventListener(
+    "submit",
+    async function (e) {
+
+        e.preventDefault();
+
+
+        const boton =
+            formulario.querySelector(
+                'button[type="submit"]'
+            );
+
+
+        const textoBoton =
+            boton.innerHTML;
+
+
+        /* =================================================
+           DATOS
+        ================================================= */
+
+        const curso =
+            document
+                .querySelector(
+                    'input[name="diplomado"]:checked'
+                );
+
+
+        const nombre =
+            document
+                .getElementById(
+                    "reg_nombre"
+                )
+                .value
+                .trim();
+
+
+        const edad =
+            document
+                .getElementById(
+                    "reg_edad"
+                )
+                .value
+                .trim();
+
+
+        const estado =
+            document
+                .getElementById(
+                    "reg_estado"
+                )
+                .value
+                .trim();
+
+
+        const curp =
+            document
+                .getElementById(
+                    "reg_curp"
+                )
+                .value
+                .trim()
+                .toUpperCase();
+
+
+        const fecha =
+            document
+                .getElementById(
+                    "reg_fecha"
+                )
+                .value;
+
+
+        const email =
+            document
+                .getElementById(
+                    "reg_email"
+                )
+                .value
+                .trim();
+
+
+
+        /* =================================================
+           VALIDACIONES
+        ================================================= */
+
+        if (
+            !curso ||
+            !nombre ||
+            !edad ||
+            !estado ||
+            !curp ||
+            !fecha ||
+            !email
+        ) {
+
+            alert(
+                "Por favor completa todos los campos."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            curp.length !== 18
+        ) {
+
+            alert(
+                "La CURP debe contener exactamente 18 caracteres."
+            );
+
+            return;
+
+        }
+
+
+
+        /* =================================================
+           TURNSTILE
+        ================================================= */
+
+        let turnstileToken =
+            "";
+
+
+        try {
+
+            if (
+                typeof turnstile !==
+                "undefined"
+            ) {
+
+                turnstileToken =
+                    turnstile.getResponse();
 
             }
-        );
 
+        } catch (error) {
 
-        /* ==========================================
-           JSONP
-        ========================================== */
-
-        function llamarAPI(params) {
-
-            return new Promise(
-                function (resolve, reject) {
-
-                    const nombreCallback =
-                        "evolvaCallback_" +
-                        Date.now() +
-                        "_" +
-                        Math.floor(
-                            Math.random() * 100000
-                        );
-
-                    const script =
-                        document.createElement("script");
-
-                    let terminado = false;
-
-
-                    const timer =
-                        setTimeout(
-                            function () {
-
-                                if (terminado)
-                                    return;
-
-                                terminado = true;
-
-                                cleanup();
-
-                                reject(
-                                    new Error(
-                                        "No se pudo conectar con Evolva Academy."
-                                    )
-                                );
-
-                            },
-                            20000
-                        );
-
-
-                    window[nombreCallback] =
-                        function (data) {
-
-                            if (terminado)
-                                return;
-
-                            terminado = true;
-
-                            clearTimeout(timer);
-
-                            cleanup();
-
-                            resolve(data);
-
-                        };
-
-
-                    function cleanup() {
-
-                        delete window[
-                            nombreCallback
-                        ];
-
-                        if (script.parentNode) {
-
-                            script.parentNode
-                                .removeChild(script);
-
-                        }
-
-                    }
-
-
-                    const query =
-                        new URLSearchParams(params);
-
-
-                    query.set(
-                        "callback",
-                        nombreCallback
-                    );
-
-
-                    script.src =
-                        API_URL +
-                        "?" +
-                        query.toString();
-
-
-                    script.onerror =
-                        function () {
-
-                            if (terminado)
-                                return;
-
-                            terminado = true;
-
-                            clearTimeout(timer);
-
-                            cleanup();
-
-                            reject(
-                                new Error(
-                                    "No fue posible conectar con el servidor."
-                                )
-                            );
-
-                        };
-
-
-                    document.head.appendChild(
-                        script
-                    );
-
-                }
+            console.error(
+                "Error Turnstile:",
+                error
             );
 
         }
 
 
-        /* ==========================================
-           ENVIAR FORMULARIO
-        ========================================== */
+        if (
+            !turnstileToken
+        ) {
 
-        formulario.addEventListener(
-            "submit",
-            async function (e) {
+            captchaError.style.display =
+                "block";
 
-                e.preventDefault();
 
+            alert(
+                "Por favor completa la verificación de seguridad antes de continuar."
+            );
 
-                const boton =
-                    formulario.querySelector(
-                        'button[type="submit"]'
-                    );
 
+            return;
 
-                const textoBoton =
-                    boton.textContent;
+        }
 
 
-                /* ==============================
-                   DATOS
-                ============================== */
+        captchaError.style.display =
+            "none";
 
-                const curso =
-                    document
-                        .getElementById("reg_curso")
-                        .value;
 
-                const nombre =
-                    document
-                        .getElementById("reg_nombre")
-                        .value
-                        .trim();
 
-                const edad =
-                    document
-                        .getElementById("reg_edad")
-                        .value
-                        .trim();
+        /* =================================================
+           BLOQUEAR BOTÓN
+        ================================================= */
 
-                const estado =
-                    document
-                        .getElementById("reg_estado")
-                        .value
-                        .trim();
+        boton.disabled =
+            true;
 
-                const curp =
-                    document
-                        .getElementById("reg_curp")
-                        .value
-                        .trim()
-                        .toUpperCase();
 
-                const fecha =
-                    document
-                        .getElementById("reg_fecha")
-                        .value;
+        boton.innerHTML =
+            "Verificando seguridad...";
 
-                const email =
-                    document
-                        .getElementById("reg_email")
-                        .value
-                        .trim();
 
 
-                /* ==============================
-                   VALIDACIONES
-                ============================== */
+        try {
 
-                if (
-                    !curso ||
-                    !nombre ||
-                    !edad ||
-                    !estado ||
-                    !curp ||
-                    !fecha ||
-                    !email
-                ) {
 
-                    alert(
-                        "Por favor completa todos los campos."
-                    );
+            boton.innerHTML =
+                "Registrando inscripción...";
 
-                    return;
 
-                }
+            /* =================================================
+               API
+            ================================================= */
 
+            const data =
+                await llamarAPI({
 
-                if (curp.length !== 18) {
+                    accion:
+                        "registrar",
 
-                    alert(
-                        "La CURP debe contener exactamente 18 caracteres."
-                    );
+                    diplomado:
+                        curso.value,
 
-                    return;
+                    nombre:
+                        nombre,
 
-                }
+                    edad:
+                        edad,
 
+                    estado:
+                        estado,
 
-                /* ==============================
-                   OBTENER TOKEN TURNSTILE
-                ============================== */
+                    curp:
+                        curp,
 
-                let turnstileToken = "";
+                    fecha:
+                        fecha,
 
+                    email:
+                        email,
 
-                try {
+                    turnstileToken:
+                        turnstileToken
 
-                    if (
-                        typeof turnstile !==
-                        "undefined"
-                    ) {
+                });
 
-                        turnstileToken =
-                            turnstile.getResponse();
 
-                    }
 
-                } catch (error) {
+            /* =================================================
+               ERROR
+            ================================================= */
 
-                    console.error(
-                        "Error Turnstile:",
-                        error
-                    );
+            if (
+                !data ||
+                !data.ok
+            ) {
 
-                }
+                throw new Error(
 
+                    (
+                        data &&
+                        data.error
+                    ) ||
 
-                if (!turnstileToken) {
+                    "No fue posible realizar el registro."
 
-                    captchaError.style.display =
-                        "block";
-
-                    alert(
-                        "Por favor completa la verificación de seguridad antes de continuar."
-                    );
-
-                    return;
-
-                }
-
-
-                captchaError.style.display =
-                    "none";
-
-
-                /* ==============================
-                   BLOQUEAR BOTÓN
-                ============================== */
-
-                boton.disabled = true;
-
-                boton.style.opacity = ".65";
-
-                boton.textContent =
-                    "Verificando seguridad...";
-
-
-                try {
-
-
-                    /* ==============================
-                       REGISTRAR
-                    ============================== */
-
-                    boton.textContent =
-                        "Registrando...";
-
-
-                    const data =
-                        await llamarAPI({
-
-                            accion:
-                                "registrar",
-
-                            diplomado:
-                                curso,
-
-                            nombre:
-                                nombre,
-
-                            edad:
-                                edad,
-
-                            estado:
-                                estado,
-
-                            curp:
-                                curp,
-
-                            fecha:
-                                fecha,
-
-                            email:
-                                email,
-
-                            /* TOKEN CLOUDFLARE */
-
-                            turnstileToken:
-                                turnstileToken
-
-                        });
-
-
-                    /* ==============================
-                       ERROR
-                    ============================== */
-
-                    if (
-                        !data ||
-                        !data.ok
-                    ) {
-
-                        throw new Error(
-                            (
-                                data &&
-                                data.error
-                            ) ||
-                            "No fue posible realizar el registro."
-                        );
-
-                    }
-
-
-                    /* ==============================
-                       FOLIO
-                    ============================== */
-
-                    codigo.textContent =
-                        data.folio ||
-                        "—";
-
-
-                    /* ==============================
-                       CORREO
-                    ============================== */
-
-                    document
-                        .getElementById(
-                            "datoCorreo"
-                        )
-                        .innerHTML =
-                            "<strong>Correo:</strong> " +
-                            (
-                                data.alumno &&
-                                data.alumno.CORREO_PERSONAL
-                                    ? data.alumno.CORREO_PERSONAL
-                                    : "—"
-                            );
-
-
-                    /* ==============================
-                       CONTRASEÑA
-                    ============================== */
-
-                    document
-                        .getElementById(
-                            "datoPassword"
-                        )
-                        .innerHTML =
-                            "<strong>Contraseña:</strong> " +
-
-                            '<span style="' +
-                            'font-family:monospace;' +
-                            'font-weight:900;' +
-                            'color:#063b91">' +
-
-                            (
-                                data.password ||
-                                "—"
-                            ) +
-
-                            "</span>";
-
-
-                    /* ==============================
-                       MOSTRAR RESULTADO
-                    ============================== */
-
-                    resultado.style.display =
-                        "block";
-
-
-                    formulario.reset();
-
-                    curpInput.value = "";
-
-
-                    /* ==============================
-                       RESET TURNSTILE
-                    ============================== */
-
-                    try {
-
-                        if (
-                            typeof turnstile !==
-                            "undefined"
-                        ) {
-
-                            turnstile.reset();
-
-                        }
-
-                    } catch (error) {
-
-                        console.warn(
-                            "No se pudo reiniciar Turnstile.",
-                            error
-                        );
-
-                    }
-
-
-                    /* ==============================
-                       IR AL RESULTADO
-                    ============================== */
-
-                    setTimeout(
-                        function () {
-
-                            resultado.scrollIntoView({
-                                behavior: "smooth",
-                                block: "center"
-                            });
-
-                        },
-                        100
-                    );
-
-
-                } catch (error) {
-
-                    console.error(
-                        "Error de registro:",
-                        error
-                    );
-
-
-                    alert(
-                        error.message ||
-                        "No fue posible completar el registro."
-                    );
-
-
-                    /* ==============================
-                       REINICIAR CAPTCHA
-                    ============================== */
-
-                    try {
-
-                        if (
-                            typeof turnstile !==
-                            "undefined"
-                        ) {
-
-                            turnstile.reset();
-
-                        }
-
-                    } catch (resetError) {
-
-                        console.warn(
-                            resetError
-                        );
-
-                    }
-
-
-                } finally {
-
-                    boton.disabled = false;
-
-                    boton.style.opacity = "1";
-
-                    boton.textContent =
-                        textoBoton;
-
-                }
+                );
 
             }
-        );
 
-    </script>
+
+
+            /* =================================================
+               FOLIO
+            ================================================= */
+
+            codigo.textContent =
+                data.folio ||
+                "—";
+
+
+
+            /* =================================================
+               CORREO
+            ================================================= */
+
+            document
+                .getElementById(
+                    "datoCorreo"
+                )
+                .innerHTML =
+
+                "<strong>Correo:</strong> " +
+
+                (
+
+                    data.alumno &&
+                    data.alumno.CORREO_PERSONAL
+
+                        ? data.alumno.CORREO_PERSONAL
+
+                        : "—"
+
+                );
+
+
+
+            /* =================================================
+               PASSWORD
+            ================================================= */
+
+            document
+                .getElementById(
+                    "datoPassword"
+                )
+                .innerHTML =
+
+                "<strong>Contraseña:</strong> " +
+
+                '<span class="password">' +
+
+                (
+
+                    data.password ||
+                    "—"
+
+                ) +
+
+                "</span>";
+
+
+
+            /* =================================================
+               MOSTRAR RESULTADO
+            ================================================= */
+
+            resultado.style.display =
+                "block";
+
+
+            formulario.style.display =
+                "none";
+
+
+
+            /* =================================================
+               RESET
+            ================================================= */
+
+            try {
+
+                if (
+                    typeof turnstile !==
+                    "undefined"
+                ) {
+
+                    turnstile.reset();
+
+                }
+
+            } catch (
+                resetError
+            ) {
+
+                console.warn(
+                    resetError
+                );
+
+            }
+
+
+
+            /* =================================================
+               SCROLL
+            ================================================= */
+
+            setTimeout(
+                function () {
+
+                    resultado.scrollIntoView({
+
+                        behavior:
+                            "smooth",
+
+                        block:
+                            "center"
+
+                    });
+
+                },
+                100
+            );
+
+
+        } catch (
+            error
+        ) {
+
+            console.error(
+                "Error de registro:",
+                error
+            );
+
+
+            alert(
+
+                error.message ||
+
+                "No fue posible completar el registro."
+
+            );
+
+
+            try {
+
+                if (
+                    typeof turnstile !==
+                    "undefined"
+                ) {
+
+                    turnstile.reset();
+
+                }
+
+            } catch (
+                resetError
+            ) {
+
+                console.warn(
+                    resetError
+                );
+
+            }
+
+
+        } finally {
+
+            boton.disabled =
+                false;
+
+
+            boton.innerHTML =
+                textoBoton;
+
+        }
+
+    }
+);
+
+</script>
+
 
 </body>
 
