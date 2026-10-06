@@ -1,357 +1,1178 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Validar certificado | Evolva Academy</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Validación de certificados | Evolva Academy</title>
+
 
 <style>
+
+/* =====================================================
+   RESET
+===================================================== */
+
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
 }
 
+
+/* =====================================================
+   BODY
+===================================================== */
+
 body{
+
     min-height:100vh;
-    font-family:Arial,Helvetica,sans-serif;
-    background:linear-gradient(135deg,#f4f8ff,#ffffff,#edf5ff);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:25px;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background:#eef3f8;
+
     color:#172033;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:30px 18px;
+
 }
+
+
+/* =====================================================
+   CONTENEDOR
+===================================================== */
 
 .contenedor{
+
     width:100%;
-    max-width:570px;
+
+    max-width:850px;
+
 }
+
+
+/* =====================================================
+   ENCABEZADO INSTITUCIONAL
+===================================================== */
+
+.encabezado{
+
+    text-align:center;
+
+    margin-bottom:22px;
+
+}
+
 
 .logo{
-    width:270px;
-    max-width:80%;
+
+    width:235px;
+
+    max-width:75%;
+
+    height:auto;
+
     display:block;
-    margin:0 auto 30px;
+
+    margin:0 auto 16px;
+
 }
+
+
+.linea{
+
+    width:90px;
+
+    height:3px;
+
+    background:#0878ff;
+
+    margin:0 auto 14px;
+
+}
+
+
+.encabezado p{
+
+    color:#697687;
+
+    font-size:13px;
+
+    letter-spacing:.4px;
+
+}
+
+
+/* =====================================================
+   TARJETA PRINCIPAL
+===================================================== */
 
 .card{
+
+    position:relative;
+
     background:#fff;
-    border:1px solid #e0e9f5;
-    border-radius:24px;
-    padding:38px;
-    box-shadow:0 20px 60px rgba(20,70,140,.13);
+
+    border:1px solid #dce5ef;
+
+    box-shadow:
+        0 18px 55px rgba(20,60,110,.13);
+
+    overflow:hidden;
+
 }
 
-h1{
+
+/* Marco interior */
+
+.card::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:9px;
+    left:9px;
+    right:9px;
+    bottom:9px;
+
+    border:1px solid #edf2f7;
+
+    pointer-events:none;
+
+}
+
+
+/* Barra lateral */
+
+.card::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    top:0;
+    bottom:0;
+
+    width:8px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #073b9f,
+            #0878ff,
+            #073b9f
+        );
+
+}
+
+
+/* =====================================================
+   CABECERA DE CONSULTA
+===================================================== */
+
+.consulta{
+
+    position:relative;
+
+    z-index:2;
+
     text-align:center;
+
+    padding:
+        45px
+        45px
+        35px;
+
+}
+
+
+.consulta .pequeno{
+
+    font-size:13px;
+
+    color:#697687;
+
+    margin-bottom:5px;
+
+}
+
+
+.consulta h1{
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
     color:#073b9f;
-    font-size:29px;
-    margin-bottom:10px;
+
+    font-size:34px;
+
+    letter-spacing:2px;
+
+    margin-bottom:8px;
+
 }
 
-.descripcion{
-    text-align:center;
-    color:#687587;
-    font-size:15px;
-    line-height:1.5;
-    margin-bottom:28px;
+
+.consulta .descripcion{
+
+    max-width:620px;
+
+    margin:auto;
+
+    color:#667384;
+
+    font-size:14px;
+
+    line-height:1.55;
+
 }
+
+
+/* =====================================================
+   BUSCADOR
+===================================================== */
+
+.formulario{
+
+    position:relative;
+
+    z-index:2;
+
+    margin:
+        0
+        75px
+        30px;
+
+    padding:25px;
+
+    background:#f8fafc;
+
+    border:1px solid #e0e8f1;
+
+}
+
 
 label{
+
     display:block;
-    font-size:13px;
+
+    text-align:center;
+
+    font-size:11px;
+
     font-weight:bold;
-    margin-bottom:8px;
-    color:#334155;
+
+    text-transform:uppercase;
+
+    letter-spacing:1.2px;
+
+    color:#647286;
+
+    margin-bottom:9px;
+
 }
+
+
+.input-contenedor{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
 
 input{
-    width:100%;
-    height:54px;
-    border:1px solid #d5e1ef;
-    border-radius:12px;
-    padding:0 16px;
-    font-size:16px;
-    outline:none;
+
+    flex:1;
+
+    height:50px;
+
+    border:1px solid #ccd9e7;
+
+    background:white;
+
+    padding:
+        0
+        15px;
+
+    font-size:15px;
+
     text-transform:uppercase;
+
     color:#172033;
+
+    outline:none;
+
 }
+
 
 input:focus{
+
     border-color:#0878ff;
-    box-shadow:0 0 0 4px rgba(8,120,255,.08);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(8,120,255,.08);
+
 }
+
 
 button{
-    width:100%;
-    height:54px;
-    margin-top:16px;
-    border:0;
-    border-radius:12px;
-    background:linear-gradient(90deg,#073b9f,#0878ff);
-    color:white;
+
+    height:50px;
+
+    border:none;
+
+    padding:
+        0
+        24px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #073b9f,
+            #0878ff
+        );
+
+    color:#fff;
+
+    font-size:12px;
+
     font-weight:bold;
-    font-size:15px;
+
+    letter-spacing:.4px;
+
     cursor:pointer;
+
 }
+
 
 button:hover{
-    opacity:.94;
+
+    opacity:.93;
+
 }
+
 
 button:disabled{
-    opacity:.6;
+
+    opacity:.55;
+
     cursor:wait;
+
 }
+
+
+/* =====================================================
+   LOADING
+===================================================== */
 
 #loading{
+
     display:none;
+
+    position:relative;
+
+    z-index:2;
+
     text-align:center;
+
+    padding:
+        10px
+        20px
+        25px;
+
     color:#073b9f;
-    font-size:13px;
-    margin-top:18px;
+
+    font-size:12px;
+
 }
+
 
 .spinner{
+
     width:25px;
+
     height:25px;
-    margin:0 auto 8px;
-    border:3px solid #dce8f8;
+
+    border:
+        3px solid #dce8f7;
+
     border-top-color:#0878ff;
+
     border-radius:50%;
-    animation:girar .7s linear infinite;
+
+    margin:
+        0
+        auto
+        8px;
+
+    animation:
+        girar .7s linear infinite;
+
 }
+
 
 @keyframes girar{
-    to{transform:rotate(360deg);}
+
+    to{
+        transform:rotate(360deg);
+    }
+
 }
+
+
+/* =====================================================
+   ERROR
+===================================================== */
 
 #error{
+
     display:none;
-    margin-top:20px;
-    padding:14px;
-    border-radius:10px;
-    background:#fff1f1;
-    border:1px solid #ffd0d0;
-    color:#c62828;
+
+    position:relative;
+
+    z-index:2;
+
+    margin:
+        0
+        75px
+        30px;
+
+    padding:16px;
+
     text-align:center;
+
+    background:#fff5f5;
+
+    border:1px solid #f0caca;
+
+    color:#b42323;
+
     font-size:13px;
+
 }
+
+
+/* =====================================================
+   RESULTADO
+===================================================== */
 
 #resultado{
+
     display:none;
-    margin-top:25px;
+
+    position:relative;
+
+    z-index:2;
+
+    margin:
+        0
+        55px
+        45px;
+
 }
 
-.resultado-card{
-    background:#f4fbf6;
-    border:1px solid #c9ead3;
-    border-radius:18px;
-    padding:24px;
-}
 
-.validado{
+/* =====================================================
+   SELLO
+===================================================== */
+
+.sello{
+
     text-align:center;
-    margin-bottom:20px;
+
+    margin-bottom:24px;
+
 }
 
-.check{
-    width:55px;
-    height:55px;
-    margin:0 auto 10px;
+
+.sello-circulo{
+
+    width:58px;
+
+    height:58px;
+
     border-radius:50%;
+
+    margin:0 auto 9px;
+
     display:flex;
-    justify-content:center;
+
     align-items:center;
-    background:#dff5e7;
+
+    justify-content:center;
+
+    background:#eaf8ef;
+
+    border:2px solid #a9d9b8;
+
     color:#168144;
+
     font-size:28px;
+
     font-weight:bold;
+
 }
 
-.validado h2{
+
+.sello h2{
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:24px;
+
     color:#168144;
-    font-size:21px;
+
 }
+
+
+.sello p{
+
+    font-size:11px;
+
+    color:#758192;
+
+    margin-top:4px;
+
+}
+
+
+/* =====================================================
+   DATOS
+===================================================== */
+
+.datos{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:10px;
+
+}
+
 
 .dato{
+
     background:#fff;
-    border:1px solid #e4ecef;
-    border-radius:10px;
-    padding:13px 15px;
-    margin-bottom:9px;
+
+    border:1px solid #dfe7ef;
+
+    padding:15px 17px;
+
 }
+
+
+.dato-completo{
+
+    grid-column:
+        1 / -1;
+
+}
+
 
 .etiqueta{
+
     display:block;
-    font-size:10px;
+
+    color:#7b8796;
+
+    font-size:9px;
+
     text-transform:uppercase;
-    letter-spacing:.8px;
-    color:#7a8796;
-    margin-bottom:5px;
+
+    letter-spacing:1px;
+
+    margin-bottom:6px;
+
 }
+
 
 .valor{
+
     display:block;
-    font-size:15px;
-    font-weight:bold;
+
     color:#172033;
+
+    font-size:15px;
+
+    font-weight:bold;
+
     word-break:break-word;
+
 }
+
+
+/* Nombre más destacado */
+
+.dato.nombre{
+
+    grid-column:
+        1 / -1;
+
+    text-align:center;
+
+    padding:19px;
+
+    background:#f8fbff;
+
+    border-color:#d7e5f5;
+
+}
+
+
+.dato.nombre .valor{
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:25px;
+
+    color:#073b9f;
+
+}
+
+
+/* =====================================================
+   CALIFICACIÓN
+===================================================== */
 
 .calificacion{
+
+    margin-top:12px;
+
     text-align:center;
-    background:#eef6ff;
-    border:1px solid #d5e5fa;
-    border-radius:14px;
-    padding:17px;
-    margin-top:15px;
+
+    border:1px solid #d6e4f3;
+
+    background:#f4f8fd;
+
+    padding:18px;
+
 }
+
 
 .calificacion span{
+
     display:block;
-    color:#687587;
-    font-size:10px;
+
+    color:#738092;
+
+    font-size:9px;
+
     text-transform:uppercase;
-    letter-spacing:1px;
+
+    letter-spacing:1.2px;
+
 }
+
 
 .calificacion strong{
+
     display:block;
-    color:#073b9f;
-    font-size:38px;
+
     margin-top:3px;
+
+    color:#073b9f;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size:38px;
+
 }
+
+
+/* =====================================================
+   ESTADO
+===================================================== */
 
 .estado{
-    text-align:center;
-    margin-top:15px;
+
+    margin-top:12px;
+
     padding:12px;
-    border-radius:10px;
-    background:#eaf8ef;
-    color:#168144;
-    font-size:13px;
+
+    text-align:center;
+
+    font-size:11px;
+
     font-weight:bold;
+
+    letter-spacing:.6px;
+
+    border:1px solid #bfe1ca;
+
+    background:#eaf8ef;
+
+    color:#168144;
+
 }
+
+
+/* =====================================================
+   ACCIONES
+===================================================== */
+
+.acciones{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap:10px;
+
+    margin-top:20px;
+
+}
+
+
+.descargar,
+.nuevo{
+
+    height:50px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    text-decoration:none;
+
+    font-size:11px;
+
+    font-weight:bold;
+
+    letter-spacing:.5px;
+
+}
+
 
 .descargar{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:52px;
-    margin-top:17px;
-    border-radius:11px;
-    background:#172033;
-    color:#fff;
-    text-decoration:none;
-    font-size:14px;
-    font-weight:bold;
+
+    background:#073b9f;
+
+    color:white;
+
 }
+
 
 .descargar:hover{
-    background:#073b9f;
+
+    background:#0878ff;
+
 }
+
 
 .nuevo{
-    width:100%;
-    height:48px;
-    margin-top:10px;
-    background:#fff;
+
+    background:white;
+
     color:#073b9f;
-    border:1px solid #cfddec;
+
+    border:1px solid #cbd9e8;
+
 }
+
+
+.nuevo:hover{
+
+    background:#f4f8fd;
+
+}
+
+
+/* =====================================================
+   PIE
+===================================================== */
 
 .pie{
+
+    position:relative;
+
+    z-index:2;
+
     text-align:center;
+
+    border-top:1px solid #edf1f5;
+
+    padding:
+        18px
+        20px;
+
     color:#98a3b3;
-    font-size:11px;
-    margin-top:20px;
+
+    font-size:9px;
+
+    letter-spacing:.3px;
+
 }
 
-@media(max-width:600px){
+
+/* =====================================================
+   MÓVIL
+===================================================== */
+
+@media(max-width:650px){
 
     body{
-        padding:15px;
+
+        padding:15px 10px;
+
+        align-items:flex-start;
+
+    }
+
+
+    .contenedor{
+
+        margin-top:15px;
+
+    }
+
+
+    .logo{
+
+        width:200px;
+
+    }
+
+
+    .consulta{
+
+        padding:
+            38px
+            25px
+            28px;
+
+    }
+
+
+    .consulta h1{
+
+        font-size:28px;
+
+    }
+
+
+    .formulario{
+
+        margin:
+            0
+            25px
+            25px;
+
+        padding:20px 16px;
+
+    }
+
+
+    .input-contenedor{
+
+        flex-direction:column;
+
+    }
+
+
+    input,
+    button{
+
+        width:100%;
+
+    }
+
+
+    #error{
+
+        margin:
+            0
+            25px
+            25px;
+
+    }
+
+
+    #resultado{
+
+        margin:
+            0
+            20px
+            30px;
+
+    }
+
+
+    .datos{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .dato-completo{
+
+        grid-column:auto;
+
+    }
+
+
+    .dato.nombre{
+
+        grid-column:auto;
+
+    }
+
+
+    .acciones{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .dato.nombre .valor{
+
+        font-size:21px;
+
+    }
+
+}
+
+
+/* =====================================================
+   IMPRESIÓN
+===================================================== */
+
+@media print{
+
+    body{
+
+        background:#fff;
+
+    }
+
+    .encabezado,
+    .formulario,
+    #error,
+    #loading,
+    .acciones{
+
+        display:none !important;
+
     }
 
     .card{
-        padding:28px 20px;
+
+        box-shadow:none;
+
+        border:none;
+
     }
 
-    h1{
-        font-size:25px;
+    .pie{
+
+        margin-top:20px;
+
     }
 
-    .logo{
-        width:220px;
-    }
 }
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <div class="contenedor">
 
-    <img
-        src="logo-evolva.png"
-        alt="Evolva Academy"
-        class="logo"
-    >
+
+    <!-- =================================================
+         LOGO
+    ================================================== -->
+
+    <div class="encabezado">
+
+        <img
+            src="logo-evolva.png"
+            alt="Evolva Academy"
+            class="logo"
+        >
+
+        <div class="linea"></div>
+
+        <p>
+            Sistema oficial de consulta y validación
+            de certificados
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         TARJETA
+    ================================================== -->
 
     <div class="card">
 
-        <h1>Consulta tu certificado</h1>
 
-        <p class="descripcion">
-            Ingresa el folio de tu certificado para
-            consultar su información, calificación y estado.
-        </p>
+        <!-- =================================================
+             TITULO
+        ================================================== -->
 
-        <form id="formulario">
+        <section class="consulta">
+
+            <div class="pequeno">
+                Evolva Academy
+            </div>
+
+            <h1>
+                VALIDACIÓN DE CERTIFICADO
+            </h1>
+
+            <p class="descripcion">
+
+                Ingresa el folio de tu certificado
+                para consultar su autenticidad,
+                información académica, calificación
+                y estado.
+
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             BUSCADOR
+        ================================================== -->
+
+        <form
+            id="formulario"
+            class="formulario"
+        >
 
             <label for="folio">
+
                 Folio del certificado
+
             </label>
 
-            <input
-                id="folio"
-                type="text"
-                placeholder="EVOLVA-123456"
-                autocomplete="off"
-                required
-            >
 
-            <button id="boton" type="submit">
-                CONSULTAR CERTIFICADO
-            </button>
+            <div class="input-contenedor">
+
+                <input
+                    id="folio"
+                    type="text"
+                    placeholder="EVOLVA-123456"
+                    autocomplete="off"
+                    required
+                >
+
+
+                <button
+                    id="boton"
+                    type="submit"
+                >
+
+                    CONSULTAR
+
+                </button>
+
+            </div>
 
         </form>
 
+
+        <!-- =================================================
+             LOADING
+        ================================================== -->
+
         <div id="loading">
+
             <div class="spinner"></div>
-            Consultando certificado...
+
+            Verificando información del certificado...
+
         </div>
+
+
+        <!-- =================================================
+             ERROR
+        ================================================== -->
 
         <div id="error"></div>
 
-        <div id="resultado">
 
-            <div class="resultado-card">
+        <!-- =================================================
+             RESULTADO
+        ================================================== -->
 
-                <div class="validado">
+        <section id="resultado">
 
-                    <div class="check">✓</div>
 
-                    <h2>
-                        Certificado encontrado
-                    </h2>
+            <!-- SELLO -->
 
+            <div class="sello">
+
+                <div class="sello-circulo">
+                    ✓
                 </div>
 
-                <div class="dato">
+                <h2>
+                    Certificado verificado
+                </h2>
+
+                <p>
+                    La información corresponde a
+                    un registro de Evolva Academy.
+                </p>
+
+            </div>
+
+
+            <!-- DATOS -->
+
+            <div class="datos">
+
+
+                <!-- NOMBRE -->
+
+                <div class="dato nombre">
 
                     <span class="etiqueta">
                         Alumno
@@ -360,9 +1181,14 @@ button:disabled{
                     <span
                         class="valor"
                         id="nombre"
-                    >—</span>
+                    >
+                        —
+                    </span>
 
                 </div>
+
+
+                <!-- DIPLOMADO -->
 
                 <div class="dato">
 
@@ -373,84 +1199,127 @@ button:disabled{
                     <span
                         class="valor"
                         id="diplomado"
-                    >—</span>
+                    >
+                        —
+                    </span>
 
                 </div>
+
+
+                <!-- FOLIO -->
 
                 <div class="dato">
 
                     <span class="etiqueta">
-                        Folio
+                        Folio de certificado
                     </span>
 
                     <span
                         class="valor"
                         id="folioMostrar"
-                    >—</span>
-
-                </div>
-
-                <div class="calificacion">
-
-                    <span>
-                        Calificación final
+                    >
+                        —
                     </span>
 
-                    <strong id="calificacion">
-                        —
-                    </strong>
-
                 </div>
 
-                <div
-                    class="estado"
-                    id="estado"
-                >
-                    CERTIFICADO VÁLIDO
-                </div>
+
+            </div>
+
+
+            <!-- CALIFICACIÓN -->
+
+            <div class="calificacion">
+
+                <span>
+                    Calificación final
+                </span>
+
+                <strong id="calificacion">
+                    —
+                </strong>
+
+            </div>
+
+
+            <!-- ESTADO -->
+
+            <div
+                class="estado"
+                id="estado"
+            >
+
+                CERTIFICADO VÁLIDO
+
+            </div>
+
+
+            <!-- ACCIONES -->
+
+            <div class="acciones">
+
 
                 <a
                     id="descargar"
                     class="descargar"
                     href="#"
+                    target="_blank"
                 >
-                    ↓ &nbsp; DESCARGAR CERTIFICADO
+
+                    ↓ &nbsp; VER Y DESCARGAR CERTIFICADO
+
                 </a>
+
 
                 <button
                     type="button"
                     class="nuevo"
                     onclick="nuevaConsulta()"
                 >
+
                     CONSULTAR OTRO FOLIO
+
                 </button>
+
 
             </div>
 
+
+        </section>
+
+
+        <!-- =================================================
+             PIE
+        ================================================== -->
+
+        <div class="pie">
+
+            Documento electrónico verificable ·
+            Evolva Academy ·
+            Todos los derechos reservados
+
         </div>
 
+
     </div>
 
-    <div class="pie">
-        Sistema de validación · Evolva Academy
-    </div>
 
 </div>
 
 
 <script>
 
-/* ==========================================
-   TU APPS SCRIPT
-========================================== */
+/* =====================================================
+   APPS SCRIPT
+===================================================== */
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycby-9ln5UlpJiMrWbIoW4dpXICsT0KZDSh2k_Y-efPwk6RQADcH80-1MHz08grqtFOrJuQ/exec";
 
 
-/* ==========================================
+/* =====================================================
    ELEMENTOS
-========================================== */
+===================================================== */
 
 const formulario =
 document.getElementById("formulario");
@@ -468,176 +1337,232 @@ const resultado =
 document.getElementById("resultado");
 
 
-/* ==========================================
-   CONSULTAR
-========================================== */
+/* =====================================================
+   CONSULTAR CERTIFICADO
+===================================================== */
 
 formulario.addEventListener(
-"submit",
-async function(e){
+    "submit",
+    async function(e){
 
-    e.preventDefault();
+        e.preventDefault();
 
-    const folio =
-    document
-    .getElementById("folio")
-    .value
-    .trim()
-    .toUpperCase();
 
-    if(!folio){
+        const folio =
+        document
+        .getElementById("folio")
+        .value
+        .trim()
+        .toUpperCase();
 
-        mostrarError(
-            "Ingresa un folio."
-        );
 
-        return;
-    }
+        if(!folio){
 
-    boton.disabled = true;
-
-    loading.style.display = "block";
-    error.style.display = "none";
-    resultado.style.display = "none";
-
-    try{
-
-        const url =
-        API_URL +
-        "?accion=buscarfolio&folio=" +
-        encodeURIComponent(folio);
-
-        const respuesta =
-        await fetch(url);
-
-        if(!respuesta.ok){
-
-            throw new Error(
-                "No fue posible conectar con el sistema."
+            mostrarError(
+                "Ingresa un folio para realizar la consulta."
             );
+
+            return;
+
         }
 
-        const datos =
-        await respuesta.json();
 
-        console.log(
-            "Respuesta Apps Script:",
-            datos
-        );
+        boton.disabled = true;
 
-        /*
-         * Compatible con diferentes
-         * formatos de respuesta.
-         */
+        loading.style.display = "block";
 
-        const alumno =
-        datos.data ||
-        datos.alumno ||
-        datos.resultado ||
-        datos;
+        error.style.display = "none";
 
-        if(
-            datos.ok === false ||
-            !alumno
-        ){
+        resultado.style.display = "none";
 
-            throw new Error(
-                "No se encontró un certificado con ese folio."
+
+        try{
+
+
+            const url =
+                API_URL +
+                "?accion=buscarfolio&folio=" +
+                encodeURIComponent(folio);
+
+
+            const respuesta =
+                await fetch(url);
+
+
+            if(!respuesta.ok){
+
+                throw new Error(
+                    "No fue posible conectar con el sistema de Evolva Academy."
+                );
+
+            }
+
+
+            const datos =
+                await respuesta.json();
+
+
+            console.log(
+                "Respuesta Apps Script:",
+                datos
             );
+
+
+            /*
+             * Compatible con las respuestas
+             * que ya utiliza tu sistema.
+             */
+
+            const alumno =
+                datos.data ||
+                datos.alumno ||
+                datos.resultado ||
+                datos;
+
+
+            if(
+                datos.ok === false ||
+                !alumno
+            ){
+
+                throw new Error(
+                    "No se encontró un certificado con ese folio."
+                );
+
+            }
+
+
+            const folioReal =
+                alumno.FOLIO ||
+                alumno.folio;
+
+
+            if(!folioReal){
+
+                throw new Error(
+                    "No se encontró un certificado con ese folio."
+                );
+
+            }
+
+
+            mostrarResultado(
+                alumno,
+                folioReal
+            );
+
+
+        }
+        catch(err){
+
+            console.error(err);
+
+
+            mostrarError(
+                err.message ||
+                "Ocurrió un error al consultar el certificado."
+            );
+
         }
 
-        const folioReal =
-        alumno.FOLIO ||
-        alumno.folio;
 
-        if(!folioReal){
+        boton.disabled = false;
 
-            throw new Error(
-                "No se encontró un certificado con ese folio."
-            );
-        }
-
-        mostrarResultado(
-            alumno,
-            folioReal
-        );
+        loading.style.display = "none";
 
     }
-    catch(err){
-
-        console.error(err);
-
-        mostrarError(
-            err.message
-        );
-
-    }
-
-    boton.disabled = false;
-
-    loading.style.display = "none";
-
-});
+);
 
 
-/* ==========================================
+/* =====================================================
    MOSTRAR RESULTADO
-========================================== */
+===================================================== */
 
 function mostrarResultado(
     alumno,
     folio
 ){
 
+
     const nombre =
-    alumno.NOMBRE ||
-    alumno.nombre ||
-    "No registrado";
+        alumno.NOMBRE ||
+        alumno.nombre ||
+        "No registrado";
+
 
     const diplomado =
-    alumno.DIPLOMADO ||
-    alumno.diplomado ||
-    "No registrado";
+        alumno.DIPLOMADO ||
+        alumno.diplomado ||
+        "No registrado";
+
 
     const calificacion =
-    alumno.PROMEDIO ??
-    alumno.promedio ??
-    alumno.CALIFICACION ??
-    alumno.calificacion ??
-    "No registrada";
+        alumno.PROMEDIO ??
+        alumno.promedio ??
+        alumno.CALIFICACION ??
+        alumno.calificacion ??
+        "No registrada";
+
 
     let estado =
-    alumno.ESTADO ||
-    alumno.estado ||
-    "NO DISPONIBLE";
+        alumno.ESTADO ||
+        alumno.estado ||
+        "NO DISPONIBLE";
+
 
     estado =
-    String(estado).toUpperCase();
+        String(estado).toUpperCase();
+
+
+    /* ==========================================
+       NOMBRE
+    ========================================== */
 
     document.getElementById(
         "nombre"
     ).textContent =
         nombre;
 
+
+    /* ==========================================
+       DIPLOMADO
+    ========================================== */
+
     document.getElementById(
         "diplomado"
     ).textContent =
         diplomado;
+
+
+    /* ==========================================
+       FOLIO
+    ========================================== */
 
     document.getElementById(
         "folioMostrar"
     ).textContent =
         folio;
 
+
+    /* ==========================================
+       CALIFICACIÓN
+    ========================================== */
+
     document.getElementById(
         "calificacion"
     ).textContent =
         calificacion;
 
+
+    /* ==========================================
+       ESTADO
+    ========================================== */
+
     const estadoElemento =
-    document.getElementById(
-        "estado"
-    );
+        document.getElementById(
+            "estado"
+        );
+
 
     if(
         estado === "ACTIVO" ||
@@ -654,6 +1579,9 @@ function mostrarResultado(
         estadoElemento.style.color =
             "#168144";
 
+        estadoElemento.style.borderColor =
+            "#bfe1ca";
+
     }
     else{
 
@@ -665,12 +1593,16 @@ function mostrarResultado(
 
         estadoElemento.style.color =
             "#9a6500";
+
+        estadoElemento.style.borderColor =
+            "#ead7a4";
+
     }
 
 
-    /*
-     * Abre el certificado correspondiente.
-     */
+    /* ==========================================
+       ENLACE AL CERTIFICADO
+    ========================================== */
 
     document.getElementById(
         "descargar"
@@ -679,32 +1611,54 @@ function mostrarResultado(
         encodeURIComponent(folio);
 
 
+    /* ==========================================
+       MOSTRAR RESULTADO
+    ========================================== */
+
     resultado.style.display =
         "block";
+
+
+    /*
+     * Desplazar suavemente al resultado
+     * en teléfonos y pantallas pequeñas.
+     */
+
+    setTimeout(function(){
+
+        resultado.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
+        });
+
+    },100);
 
 }
 
 
-/* ==========================================
+/* =====================================================
    ERROR
-========================================== */
+===================================================== */
 
 function mostrarError(mensaje){
 
     resultado.style.display =
         "none";
 
+
     error.textContent =
         mensaje;
 
+
     error.style.display =
         "block";
+
 }
 
 
-/* ==========================================
+/* =====================================================
    NUEVA CONSULTA
-========================================== */
+===================================================== */
 
 function nuevaConsulta(){
 
@@ -712,18 +1666,64 @@ function nuevaConsulta(){
         "folio"
     ).value = "";
 
+
     resultado.style.display =
         "none";
+
 
     error.style.display =
         "none";
 
+
     document.getElementById(
         "folio"
     ).focus();
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* =====================================================
+   CONSULTA AUTOMÁTICA POR URL
+=====================================================
+
+   Permite abrir:
+
+   validar.html?folio=EVOLVA-123456
+
+   y que el sistema consulte automáticamente.
+===================================================== */
+
+const parametros =
+new URLSearchParams(
+    window.location.search
+);
+
+const folioURL =
+parametros.get("folio");
+
+
+if(folioURL){
+
+    document.getElementById(
+        "folio"
+    ).value =
+        folioURL.toUpperCase();
+
+    formulario.dispatchEvent(
+        new Event("submit")
+    );
+
 }
 
 </script>
 
+
 </body>
+
 </html>
