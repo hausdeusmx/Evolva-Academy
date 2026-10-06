@@ -1,580 +1,503 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Diploma | Evolva Academy</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-
 <style>
 
-/* =====================================================
-   RESET
-===================================================== */
+/* =========================================================
+   CONFIGURACIÓN GENERAL
+========================================================= */
 
 *{
     box-sizing:border-box;
+}
+
+html,
+body{
     margin:0;
     padding:0;
+    width:100%;
+    min-height:100%;
+    font-family:Georgia, "Times New Roman", serif;
+    background:#e9edf3;
+    color:#102c55;
 }
 
 
-/* =====================================================
-   BODY
-===================================================== */
+/* =========================================================
+   BOTÓN PDF
+========================================================= */
 
-body{
+#botonPDF{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    z-index:9999;
 
-    min-height:100vh;
+    border:0;
+    border-radius:7px;
 
-    background:#eef3f8;
+    padding:15px 25px;
 
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
+    background:#0754b8;
+    color:white;
 
-    color:#172033;
+    font-family:Arial,sans-serif;
+    font-weight:bold;
+    font-size:14px;
+
+    cursor:pointer;
+
+    box-shadow:0 8px 25px rgba(0,0,0,.25);
+
+    transition:.2s;
+}
+
+#botonPDF:hover{
+    background:#063d87;
+    transform:translateY(-2px);
+}
+
+
+/* =========================================================
+   CONTENEDOR
+========================================================= */
+
+.contenedor{
+    width:1120px;
+    height:790px;
+
+    margin:35px auto;
+
+    position:relative;
+
+    background:#fff;
+
+    overflow:hidden;
+
+    box-shadow:
+        0 15px 45px rgba(0,0,0,.18);
+}
+
+
+/* =========================================================
+   MARCA DE AGUA
+========================================================= */
+
+.marca-agua{
+    position:absolute;
+
+    left:50%;
+    top:52%;
+
+    transform:
+        translate(-50%,-50%)
+        rotate(-28deg);
+
+    font-family:Arial,sans-serif;
+
+    font-size:105px;
+
+    font-weight:900;
+
+    letter-spacing:10px;
+
+    color:#0754b8;
+
+    opacity:.035;
+
+    white-space:nowrap;
+
+    pointer-events:none;
+
+    z-index:1;
+}
+
+
+/* =========================================================
+   MARCOS
+========================================================= */
+
+.marco-externo{
+    position:absolute;
+
+    inset:13px;
+
+    border:3px solid #0b4fa3;
+
+    pointer-events:none;
+
+    z-index:5;
+}
+
+.marco-interno{
+    position:absolute;
+
+    inset:22px;
+
+    border:1px solid #8baed5;
+
+    pointer-events:none;
+
+    z-index:5;
+}
+
+
+/* =========================================================
+   DECORACIONES DE ESQUINA
+========================================================= */
+
+.esquina{
+    position:absolute;
+
+    width:65px;
+    height:65px;
+
+    z-index:6;
+
+    border-color:#0b4fa3;
+}
+
+.esquina.tl{
+    top:28px;
+    left:28px;
+
+    border-top:5px solid;
+    border-left:5px solid;
+}
+
+.esquina.tr{
+    top:28px;
+    right:28px;
+
+    border-top:5px solid;
+    border-right:5px solid;
+}
+
+.esquina.bl{
+    bottom:28px;
+    left:28px;
+
+    border-bottom:5px solid;
+    border-left:5px solid;
+}
+
+.esquina.br{
+    bottom:28px;
+    right:28px;
+
+    border-bottom:5px solid;
+    border-right:5px solid;
+}
+
+
+/* =========================================================
+   CONTENIDO
+========================================================= */
+
+.contenido{
+    position:absolute;
+
+    inset:40px 48px;
+
+    z-index:10;
 
     display:flex;
-
-    justify-content:center;
+    flex-direction:column;
 
     align-items:center;
 
-    padding:30px;
-
+    text-align:center;
 }
 
 
-/* =====================================================
-   BOTÓN PDF
-===================================================== */
+/* =========================================================
+   LOGO
+========================================================= */
 
-#botonPDF{
+.logo{
+    width:145px;
+    max-height:70px;
 
-    position:fixed;
+    object-fit:contain;
 
-    right:25px;
-    bottom:25px;
+    margin-top:4px;
+    margin-bottom:8px;
+}
 
-    z-index:5000;
 
-    border:none;
+/* =========================================================
+   ENCABEZADO
+========================================================= */
 
-    background:
-        linear-gradient(
-            90deg,
-            #073b9f,
-            #0878ff
-        );
+.institucion{
+    font-family:Arial,sans-serif;
 
-    color:white;
+    font-size:11px;
 
-    padding:
-        14px
-        22px;
+    letter-spacing:4px;
+
+    color:#56718e;
+
+    text-transform:uppercase;
+
+    margin-bottom:4px;
+}
+
+.titulo{
+    margin:0;
+
+    color:#0754b8;
+
+    font-size:55px;
+
+    line-height:1;
+
+    letter-spacing:8px;
+
+    font-weight:bold;
+}
+
+.subtitulo{
+    margin-top:7px;
+
+    font-family:Arial,sans-serif;
+
+    font-size:9px;
+
+    letter-spacing:5px;
+
+    color:#56718e;
+
+    text-transform:uppercase;
+}
+
+
+/* =========================================================
+   SEPARADOR
+========================================================= */
+
+.separador{
+    width:65%;
+
+    height:1px;
+
+    background:#9bb9d8;
+
+    margin:14px auto 10px;
+
+    position:relative;
+}
+
+.separador::before,
+.separador::after{
+    content:"";
+
+    position:absolute;
+
+    top:-3px;
+
+    width:7px;
+    height:7px;
+
+    border:1px solid #0754b8;
+
+    transform:rotate(45deg);
+
+    background:white;
+}
+
+.separador::before{
+    left:-4px;
+}
+
+.separador::after{
+    right:-4px;
+}
+
+
+/* =========================================================
+   TEXTO PRINCIPAL
+========================================================= */
+
+.otorga{
+    font-family:Arial,sans-serif;
+
+    font-size:11px;
+
+    color:#555;
+
+    margin-top:0;
+}
+
+.preposicion{
+    margin-top:4px;
+
+    font-family:Arial,sans-serif;
+
+    font-size:10px;
+
+    color:#777;
+}
+
+
+/* =========================================================
+   NOMBRE
+========================================================= */
+
+.nombre{
+    margin-top:5px;
+
+    font-size:36px;
+
+    line-height:1.1;
+
+    color:#102c55;
+
+    font-weight:bold;
+
+    padding:0 30px;
+
+    max-width:850px;
+
+    border-bottom:1px solid #b5c9dd;
+
+    padding-bottom:7px;
+}
+
+.curp{
+    margin-top:5px;
+
+    font-family:Arial,sans-serif;
+
+    font-size:9px;
+
+    color:#777;
+
+    letter-spacing:1px;
+}
+
+
+/* =========================================================
+   DIPLOMADO
+========================================================= */
+
+.texto-acreditacion{
+    margin-top:12px;
+
+    font-family:Arial,sans-serif;
+
+    font-size:10px;
+
+    color:#555;
+}
+
+.diplomado{
+    margin-top:3px;
+
+    font-size:25px;
+
+    font-weight:bold;
+
+    color:#0754b8;
+}
+
+
+/* =========================================================
+   DESCRIPCIÓN
+========================================================= */
+
+.descripcion{
+    max-width:720px;
+
+    margin-top:6px;
+
+    font-family:Arial,sans-serif;
+
+    font-size:9px;
+
+    line-height:1.4;
+
+    color:#555;
+}
+
+
+/* =========================================================
+   INFORMACIÓN
+========================================================= */
+
+.informacion{
+    width:76%;
+
+    margin-top:13px;
+
+    display:grid;
+
+    grid-template-columns:
+        1fr
+        1fr
+        1fr;
+
+    border-top:1px solid #bdd0e4;
+
+    border-bottom:1px solid #bdd0e4;
+
+    padding:9px 0;
+}
+
+.dato{
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    min-height:38px;
+
+    border-right:1px solid #d7e1ec;
+}
+
+.dato:last-child{
+    border-right:none;
+}
+
+.etiqueta{
+    font-family:Arial,sans-serif;
+
+    font-size:7px;
+
+    letter-spacing:1.5px;
+
+    color:#70859d;
+
+    text-transform:uppercase;
+
+    margin-bottom:4px;
+}
+
+.valor{
+    font-family:Arial,sans-serif;
 
     font-size:12px;
 
     font-weight:bold;
 
-    letter-spacing:.4px;
-
-    cursor:pointer;
-
-    box-shadow:
-        0 8px 25px
-        rgba(0,45,110,.25);
-
+    color:#102c55;
 }
 
 
-#botonPDF:hover{
-
-    background:#0878ff;
-
-}
-
-
-/* =====================================================
-   CERTIFICADO
-===================================================== */
-
-.certificado{
-
-    position:relative;
-
-    width:1120px;
-
-    height:790px;
-
-    background:#ffffff;
-
-    overflow:hidden;
-
-    box-shadow:
-        0 20px 60px
-        rgba(25,60,100,.16);
-
-}
-
-
-/* =====================================================
-   MARCOS
-===================================================== */
-
-.marco-exterior{
-
-    position:absolute;
-
-    top:14px;
-    left:14px;
-    right:14px;
-    bottom:14px;
-
-    border:
-        2px solid #d8e5f5;
-
-    pointer-events:none;
-
-}
-
-
-.marco-interior{
-
-    position:absolute;
-
-    top:22px;
-    left:22px;
-    right:22px;
-    bottom:22px;
-
-    border:
-        1px solid #edf2f7;
-
-    pointer-events:none;
-
-}
-
-
-/* =====================================================
-   BARRAS LATERALES
-===================================================== */
-
-.decoracion{
-
-    position:absolute;
-
-    top:0;
-    bottom:0;
-
-    width:8px;
-
-    background:
-        linear-gradient(
-            180deg,
-            #073b9f,
-            #0878ff,
-            #073b9f
-        );
-
-}
-
-
-.decoracion.izquierda{
-
-    left:0;
-
-}
-
-
-.decoracion.derecha{
-
-    right:0;
-
-}
-
-
-/* =====================================================
-   PEQUEÑAS LINEAS DECORATIVAS
-===================================================== */
-
-.decoracion.izquierda::before,
-.decoracion.derecha::before{
-
-    content:"";
-
-    position:absolute;
-
-    top:45px;
-    bottom:45px;
-
-    width:1px;
-
-    background:
-        rgba(255,255,255,.65);
-
-}
-
-
-.decoracion.izquierda::before{
-
-    left:3px;
-
-}
-
-
-.decoracion.derecha::before{
-
-    right:3px;
-
-}
-
-
-/* =====================================================
-   ESTADO
-===================================================== */
-
-.estado{
-
-    position:absolute;
-
-    top:34px;
-
-    right:45px;
-
-    color:#168144;
-
-    font-size:8px;
-
-    font-weight:bold;
-
-    letter-spacing:1px;
-
-    z-index:5;
-
-}
-
-
-/* =====================================================
-   CONTENIDO
-===================================================== */
-
-.contenido{
-
-    position:relative;
-
-    z-index:3;
-
-    height:100%;
-
-    text-align:center;
-
-    padding-top:45px;
-
-}
-
-
-/* =====================================================
-   LOGO
-===================================================== */
-
-.logo{
-
-    width:235px;
-
-    max-width:40%;
-
-    height:auto;
-
-    display:block;
-
-    margin:
-        0
-        auto
-        13px;
-
-}
-
-
-/* =====================================================
-   LINEA
-===================================================== */
-
-.linea{
-
-    width:85px;
-
-    height:3px;
-
-    background:#0878ff;
-
-    margin:
-        0
-        auto
-        13px;
-
-}
-
-
-/* =====================================================
-   TEXTO SUPERIOR
-===================================================== */
-
-.otorga{
-
-    color:#687586;
-
-    font-size:14px;
-
-    letter-spacing:.2px;
-
-}
-
-
-/* =====================================================
-   TITULO
-===================================================== */
-
-.titulo{
-
-    margin-top:2px;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    color:#073b9f;
-
-    font-size:58px;
-
-    font-weight:bold;
-
-    letter-spacing:7px;
-
-}
-
-
-.subtitulo{
-
-    margin-top:2px;
-
-    color:#7d8998;
-
-    font-size:9px;
-
-    text-transform:uppercase;
-
-    letter-spacing:3px;
-
-}
-
-
-/* =====================================================
-   NOMBRE
-===================================================== */
-
-.pre-nombre{
-
-    margin-top:18px;
-
-    color:#667384;
-
-    font-size:13px;
-
-}
-
-
-.nombre{
-
-    display:inline-block;
-
-    min-width:450px;
-
-    max-width:800px;
-
-    margin-top:5px;
-
-    padding:
-        0
-        20px
-        7px;
-
-    border-bottom:
-        1px solid #cfdbe8;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    font-size:34px;
-
-    font-weight:bold;
-
-    color:#172033;
-
-}
-
-
-.curp{
-
-    margin-top:5px;
-
-    color:#8792a1;
-
-    font-size:8px;
-
-    letter-spacing:.5px;
-
-}
-
-
-/* =====================================================
-   DIPLOMADO
-===================================================== */
-
-.texto-diplomado{
-
-    margin-top:14px;
-
-    color:#667384;
-
-    font-size:13px;
-
-}
-
-
-.diplomado{
-
-    margin-top:5px;
-
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
-
-    color:#073b9f;
-
-    font-size:27px;
-
-    font-weight:bold;
-
-}
-
-
-/* =====================================================
-   DESCRIPCIÓN
-===================================================== */
-
-.descripcion{
-
-    max-width:720px;
-
-    margin:
-        12px
-        auto
-        0;
-
-    color:#3e4b5b;
-
-    font-size:11px;
-
-    line-height:1.5;
-
-}
-
-
-/* =====================================================
-   INFORMACIÓN ACADÉMICA
-===================================================== */
-
-.info{
-
-    display:flex;
-
-    justify-content:center;
-
-    gap:70px;
-
-    margin-top:13px;
-
-}
-
-
-.info-item{
-
-    min-width:130px;
-
-}
-
-
-.info-etiqueta{
-
-    display:block;
-
-    color:#8994a3;
-
-    font-size:7px;
-
-    text-transform:uppercase;
-
-    letter-spacing:1px;
-
-    margin-bottom:3px;
-
-}
-
-
-.info-valor{
-
-    color:#172033;
-
-    font-size:11px;
-
-    font-weight:bold;
-
-}
-
-
-/* =====================================================
-   FECHA
-===================================================== */
-
-.fecha{
-
-    margin-top:12px;
-
-    color:#657181;
-
-    font-size:10px;
-
-}
-
-
-/* =====================================================
+/* =========================================================
    PARTE INFERIOR
-===================================================== */
+========================================================= */
 
 .inferior{
-
-    position:absolute;
-
-    left:95px;
-    right:95px;
-
-    bottom:47px;
+    width:76%;
 
     display:grid;
 
@@ -585,209 +508,185 @@ body{
 
     align-items:end;
 
+    margin-top:13px;
+
+    min-height:105px;
 }
 
 
-/* =====================================================
-   FOLIO
-===================================================== */
-
-.folio{
-
-    text-align:left;
-
-}
-
-
-.folio-valor{
-
-    color:#172033;
-
-    font-size:10px;
-
-    font-weight:bold;
-
-}
-
-
-.folio-label{
-
-    margin-top:4px;
-
-    color:#8a95a4;
-
-    font-size:7px;
-
-    text-transform:uppercase;
-
-    letter-spacing:1px;
-
-}
-
-
-/* =====================================================
+/* =========================================================
    FIRMA
-===================================================== */
+========================================================= */
 
 .firma{
-
     text-align:center;
 
+    padding:0 15px;
 }
-
-
-.firma-nombre{
-
-    height:35px;
-
-    display:flex;
-
-    align-items:flex-end;
-
-    justify-content:center;
-
-    font-family:
-        "Brush Script MT",
-        "Segoe Script",
-        cursive;
-
-    color:#073b9f;
-
-    font-size:29px;
-
-}
-
 
 .linea-firma{
-
-    width:190px;
+    width:150px;
 
     height:1px;
 
-    background:#657181;
+    background:#4d6075;
 
-    margin:
-        3px
-        auto
-        5px;
+    margin:0 auto 6px;
+}
 
+.firma-nombre{
+    font-size:15px;
+
+    font-weight:bold;
+
+    color:#102c55;
+}
+
+.firma-cargo{
+    font-family:Arial,sans-serif;
+
+    font-size:8px;
+
+    letter-spacing:1px;
+
+    color:#687d94;
+
+    margin-top:3px;
+
+    text-transform:uppercase;
 }
 
 
-.firma-cargo{
+/* =========================================================
+   QR
+========================================================= */
 
-    color:#172033;
+.qr-area{
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+}
+
+#qrcode{
+    width:82px;
+    height:82px;
+
+    padding:3px;
+
+    background:white;
+
+    border:1px solid #9db6d1;
+}
+
+.qr-text{
+    margin-top:4px;
+
+    font-family:Arial,sans-serif;
+
+    font-size:7px;
+
+    color:#72869b;
+
+    letter-spacing:.7px;
+}
+
+
+/* =========================================================
+   ESTADO
+========================================================= */
+
+.estado-area{
+    text-align:center;
+}
+
+.estado{
+    display:inline-block;
+
+    padding:7px 13px;
+
+    border:1px solid #0b4fa3;
+
+    color:#0754b8;
+
+    font-family:Arial,sans-serif;
 
     font-size:9px;
 
     font-weight:bold;
 
+    letter-spacing:1px;
+}
+
+.folio{
+    margin-top:8px;
+
+    font-family:Arial,sans-serif;
+
+    font-size:8px;
+
+    color:#65798f;
+}
+
+.folio strong{
+    color:#102c55;
 }
 
 
-.firma-digital{
+/* =========================================================
+   FECHA
+========================================================= */
 
-    margin-top:4px;
-
-    color:#929dac;
-
-    font-family:monospace;
-
-    font-size:6px;
-
-}
-
-
-/* =====================================================
-   QR
-===================================================== */
-
-.qr{
-
-    text-align:right;
-
-}
-
-
-#qrcode{
-
-    width:82px;
-
-    height:82px;
-
-    margin-left:auto;
-
-}
-
-
-#qrcode img,
-#qrcode canvas{
-
-    width:82px !important;
-
-    height:82px !important;
-
-}
-
-
-.qr-texto{
-
-    width:82px;
-
-    margin:
-        3px
-        0
-        0
-        auto;
-
-    color:#7e8998;
-
-    font-size:6px;
-
-    line-height:1.3;
-
-    text-align:center;
-
-}
-
-
-/* =====================================================
-   PIE
-===================================================== */
-
-.pie{
-
+.fecha{
     position:absolute;
 
-    left:100px;
-    right:100px;
+    bottom:2px;
 
-    bottom:17px;
+    left:50%;
 
-    text-align:center;
+    transform:translateX(-50%);
 
-    color:#9ba5b2;
+    font-family:Arial,sans-serif;
 
-    font-size:6px;
+    font-size:8px;
 
-    letter-spacing:.3px;
-
+    color:#71849a;
 }
 
 
-/* =====================================================
-   CARGANDO
-===================================================== */
+/* =========================================================
+   FIRMA DIGITAL
+========================================================= */
+
+.firma-digital{
+    position:absolute;
+
+    right:57px;
+    bottom:25px;
+
+    font-family:Arial,sans-serif;
+
+    font-size:6px;
+
+    color:#a1afbd;
+
+    letter-spacing:.5px;
+}
+
+
+/* =========================================================
+   LOADING
+========================================================= */
 
 #cargando{
-
     position:fixed;
 
     inset:0;
 
-    z-index:10000;
-
-    background:#eef3f8;
+    background:white;
 
     display:flex;
 
@@ -795,612 +694,154 @@ body{
 
     justify-content:center;
 
+    z-index:99999;
+
+    font-family:Arial,sans-serif;
+
+    color:#0754b8;
+
+    font-weight:bold;
 }
 
 
-.cargando-box{
-
-    background:white;
-
-    padding:35px 50px;
-
-    text-align:center;
-
-    box-shadow:
-        0 15px 40px
-        rgba(0,0,0,.12);
-
-}
-
-
-.spinner{
-
-    width:35px;
-
-    height:35px;
-
-    margin:
-        0
-        auto
-        12px;
-
-    border:
-        4px solid #dce7f4;
-
-    border-top-color:#0878ff;
-
-    border-radius:50%;
-
-    animation:
-        girar .7s linear infinite;
-
-}
-
-
-@keyframes girar{
-
-    to{
-        transform:rotate(360deg);
-    }
-
-}
-
-
-/* =====================================================
+/* =========================================================
    ERROR
-===================================================== */
+========================================================= */
 
 #error{
-
     display:none;
 
-    position:fixed;
-
-    inset:0;
-
-    z-index:11000;
-
-    background:#eef3f8;
+    min-height:100vh;
 
     align-items:center;
 
     justify-content:center;
 
-    padding:20px;
-
-}
-
-
-.error-box{
-
-    max-width:450px;
-
-    background:white;
-
-    padding:35px;
+    flex-direction:column;
 
     text-align:center;
 
-    box-shadow:
-        0 15px 40px
-        rgba(0,0,0,.12);
+    font-family:Arial,sans-serif;
 
+    padding:30px;
+}
+
+#error h2{
+    color:#b3261e;
+}
+
+#error p{
+    color:#555;
 }
 
 
-.error-box h2{
+/* =========================================================
+   MÓVIL
+========================================================= */
 
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
+@media(max-width:1150px){
 
-    color:#b42323;
-
-    margin-bottom:10px;
-
-}
-
-
-.error-box p{
-
-    color:#667384;
-
-    font-size:13px;
-
-    line-height:1.5;
-
-}
-
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media(max-width:800px){
-
-    body{
-
-        padding:10px;
-
-        align-items:flex-start;
-
-    }
-
-
-    .certificado{
-
-        width:100%;
-
+    .contenedor{
+        width:96vw;
         height:auto;
+        min-height:680px;
 
-        min-height:1000px;
+        aspect-ratio:1120 / 790;
 
+        margin:20px auto;
     }
-
-
-    .contenido{
-
-        padding-top:40px;
-
-    }
-
-
-    .logo{
-
-        width:190px;
-
-    }
-
 
     .titulo{
-
-        font-size:42px;
-
-        letter-spacing:4px;
-
+        font-size:4.5vw;
     }
-
 
     .nombre{
-
-        min-width:0;
-
-        width:90%;
-
-        font-size:27px;
-
-    }
-
-
-    .diplomado{
-
-        font-size:23px;
-
-    }
-
-
-    .descripcion{
-
-        width:85%;
-
-    }
-
-
-    .info{
-
-        gap:20px;
-
-    }
-
-
-    .inferior{
-
-        position:relative;
-
-        left:auto;
-        right:auto;
-        bottom:auto;
-
-        display:flex;
-
-        flex-direction:column;
-
-        align-items:center;
-
-        gap:22px;
-
-        margin-top:25px;
-
-    }
-
-
-    .folio{
-
-        text-align:center;
-
-    }
-
-
-    .qr{
-
-        text-align:center;
-
-    }
-
-
-    #qrcode{
-
-        margin:auto;
-
-    }
-
-
-    .qr-texto{
-
-        margin:
-            3px
-            auto
-            0;
-
-    }
-
-
-    .pie{
-
-        position:relative;
-
-        left:auto;
-        right:auto;
-        bottom:auto;
-
-        width:80%;
-
-        margin:
-            25px
-            auto;
-
-    }
-
-
-    #botonPDF{
-
-        right:15px;
-
-        bottom:15px;
-
-        padding:
-            12px
-            17px;
-
+        font-size:3vw;
     }
 
 }
 
 
-/* =====================================================
-   IMPRESIÓN / PDF
-===================================================== */
+/* =========================================================
+   IMPRESIÓN
+========================================================= */
+
+@page{
+    size:A4 landscape;
+    margin:0;
+}
 
 @media print{
 
-
-    @page{
-
-        size:A4 landscape;
-
-        margin:0;
-
-    }
-
-
     html,
     body{
-
         width:297mm;
-
         height:210mm;
 
         margin:0;
-
         padding:0;
 
-        background:#fff;
+        background:white;
 
+        overflow:hidden;
     }
 
-
-    body{
-
-        display:block;
-
+    #botonPDF{
+        display:none !important;
     }
 
+    #cargando{
+        display:none !important;
+    }
 
-    .certificado{
+    .contenedor{
 
         width:297mm;
-
         height:210mm;
+
+        margin:0;
 
         box-shadow:none;
 
-        margin:0;
+        page-break-after:avoid;
+        page-break-before:avoid;
+        page-break-inside:avoid;
 
+        overflow:hidden;
     }
 
-
-    #botonPDF{
-
-        display:none !important;
-
+    .marca-agua{
+        opacity:.035;
     }
 
+}
 
-    #cargando,
-    #error{
 
-        display:none !important;
+/* =========================================================
+   SEGURIDAD CONTRA SEGUNDA PÁGINA
+========================================================= */
 
+@media print{
+
+    *{
+        break-before:auto !important;
+        break-after:auto !important;
+        break-inside:avoid !important;
     }
 
-
-    .marco-exterior{
-
-        top:5mm;
-        left:5mm;
-        right:5mm;
-        bottom:5mm;
-
+    body{
+        overflow:hidden !important;
     }
 
-
-    .marco-interior{
-
-        top:8mm;
-        left:8mm;
-        right:8mm;
-        bottom:8mm;
-
-    }
-
-
-    .decoracion{
-
-        width:2.2mm;
-
-    }
-
-
-    .contenido{
-
-        padding-top:12mm;
-
-    }
-
-
-    .logo{
-
-        width:62mm;
-
-    }
-
-
-    .linea{
-
-        width:23mm;
-
-        height:.8mm;
-
-        margin-bottom:3.5mm;
-
-    }
-
-
-    .otorga{
-
-        font-size:3.7mm;
-
-    }
-
-
-    .titulo{
-
-        font-size:15.5mm;
-
-        letter-spacing:1.8mm;
-
-    }
-
-
-    .subtitulo{
-
-        font-size:2.4mm;
-
-    }
-
-
-    .pre-nombre{
-
-        margin-top:5mm;
-
-        font-size:3.5mm;
-
-    }
-
-
-    .nombre{
-
-        min-width:120mm;
-
-        font-size:9mm;
-
-        padding-bottom:2mm;
-
-    }
-
-
-    .curp{
-
-        font-size:2.1mm;
-
-    }
-
-
-    .texto-diplomado{
-
-        margin-top:4mm;
-
-        font-size:3.4mm;
-
-    }
-
-
-    .diplomado{
-
-        font-size:7mm;
-
-    }
-
-
-    .descripcion{
-
-        max-width:190mm;
-
-        margin-top:3mm;
-
-        font-size:2.9mm;
-
-        line-height:1.5;
-
-    }
-
-
-    .info{
-
-        gap:18mm;
-
-        margin-top:3.5mm;
-
-    }
-
-
-    .info-etiqueta{
-
-        font-size:1.9mm;
-
-    }
-
-
-    .info-valor{
-
-        font-size:2.8mm;
-
-    }
-
-
-    .fecha{
-
-        margin-top:3mm;
-
-        font-size:2.6mm;
-
-    }
-
-
-    .inferior{
-
-        left:25mm;
-        right:25mm;
-        bottom:12mm;
-
-    }
-
-
-    .folio-valor{
-
-        font-size:2.8mm;
-
-    }
-
-
-    .folio-label{
-
-        font-size:1.9mm;
-
-    }
-
-
-    .firma-nombre{
-
-        font-size:7.5mm;
-
-        height:9mm;
-
-    }
-
-
-    .linea-firma{
-
-        width:50mm;
-
-    }
-
-
-    .firma-cargo{
-
-        font-size:2.5mm;
-
-    }
-
-
-    .firma-digital{
-
-        font-size:1.6mm;
-
-    }
-
-
-    #qrcode{
-
-        width:22mm;
-
-        height:22mm;
-
-    }
-
-
-    #qrcode img,
-    #qrcode canvas{
-
-        width:22mm !important;
-
-        height:22mm !important;
-
-    }
-
-
-    .qr-texto{
-
-        width:22mm;
-
-        font-size:1.7mm;
-
-    }
-
-
-    .pie{
-
-        bottom:4.5mm;
-
-        font-size:1.6mm;
-
+    .contenedor{
+        position:absolute;
+        top:0;
+        left:0;
     }
 
 }
 
 </style>
-
 </head>
 
 
@@ -1412,18 +853,262 @@ body{
 ===================================================== -->
 
 <div id="cargando">
+    VERIFICANDO CERTIFICADO...
+</div>
 
-    <div class="cargando-box">
 
-        <div class="spinner"></div>
+<!-- =====================================================
+     CERTIFICADO
+===================================================== -->
 
-        <strong style="color:#073b9f">
+<div class="contenedor" id="certificado">
 
-            Generando certificado...
 
-        </strong>
+    <!-- MARCA DE AGUA -->
+
+    <div class="marca-agua">
+        EVOLVA ACADEMY
+    </div>
+
+
+    <!-- MARCOS -->
+
+    <div class="marco-externo"></div>
+    <div class="marco-interno"></div>
+
+
+    <!-- ESQUINAS -->
+
+    <div class="esquina tl"></div>
+    <div class="esquina tr"></div>
+    <div class="esquina bl"></div>
+    <div class="esquina br"></div>
+
+
+    <!-- CONTENIDO -->
+
+    <div class="contenido">
+
+
+        <!-- LOGO -->
+
+        <img
+            src="logo-evolva.png"
+            class="logo"
+            alt="Evolva Academy"
+        >
+
+
+        <!-- INSTITUCIÓN -->
+
+        <div class="institucion">
+            Evolva Academy
+        </div>
+
+
+        <!-- TÍTULO -->
+
+        <h1 class="titulo">
+            DIPLOMA
+        </h1>
+
+        <div class="subtitulo">
+            Certificado de acreditación académica
+        </div>
+
+
+        <!-- SEPARADOR -->
+
+        <div class="separador"></div>
+
+
+        <!-- OTORGA -->
+
+        <div class="otorga">
+            Evolva Academy otorga el presente diploma a
+        </div>
+
+
+        <!-- NOMBRE -->
+
+        <div
+            class="nombre"
+            id="nombre"
+        >
+            Alumno
+        </div>
+
+
+        <!-- CURP -->
+
+        <div
+            class="curp"
+            id="curp"
+        ></div>
+
+
+        <!-- ACREDITACIÓN -->
+
+        <div class="texto-acreditacion">
+            Por haber concluido satisfactoriamente el diplomado:
+        </div>
+
+
+        <div
+            class="diplomado"
+            id="diplomado"
+        >
+            Diplomado
+        </div>
+
+
+        <!-- DESCRIPCIÓN -->
+
+        <div class="descripcion">
+            Por haber cumplido satisfactoriamente con los requisitos
+            académicos establecidos por Evolva Academy, demostrando
+            los conocimientos y competencias correspondientes al
+            programa de formación cursado.
+        </div>
+
+
+        <!-- INFORMACIÓN -->
+
+        <div class="informacion">
+
+
+            <div class="dato">
+
+                <div class="etiqueta">
+                    Calificación final
+                </div>
+
+                <div
+                    class="valor"
+                    id="calificacion"
+                >
+                    —
+                </div>
+
+            </div>
+
+
+            <div class="dato">
+
+                <div class="etiqueta">
+                    Estado
+                </div>
+
+                <div
+                    class="valor"
+                    id="estadoInfo"
+                >
+                    VÁLIDO
+                </div>
+
+            </div>
+
+
+            <div class="dato">
+
+                <div class="etiqueta">
+                    Folio
+                </div>
+
+                <div
+                    class="valor"
+                    id="folio"
+                >
+                    —
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- PARTE INFERIOR -->
+
+        <div class="inferior">
+
+
+            <!-- FIRMA -->
+
+            <div class="firma">
+
+                <div class="linea-firma"></div>
+
+                <div class="firma-nombre">
+                    Alexis Soto
+                </div>
+
+                <div class="firma-cargo">
+                    Director General
+                </div>
+
+            </div>
+
+
+            <!-- QR -->
+
+            <div class="qr-area">
+
+                <div id="qrcode"></div>
+
+                <div class="qr-text">
+                    VERIFICACIÓN DIGITAL
+                </div>
+
+            </div>
+
+
+            <!-- ESTADO -->
+
+            <div class="estado-area">
+
+                <div
+                    class="estado"
+                    id="estado"
+                >
+                    ✓ CERTIFICADO VÁLIDO
+                </div>
+
+                <div class="folio">
+                    FOLIO:
+                    <strong id="folioInferior">
+                        —
+                    </strong>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- FECHA -->
+
+        <div
+            class="fecha"
+            id="fecha"
+        >
+            —
+        </div>
+
 
     </div>
+
+
+    <!-- FIRMA DIGITAL -->
+
+    <div
+        class="firma-digital"
+        id="firmaDigital"
+    >
+        Firma digital: EVOLVA
+    </div>
+
 
 </div>
 
@@ -1434,372 +1119,48 @@ body{
 
 <div id="error">
 
-    <div class="error-box">
+    <h2>
+        Certificado no encontrado
+    </h2>
 
-        <h2>
-            Certificado no encontrado
-        </h2>
-
-        <p id="mensajeError">
-            No fue posible verificar este certificado.
-        </p>
-
-    </div>
+    <p id="mensajeError">
+        No fue posible verificar el certificado.
+    </p>
 
 </div>
 
 
 <!-- =====================================================
-     CERTIFICADO
-===================================================== -->
-
-<div
-    class="certificado"
-    id="certificado"
->
-
-
-    <div class="marco-exterior"></div>
-
-    <div class="marco-interior"></div>
-
-
-    <div class="decoracion izquierda"></div>
-
-    <div class="decoracion derecha"></div>
-
-
-    <div
-        class="estado"
-        id="estado"
-    >
-
-        ✓ CERTIFICADO VÁLIDO
-
-    </div>
-
-
-    <div class="contenido">
-
-
-        <!-- =================================================
-             LOGO
-        ================================================== -->
-
-        <img
-            src="logo-evolva.png"
-            alt="Evolva Academy"
-            class="logo"
-        >
-
-
-        <div class="linea"></div>
-
-
-        <div class="otorga">
-
-            Evolva Academy otorga el presente
-
-        </div>
-
-
-        <h1 class="titulo">
-
-            DIPLOMA
-
-        </h1>
-
-
-        <div class="subtitulo">
-
-            Certificado de acreditación académica
-
-        </div>
-
-
-        <!-- =================================================
-             ALUMNO
-        ================================================== -->
-
-        <div class="pre-nombre">
-
-            A:
-
-        </div>
-
-
-        <div
-            class="nombre"
-            id="nombre"
-        >
-
-            —
-
-        </div>
-
-
-        <div
-            class="curp"
-            id="curp"
-        >
-
-        </div>
-
-
-        <!-- =================================================
-             DIPLOMADO
-        ================================================== -->
-
-        <div class="texto-diplomado">
-
-            Por haber concluido satisfactoriamente el diplomado:
-
-        </div>
-
-
-        <div
-            class="diplomado"
-            id="diplomado"
-        >
-
-            —
-
-        </div>
-
-
-        <!-- =================================================
-             DESCRIPCIÓN
-        ================================================== -->
-
-        <p class="descripcion">
-
-            Por haber cumplido satisfactoriamente con los
-            requisitos académicos establecidos por
-            <strong>Evolva Academy</strong>, demostrando
-            los conocimientos y competencias correspondientes
-            al programa de formación cursado.
-
-        </p>
-
-
-        <!-- =================================================
-             INFORMACIÓN
-        ================================================== -->
-
-        <div class="info">
-
-
-            <div class="info-item">
-
-                <span class="info-etiqueta">
-
-                    Calificación final
-
-                </span>
-
-                <span
-                    class="info-valor"
-                    id="calificacion"
-                >
-
-                    —
-
-                </span>
-
-            </div>
-
-
-            <div class="info-item">
-
-                <span class="info-etiqueta">
-
-                    Estado
-
-                </span>
-
-                <span
-                    class="info-valor"
-                    id="estadoInfo"
-                >
-
-                    VÁLIDO
-
-                </span>
-
-            </div>
-
-
-            <div class="info-item">
-
-                <span class="info-etiqueta">
-
-                    Folio
-
-                </span>
-
-                <span
-                    class="info-valor"
-                    id="folio"
-                >
-
-                    —
-
-                </span>
-
-            </div>
-
-
-        </div>
-
-
-        <!-- =================================================
-             FECHA
-        ================================================== -->
-
-        <div class="fecha">
-
-            Se expide el
-
-            <strong id="fecha">
-
-                —
-
-            </strong>
-
-        </div>
-
-
-    </div>
-
-
-    <!-- =====================================================
-         INFERIOR
-    ================================================== -->
-
-    <div class="inferior">
-
-
-        <!-- FOLIO -->
-
-        <div class="folio">
-
-            <div
-                class="folio-valor"
-                id="folioInferior"
-            >
-
-                —
-
-            </div>
-
-            <div class="folio-label">
-
-                Folio de certificado
-
-            </div>
-
-        </div>
-
-
-        <!-- FIRMA -->
-
-        <div class="firma">
-
-            <div class="firma-nombre">
-
-                Alexis Soto
-
-            </div>
-
-
-            <div class="linea-firma"></div>
-
-
-            <div class="firma-cargo">
-
-                Director General
-
-            </div>
-
-
-            <div
-                class="firma-digital"
-                id="firmaDigital"
-            >
-
-                Firma digital: —
-
-            </div>
-
-        </div>
-
-
-        <!-- QR -->
-
-        <div class="qr">
-
-            <div id="qrcode"></div>
-
-            <div class="qr-texto">
-
-                Escanea para verificar
-                la autenticidad
-
-            </div>
-
-        </div>
-
-
-    </div>
-
-
-    <div class="pie">
-
-        Certificado electrónico · Evolva Academy ·
-        Documento verificable mediante código QR
-
-    </div>
-
-
-</div>
-
-
-<!-- =====================================================
-     BOTÓN PDF
+     BOTÓN
 ===================================================== -->
 
 <button
     id="botonPDF"
     onclick="descargarPDF()"
 >
-
-    ↓ &nbsp; DESCARGAR CERTIFICADO EN PDF
-
+    DESCARGAR CERTIFICADO EN PDF
 </button>
 
 
 <script>
 
-/* =====================================================
-   APPS SCRIPT
-===================================================== */
+/* =========================================================
+   API
+========================================================= */
 
 const API_URL =
 "https://script.google.com/macros/s/AKfycby-9ln5UlpJiMrWbIoW4dpXICsT0KZDSh2k_Y-efPwk6RQADcH80-1MHz08grqtFOrJuQ/exec";
 
 
-/* =====================================================
-   FOLIO DESDE URL
-===================================================== */
+/* =========================================================
+   FOLIO
+========================================================= */
 
 const parametros =
-new URLSearchParams(
-    window.location.search
-);
-
+    new URLSearchParams(window.location.search);
 
 const folioURL =
-parametros.get("folio");
+    parametros.get("folio");
 
 
 if(!folioURL){
@@ -1808,19 +1169,16 @@ if(!folioURL){
         "Este certificado no contiene un folio."
     );
 
-}
-else{
+}else{
 
-    consultarCertificado(
-        folioURL
-    );
+    consultarCertificado(folioURL);
 
 }
 
 
-/* =====================================================
-   CONSULTAR APPS SCRIPT
-===================================================== */
+/* =========================================================
+   CONSULTAR
+========================================================= */
 
 async function consultarCertificado(folio){
 
@@ -1848,17 +1206,6 @@ async function consultarCertificado(folio){
         const datos =
             await respuesta.json();
 
-
-        console.log(
-            "Respuesta Apps Script:",
-            datos
-        );
-
-
-        /*
-         * Compatible con diferentes
-         * estructuras de respuesta.
-         */
 
         const alumno =
             datos.data ||
@@ -1899,8 +1246,7 @@ async function consultarCertificado(folio){
         );
 
 
-    }
-    catch(error){
+    }catch(error){
 
         console.error(error);
 
@@ -1913,35 +1259,27 @@ async function consultarCertificado(folio){
 }
 
 
-/* =====================================================
+/* =========================================================
    CARGAR CERTIFICADO
-===================================================== */
+========================================================= */
 
 function cargarCertificado(
     alumno,
     folio
 ){
 
-
-    /* ==========================================
-       NOMBRE
-    ========================================== */
+    /* NOMBRE */
 
     const nombre =
         alumno.NOMBRE ||
         alumno.nombre ||
         "Alumno";
 
-
-    document.getElementById(
-        "nombre"
-    ).textContent =
-        nombre;
+    document.getElementById("nombre")
+        .textContent = nombre;
 
 
-    /* ==========================================
-       CURP
-    ========================================== */
+    /* CURP */
 
     const curp =
         alumno.CURP ||
@@ -1950,9 +1288,7 @@ function cargarCertificado(
 
 
     const curpElemento =
-        document.getElementById(
-            "curp"
-        );
+        document.getElementById("curp");
 
 
     if(curp){
@@ -1960,8 +1296,7 @@ function cargarCertificado(
         curpElemento.textContent =
             "CURP: " + curp;
 
-    }
-    else{
+    }else{
 
         curpElemento.style.display =
             "none";
@@ -1969,9 +1304,7 @@ function cargarCertificado(
     }
 
 
-    /* ==========================================
-       DIPLOMADO
-    ========================================== */
+    /* DIPLOMADO */
 
     const diplomado =
         alumno.DIPLOMADO ||
@@ -1979,15 +1312,11 @@ function cargarCertificado(
         "Diplomado";
 
 
-    document.getElementById(
-        "diplomado"
-    ).textContent =
-        diplomado;
+    document.getElementById("diplomado")
+        .textContent = diplomado;
 
 
-    /* ==========================================
-       CALIFICACIÓN
-    ========================================== */
+    /* CALIFICACIÓN */
 
     const calificacion =
         alumno.PROMEDIO ??
@@ -1997,31 +1326,21 @@ function cargarCertificado(
         "—";
 
 
-    document.getElementById(
-        "calificacion"
-    ).textContent =
-        calificacion;
+    document.getElementById("calificacion")
+        .textContent = calificacion;
 
 
-    /* ==========================================
-       FOLIO
-    ========================================== */
+    /* FOLIO */
 
-    document.getElementById(
-        "folio"
-    ).textContent =
-        folio;
+    document.getElementById("folio")
+        .textContent = folio;
 
 
-    document.getElementById(
-        "folioInferior"
-    ).textContent =
-        folio;
+    document.getElementById("folioInferior")
+        .textContent = folio;
 
 
-    /* ==========================================
-       ESTADO
-    ========================================== */
+    /* ESTADO */
 
     let estado =
         alumno.ESTADO ||
@@ -2030,41 +1349,39 @@ function cargarCertificado(
 
 
     estado =
-        String(estado)
-        .toUpperCase();
+        String(estado).toUpperCase();
 
 
     const estadoPrincipal =
-        document.getElementById(
-            "estado"
-        );
+        document.getElementById("estado");
 
 
     const estadoInfo =
-        document.getElementById(
-            "estadoInfo"
-        );
+        document.getElementById("estadoInfo");
 
 
     if(
+
         estado === "ACTIVO" ||
         estado === "APROBADO" ||
         estado === "REGISTRADO" ||
         estado === "VÁLIDO" ||
         estado === "VALIDO"
+
     ){
 
         estadoPrincipal.textContent =
             "✓ CERTIFICADO VÁLIDO";
 
+
         estadoInfo.textContent =
             "VÁLIDO";
 
-    }
-    else{
+    }else{
 
         estadoPrincipal.textContent =
             "ESTADO: " + estado;
+
 
         estadoInfo.textContent =
             estado;
@@ -2072,9 +1389,7 @@ function cargarCertificado(
     }
 
 
-    /* ==========================================
-       FECHA
-    ========================================== */
+    /* FECHA */
 
     const fecha =
         alumno.FECHA_EMISION ||
@@ -2084,87 +1399,66 @@ function cargarCertificado(
         "";
 
 
-    document.getElementById(
-        "fecha"
-    ).textContent =
-        fecha
-        ? formatearFecha(fecha)
-        : fechaActual();
+    document.getElementById("fecha")
+        .textContent =
+            fecha
+                ? formatearFecha(fecha)
+                : fechaActual();
 
 
-    /* ==========================================
-       FIRMA DIGITAL
-    ========================================== */
+    /* FIRMA DIGITAL */
 
-    document.getElementById(
-        "firmaDigital"
-    ).textContent =
-        "Firma digital: EVOLVA-" +
-        folio;
+    document.getElementById("firmaDigital")
+        .textContent =
+            "Firma digital: EVOLVA-" +
+            folio;
 
 
-    /* ==========================================
-       QR
-    ========================================== */
+    /* QR */
 
-    generarQR(
-        folio
-    );
+    generarQR(folio);
 
 
-    /* ==========================================
-       OCULTAR CARGANDO
-    ========================================== */
+    /* OCULTAR CARGANDO */
 
-    document.getElementById(
-        "cargando"
-    ).style.display =
-        "none";
+    document.getElementById("cargando")
+        .style.display = "none";
 
 }
 
 
-/* =====================================================
-   GENERAR QR
-===================================================== */
+/* =========================================================
+   QR
+========================================================= */
 
 function generarQR(folio){
 
     const contenedor =
-        document.getElementById(
-            "qrcode"
+        document.getElementById("qrcode");
+
+
+    contenedor.innerHTML = "";
+
+
+    const url =
+        new URL(
+            "validar.html",
+            window.location.href
         );
 
 
-    contenedor.innerHTML =
-        "";
-
-
-    /*
-     * El QR apunta a validar.html
-     * con el folio específico.
-     */
-
-    const url =
-        window.location.origin +
-        window.location.pathname
-            .replace(
-                "certificado.html",
-                "validar.html"
-            ) +
-        "?folio=" +
-        encodeURIComponent(folio);
+    url.searchParams.set(
+        "folio",
+        folio
+    );
 
 
     new QRCode(
         contenedor,
         {
-            text:url,
-
-            width:82,
-
-            height:82,
-
+            text:url.href,
+            width:76,
+            height:76,
             correctLevel:
                 QRCode.CorrectLevel.M
         }
@@ -2173,9 +1467,9 @@ function generarQR(folio){
 }
 
 
-/* =====================================================
+/* =========================================================
    FECHA
-===================================================== */
+========================================================= */
 
 function formatearFecha(fecha){
 
@@ -2221,65 +1515,45 @@ function fechaActual(){
 }
 
 
-/* =====================================================
-   DESCARGAR PDF
-===================================================== */
+/* =========================================================
+   PDF
+========================================================= */
 
 function descargarPDF(){
-
-    /*
-     * Abre el diálogo de impresión.
-     *
-     * El CSS @media print convierte
-     * automáticamente el certificado
-     * a tamaño A4 horizontal.
-     */
 
     window.print();
 
 }
 
 
-/* =====================================================
+/* =========================================================
    ERROR
-===================================================== */
+========================================================= */
 
 function mostrarError(mensaje){
 
-    document.getElementById(
-        "cargando"
-    ).style.display =
-        "none";
+    document.getElementById("cargando")
+        .style.display = "none";
 
 
-    document.getElementById(
-        "certificado"
-    ).style.display =
-        "none";
+    document.getElementById("certificado")
+        .style.display = "none";
 
 
-    document.getElementById(
-        "botonPDF"
-    ).style.display =
-        "none";
+    document.getElementById("botonPDF")
+        .style.display = "none";
 
 
-    document.getElementById(
-        "error"
-    ).style.display =
-        "flex";
+    document.getElementById("error")
+        .style.display = "flex";
 
 
-    document.getElementById(
-        "mensajeError"
-    ).textContent =
-        mensaje;
+    document.getElementById("mensajeError")
+        .textContent = mensaje;
 
 }
 
 </script>
 
-
 </body>
-
 </html>
