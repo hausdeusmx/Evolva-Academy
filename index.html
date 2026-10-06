@@ -1,63 +1,1742 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Evolva Academy | Formación Digital Profesional</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <meta
+        name="description"
+        content="Evolva Academy - Diplomados profesionales para impulsar tu desarrollo y evolución."
+    >
+
     <style>
-        * { box-sizing: border-box; }
-        body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f7faff; color: #172033; }
-        :root { --azul-oscuro: #063b91; --azul: #086cff; --azul-claro: #2684ff; }
 
-        .header { background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid #e8eef7; position: sticky; top: 0; z-index: 100; }
-        .header-container { max-width: 1180px; margin: auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
-        .logo { width: 180px; height: auto; display: block; }
-        .nav-links { display: flex; gap: 15px; align-items: center; }
-        .btn-nav { padding: 10px 16px; border-radius: 10px; color: #063b91; text-decoration: none; font-size: 14px; font-weight: 700; background: #edf5ff; transition: 0.2s; }
-        .btn-nav:hover { background: #d6e8ff; }
-        .btn-header { padding: 11px 18px; border-radius: 10px; color: white; text-decoration: none; font-size: 14px; font-weight: 700; background: linear-gradient(135deg, var(--azul-oscuro), var(--azul)); box-shadow: 0 6px 18px rgba(8,108,255,0.20); }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-        .hero { padding: 100px 24px; text-align: center; background: radial-gradient(circle at 50% 30%, rgba(38,132,255,0.15), transparent 60%), #ffffff; }
-        .hero h1 { font-size: clamp(38px, 6vw, 64px); font-weight: 900; color: #101828; margin-bottom: 20px; }
-        .hero h1 span { background: linear-gradient(90deg, #063b91, #086cff, #2684ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { max-width: 700px; margin: 0 auto 30px; font-size: 17px; color: #64748b; line-height: 1.7; }
-        .hero-buttons { display: flex; gap: 15px; justify-content: center; }
-        .btn-primary { padding: 14px 28px; background: var(--azul); color: white; border-radius: 12px; font-weight: 800; text-decoration: none; box-shadow: 0 10px 25px rgba(8,108,255,0.25); transition: 0.2s; }
-        .btn-primary:hover { transform: translateY(-2px); }
+        html {
+            scroll-behavior: smooth;
+        }
 
-        footer { background: #071b3d; color: #b9c8df; padding: 35px 24px; text-align: center; }
-        .footer-logo { width: 150px; margin: 0 auto 14px; filter: brightness(0) invert(1); }
+        body {
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: #172033;
+
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(38,132,255,.10),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 40%,
+                    rgba(8,108,255,.08),
+                    transparent 30%
+                ),
+                #f7faff;
+        }
+
+
+        :root {
+
+            --azul-oscuro: #063b91;
+            --azul: #086cff;
+            --azul-claro: #2684ff;
+
+            --texto: #172033;
+            --gris: #64748b;
+
+            --borde: #e1eaf5;
+
+        }
+
+
+        /* =====================================
+           HEADER
+        ===================================== */
+
+        .header {
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+            background:
+                rgba(255,255,255,.94);
+
+            backdrop-filter:
+                blur(18px);
+
+            border-bottom:
+                1px solid #e7eef7;
+
+            box-shadow:
+                0 5px 25px rgba(15,23,42,.04);
+
+        }
+
+
+        .header-container {
+
+            max-width: 1180px;
+
+            margin: auto;
+
+            padding:
+                14px 24px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+        }
+
+
+        .logo {
+
+            width: 180px;
+
+            display: block;
+
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+        }
+
+
+        .btn-nav {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding:
+                10px 16px;
+
+            border-radius: 10px;
+
+            color:
+                var(--azul-oscuro);
+
+            background:
+                #edf5ff;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            transition:
+                .25s ease;
+
+        }
+
+
+        .btn-nav:hover {
+
+            background:
+                #dcecff;
+
+            transform:
+                translateY(-1px);
+
+        }
+
+
+        .btn-header {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding:
+                11px 18px;
+
+            border-radius: 10px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul-oscuro),
+                    var(--azul)
+                );
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 8px 22px
+                rgba(8,108,255,.22);
+
+            transition:
+                .25s ease;
+
+        }
+
+
+        .btn-header:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 12px 28px
+                rgba(8,108,255,.30);
+
+        }
+
+
+        /* =====================================
+           HERO
+        ===================================== */
+
+        .hero {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding:
+                105px 24px
+                90px;
+
+            text-align: center;
+
+            background:
+
+                radial-gradient(
+                    circle at 50% 0%,
+                    rgba(38,132,255,.17),
+                    transparent 45%
+                ),
+
+                linear-gradient(
+                    180deg,
+                    #ffffff,
+                    #f7faff
+                );
+
+        }
+
+
+        /* DECORACIONES */
+
+        .hero::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 280px;
+
+            height: 280px;
+
+            border-radius: 50%;
+
+            border:
+                1px solid
+                rgba(8,108,255,.10);
+
+            top: 40px;
+
+            left: -120px;
+
+        }
+
+
+        .hero::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 360px;
+
+            height: 360px;
+
+            border-radius: 50%;
+
+            border:
+                1px solid
+                rgba(8,108,255,.08);
+
+            right: -160px;
+
+            bottom: -180px;
+
+        }
+
+
+        .hero-content {
+
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 900px;
+
+            margin: auto;
+
+        }
+
+
+        .hero-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding:
+                8px 15px;
+
+            border-radius:
+                999px;
+
+            background:
+                rgba(237,245,255,.90);
+
+            border:
+                1px solid #d6e8ff;
+
+            color:
+                var(--azul-oscuro);
+
+            font-size: 11px;
+
+            font-weight: 900;
+
+            letter-spacing:
+                .08em;
+
+            text-transform:
+                uppercase;
+
+        }
+
+
+        .hero-badge::before {
+
+            content: "";
+
+            width: 7px;
+
+            height: 7px;
+
+            border-radius: 50%;
+
+            background:
+                var(--azul);
+
+            box-shadow:
+                0 0 0 5px
+                rgba(8,108,255,.10);
+
+        }
+
+
+        .hero h1 {
+
+            margin:
+                25px 0 20px;
+
+            color:
+                #101828;
+
+            font-size:
+                clamp(
+                    40px,
+                    7vw,
+                    72px
+                );
+
+            line-height:
+                1.02;
+
+            font-weight:
+                900;
+
+            letter-spacing:
+                -.045em;
+
+        }
+
+
+        .hero h1 span {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--azul-oscuro),
+                    var(--azul),
+                    var(--azul-claro)
+                );
+
+            -webkit-background-clip:
+                text;
+
+            -webkit-text-fill-color:
+                transparent;
+
+        }
+
+
+        .hero-description {
+
+            max-width:
+                690px;
+
+            margin:
+                0 auto 32px;
+
+            color:
+                var(--gris);
+
+            font-size:
+                17px;
+
+            line-height:
+                1.75;
+
+        }
+
+
+        .hero-buttons {
+
+            display:
+                flex;
+
+            justify-content:
+                center;
+
+            align-items:
+                center;
+
+            gap:
+                12px;
+
+            flex-wrap:
+                wrap;
+
+        }
+
+
+        .btn-primary {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            gap:
+                8px;
+
+            padding:
+                14px 25px;
+
+            border-radius:
+                12px;
+
+            color:
+                white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul-oscuro),
+                    var(--azul)
+                );
+
+            text-decoration:
+                none;
+
+            font-size:
+                14px;
+
+            font-weight:
+                900;
+
+            box-shadow:
+                0 12px 28px
+                rgba(8,108,255,.24);
+
+            transition:
+                .25s ease;
+
+        }
+
+
+        .btn-primary:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 17px 34px
+                rgba(8,108,255,.30);
+
+        }
+
+
+        .btn-secondary {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            padding:
+                14px 25px;
+
+            border-radius:
+                12px;
+
+            color:
+                #26364f;
+
+            background:
+                white;
+
+            border:
+                1px solid #dfe8f3;
+
+            text-decoration:
+                none;
+
+            font-size:
+                14px;
+
+            font-weight:
+                900;
+
+            box-shadow:
+                0 6px 18px
+                rgba(15,23,42,.05);
+
+            transition:
+                .25s ease;
+
+        }
+
+
+        .btn-secondary:hover {
+
+            transform:
+                translateY(-2px);
+
+            border-color:
+                #c6dbf5;
+
+            color:
+                var(--azul);
+
+        }
+
+
+        /* =====================================
+           ESTADÍSTICAS
+        ===================================== */
+
+        .stats {
+
+            max-width:
+                900px;
+
+            margin:
+                -25px auto 0;
+
+            padding:
+                0 20px;
+
+            position:
+                relative;
+
+            z-index:
+                5;
+
+        }
+
+
+        .stats-card {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            background:
+                white;
+
+            border:
+                1px solid var(--borde);
+
+            border-radius:
+                20px;
+
+            box-shadow:
+                0 20px 55px
+                rgba(15,23,42,.08);
+
+            overflow:
+                hidden;
+
+        }
+
+
+        .stat {
+
+            padding:
+                24px 15px;
+
+            text-align:
+                center;
+
+            border-right:
+                1px solid #edf1f6;
+
+        }
+
+
+        .stat:last-child {
+
+            border-right:
+                none;
+
+        }
+
+
+        .stat-number {
+
+            display:
+                block;
+
+            color:
+                var(--azul-oscuro);
+
+            font-size:
+                25px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .stat-label {
+
+            display:
+                block;
+
+            margin-top:
+                4px;
+
+            color:
+                var(--gris);
+
+            font-size:
+                11px;
+
+            font-weight:
+                700;
+
+        }
+
+
+        /* =====================================
+           SECCIÓN DIPLOMADOS
+        ===================================== */
+
+        .courses {
+
+            max-width:
+                1100px;
+
+            margin:
+                auto;
+
+            padding:
+                90px 24px;
+
+        }
+
+
+        .section-heading {
+
+            text-align:
+                center;
+
+            margin-bottom:
+                35px;
+
+        }
+
+
+        .section-label {
+
+            display:
+                inline-block;
+
+            margin-bottom:
+                10px;
+
+            color:
+                var(--azul);
+
+            font-size:
+                11px;
+
+            font-weight:
+                900;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                .12em;
+
+        }
+
+
+        .section-heading h2 {
+
+            margin:
+                0 0 10px;
+
+            color:
+                #101828;
+
+            font-size:
+                clamp(
+                    28px,
+                    5vw,
+                    40px
+                );
+
+            font-weight:
+                900;
+
+            letter-spacing:
+                -.03em;
+
+        }
+
+
+        .section-heading p {
+
+            max-width:
+                570px;
+
+            margin:
+                auto;
+
+            color:
+                var(--gris);
+
+            font-size:
+                14px;
+
+            line-height:
+                1.7;
+
+        }
+
+
+        .course-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                20px;
+
+        }
+
+
+        .course-card {
+
+            position:
+                relative;
+
+            overflow:
+                hidden;
+
+            padding:
+                27px;
+
+            background:
+                white;
+
+            border:
+                1px solid var(--borde);
+
+            border-radius:
+                20px;
+
+            box-shadow:
+                0 12px 35px
+                rgba(15,23,42,.055);
+
+            transition:
+                .25s ease;
+
+        }
+
+
+        .course-card:hover {
+
+            transform:
+                translateY(-5px);
+
+            box-shadow:
+                0 20px 45px
+                rgba(15,23,42,.09);
+
+            border-color:
+                #cfe2ff;
+
+        }
+
+
+        .course-card::after {
+
+            content: "";
+
+            position:
+                absolute;
+
+            width:
+                120px;
+
+            height:
+                120px;
+
+            border-radius:
+                50%;
+
+            background:
+                rgba(38,132,255,.07);
+
+            right:
+                -45px;
+
+            top:
+                -45px;
+
+        }
+
+
+        .course-icon {
+
+            width:
+                52px;
+
+            height:
+                52px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            border-radius:
+                15px;
+
+            background:
+                #edf5ff;
+
+            color:
+                var(--azul);
+
+            font-size:
+                23px;
+
+            margin-bottom:
+                20px;
+
+        }
+
+
+        .course-card h3 {
+
+            margin:
+                0 0 9px;
+
+            color:
+                #101828;
+
+            font-size:
+                19px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .course-card p {
+
+            margin:
+                0 0 20px;
+
+            color:
+                var(--gris);
+
+            font-size:
+                13px;
+
+            line-height:
+                1.65;
+
+        }
+
+
+        .course-link {
+
+            color:
+                var(--azul);
+
+            text-decoration:
+                none;
+
+            font-size:
+                13px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        /* =====================================
+           LLAMADA A LA ACCIÓN
+        ===================================== */
+
+        .cta {
+
+            max-width:
+                1050px;
+
+            margin:
+                0 auto 90px;
+
+            padding:
+                0 24px;
+
+        }
+
+
+        .cta-card {
+
+            position:
+                relative;
+
+            overflow:
+                hidden;
+
+            padding:
+                45px;
+
+            border-radius:
+                25px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #063b91,
+                    #086cff,
+                    #2684ff
+                );
+
+            color:
+                white;
+
+            text-align:
+                center;
+
+            box-shadow:
+                0 25px 60px
+                rgba(8,108,255,.20);
+
+        }
+
+
+        .cta-card::before {
+
+            content: "";
+
+            position:
+                absolute;
+
+            width:
+                280px;
+
+            height:
+                280px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.13);
+
+            border-radius:
+                50%;
+
+            left:
+                -130px;
+
+            top:
+                -150px;
+
+        }
+
+
+        .cta-card h2 {
+
+            position:
+                relative;
+
+            margin:
+                0 0 10px;
+
+            font-size:
+                clamp(
+                    25px,
+                    5vw,
+                    35px
+                );
+
+            font-weight:
+                900;
+
+        }
+
+
+        .cta-card p {
+
+            position:
+                relative;
+
+            max-width:
+                560px;
+
+            margin:
+                0 auto 23px;
+
+            color:
+                rgba(255,255,255,.82);
+
+            font-size:
+                13px;
+
+            line-height:
+                1.65;
+
+        }
+
+
+        .cta-button {
+
+            position:
+                relative;
+
+            display:
+                inline-flex;
+
+            padding:
+                13px 23px;
+
+            border-radius:
+                11px;
+
+            background:
+                white;
+
+            color:
+                var(--azul-oscuro);
+
+            text-decoration:
+                none;
+
+            font-size:
+                13px;
+
+            font-weight:
+                900;
+
+            transition:
+                .25s ease;
+
+        }
+
+
+        .cta-button:hover {
+
+            transform:
+                translateY(-2px);
+
+        }
+
+
+        /* =====================================
+           FOOTER
+        ===================================== */
+
+        footer {
+
+            padding:
+                42px 24px;
+
+            background:
+                #061b3e;
+
+            color:
+                #b9c8df;
+
+            text-align:
+                center;
+
+        }
+
+
+        .footer-logo {
+
+            width:
+                150px;
+
+            margin:
+                0 auto 14px;
+
+            filter:
+                brightness(0) invert(1);
+
+        }
+
+
+        footer p {
+
+            margin:
+                5px 0;
+
+            font-size:
+                11px;
+
+        }
+
+
+        .footer-links {
+
+            margin:
+                15px 0;
+
+            display:
+                flex;
+
+            justify-content:
+                center;
+
+            gap:
+                18px;
+
+            flex-wrap:
+                wrap;
+
+        }
+
+
+        .footer-links a {
+
+            color:
+                #d5e2f5;
+
+            text-decoration:
+                none;
+
+            font-size:
+                11px;
+
+            font-weight:
+                700;
+
+        }
+
+
+        .footer-links a:hover {
+
+            color:
+                white;
+
+        }
+
+
+        /* =====================================
+           RESPONSIVE
+        ===================================== */
+
+        @media (max-width: 750px) {
+
+            .header-container {
+
+                padding:
+                    12px 15px;
+
+            }
+
+
+            .logo {
+
+                width:
+                    140px;
+
+            }
+
+
+            .nav-links {
+
+                gap:
+                    6px;
+
+            }
+
+
+            .btn-nav,
+            .btn-header {
+
+                padding:
+                    9px 10px;
+
+                font-size:
+                    10px;
+
+            }
+
+
+            .hero {
+
+                padding:
+                    75px 18px
+                    70px;
+
+            }
+
+
+            .hero h1 {
+
+                font-size:
+                    43px;
+
+            }
+
+
+            .hero-description {
+
+                font-size:
+                    14px;
+
+            }
+
+
+            .stats-card {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .stat {
+
+                border-right:
+                    none;
+
+                border-bottom:
+                    1px solid #edf1f6;
+
+            }
+
+
+            .stat:last-child {
+
+                border-bottom:
+                    none;
+
+            }
+
+
+            .course-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .courses {
+
+                padding:
+                    70px 18px;
+
+            }
+
+
+            .cta {
+
+                padding:
+                    0 18px;
+
+                margin-bottom:
+                    70px;
+
+            }
+
+
+            .cta-card {
+
+                padding:
+                    35px 22px;
+
+                border-radius:
+                    20px;
+
+            }
+
+        }
+
+
+        @media (max-width: 420px) {
+
+            .logo {
+
+                width:
+                    125px;
+
+            }
+
+
+            .btn-nav {
+
+                display:
+                    none;
+
+            }
+
+
+            .hero h1 {
+
+                font-size:
+                    38px;
+
+            }
+
+
+            .hero-buttons {
+
+                flex-direction:
+                    column;
+
+            }
+
+
+            .btn-primary,
+            .btn-secondary {
+
+                width:
+                    100%;
+
+                max-width:
+                    300px;
+
+            }
+
+        }
+
     </style>
+
 </head>
+
+
 <body>
 
-    <header class="header">
-        <div class="header-container">
-            <a href="index.html"><img src="logo-evolva.png" alt="Evolva Academy" class="logo"></a>
-            <div class="nav-links">
-                <a href="diplomados.html" class="btn-nav">Ver Diplomados</a>
-                <a href="inscripcion.html" class="btn-header">Inscríbete Aquí →</a>
-            </div>
-        </div>
-    </header>
 
-    <main>
-        <section class="hero">
-            <span style="background: #edf5ff; color: #063b91; padding: 8px 15px; border-radius: 999px; font-size: 12px; font-weight: 800; text-transform: uppercase;">Academia Digital Profesional</span>
-            <h1>Aprende hoy. <br><span>Evoluciona mañana.</span></h1>
-            <p>Desarrolla nuevas habilidades con nuestros diplomados profesionales diseñados para ayudarte a crecer y destacar en tu carrera.</p>
+<!-- =====================================
+     HEADER
+===================================== -->
+
+<header class="header">
+
+    <div class="header-container">
+
+        <a href="index.html">
+
+            <img
+                src="logo-evolva.png"
+                alt="Evolva Academy"
+                class="logo"
+            >
+
+        </a>
+
+
+        <nav class="nav-links">
+
+            <a
+                href="diplomados.html"
+                class="btn-nav"
+            >
+                Ver Diplomados
+            </a>
+
+
+            <a
+                href="inscripcion.html"
+                class="btn-header"
+            >
+                Inscríbete →
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================
+     CONTENIDO
+===================================== -->
+
+<main>
+
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <span class="hero-badge">
+                Academia Digital Profesional
+            </span>
+
+
+            <h1>
+
+                Aprende hoy.
+                <br>
+
+                <span>
+                    Evoluciona mañana.
+                </span>
+
+            </h1>
+
+
+            <p class="hero-description">
+
+                Desarrolla nuevas habilidades con
+                diplomados profesionales diseñados
+                para impulsar tu crecimiento,
+                fortalecer tus conocimientos y
+                ayudarte a alcanzar nuevas metas.
+
+            </p>
+
+
             <div class="hero-buttons">
-                <a href="diplomados.html" class="btn-primary">Explorar Diplomados</a>
-                <a href="inscripcion.html" style="padding: 14px 28px; background: #e2e8f0; color: #172033; border-radius: 12px; font-weight: 800; text-decoration: none;">Ir al Formulario</a>
-            </div>
-        </section>
-    </main>
 
-    <footer>
-        <img src="logo-evolva.png" alt="Evolva Academy" class="footer-logo">
-        <p>Formación que impulsa tu evolución. © 2026 Evolva Academy.</p>
-    </footer>
+                <a
+                    href="diplomados.html"
+                    class="btn-primary"
+                >
+                    Explorar Diplomados →
+                </a>
+
+
+                <a
+                    href="inscripcion.html"
+                    class="btn-secondary"
+                >
+                    Comenzar inscripción
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ESTADÍSTICAS -->
+
+    <section class="stats">
+
+        <div class="stats-card">
+
+            <div class="stat">
+
+                <span class="stat-number">
+                    2
+                </span>
+
+                <span class="stat-label">
+                    Diplomados profesionales
+                </span>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span class="stat-number">
+                    100%
+                </span>
+
+                <span class="stat-label">
+                    Formación digital
+                </span>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span class="stat-number">
+                    24/7
+                </span>
+
+                <span class="stat-label">
+                    Acceso a tu formación
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- DIPLOMADOS -->
+
+    <section class="courses">
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                Nuestra formación
+            </span>
+
+            <h2>
+                Aprende algo que transforme tu futuro
+            </h2>
+
+            <p>
+                Elige el diplomado que mejor se adapte
+                a tus objetivos y comienza tu proceso
+                de formación con Evolva Academy.
+            </p>
+
+        </div>
+
+
+        <div class="course-grid">
+
+
+            <!-- FINANZAS -->
+
+            <article class="course-card">
+
+                <div class="course-icon">
+                    $
+                </div>
+
+                <h3>
+                    Diplomado en Finanzas Personales
+                </h3>
+
+                <p>
+                    Aprende a comprender, organizar y
+                    administrar mejor tus recursos
+                    financieros para tomar decisiones
+                    más inteligentes.
+                </p>
+
+                <a
+                    href="diplomados.html"
+                    class="course-link"
+                >
+                    Conocer diplomado →
+                </a>
+
+            </article>
+
+
+            <!-- PRIMEROS AUXILIOS -->
+
+            <article class="course-card">
+
+                <div class="course-icon">
+                    +
+                </div>
+
+                <h3>
+                    Diplomado en Primeros Auxilios
+                </h3>
+
+                <p>
+                    Adquiere conocimientos fundamentales
+                    para actuar de manera adecuada ante
+                    situaciones que requieran atención
+                    y primeros auxilios.
+                </p>
+
+                <a
+                    href="diplomados.html"
+                    class="course-link"
+                >
+                    Conocer diplomado →
+                </a>
+
+            </article>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- CTA -->
+
+    <section class="cta">
+
+        <div class="cta-card">
+
+            <h2>
+                Tu evolución comienza aquí.
+            </h2>
+
+            <p>
+                Regístrate en Evolva Academy,
+                obtén tu folio y comienza el proceso
+                para formar parte de nuestros
+                diplomados profesionales.
+            </p>
+
+            <a
+                href="inscripcion.html"
+                class="cta-button"
+            >
+                Crear mi inscripción →
+            </a>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<!-- =====================================
+     FOOTER
+===================================== -->
+
+<footer>
+
+    <img
+        src="logo-evolva.png"
+        alt="Evolva Academy"
+        class="footer-logo"
+    >
+
+
+    <p>
+        Formación que impulsa tu evolución.
+    </p>
+
+
+    <div class="footer-links">
+
+        <a href="index.html">
+            Inicio
+        </a>
+
+        <a href="diplomados.html">
+            Diplomados
+        </a>
+
+        <a href="inscripcion.html">
+            Inscripción
+        </a>
+
+        <a href="pagos.html">
+            Pagos
+        </a>
+
+    </div>
+
+
+    <p>
+        © 2026 Evolva Academy.
+        Todos los derechos reservados.
+    </p>
+
+</footer>
+
 
 </body>
+
 </html>
