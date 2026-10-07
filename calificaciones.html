@@ -3,616 +3,679 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Consulta y descarga de boleta de calificaciones - Evolva Academy">
+
 <title>Boleta de Calificaciones | Evolva Academy</title>
+
+<meta name="description" content="Consulta y descarga tu boleta de calificaciones de Evolva Academy.">
 
 <!-- Google AdSense -->
 <script async
-  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7608137670081617"
-  crossorigin="anonymous"></script>
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7608137670081617"
+crossorigin="anonymous"></script>
 
 <!-- jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
 
-<!-- QR -->
+<!-- QRCode -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
 :root{
-  --azul-oscuro:#063b91;
-  --azul:#086cff;
-  --azul-claro:#2684ff;
-  --fondo:#f4f8ff;
-  --texto:#14213d;
-  --gris:#667085;
-  --borde:#dbe5f4;
-  --blanco:#fff;
-  --verde:#16834b;
-  --rojo:#c62828;
+    --azul-oscuro:#063b91;
+    --azul:#086cff;
+    --azul-claro:#2684ff;
+    --fondo:#f7faff;
+    --blanco:#ffffff;
+    --texto:#172033;
+    --gris:#667085;
+    --borde:#e4eaf2;
+    --verde:#16a34a;
+    --rojo:#dc2626;
+    --sombra:0 15px 40px rgba(6,59,145,.10);
 }
 
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 body{
-  font-family:Inter,Arial,Helvetica,sans-serif;
-  background:linear-gradient(
-    135deg,
-    #eef5ff 0%,
-    #ffffff 55%,
-    #eef6ff 100%
-  );
-  color:var(--texto);
-  min-height:100vh;
+    font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    background:
+        linear-gradient(180deg,#edf5ff 0%,#f7faff 35%,#ffffff 100%);
+    color:var(--texto);
+    min-height:100vh;
 }
 
-a{
-  text-decoration:none;
-  color:inherit;
-}
-
-.container{
-  width:min(1120px,92%);
-  margin:auto;
-}
-
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 
 .header{
-  background:rgba(255,255,255,.94);
-  border-bottom:1px solid var(--borde);
-  position:sticky;
-  top:0;
-  z-index:20;
-  backdrop-filter:blur(12px);
+    width:100%;
+    background:#fff;
+    border-bottom:1px solid var(--borde);
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
-.nav{
-  min-height:76px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-}
-
-.brand img{
-  width:170px;
-  height:auto;
-  display:block;
-}
-
-.nav a:last-child{
-  color:var(--azul-oscuro);
-  font-weight:700;
-  padding:11px 17px;
-  border-radius:12px;
-  border:1px solid var(--borde);
-  background:#fff;
-}
-
-/* HERO */
-
-.hero{
-  padding:55px 0 35px;
-  text-align:center;
-}
-
-.badge{
-  display:inline-flex;
-  padding:8px 14px;
-  border-radius:999px;
-  background:#e8f1ff;
-  color:var(--azul);
-  font-size:13px;
-  font-weight:800;
-  letter-spacing:.4px;
-  margin-bottom:14px;
-}
-
-.hero h1{
-  font-size:clamp(30px,5vw,48px);
-  line-height:1.05;
-  margin-bottom:13px;
-}
-
-.hero p{
-  max-width:700px;
-  margin:auto;
-  color:var(--gris);
-  font-size:16px;
-  line-height:1.7;
-}
-
-/* CONSULTA */
-
-.panel{
-  width:min(700px,100%);
-  margin:25px auto 45px;
-  background:#fff;
-  border:1px solid var(--borde);
-  border-radius:24px;
-  padding:28px;
-  box-shadow:0 20px 55px rgba(6,59,145,.10);
-}
-
-.panel h2{
-  font-size:21px;
-  margin-bottom:7px;
-}
-
-.panel .sub{
-  color:var(--gris);
-  font-size:14px;
-  margin-bottom:20px;
-}
-
-.form{
-  display:flex;
-  gap:12px;
-}
-
-.input{
-  flex:1;
-  border:1px solid #cbd8ec;
-  border-radius:14px;
-  padding:15px 16px;
-  font-size:16px;
-  outline:none;
-  text-transform:uppercase;
-}
-
-.input:focus{
-  border-color:var(--azul);
-  box-shadow:0 0 0 4px rgba(8,108,255,.10);
-}
-
-.btn{
-  border:0;
-  border-radius:14px;
-  padding:0 23px;
-  min-height:52px;
-  cursor:pointer;
-  background:linear-gradient(
-    135deg,
-    var(--azul-oscuro),
-    var(--azul)
-  );
-  color:#fff;
-  font-size:15px;
-  font-weight:800;
-  box-shadow:0 10px 22px rgba(8,108,255,.20);
-}
-
-.btn:disabled{
-  opacity:.6;
-  cursor:not-allowed;
-}
-
-.btn.secondary{
-  background:#fff;
-  color:var(--azul-oscuro);
-  border:1px solid var(--borde);
-  box-shadow:none;
-}
-
-.status{
-  min-height:24px;
-  margin-top:15px;
-  font-size:14px;
-}
-
-.status.error{
-  color:var(--rojo);
-}
-
-.status.ok{
-  color:var(--verde);
-}
-
-.status.loading{
-  color:var(--azul);
-}
-
-/* RESULTADO */
-
-.result{
-  display:none;
-  margin:0 auto 60px;
-}
-
-.result.show{
-  display:block;
-}
-
-.actions{
-  display:flex;
-  gap:10px;
-  justify-content:center;
-  flex-wrap:wrap;
-  margin:22px 0;
-}
-
-/* BOLETA */
-
-.boleta{
-  width:100%;
-  background:#fff;
-  border:1px solid #d6dfed;
-  box-shadow:0 18px 50px rgba(15,40,80,.12);
-  position:relative;
-  overflow:hidden;
-}
-
-.boleta:before{
-  content:"";
-  position:absolute;
-  inset:12px;
-  border:1px solid #d9e5f7;
-  pointer-events:none;
-}
-
-.boleta-top{
-  padding:35px 45px 24px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  border-bottom:4px solid var(--azul);
+.header-inner{
+    max-width:1150px;
+    margin:auto;
+    padding:15px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
 }
 
 .logo{
-  width:210px;
-  height:auto;
-  object-fit:contain;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-decoration:none;
 }
 
-.institution{
-  text-align:right;
+.logo img{
+    width:145px;
+    max-width:100%;
+    height:auto;
+    object-fit:contain;
 }
 
-.institution .small{
-  font-size:11px;
-  color:#7a879b;
-  text-transform:uppercase;
-  letter-spacing:1.2px;
+.back{
+    text-decoration:none;
+    color:var(--azul);
+    font-weight:700;
+    font-size:14px;
 }
 
-.institution h2{
-  font-size:19px;
-  color:var(--azul-oscuro);
-  margin-top:5px;
+/* =========================
+   MAIN
+========================= */
+
+.container{
+    width:min(1100px,92%);
+    margin:45px auto 70px;
 }
 
-.title{
-  text-align:center;
-  padding:27px 35px 17px;
+.hero{
+    text-align:center;
+    margin-bottom:30px;
 }
 
-.title .eyebrow{
-  font-size:11px;
-  font-weight:800;
-  color:var(--azul);
-  letter-spacing:2px;
-  text-transform:uppercase;
+.badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    padding:8px 14px;
+    background:#e8f1ff;
+    color:var(--azul);
+    border-radius:999px;
+    font-size:13px;
+    font-weight:800;
+    margin-bottom:14px;
 }
 
-.title h1{
-  font-size:31px;
-  color:#172b4d;
-  margin:7px 0;
+.hero h1{
+    font-size:clamp(30px,5vw,48px);
+    line-height:1.08;
+    color:var(--azul-oscuro);
+    margin-bottom:12px;
 }
 
-.title p{
-  font-size:13px;
-  color:#69778c;
+.hero p{
+    color:var(--gris);
+    max-width:650px;
+    margin:auto;
+    line-height:1.7;
 }
 
-/* DATOS */
+/* =========================
+   CONSULTA
+========================= */
 
-.student{
-  margin:10px 45px 22px;
-  padding:18px 20px;
-  background:#f6f9fe;
-  border:1px solid #dfe8f6;
-  display:grid;
-  grid-template-columns:1.5fr 1fr;
-  gap:14px 35px;
+.search-card{
+    max-width:680px;
+    margin:0 auto 30px;
+    background:rgba(255,255,255,.96);
+    border:1px solid var(--borde);
+    border-radius:24px;
+    padding:28px;
+    box-shadow:var(--sombra);
 }
 
-.field span{
-  display:block;
-  font-size:9px;
-  color:#7b8798;
-  text-transform:uppercase;
-  letter-spacing:.8px;
-  margin-bottom:5px;
+.form-label{
+    display:block;
+    font-size:14px;
+    font-weight:800;
+    margin-bottom:9px;
 }
 
-.field strong{
-  font-size:14px;
-  color:#172b4d;
-  word-break:break-word;
+.search-row{
+    display:flex;
+    gap:10px;
 }
 
-/* TABLA */
-
-.table-wrap{
-  margin:0 45px;
-  overflow-x:auto;
+.search-input{
+    flex:1;
+    min-width:0;
+    height:54px;
+    border:1px solid #ccd6e4;
+    border-radius:14px;
+    padding:0 16px;
+    font-size:16px;
+    outline:none;
+    transition:.2s;
+    text-transform:uppercase;
 }
 
-table{
-  width:100%;
-  border-collapse:collapse;
-  font-size:13px;
+.search-input:focus{
+    border-color:var(--azul);
+    box-shadow:0 0 0 4px rgba(8,108,255,.10);
 }
 
-thead th{
-  background:var(--azul-oscuro);
-  color:#fff;
-  padding:12px 10px;
-  text-align:left;
-  font-size:11px;
-  text-transform:uppercase;
-  letter-spacing:.4px;
+.btn{
+    border:0;
+    border-radius:14px;
+    padding:0 24px;
+    min-height:54px;
+    cursor:pointer;
+    font-weight:800;
+    font-size:15px;
+    transition:.2s;
 }
 
-tbody td{
-  padding:12px 10px;
-  border-bottom:1px solid #e4eaf3;
+.btn-primary{
+    background:linear-gradient(135deg,var(--azul),var(--azul-claro));
+    color:#fff;
+    box-shadow:0 8px 20px rgba(8,108,255,.22);
 }
 
-tbody tr:nth-child(even){
-  background:#f8faff;
+.btn-primary:hover{
+    transform:translateY(-1px);
+}
+
+.btn-secondary{
+    background:#edf4ff;
+    color:var(--azul-oscuro);
+}
+
+.btn-danger{
+    background:#fff1f2;
+    color:#be123c;
+}
+
+.help{
+    color:#7b8494;
+    font-size:12px;
+    margin-top:10px;
+}
+
+/* =========================
+   ALERTAS
+========================= */
+
+.alert{
+    display:none;
+    max-width:680px;
+    margin:0 auto 25px;
+    padding:15px 18px;
+    border-radius:14px;
+    font-size:14px;
+    line-height:1.5;
+}
+
+.alert.show{
+    display:block;
+}
+
+.alert.error{
+    background:#fff1f2;
+    color:#b42318;
+    border:1px solid #fecdd3;
+}
+
+.alert.success{
+    background:#ecfdf3;
+    color:#027a48;
+    border:1px solid #a7f3d0;
+}
+
+.alert.info{
+    background:#eff6ff;
+    color:#175cd3;
+    border:1px solid #bfdbfe;
+}
+
+/* =========================
+   LOADING
+========================= */
+
+.loading{
+    display:none;
+    text-align:center;
+    margin:25px 0;
+}
+
+.loading.show{
+    display:block;
+}
+
+.spinner{
+    width:38px;
+    height:38px;
+    border:4px solid #dbe8ff;
+    border-top-color:var(--azul);
+    border-radius:50%;
+    animation:girar .8s linear infinite;
+    margin:0 auto 12px;
+}
+
+@keyframes girar{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+.loading-text{
+    color:var(--gris);
+    font-size:14px;
+}
+
+/* =========================
+   BOLETA
+========================= */
+
+.result{
+    display:none;
+}
+
+.result.show{
+    display:block;
+}
+
+.boleta{
+    background:#fff;
+    border:1px solid var(--borde);
+    border-radius:26px;
+    box-shadow:var(--sombra);
+    overflow:hidden;
+}
+
+.boleta-header{
+    padding:32px;
+    background:
+        linear-gradient(135deg,#063b91 0%,#086cff 60%,#2684ff 100%);
+    color:#fff;
+    position:relative;
+}
+
+.boleta-header::after{
+    content:"EVOLVA ACADEMY";
+    position:absolute;
+    right:-10px;
+    bottom:-12px;
+    font-size:55px;
+    font-weight:900;
+    opacity:.06;
+    transform:rotate(-8deg);
+    white-space:nowrap;
+}
+
+.school{
+    font-size:13px;
+    font-weight:800;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    opacity:.9;
+    margin-bottom:8px;
+}
+
+.boleta-header h2{
+    font-size:32px;
+    margin-bottom:7px;
+}
+
+.boleta-header p{
+    opacity:.85;
+    font-size:14px;
+}
+
+.boleta-body{
+    padding:30px;
+}
+
+.student-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+    margin-bottom:28px;
+}
+
+.info-box{
+    border:1px solid var(--borde);
+    border-radius:15px;
+    padding:15px;
+    background:#fbfdff;
+}
+
+.info-title{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+    color:#7a8494;
+    font-weight:800;
+    margin-bottom:5px;
+}
+
+.info-value{
+    font-weight:800;
+    font-size:15px;
+    word-break:break-word;
+}
+
+.section-title{
+    color:var(--azul-oscuro);
+    font-size:20px;
+    margin-bottom:14px;
+}
+
+.table-wrapper{
+    overflow-x:auto;
+    border:1px solid var(--borde);
+    border-radius:16px;
+}
+
+.grades-table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:520px;
+}
+
+.grades-table th{
+    background:#edf4ff;
+    color:var(--azul-oscuro);
+    padding:14px;
+    text-align:left;
+    font-size:13px;
+}
+
+.grades-table td{
+    padding:14px;
+    border-top:1px solid var(--borde);
+    font-size:14px;
 }
 
 .grade{
-  text-align:center;
-  font-weight:800;
+    font-weight:900;
 }
 
-.status-cell{
-  font-weight:700;
+.aprobado{
+    color:var(--verde);
 }
 
-/* RESUMEN */
-
-.summary{
-  margin:24px 45px;
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
+.reprobado{
+    color:var(--rojo);
 }
 
-.summary-card{
-  border:1px solid #dce6f4;
-  padding:15px;
-  text-align:center;
-  background:#fbfdff;
+.average-card{
+    margin-top:22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding:22px;
+    background:linear-gradient(135deg,#f1f7ff,#ffffff);
+    border:1px solid #dbe8ff;
+    border-radius:18px;
 }
 
-.summary-card span{
-  display:block;
-  font-size:9px;
-  text-transform:uppercase;
-  color:#77849a;
-  letter-spacing:.8px;
-  margin-bottom:5px;
+.average-label{
+    color:var(--gris);
+    font-size:13px;
+    font-weight:700;
 }
 
-.summary-card strong{
-  font-size:21px;
-  color:var(--azul-oscuro);
+.average-number{
+    font-size:42px;
+    color:var(--azul);
+    font-weight:900;
 }
 
-/* NOTA */
-
-.note{
-  margin:0 45px 28px;
-  padding:13px 15px;
-  border-left:4px solid var(--azul);
-  background:#f5f9ff;
-  color:#5f6d82;
-  font-size:11px;
-  line-height:1.6;
+.status{
+    display:inline-flex;
+    padding:8px 13px;
+    border-radius:999px;
+    font-size:12px;
+    font-weight:900;
 }
 
-/* QR */
-
-.qrbox{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:13px;
-  margin-top:10px;
+.status.approved{
+    background:#dcfce7;
+    color:#15803d;
 }
 
-#qr{
-  width:70px;
-  height:70px;
+.status.pending{
+    background:#fef3c7;
+    color:#a16207;
 }
 
-/* FIRMAS */
+/* =========================
+   QR / FIRMA
+========================= */
 
-.signatures{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:60px;
-  padding:25px 60px 38px;
-  text-align:center;
+.bottom-grid{
+    display:grid;
+    grid-template-columns:180px 1fr;
+    gap:30px;
+    align-items:center;
+    margin-top:35px;
+    padding-top:30px;
+    border-top:1px solid var(--borde);
+}
+
+.qr-box{
+    text-align:center;
+}
+
+#qrcode{
+    width:150px;
+    height:150px;
+    padding:10px;
+    background:#fff;
+    border:1px solid var(--borde);
+    border-radius:12px;
+    margin:auto;
+}
+
+#qrcode img,
+#qrcode canvas{
+    max-width:100%;
+    max-height:100%;
+}
+
+.qr-text{
+    font-size:10px;
+    color:#7b8494;
+    line-height:1.4;
+    margin-top:8px;
+}
+
+.signature{
+    text-align:center;
 }
 
 .signature-line{
-  border-top:1px solid #9aa7b8;
-  padding-top:9px;
-  margin-top:48px;
+    width:230px;
+    height:1px;
+    background:#7c8798;
+    margin:0 auto 10px;
 }
 
-.signature-line strong{
-  display:block;
-  color:#172b4d;
-  font-size:13px;
+.signature-name{
+    font-weight:900;
+    font-size:16px;
 }
 
-.signature-line span{
-  font-size:10px;
-  color:#7b8798;
+.signature-role{
+    font-size:12px;
+    color:var(--gris);
+    margin-top:4px;
 }
 
-/* FOOTER */
-
-.footer{
-  background:#f8fbff;
-  border-top:1px solid #e0e7f1;
-  padding:14px 45px 20px;
-  display:flex;
-  justify-content:space-between;
-  gap:15px;
-  font-size:9px;
-  color:#7b8798;
+.footer-note{
+    margin-top:30px;
+    padding-top:20px;
+    border-top:1px solid var(--borde);
+    color:#7b8494;
+    text-align:center;
+    font-size:11px;
+    line-height:1.6;
 }
+
+/* =========================
+   BOTONES
+========================= */
+
+.actions{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:25px;
+}
+
+/* =========================
+   EMPTY
+========================= */
 
 .empty{
-  text-align:center;
-  padding:35px;
-  color:#7a8798;
+    text-align:center;
+    padding:30px 20px;
+    color:var(--gris);
 }
 
-/* CELULAR */
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media(max-width:700px){
 
-  .nav{
-    min-height:65px;
-  }
+    .header-inner{
+        padding:12px 15px;
+    }
 
-  .brand img{
-    width:140px;
-  }
+    .logo img{
+        width:125px;
+    }
 
-  .nav a:last-child{
-    font-size:13px;
-    padding:9px 12px;
-  }
+    .back{
+        font-size:12px;
+    }
 
-  .hero{
-    padding:38px 0 20px;
-  }
+    .container{
+        width:94%;
+        margin-top:28px;
+    }
 
-  .panel{
-    padding:20px;
-    border-radius:18px;
-  }
+    .search-card{
+        padding:20px;
+        border-radius:19px;
+    }
 
-  .form{
-    flex-direction:column;
-  }
+    .search-row{
+        flex-direction:column;
+    }
 
-  .btn{
-    min-height:50px;
-  }
+    .btn{
+        width:100%;
+    }
 
-  .boleta-top{
-    padding:27px 24px 18px;
-    display:block;
-    text-align:center;
-  }
+    .boleta-header{
+        padding:25px 20px;
+    }
 
-  .logo{
-    width:180px;
-  }
+    .boleta-header h2{
+        font-size:25px;
+    }
 
-  .institution{
-    text-align:center;
-    margin-top:13px;
-  }
+    .boleta-body{
+        padding:20px;
+    }
 
-  .title{
-    padding:22px 22px 14px;
-  }
+    .student-grid{
+        grid-template-columns:1fr;
+    }
 
-  .title h1{
-    font-size:25px;
-  }
+    .average-card{
+        flex-direction:column;
+        text-align:center;
+    }
 
-  .student{
-    margin:10px 22px 20px;
-    grid-template-columns:1fr;
-  }
+    .bottom-grid{
+        grid-template-columns:1fr;
+    }
 
-  .table-wrap{
-    margin:0 22px;
-  }
+    .actions{
+        flex-direction:column;
+    }
 
-  table{
-    min-width:620px;
-  }
-
-  .summary{
-    margin:20px 22px;
-    grid-template-columns:1fr;
-  }
-
-  .note{
-    margin:0 22px 20px;
-  }
-
-  .signatures{
-    padding:18px 22px 28px;
-    grid-template-columns:1fr;
-    gap:5px;
-  }
-
-  .footer{
-    padding:13px 22px;
-    display:block;
-  }
-
-  .footer span{
-    display:block;
-    margin-top:4px;
-  }
-
-  .boleta:before{
-    inset:7px;
-  }
+    .actions .btn{
+        width:100%;
+    }
 }
 
-/* IMPRESIÓN */
+/* =========================
+   PRINT
+========================= */
 
 @media print{
 
-  body{
-    background:#fff;
-  }
+    body{
+        background:#fff;
+    }
 
-  .header,
-  .hero,
-  .panel,
-  .actions{
-    display:none!important;
-  }
+    .header,
+    .hero,
+    .search-card,
+    .alert,
+    .loading,
+    .actions{
+        display:none !important;
+    }
 
-  .result{
-    display:block!important;
-    margin:0;
-  }
+    .container{
+        width:100%;
+        margin:0;
+    }
 
-  .container{
-    width:100%;
-  }
+    .result{
+        display:block !important;
+    }
 
-  .boleta{
-    box-shadow:none;
-    border:0;
-  }
+    .boleta{
+        border:0;
+        box-shadow:none;
+        border-radius:0;
+    }
+
+    .boleta-header{
+        -webkit-print-color-adjust:exact;
+        print-color-adjust:exact;
+    }
+
+    .boleta-header::after{
+        display:block;
+    }
 }
 </style>
 </head>
@@ -620,2119 +683,2075 @@ tbody tr:nth-child(even){
 <body>
 
 <header class="header">
+    <div class="header-inner">
 
-  <div class="container nav">
+        <a href="https://evolvacademy.mx/" class="logo">
+            <img src="logo-evolva.png" alt="Evolva Academy">
+        </a>
 
-    <a class="brand" href="index.html">
+        <a href="https://evolvacademy.mx/" class="back">
+            ← Regresar al inicio
+        </a>
 
-      <img
-        src="logo-evolva.png"
-        alt="Evolva Academy"
-      >
-
-    </a>
-
-    <a href="index.html">
-      ← Regresar al inicio
-    </a>
-
-  </div>
-
+    </div>
 </header>
 
 
 <main class="container">
 
-<section class="hero">
+    <section class="hero">
 
-  <div class="badge">
-    DOCUMENTO ACADÉMICO DIGITAL
-  </div>
-
-  <h1>
-    Boleta de Calificaciones
-  </h1>
-
-  <p>
-    Consulta tus calificaciones utilizando tu
-    <strong>folio / matrícula</strong>
-    y genera tu boleta académica en PDF.
-  </p>
-
-</section>
-
-
-<section class="panel">
-
-  <h2>
-    Consultar calificaciones
-  </h2>
-
-  <p class="sub">
-    Escribe tu folio, por ejemplo:
-    <strong>EVOLVA-000001</strong>
-  </p>
-
-
-  <form id="formConsulta" class="form">
-
-    <input
-      id="folio"
-      class="input"
-      type="text"
-      placeholder="EVOLVA-000001"
-      autocomplete="off"
-      required
-    >
-
-    <button
-      id="btnConsultar"
-      class="btn"
-      type="submit"
-    >
-      Consultar
-    </button>
-
-  </form>
-
-
-  <div
-    id="status"
-    class="status"
-    role="status"
-  ></div>
-
-</section>
-
-
-<section id="result" class="result">
-
-  <div class="actions">
-
-    <button
-      class="btn"
-      id="btnPDF"
-      type="button"
-    >
-      Descargar boleta PDF
-    </button>
-
-    <button
-      class="btn secondary"
-      id="btnImprimir"
-      type="button"
-    >
-      Imprimir
-    </button>
-
-    <button
-      class="btn secondary"
-      id="btnNueva"
-      type="button"
-    >
-      Nueva consulta
-    </button>
-
-  </div>
-
-
-  <article id="boleta" class="boleta">
-
-    <div class="boleta-top">
-
-      <img
-        class="logo"
-        id="logoBoleta"
-        src="logo-evolva.png"
-        alt="Evolva Academy"
-      >
-
-      <div class="institution">
-
-        <div class="small">
-          Institución de formación
+        <div class="badge">
+            🎓 Control Escolar
         </div>
 
-        <h2>
-          EVOLVA ACADEMY
-        </h2>
-
-        <div class="small">
-          Boleta oficial de calificaciones
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="title">
-
-      <div class="eyebrow">
-        Documento académico
-      </div>
-
-      <h1>
-        BOLETA DE CALIFICACIONES
-      </h1>
-
-      <p id="periodo">
-        Registro académico
-      </p>
-
-    </div>
-
-
-    <div class="student">
-
-      <div class="field">
-
-        <span>
-          Nombre del alumno
-        </span>
-
-        <strong id="alumnoNombre">
-          —
-        </strong>
-
-      </div>
-
-
-      <div class="field">
-
-        <span>
-          Matrícula / Folio
-        </span>
-
-        <strong id="alumnoFolio">
-          —
-        </strong>
-
-      </div>
-
-
-      <div class="field">
-
-        <span>
-          Diplomado
-        </span>
-
-        <strong id="alumnoDiplomado">
-          —
-        </strong>
-
-      </div>
-
-
-      <div class="field">
-
-        <span>
-          Estado académico
-        </span>
-
-        <strong id="alumnoEstado">
-          —
-        </strong>
-
-      </div>
-
-
-      <div class="field">
-
-        <span>
-          CURP
-        </span>
-
-        <strong id="alumnoCurp">
-          —
-        </strong>
-
-      </div>
-
-
-      <div class="field">
-
-        <span>
-          Fecha de registro
-        </span>
-
-        <strong id="alumnoFecha">
-          —
-        </strong>
-
-      </div>
-
-    </div>
-
-
-    <div class="table-wrap">
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th style="width:70px">
-              No.
-            </th>
-
-            <th>
-              Unidad / Módulo
-            </th>
-
-            <th style="width:130px;text-align:center">
-              Calificación
-            </th>
-
-            <th style="width:150px">
-              Resultado
-            </th>
-
-          </tr>
-
-        </thead>
-
-
-        <tbody id="tablaCalificaciones">
-        </tbody>
-
-      </table>
-
-    </div>
-
-
-    <div class="summary">
-
-      <div class="summary-card">
-
-        <span>
-          Promedio general
-        </span>
-
-        <strong id="promedio">
-          —
-        </strong>
-
-      </div>
-
-
-      <div class="summary-card">
-
-        <span>
-          Módulos evaluados
-        </span>
-
-        <strong id="modulosEvaluados">
-          —
-        </strong>
-
-      </div>
-
-
-      <div class="summary-card">
-
-        <span>
-          Situación académica
-        </span>
-
-        <strong id="situacion">
-          —
-        </strong>
-
-      </div>
-
-    </div>
-
-
-    <div class="note">
-
-      Esta boleta es un documento académico digital
-      emitido por Evolva Academy. La autenticidad
-      de la información puede verificarse mediante
-      la matrícula/folio registrada en el sistema institucional.
-
-      <div class="qrbox">
-
-        <div id="qr"></div>
-
-        <span>
-          Escanea para consultar la información<br>
-          asociada a esta matrícula.
-        </span>
-
-      </div>
-
-    </div>
-
-
-    <div class="signatures">
-
-      <div>
-
-        <div class="signature-line">
-
-          <strong>
-            Alexis Soto
-          </strong>
-
-          <span>
-            Director General<br>
-            Evolva Academy
-          </span>
+        <h1>Boleta de Calificaciones</h1>
+
+        <p>
+            Consulta tus calificaciones académicas utilizando tu
+            folio de Evolva Academy.
+        </p>
+
+    </section>
+
+
+    <section class="search-card">
+
+        <label class="form-label" for="folio">
+            Folio / Matrícula
+        </label>
+
+        <div class="search-row">
+
+            <input
+                id="folio"
+                class="search-input"
+                type="text"
+                placeholder="Ej. EVOLVA-123456"
+                autocomplete="off"
+                maxlength="30"
+            >
+
+            <button
+                id="btnConsultar"
+                class="btn btn-primary"
+                type="button"
+                onclick="consultar()"
+            >
+                Consultar
+            </button>
 
         </div>
 
-      </div>
+        <div class="help">
+            Escribe el folio que recibiste al registrarte en Evolva Academy.
+        </div>
+
+    </section>
 
 
-      <div>
+    <div id="alert" class="alert"></div>
 
-        <div class="signature-line">
 
-          <strong>
-            Área Académica
-          </strong>
+    <div id="loading" class="loading">
 
-          <span>
-            Evolva Academy<br>
-            Control Escolar
-          </span>
+        <div class="spinner"></div>
+
+        <div class="loading-text">
+            Consultando información académica...
+        </div>
+
+    </div>
+
+
+    <section id="result" class="result">
+
+        <div class="boleta">
+
+            <div class="boleta-header">
+
+                <div class="school">
+                    EVOLVA ACADEMY
+                </div>
+
+                <h2>Boleta de Calificaciones</h2>
+
+                <p>
+                    Documento académico digital
+                </p>
+
+            </div>
+
+
+            <div class="boleta-body">
+
+                <!-- DATOS DEL ALUMNO -->
+
+                <div class="student-grid">
+
+                    <div class="info-box">
+                        <div class="info-title">
+                            Alumno
+                        </div>
+
+                        <div
+                            id="nombre"
+                            class="info-value"
+                        >
+                            —
+                        </div>
+                    </div>
+
+
+                    <div class="info-box">
+                        <div class="info-title">
+                            Folio / Matrícula
+                        </div>
+
+                        <div
+                            id="folioResultado"
+                            class="info-value"
+                        >
+                            —
+                        </div>
+                    </div>
+
+
+                    <div class="info-box">
+                        <div class="info-title">
+                            Diplomado
+                        </div>
+
+                        <div
+                            id="diplomado"
+                            class="info-value"
+                        >
+                            —
+                        </div>
+                    </div>
+
+
+                    <div class="info-box">
+                        <div class="info-title">
+                            CURP
+                        </div>
+
+                        <div
+                            id="curp"
+                            class="info-value"
+                        >
+                            —
+                        </div>
+                    </div>
+
+
+                    <div class="info-box">
+                        <div class="info-title">
+                            Fecha de registro
+                        </div>
+
+                        <div
+                            id="fecha"
+                            class="info-value"
+                        >
+                            —
+                        </div>
+                    </div>
+
+
+                    <div class="info-box">
+                        <div class="info-title">
+                            Situación académica
+                        </div>
+
+                        <div
+                            id="situacion"
+                            class="info-value"
+                        >
+                            —
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- CALIFICACIONES -->
+
+                <h3 class="section-title">
+                    Calificaciones
+                </h3>
+
+                <div class="table-wrapper">
+
+                    <table class="grades-table">
+
+                        <thead>
+                            <tr>
+                                <th>Módulo</th>
+                                <th>Calificación</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="tablaCalificaciones">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- PROMEDIO -->
+
+                <div class="average-card">
+
+                    <div>
+
+                        <div class="average-label">
+                            PROMEDIO GENERAL
+                        </div>
+
+                        <div id="modulosEvaluados">
+                            —
+                        </div>
+
+                    </div>
+
+                    <div
+                        id="promedio"
+                        class="average-number"
+                    >
+                        —
+                    </div>
+
+                </div>
+
+
+                <!-- QR + FIRMA -->
+
+                <div class="bottom-grid">
+
+                    <div class="qr-box">
+
+                        <div id="qrcode"></div>
+
+                        <div class="qr-text">
+                            Escanea este código para validar
+                            la información académica.
+                        </div>
+
+                    </div>
+
+
+                    <div class="signature">
+
+                        <div class="signature-line"></div>
+
+                        <div class="signature-name">
+                            Alexis Soto
+                        </div>
+
+                        <div class="signature-role">
+                            Director General<br>
+                            Evolva Academy
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="footer-note">
+
+                    Este documento es una constancia digital de
+                    las calificaciones registradas en el sistema
+                    académico de Evolva Academy.
+
+                    <br>
+
+                    La información puede ser validada mediante
+                    el folio correspondiente.
+
+                </div>
+
+            </div>
 
         </div>
 
-      </div>
 
-    </div>
+        <div class="actions">
 
+            <button
+                class="btn btn-primary"
+                onclick="generarPDF()"
+            >
+                📄 Descargar PDF
+            </button>
 
-    <div class="footer">
+            <button
+                class="btn btn-secondary"
+                onclick="imprimir()"
+            >
+                🖨️ Imprimir
+            </button>
 
-      <span>
-        EVOLVA ACADEMY · Documento académico digital
-      </span>
+            <button
+                class="btn btn-secondary"
+                onclick="nuevaConsulta()"
+            >
+                🔎 Nueva consulta
+            </button>
 
-      <span id="folioFooter">
-        Matrícula: —
-      </span>
+        </div>
 
-    </div>
-
-  </article>
-
-</section>
+    </section>
 
 </main>
 
 
 <script>
 
-const API_URL =
-"https://script.google.com/macros/s/AKfcyby-9ln5UlpJiMrWbIoW4dpXICsT0KZDSh2k_Y-efPwk6RQADcH80-1MHz08grqtFOrJuQ/exec";
+/* ==========================================================
+   CONFIGURACIÓN
+========================================================== */
 
+const API_URL =
+"https://script.google.com/macros/s/AKfycbwPbOaBJBnwNd039RawS29RwL0WaM48o8s1O2EEDxKwYpng2P_kVVKUSf_ZPcgOAJMFng/exec";
 
 const VALIDACION_URL =
 "https://evolvacademy.mx/validar.html";
 
 
-const $ = id =>
-document.getElementById(id);
+let alumnoActual = null;
+let calificacionesActuales = [];
+let timeoutAPI = null;
 
 
-/* ESCAPAR HTML */
+/* ==========================================================
+   ELEMENTOS
+========================================================== */
 
-function escapeHtml(value){
+const inputFolio =
+document.getElementById("folio");
 
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+const btnConsultar =
+document.getElementById("btnConsultar");
+
+const alertBox =
+document.getElementById("alert");
+
+const loading =
+document.getElementById("loading");
+
+const result =
+document.getElementById("result");
+
+
+/* ==========================================================
+   UTILIDADES
+========================================================== */
+
+function escapeHTML(valor){
+
+    if(valor === null || valor === undefined){
+        return "";
+    }
+
+    return String(valor)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+
+function mostrarAlerta(mensaje,tipo="error"){
+
+    alertBox.className =
+        "alert show " + tipo;
+
+    alertBox.innerHTML =
+        escapeHTML(mensaje);
 
 }
 
 
-/* API JSONP */
+function ocultarAlerta(){
 
-function llamarAPI(params, timeoutMs = 25000){
+    alertBox.className = "alert";
 
-  return new Promise((resolve,reject)=>{
-
-    const callback =
-      "evolva_cal_" +
-      Date.now() +
-      "_" +
-      Math.floor(Math.random()*100000);
+    alertBox.innerHTML = "";
+}
 
 
-    const script =
-      document.createElement("script");
+function mostrarLoading(estado){
 
-
-    const query =
-      new URLSearchParams({
-        ...params,
-        callback,
-        _:Date.now()
-      });
-
-
-    let terminado = false;
-
-
-    const limpiar = ()=>{
-
-      clearTimeout(timer);
-
-      script.remove();
-
-      try{
-
-        delete window[callback];
-
-      }catch(e){
-
-        window[callback] = undefined;
-
-      }
-
-    };
-
-
-    window[callback] = data =>{
-
-      if(terminado) return;
-
-      terminado = true;
-
-      limpiar();
-
-
-      if(
-        data &&
-        data.ok === false
-      ){
-
-        reject(
-          new Error(
-            data.error ||
-            "El servidor no pudo procesar la consulta."
-          )
-        );
-
-      }else{
-
-        resolve(data);
-
-      }
-
-    };
-
-
-    script.onerror = ()=>{
-
-      if(terminado) return;
-
-      terminado = true;
-
-      limpiar();
-
-      reject(
-        new Error(
-          "No fue posible conectar con el servidor de Evolva Academy."
-        )
-      );
-
-    };
-
-
-    const timer =
-      setTimeout(()=>{
-
-        if(terminado) return;
-
-        terminado = true;
-
-        limpiar();
-
-        reject(
-          new Error(
-            "El servidor tardó demasiado en responder."
-          )
-        );
-
-      },timeoutMs);
-
-
-    script.src =
-      API_URL +
-      "?" +
-      query.toString();
-
-
-    document.body.appendChild(script);
-
-  });
+    if(estado){
+        loading.classList.add("show");
+    }else{
+        loading.classList.remove("show");
+    }
 
 }
 
 
-/* CONVERTIR CALIFICACIÓN */
+function normalizarFolio(valor){
 
-function normalizarNumero(valor){
-
-  if(
-    valor === null ||
-    valor === undefined ||
-    valor === ""
-  ){
-
-    return null;
-
-  }
-
-
-  const n =
-    parseFloat(
-      String(valor)
-        .replace(",",".")
-        .replace("%","")
+    return String(valor || "")
         .trim()
-    );
-
-
-  return Number.isFinite(n)
-    ? n
-    : null;
+        .toUpperCase();
 
 }
 
 
-/* TEXTO DE CALIFICACIÓN */
+function numeroSeguro(valor){
 
-function calificacionTexto(valor){
-
-  const n =
-    normalizarNumero(valor);
-
-
-  if(n === null){
-
-    return "—";
-
-  }
-
-
-  return Number.isInteger(n)
-    ? String(n)
-    : n.toFixed(1);
-
-}
-
-
-/* RESULTADO */
-
-function resultadoDe(n){
-
-  if(n === null){
-
-    return "Sin calificación";
-
-  }
-
-
-  return n >= 6
-    ? "Acreditado"
-    : "No acreditado";
-
-}
-
-
-/* FECHA */
-
-function fechaTexto(valor){
-
-  if(!valor){
-
-    return "—";
-
-  }
-
-
-  const d =
-    new Date(valor);
-
-
-  if(
-    Number.isNaN(
-      d.getTime()
-    )
-  ){
-
-    return String(valor);
-
-  }
-
-
-  return d.toLocaleDateString(
-    "es-MX",
-    {
-      day:"2-digit",
-      month:"long",
-      year:"numeric"
+    if(
+        valor === null ||
+        valor === undefined ||
+        valor === ""
+    ){
+        return null;
     }
-  );
+
+    if(typeof valor === "number"){
+        return isFinite(valor)
+            ? valor
+            : null;
+    }
+
+    const limpio =
+        String(valor)
+        .replace(",",".")
+        .replace(/[^\d.-]/g,"");
+
+    const numero =
+        parseFloat(limpio);
+
+    return isFinite(numero)
+        ? numero
+        : null;
+}
+
+
+function formatearFecha(valor){
+
+    if(!valor){
+        return "—";
+    }
+
+    try{
+
+        const fecha = new Date(valor);
+
+        if(isNaN(fecha.getTime())){
+            return String(valor);
+        }
+
+        return fecha.toLocaleDateString(
+            "es-MX",
+            {
+                day:"2-digit",
+                month:"2-digit",
+                year:"numeric"
+            }
+        );
+
+    }catch(e){
+
+        return String(valor);
+
+    }
 
 }
 
 
-/* OBTENER MÓDULOS */
+/* ==========================================================
+   JSONP
+========================================================== */
 
-function obtenerModulos(data){
+function solicitarJSONP(accion,parametros={}){
 
-  if(
-    Array.isArray(
-      data?.calificaciones
-    )
-  ){
+    return new Promise((resolve,reject)=>{
 
-    return data.calificaciones;
+        const callbackName =
+            "evolvaCallback_" +
+            Date.now() +
+            "_" +
+            Math.random()
+            .toString(36)
+            .substring(2,9);
 
-  }
+        const script =
+            document.createElement("script");
 
-
-  const posibles = [
-    "M1",
-    "M2",
-    "M3",
-    "M4",
-    "M5",
-    "M6",
-    "M7",
-    "M8",
-    "M9",
-    "M10"
-  ];
+        let terminado = false;
 
 
-  return posibles
-    .filter(
-      k =>
-        data &&
-        data[k] !== undefined &&
-        data[k] !== ""
-    )
-    .map(
-      (k,i)=>({
-        modulo:"Módulo " + (i+1),
-        calificacion:data[k]
-      })
-    );
+        function limpiar(){
 
-}
+            if(script.parentNode){
+                script.parentNode.removeChild(script);
+            }
+
+            try{
+                delete window[callbackName];
+            }catch(e){
+                window[callbackName] = undefined;
+            }
+
+        }
 
 
-/* STATUS */
+        function finalizarError(error){
 
-function ponerStatus(
-  texto,
-  tipo=""
-){
+            if(terminado) return;
 
-  $("status").className =
-    "status " + tipo;
+            terminado = true;
 
-  $("status").textContent =
-    texto;
+            clearTimeout(timeoutAPI);
 
-}
+            limpiar();
 
+            reject(error);
 
-/* MOSTRAR DATOS */
-
-function mostrarDatos(
-  alumno,
-  calData
-){
-
-  const modulos =
-    obtenerModulos(calData);
+        }
 
 
-  const promedioRaw =
-    calData?.promedio ??
-    alumno?.PROMEDIO;
+        window[callbackName] =
+            function(data){
+
+                if(terminado) return;
+
+                terminado = true;
+
+                clearTimeout(timeoutAPI);
+
+                limpiar();
+
+                resolve(data);
+
+            };
 
 
-  const promedio =
-    normalizarNumero(
-      promedioRaw
-    );
+        const query =
+            new URLSearchParams();
 
 
-  $("alumnoNombre").textContent =
-    alumno?.NOMBRE ||
-    "—";
-
-
-  $("alumnoFolio").textContent =
-    alumno?.FOLIO ||
-    $("folio").value.toUpperCase();
-
-
-  $("alumnoDiplomado").textContent =
-    alumno?.DIPLOMADO ||
-    "—";
-
-
-  $("alumnoEstado").textContent =
-    alumno?.ESTADO ||
-    "—";
-
-
-  $("alumnoCurp").textContent =
-    alumno?.CURP ||
-    "—";
-
-
-  $("alumnoFecha").textContent =
-    fechaTexto(
-      alumno?.FECHA_REGISTRO
-    );
-
-
-  $("folioFooter").textContent =
-    "Matrícula: " +
-    (
-      alumno?.FOLIO ||
-      "—"
-    );
-
-
-  $("periodo").textContent =
-    "Registro académico · " +
-    new Date().toLocaleDateString(
-      "es-MX",
-      {
-        month:"long",
-        year:"numeric"
-      }
-    );
-
-
-  const tbody =
-    $("tablaCalificaciones");
-
-
-  tbody.innerHTML = "";
-
-
-  if(!modulos.length){
-
-    tbody.innerHTML =
-      `
-      <tr>
-        <td colspan="4" class="empty">
-          No hay calificaciones registradas.
-        </td>
-      </tr>
-      `;
-
-  }else{
-
-    modulos.forEach(
-      (item,i)=>{
-
-        const n =
-          normalizarNumero(
-            item.calificacion
-          );
-
-
-        const tr =
-          document.createElement("tr");
-
-
-        tr.innerHTML =
-          `
-          <td>${i+1}</td>
-
-          <td>
-            ${escapeHtml(
-              item.modulo ||
-              ("Módulo " + (i+1))
-            )}
-          </td>
-
-          <td class="grade">
-            ${calificacionTexto(
-              item.calificacion
-            )}
-          </td>
-
-          <td class="status-cell">
-            ${resultadoDe(n)}
-          </td>
-          `;
-
-
-        tbody.appendChild(tr);
-
-      }
-    );
-
-  }
-
-
-  $("promedio").textContent =
-    promedio === null
-      ? "—"
-      : calificacionTexto(
-          promedio
+        query.set(
+            "accion",
+            accion
         );
 
 
-  $("modulosEvaluados").textContent =
-    String(
-      modulos.filter(
-        x =>
-          normalizarNumero(
-            x.calificacion
-          ) !== null
-      ).length
-    );
+        query.set(
+            "callback",
+            callbackName
+        );
 
 
-  $("situacion").textContent =
-    promedio === null
-      ? "Pendiente"
-      : (
-        promedio >= 6
-          ? "Acreditado"
-          : "No acreditado"
-      );
+        query.set(
+            "_",
+            Date.now()
+        );
 
 
-  $("qr").innerHTML = "";
+        Object.keys(parametros || {})
+        .forEach(key=>{
+
+            if(
+                parametros[key] !== undefined &&
+                parametros[key] !== null
+            ){
+
+                query.set(
+                    key,
+                    parametros[key]
+                );
+
+            }
+
+        });
 
 
-  new QRCode(
-    $("qr"),
-    {
-      text:
-        VALIDACION_URL +
-        "?folio=" +
-        encodeURIComponent(
-          alumno?.FOLIO ||
-          $("folio").value.toUpperCase()
-        ),
-
-      width:70,
-
-      height:70,
-
-      correctLevel:
-        QRCode.CorrectLevel.M
-    }
-  );
+        script.src =
+            API_URL +
+            "?" +
+            query.toString();
 
 
-  $("result").classList.add(
-    "show"
-  );
+        script.async = true;
 
 
-  $("result").scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
+        script.onerror =
+            function(){
+
+                finalizarError(
+                    new Error(
+                        "No fue posible conectar con el servidor."
+                    )
+                );
+
+            };
+
+
+        document.body.appendChild(script);
+
+
+        timeoutAPI =
+            setTimeout(()=>{
+
+                finalizarError(
+                    new Error(
+                        "El servidor tardó demasiado en responder."
+                    )
+                );
+
+            },25000);
+
+    });
 
 }
 
 
-/* CONSULTA */
+/* ==========================================================
+   CONSULTAR ALUMNO
+========================================================== */
 
-$("formConsulta")
-.addEventListener(
-  "submit",
-  async e =>{
+async function consultar(){
 
-    e.preventDefault();
+    ocultarAlerta();
+
+    result.classList.remove("show");
 
 
     const folio =
-      $("folio")
-        .value
-        .trim()
-        .toUpperCase();
+        normalizarFolio(
+            inputFolio.value
+        );
 
 
     if(!folio){
 
-      ponerStatus(
-        "Escribe tu folio o matrícula.",
-        "error"
-      );
+        mostrarAlerta(
+            "Escribe tu folio o matrícula.",
+            "error"
+        );
 
-      return;
+        inputFolio.focus();
 
+        return;
     }
 
 
-    $("btnConsultar")
-      .disabled = true;
+    mostrarLoading(true);
 
+    btnConsultar.disabled = true;
 
-    ponerStatus(
-      "Consultando tus calificaciones...",
-      "loading"
-    );
-
-
-    $("result")
-      .classList.remove(
-        "show"
-      );
+    btnConsultar.textContent =
+        "Consultando...";
 
 
     try{
 
-      const [
-        alumnoResp,
-        calResp
-      ] = await Promise.all([
+        /*
+         * Primero buscamos los datos
+         * generales del alumno.
+         */
 
-        llamarAPI({
-          accion:"buscarfolio",
-          folio:folio
-        }),
-
-        llamarAPI({
-          accion:"calificaciones",
-          folio:folio
-        })
-
-      ]);
+        const respuestaAlumno =
+            await solicitarJSONP(
+                "buscarfolio",
+                {
+                    folio:folio
+                }
+            );
 
 
-      const alumno =
-        alumnoResp?.alumno ||
-        alumnoResp?.datos ||
-        alumnoResp?.resultado ||
-        alumnoResp;
+        if(
+            !respuestaAlumno ||
+            respuestaAlumno.ok === false
+        ){
+
+            throw new Error(
+                respuestaAlumno?.mensaje ||
+                respuestaAlumno?.error ||
+                "No fue posible consultar el alumno."
+            );
+
+        }
 
 
-      const calData =
-        calResp?.calificaciones
-          ? calResp
-          : (
-            calResp?.resultado ||
-            calResp
-          );
+        if(
+            respuestaAlumno.encontrado === false ||
+            !respuestaAlumno.alumno
+        ){
+
+            throw new Error(
+                "No encontramos un alumno con ese folio."
+            );
+
+        }
 
 
-      if(
-        !alumno ||
-        alumno.ok === false ||
-        !alumno.FOLIO
-      ){
+        alumnoActual =
+            respuestaAlumno.alumno;
 
-        throw new Error(
-          "No encontramos una matrícula con ese folio."
+
+        /*
+         * Después consultamos
+         * las calificaciones.
+         */
+
+        const respuestaCalificaciones =
+            await solicitarJSONP(
+                "calificaciones",
+                {
+                    folio:folio
+                }
+            );
+
+
+        if(
+            !respuestaCalificaciones ||
+            respuestaCalificaciones.ok === false
+        ){
+
+            throw new Error(
+                respuestaCalificaciones?.mensaje ||
+                respuestaCalificaciones?.error ||
+                "No fue posible consultar las calificaciones."
+            );
+
+        }
+
+
+        calificacionesActuales =
+            Array.isArray(
+                respuestaCalificaciones.calificaciones
+            )
+            ?
+            respuestaCalificaciones.calificaciones
+            :
+            [];
+
+
+        mostrarAlumno(
+            alumnoActual,
+            respuestaCalificaciones
         );
 
-      }
+
+        result.classList.add("show");
 
 
-      mostrarDatos(
-        alumno,
-        calData
-      );
+        mostrarAlerta(
+            "Información académica encontrada correctamente.",
+            "success"
+        );
 
 
-      ponerStatus(
-        "Consulta realizada correctamente.",
-        "ok"
-      );
+        setTimeout(()=>{
+
+            result.scrollIntoView({
+                behavior:"smooth",
+                block:"start"
+            });
+
+        },100);
 
 
-    }catch(err){
+    }catch(error){
 
-      console.error(err);
+        console.error(error);
 
-
-      ponerStatus(
-        err.message ||
-        "No fue posible realizar la consulta.",
-        "error"
-      );
-
+        mostrarAlerta(
+            error.message ||
+            "No fue posible conectar con el servidor de Evolva Academy.",
+            "error"
+        );
 
     }finally{
 
-      $("btnConsultar")
-        .disabled = false;
+        mostrarLoading(false);
+
+        btnConsultar.disabled = false;
+
+        btnConsultar.textContent =
+            "Consultar";
 
     }
 
-  }
-);
+}
 
 
-/* NUEVA CONSULTA */
+/* ==========================================================
+   MOSTRAR DATOS
+========================================================== */
 
-$("btnNueva")
-.addEventListener(
-  "click",
-  ()=>{
+function mostrarAlumno(alumno,datosCalificaciones){
 
-    $("result")
-      .classList.remove(
-        "show"
-      );
+    const nombre =
+        alumno.NOMBRE ||
+        alumno.nombre ||
+        "—";
+
+    const folio =
+        alumno.FOLIO ||
+        alumno.folio ||
+        inputFolio.value;
+
+    const diplomado =
+        alumno.DIPLOMADO ||
+        alumno.diplomado ||
+        "—";
+
+    const curp =
+        alumno.CURP ||
+        alumno.curp ||
+        "—";
+
+    const fecha =
+        alumno.FECHA_REGISTRO ||
+        alumno.fecha_registro ||
+        alumno.fecha ||
+        "";
 
 
-    $("folio").value =
-      "";
+    document.getElementById("nombre")
+        .textContent = nombre;
 
 
-    ponerStatus("");
+    document.getElementById("folioResultado")
+        .textContent = folio;
 
 
-    $("folio").focus();
+    document.getElementById("diplomado")
+        .textContent = diplomado;
 
 
-    window.scrollTo({
-      top:0,
-      behavior:"smooth"
+    document.getElementById("curp")
+        .textContent = curp;
+
+
+    document.getElementById("fecha")
+        .textContent =
+        formatearFecha(fecha);
+
+
+    const estado =
+        alumno.ESTADO ||
+        alumno.estado ||
+        "—";
+
+
+    document.getElementById("situacion")
+        .textContent = estado;
+
+
+    construirTabla(
+        calificacionesActuales
+    );
+
+
+    let promedio =
+        datosCalificaciones.promedio;
+
+
+    if(
+        promedio === undefined ||
+        promedio === null ||
+        promedio === ""
+    ){
+
+        promedio =
+            alumno.PROMEDIO ||
+            alumno.promedio ||
+            calcularPromedio(
+                calificacionesActuales
+            );
+
+    }
+
+
+    const promedioNumero =
+        numeroSeguro(promedio);
+
+
+    document.getElementById("promedio")
+        .textContent =
+        promedioNumero !== null
+        ?
+        promedioNumero.toFixed(1)
+        :
+        "—";
+
+
+    const evaluadas =
+        calificacionesActuales
+        .filter(item=>{
+
+            const n =
+                numeroSeguro(
+                    item.calificacion
+                );
+
+            return n !== null;
+
+        }).length;
+
+
+    document.getElementById(
+        "modulosEvaluados"
+    ).textContent =
+        evaluadas +
+        (evaluadas === 1
+            ? " módulo evaluado"
+            : " módulos evaluados");
+
+
+    generarQR(folio);
+
+}
+
+
+/* ==========================================================
+   TABLA
+========================================================== */
+
+function construirTabla(calificaciones){
+
+    const tbody =
+        document.getElementById(
+            "tablaCalificaciones"
+        );
+
+
+    tbody.innerHTML = "";
+
+
+    if(
+        !Array.isArray(calificaciones) ||
+        calificaciones.length === 0
+    ){
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="3">
+                    No hay calificaciones registradas.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+
+    calificaciones.forEach((item,index)=>{
+
+        const modulo =
+            item.modulo ||
+            item.MODULO ||
+            `Módulo ${index + 1}`;
+
+
+        const valor =
+            numeroSeguro(
+                item.calificacion ??
+                item.CALIFICACION ??
+                item.nota ??
+                item.NOTA
+            );
+
+
+        let textoNota = "—";
+
+        if(valor !== null){
+
+            textoNota =
+                valor.toFixed(1);
+
+        }
+
+
+        let aprobado = false;
+
+
+        if(valor !== null){
+
+            aprobado =
+                valor >= 6;
+
+        }
+
+
+        const estado =
+            valor === null
+            ?
+            "Pendiente"
+            :
+            (
+                aprobado
+                ?
+                "Aprobado"
+                :
+                "No aprobado"
+            );
+
+
+        const clase =
+            valor === null
+            ?
+            ""
+            :
+            (
+                aprobado
+                ?
+                "aprobado"
+                :
+                "reprobado"
+            );
+
+
+        const tr =
+            document.createElement("tr");
+
+
+        tr.innerHTML = `
+            <td>${escapeHTML(modulo)}</td>
+
+            <td class="grade ${clase}">
+                ${escapeHTML(textoNota)}
+            </td>
+
+            <td>
+                <span class="status ${
+                    valor === null
+                    ? "pending"
+                    : (
+                        aprobado
+                        ? "approved"
+                        : "pending"
+                    )
+                }">
+                    ${escapeHTML(estado)}
+                </span>
+            </td>
+        `;
+
+
+        tbody.appendChild(tr);
+
     });
 
-  }
-);
+}
 
 
-/* IMPRIMIR */
+/* ==========================================================
+   CALCULAR PROMEDIO
+========================================================== */
 
-$("btnImprimir")
-.addEventListener(
-  "click",
-  ()=>{
+function calcularPromedio(calificaciones){
 
-    window.print();
+    if(
+        !Array.isArray(calificaciones)
+    ){
 
-  }
-);
+        return null;
 
-
-/* GENERAR PDF */
-
-$("btnPDF")
-.addEventListener(
-  "click",
-  async ()=>{
-
-    const btn =
-      $("btnPDF");
+    }
 
 
-    btn.disabled =
-      true;
+    const valores =
+        calificaciones
+        .map(item =>
+            numeroSeguro(
+                item.calificacion
+            )
+        )
+        .filter(valor =>
+            valor !== null
+        );
 
 
-    btn.textContent =
-      "Generando PDF...";
+    if(!valores.length){
+
+        return null;
+
+    }
+
+
+    const suma =
+        valores.reduce(
+            (a,b)=>a+b,
+            0
+        );
+
+
+    return suma / valores.length;
+
+}
+
+
+/* ==========================================================
+   QR
+========================================================== */
+
+function generarQR(folio){
+
+    const contenedor =
+        document.getElementById(
+            "qrcode"
+        );
+
+
+    contenedor.innerHTML = "";
+
+
+    if(!folio){
+
+        return;
+
+    }
+
+
+    const url =
+        VALIDACION_URL +
+        "?folio=" +
+        encodeURIComponent(folio);
 
 
     try{
 
-      const {jsPDF} =
-        window.jspdf;
-
-
-      const doc =
-        new jsPDF({
-          orientation:"portrait",
-          unit:"mm",
-          format:"letter"
-        });
-
-
-      const W =
-        doc.internal.pageSize.getWidth();
-
-
-      const H =
-        doc.internal.pageSize.getHeight();
-
-
-      /* MARCO */
-
-      doc.setDrawColor(
-        215,
-        225,
-        240
-      );
-
-
-      doc.setLineWidth(
-        .5
-      );
-
-
-      doc.rect(
-        8,
-        8,
-        W-16,
-        H-16
-      );
-
-
-      /* LOGO */
-
-      const logo =
-        $("logoBoleta");
-
-
-      let logoData =
-        null;
-
-
-      try{
-
-        const canvas =
-          document.createElement(
-            "canvas"
-          );
-
-
-        const ctx =
-          canvas.getContext(
-            "2d"
-          );
-
-
-        canvas.width =
-          logo.naturalWidth ||
-          1672;
-
-
-        canvas.height =
-          logo.naturalHeight ||
-          941;
-
-
-        ctx.drawImage(
-          logo,
-          0,
-          0,
-          canvas.width,
-          canvas.height
+        new QRCode(
+            contenedor,
+            {
+                text:url,
+                width:130,
+                height:130,
+                colorDark:"#063b91",
+                colorLight:"#ffffff",
+                correctLevel:
+                    QRCode.CorrectLevel.H
+            }
         );
 
+    }catch(error){
 
-        logoData =
-          canvas.toDataURL(
-            "image/png"
-          );
-
-      }catch(e){}
-
-
-      if(logoData){
-
-        doc.addImage(
-          logoData,
-          "PNG",
-          18,
-          17,
-          57,
-          32
+        console.error(
+            "Error generando QR:",
+            error
         );
 
-      }
+    }
 
+}
 
-      /* ENCABEZADO */
 
-      doc.setTextColor(
-        6,
-        59,
-        145
-      );
+/* ==========================================================
+   PDF
+========================================================== */
 
+async function generarPDF(){
 
-      doc.setFont(
-        "helvetica",
-        "bold"
-      );
+    if(!alumnoActual){
 
+        mostrarAlerta(
+            "Primero consulta un folio.",
+            "error"
+        );
 
-      doc.setFontSize(
-        13
-      );
+        return;
 
+    }
 
-      doc.text(
-        "EVOLVA ACADEMY",
-        W-18,
-        22,
-        {
-          align:"right"
-        }
-      );
 
+    if(
+        !window.jspdf ||
+        !window.jspdf.jsPDF
+    ){
 
-      doc.setTextColor(
-        105,
-        118,
-        140
-      );
+        mostrarAlerta(
+            "No se pudo cargar el generador de PDF. Recarga la página e inténtalo nuevamente.",
+            "error"
+        );
 
+        return;
 
-      doc.setFont(
-        "helvetica",
-        "normal"
-      );
+    }
 
 
-      doc.setFontSize(
-        7
-      );
+    try{
 
+        const {
+            jsPDF
+        } = window.jspdf;
 
-      doc.text(
-        "BOLETA OFICIAL DE CALIFICACIONES",
-        W-18,
-        28,
-        {
-          align:"right"
-        }
-      );
 
+        const doc =
+            new jsPDF({
+                orientation:"portrait",
+                unit:"mm",
+                format:"a4"
+            });
 
-      doc.setDrawColor(
-        8,
-        108,
-        255
-      );
 
+        const azulOscuro =
+            [6,59,145];
 
-      doc.setLineWidth(
-        1.2
-      );
+        const azul =
+            [8,108,255];
 
+        const gris =
+            [102,112,133];
 
-      doc.line(
-        18,
-        55,
-        W-18,
-        55
-      );
+        const negro =
+            [23,32,51];
 
 
-      /* TITULO */
+        const nombre =
+            alumnoActual.NOMBRE ||
+            alumnoActual.nombre ||
+            "Alumno";
 
-      doc.setTextColor(
-        23,
-        43,
-        77
-      );
 
+        const folio =
+            alumnoActual.FOLIO ||
+            alumnoActual.folio ||
+            inputFolio.value;
 
-      doc.setFont(
-        "helvetica",
-        "bold"
-      );
 
+        const diplomado =
+            alumnoActual.DIPLOMADO ||
+            alumnoActual.diplomado ||
+            "—";
 
-      doc.setFontSize(
-        18
-      );
 
+        const curp =
+            alumnoActual.CURP ||
+            alumnoActual.curp ||
+            "—";
 
-      doc.text(
-        "BOLETA DE CALIFICACIONES",
-        W/2,
-        68,
-        {
-          align:"center"
-        }
-      );
-
 
-      doc.setFont(
-        "helvetica",
-        "normal"
-      );
-
-
-      doc.setFontSize(
-        8
-      );
-
-
-      doc.setTextColor(
-        105,
-        118,
-        140
-      );
-
-
-      doc.text(
-        $("periodo").textContent,
-        W/2,
-        75,
-        {
-          align:"center"
-        }
-      );
-
-
-      /* DATOS */
-
-      let y =
-        87;
-
-
-      doc.setFillColor(
-        246,
-        249,
-        254
-      );
-
-
-      doc.setDrawColor(
-        220,
-        230,
-        244
-      );
-
-
-      doc.roundedRect(
-        18,
-        y,
-        W-36,
-        40,
-        2,
-        2,
-        "FD"
-      );
-
-
-      const datos = [
-
-        [
-          "ALUMNO",
-          $("alumnoNombre")
-            .textContent
-        ],
-
-        [
-          "MATRÍCULA / FOLIO",
-          $("alumnoFolio")
-            .textContent
-        ],
-
-        [
-          "DIPLOMADO",
-          $("alumnoDiplomado")
-            .textContent
-        ],
-
-        [
-          "ESTADO ACADÉMICO",
-          $("alumnoEstado")
-            .textContent
-        ],
-
-        [
-          "CURP",
-          $("alumnoCurp")
-            .textContent
-        ],
-
-        [
-          "FECHA DE REGISTRO",
-          $("alumnoFecha")
-            .textContent
-        ]
-
-      ];
-
-
-      const colX = [
-        23,
-        105
-      ];
-
-
-      datos.forEach(
-        (d,i)=>{
-
-          const col =
-            i % 2;
-
-
-          const row =
-            Math.floor(
-              i / 2
+        const fecha =
+            formatearFecha(
+                alumnoActual.FECHA_REGISTRO ||
+                alumnoActual.fecha_registro ||
+                alumnoActual.fecha
             );
 
 
-          const yy =
-            y +
-            8 +
-            (row * 11);
+        let promedio =
+            alumnoActual.PROMEDIO;
 
 
-          doc.setTextColor(
-            120,
-            132,
-            150
-          );
+        if(
+            promedio === undefined ||
+            promedio === null ||
+            promedio === ""
+        ){
+
+            promedio =
+                calcularPromedio(
+                    calificacionesActuales
+                );
+
+        }
 
 
-          doc.setFont(
+        promedio =
+            numeroSeguro(promedio);
+
+
+        /* ======================
+           ENCABEZADO
+        ====================== */
+
+        doc.setFillColor(
+            ...azulOscuro
+        );
+
+        doc.rect(
+            0,
+            0,
+            210,
+            42,
+            "F"
+        );
+
+
+        doc.setTextColor(
+            255,
+            255,
+            255
+        );
+
+
+        doc.setFont(
             "helvetica",
             "bold"
-          );
+        );
+
+        doc.setFontSize(19);
+
+        doc.text(
+            "EVOLVA ACADEMY",
+            20,
+            18
+        );
 
 
-          doc.setFontSize(
-            6
-          );
+        doc.setFontSize(13);
+
+        doc.text(
+            "BOLETA DE CALIFICACIONES",
+            20,
+            28
+        );
 
 
-          doc.text(
-            d[0],
-            colX[col],
-            yy
-          );
-
-
-          doc.setTextColor(
-            23,
-            43,
-            77
-          );
-
-
-          doc.setFont(
+        doc.setFont(
             "helvetica",
             "normal"
-          );
+        );
+
+        doc.setFontSize(9);
+
+        doc.text(
+            "Documento académico digital",
+            20,
+            35
+        );
 
 
-          doc.setFontSize(
-            8
-          );
+        /* ======================
+           DATOS
+        ====================== */
+
+        doc.setTextColor(
+            ...negro
+        );
 
 
-          const val =
-            String(
-              d[1] || "—"
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(10);
+
+        doc.text(
+            "DATOS DEL ALUMNO",
+            20,
+            56
+        );
+
+
+        doc.setDrawColor(
+            220,
+            226,
+            235
+        );
+
+
+        doc.line(
+            20,
+            59,
+            190,
+            59
+        );
+
+
+        function campo(
+            titulo,
+            valor,
+            x,
+            y,
+            ancho=80
+        ){
+
+            doc.setFont(
+                "helvetica",
+                "bold"
+            );
+
+            doc.setFontSize(8);
+
+            doc.setTextColor(
+                ...gris
+            );
+
+            doc.text(
+                titulo.toUpperCase(),
+                x,
+                y
             );
 
 
-          doc.text(
-            val.length > 43
-              ? val.substring(
-                  0,
-                  43
-                ) + "…"
-              : val,
-            colX[col],
-            yy + 4.5
-          );
+            doc.setFont(
+                "helvetica",
+                "bold"
+            );
+
+            doc.setFontSize(10);
+
+            doc.setTextColor(
+                ...negro
+            );
+
+
+            const lineas =
+                doc.splitTextToSize(
+                    String(valor || "—"),
+                    ancho
+                );
+
+
+            doc.text(
+                lineas,
+                x,
+                y + 6
+            );
 
         }
-      );
 
 
-      /* TABLA */
-
-      y =
-        136;
-
-
-      doc.setFillColor(
-        6,
-        59,
-        145
-      );
+        campo(
+            "Alumno",
+            nombre,
+            20,
+            69,
+            80
+        );
 
 
-      doc.setTextColor(
-        255,
-        255,
-        255
-      );
+        campo(
+            "Folio / Matrícula",
+            folio,
+            110,
+            69,
+            80
+        );
 
 
-      doc.rect(
-        18,
-        y,
-        W-36,
-        9,
-        "F"
-      );
+        campo(
+            "Diplomado",
+            diplomado,
+            20,
+            88,
+            80
+        );
 
 
-      doc.setFont(
-        "helvetica",
-        "bold"
-      );
+        campo(
+            "CURP",
+            curp,
+            110,
+            88,
+            80
+        );
 
 
-      doc.setFontSize(
-        7
-      );
+        campo(
+            "Fecha de registro",
+            fecha,
+            20,
+            107,
+            80
+        );
 
 
-      doc.text(
-        "NO.",
-        22,
-        y+6
-      );
+        campo(
+            "Situación académica",
+            alumnoActual.ESTADO ||
+            alumnoActual.estado ||
+            "—",
+            110,
+            107,
+            80
+        );
 
 
-      doc.text(
-        "UNIDAD / MÓDULO",
-        34,
-        y+6
-      );
+        /* ======================
+           TABLA
+        ====================== */
+
+        doc.setTextColor(
+            ...azulOscuro
+        );
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(11);
+
+        doc.text(
+            "CALIFICACIONES",
+            20,
+            130
+        );
 
 
-      doc.text(
-        "CALIFICACIÓN",
-        125,
-        y+6
-      );
+        let y = 138;
 
 
-      doc.text(
-        "RESULTADO",
-        158,
-        y+6
-      );
+        doc.setFillColor(
+            237,
+            244,
+            255
+        );
+
+        doc.roundedRect(
+            20,
+            y,
+            170,
+            10,
+            2,
+            2,
+            "F"
+        );
 
 
-      const rows =
-        [
-          ...document
-            .querySelectorAll(
-              "#tablaCalificaciones tr"
-            )
-        ];
+        doc.setTextColor(
+            ...azulOscuro
+        );
+
+        doc.setFontSize(8);
+
+        doc.text(
+            "MÓDULO",
+            26,
+            y + 6.5
+        );
+
+        doc.text(
+            "CALIFICACIÓN",
+            105,
+            y + 6.5
+        );
+
+        doc.text(
+            "ESTADO",
+            155,
+            y + 6.5
+        );
 
 
-      y += 9;
+        y += 10;
 
 
-      doc.setFont(
-        "helvetica",
-        "normal"
-      );
+        calificacionesActuales
+        .forEach((item,index)=>{
+
+            const modulo =
+                item.modulo ||
+                `Módulo ${index + 1}`;
 
 
-      rows.forEach(
-        (tr,i)=>{
-
-          const cells =
-            [
-              ...tr.children
-            ].map(
-              x =>
-                x.textContent.trim()
-            );
+            const nota =
+                numeroSeguro(
+                    item.calificacion
+                );
 
 
-          if(
-            cells.length < 4
-          ){
-
-            return;
-
-          }
+            const notaTexto =
+                nota !== null
+                ? nota.toFixed(1)
+                : "—";
 
 
-          if(
-            i % 2 === 0
-          ){
+            const estado =
+                nota === null
+                ? "Pendiente"
+                : nota >= 6
+                ? "Aprobado"
+                : "No aprobado";
+
 
             doc.setFillColor(
-              248,
-              250,
-              255
+                index % 2 === 0
+                ? 255
+                : 249,
+                index % 2 === 0
+                ? 255
+                : 251,
+                255
             );
 
 
             doc.rect(
-              18,
-              y,
-              W-36,
-              9,
-              "F"
+                20,
+                y,
+                170,
+                10,
+                "F"
             );
 
-          }
+
+            doc.setTextColor(
+                ...negro
+            );
+
+            doc.setFontSize(9);
+
+            doc.text(
+                String(modulo),
+                26,
+                y + 6.5
+            );
 
 
-          doc.setTextColor(
-            40,
-            53,
-            75
-          );
+            doc.setFont(
+                "helvetica",
+                "bold"
+            );
+
+            doc.text(
+                notaTexto,
+                110,
+                y + 6.5
+            );
 
 
-          doc.setFontSize(
-            7
-          );
+            doc.setFont(
+                "helvetica",
+                "normal"
+            );
+
+            doc.text(
+                estado,
+                155,
+                y + 6.5
+            );
 
 
-          doc.text(
-            cells[0],
-            22,
-            y+6
-          );
+            y += 10;
+
+        });
 
 
-          doc.text(
-            cells[1].substring(
-              0,
-              48
-            ),
-            34,
-            y+6
-          );
+        /* ======================
+           PROMEDIO
+        ====================== */
+
+        y += 8;
 
 
-          doc.setFont(
-            "helvetica",
-            "bold"
-          );
-
-
-          doc.text(
-            cells[2],
-            133,
-            y+6,
-            {
-              align:"center"
-            }
-          );
-
-
-          doc.setFont(
-            "helvetica",
-            "normal"
-          );
-
-
-          doc.text(
-            cells[3],
-            158,
-            y+6
-          );
-
-
-          doc.setDrawColor(
-            225,
-            232,
-            242
-          );
-
-
-          doc.line(
-            18,
-            y+9,
-            W-18,
-            y+9
-          );
-
-
-          y += 9;
-
-        }
-      );
-
-
-      /* RESUMEN */
-
-      y += 10;
-
-
-      const cards = [
-
-        [
-          "PROMEDIO GENERAL",
-          $("promedio")
-            .textContent
-        ],
-
-        [
-          "MÓDULOS EVALUADOS",
-          $("modulosEvaluados")
-            .textContent
-        ],
-
-        [
-          "SITUACIÓN",
-          $("situacion")
-            .textContent
-        ]
-
-      ];
-
-
-      const cw =
-        (W-36-8)/3;
-
-
-      cards.forEach(
-        (c,i)=>{
-
-          const x =
-            18 +
-            i *
-            (cw+4);
-
-
-          doc.setFillColor(
-            251,
-            253,
+        doc.setFillColor(
+            241,
+            247,
             255
-          );
-
-
-          doc.setDrawColor(
-            220,
-            230,
-            244
-          );
-
-
-          doc.rect(
-            x,
-            y,
-            cw,
-            20,
-            "FD"
-          );
-
-
-          doc.setTextColor(
-            115,
-            128,
-            148
-          );
-
-
-          doc.setFont(
-            "helvetica",
-            "bold"
-          );
-
-
-          doc.setFontSize(
-            6
-          );
-
-
-          doc.text(
-            c[0],
-            x+cw/2,
-            y+7,
-            {
-              align:"center"
-            }
-          );
-
-
-          doc.setTextColor(
-            6,
-            59,
-            145
-          );
-
-
-          doc.setFontSize(
-            11
-          );
-
-
-          doc.text(
-            c[1],
-            x+cw/2,
-            y+14,
-            {
-              align:"center"
-            }
-          );
-
-        }
-      );
-
-
-      /* NOTA */
-
-      y += 34;
-
-
-      doc.setTextColor(
-        90,
-        104,
-        124
-      );
-
-
-      doc.setFont(
-        "helvetica",
-        "normal"
-      );
-
-
-      doc.setFontSize(
-        7
-      );
-
-
-      const nota =
-        "Documento académico digital emitido por Evolva Academy. La información puede verificarse mediante la matrícula registrada en el sistema institucional.";
-
-
-      doc.text(
-        doc.splitTextToSize(
-          nota,
-          W-36
-        ),
-        18,
-        y
-      );
-
-
-      /* FIRMAS */
-
-      y += 28;
-
-
-      doc.setDrawColor(
-        140,
-        150,
-        165
-      );
-
-
-      doc.line(
-        28,
-        y,
-        87,
-        y
-      );
-
-
-      doc.line(
-        W-87,
-        y,
-        W-28,
-        y
-      );
-
-
-      doc.setTextColor(
-        23,
-        43,
-        77
-      );
-
-
-      doc.setFont(
-        "helvetica",
-        "bold"
-      );
-
-
-      doc.setFontSize(
-        8
-      );
-
-
-      doc.text(
-        "Alexis Soto",
-        57.5,
-        y+6,
-        {
-          align:"center"
-        }
-      );
-
-
-      doc.text(
-        "Área Académica",
-        W-57.5,
-        y+6,
-        {
-          align:"center"
-        }
-      );
-
-
-      doc.setFont(
-        "helvetica",
-        "normal"
-      );
-
-
-      doc.setTextColor(
-        105,
-        118,
-        140
-      );
-
-
-      doc.setFontSize(
-        6.5
-      );
-
-
-      doc.text(
-        "Director General · Evolva Academy",
-        57.5,
-        y+10,
-        {
-          align:"center"
-        }
-      );
-
-
-      doc.text(
-        "Control Escolar · Evolva Academy",
-        W-57.5,
-        y+10,
-        {
-          align:"center"
-        }
-      );
-
-
-      /* PIE */
-
-      doc.setFontSize(
-        6
-      );
-
-
-      doc.text(
-        "EVOLVA ACADEMY · Documento académico digital",
-        18,
-        H-17
-      );
-
-
-      doc.text(
-        "Matrícula: " +
-        $("alumnoFolio")
-          .textContent,
-        W-18,
-        H-17,
-        {
-          align:"right"
-        }
-      );
-
-
-      /* QR */
-
-      const qrCanvas =
-        $("qr")
-          .querySelector(
-            "canvas"
-          );
-
-
-      if(qrCanvas){
-
-        doc.addImage(
-          qrCanvas.toDataURL(
-            "image/png"
-          ),
-          "PNG",
-          W/2-12,
-          H-40,
-          24,
-          24
         );
 
 
-        doc.setFontSize(
-          5.5
+        doc.roundedRect(
+            20,
+            y,
+            170,
+            25,
+            3,
+            3,
+            "F"
+        );
+
+
+        doc.setTextColor(
+            ...gris
+        );
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(8);
+
+        doc.text(
+            "PROMEDIO GENERAL",
+            28,
+            y + 9
+        );
+
+
+        doc.setTextColor(
+            ...azul
+        );
+
+        doc.setFontSize(22);
+
+        doc.text(
+            promedio !== null
+            ? promedio.toFixed(1)
+            : "—",
+            28,
+            y + 19
+        );
+
+
+        doc.setTextColor(
+            ...gris
+        );
+
+        doc.setFontSize(8);
+
+        doc.setFont(
+            "helvetica",
+            "normal"
+        );
+
+        doc.text(
+            `${calificacionesActuales.length} módulos registrados`,
+            110,
+            y + 14
+        );
+
+
+        /* ======================
+           FIRMA
+        ====================== */
+
+        const firmaY =
+            y + 48;
+
+
+        doc.setDrawColor(
+            120,
+            130,
+            145
+        );
+
+
+        doc.line(
+            115,
+            firmaY,
+            180,
+            firmaY
+        );
+
+
+        doc.setTextColor(
+            ...negro
+        );
+
+        doc.setFont(
+            "helvetica",
+            "bold"
+        );
+
+        doc.setFontSize(9);
+
+        doc.text(
+            "Alexis Soto",
+            147.5,
+            firmaY + 6,
+            {
+                align:"center"
+            }
+        );
+
+
+        doc.setFont(
+            "helvetica",
+            "normal"
+        );
+
+        doc.setFontSize(7);
+
+        doc.setTextColor(
+            ...gris
+        );
+
+        doc.text(
+            "Director General",
+            147.5,
+            firmaY + 11,
+            {
+                align:"center"
+            }
         );
 
 
         doc.text(
-          "Verificación digital",
-          W/2,
-          H-13,
-          {
-            align:"center"
-          }
-        );
-
-      }
-
-
-      const nombre =
-        (
-          $("alumnoNombre")
-            .textContent ||
-          "Alumno"
-        )
-        .replace(
-          /[^a-z0-9áéíóúñü ]/gi,
-          ""
-        )
-        .trim()
-        .replace(
-          /\s+/g,
-          "-"
+            "Evolva Academy",
+            147.5,
+            firmaY + 15,
+            {
+                align:"center"
+            }
         );
 
 
-      const folio =
-        $("alumnoFolio")
-          .textContent ||
-        "folio";
+        /* ======================
+           QR
+        ====================== */
+
+        const qrCanvas =
+            document.querySelector(
+                "#qrcode canvas"
+            );
 
 
-      doc.save(
-        `Boleta-Calificaciones-${folio}-${nombre}.pdf`
-      );
+        if(qrCanvas){
+
+            try{
+
+                const qrData =
+                    qrCanvas.toDataURL(
+                        "image/png"
+                    );
 
 
-    }catch(err){
-
-      console.error(err);
-
-
-      alert(
-        "No fue posible generar el PDF. Puedes utilizar la opción Imprimir y elegir «Guardar como PDF»."
-      );
-
-
-    }finally{
-
-      btn.disabled =
-        false;
+                doc.addImage(
+                    qrData,
+                    "PNG",
+                    25,
+                    firmaY - 5,
+                    32,
+                    32
+                );
 
 
-      btn.textContent =
-        "Descargar boleta PDF";
+                doc.setFontSize(6);
+
+                doc.setTextColor(
+                    ...gris
+                );
+
+                doc.text(
+                    "Validación digital",
+                    41,
+                    firmaY + 31,
+                    {
+                        align:"center"
+                    }
+                );
+
+            }catch(e){
+
+                console.log(
+                    "No se pudo insertar QR"
+                );
+
+            }
+
+        }
+
+
+        /* ======================
+           PIE
+        ====================== */
+
+        doc.setDrawColor(
+            220,
+            226,
+            235
+        );
+
+        doc.line(
+            20,
+            280,
+            190,
+            280
+        );
+
+
+        doc.setFont(
+            "helvetica",
+            "normal"
+        );
+
+        doc.setFontSize(6.5);
+
+        doc.setTextColor(
+            ...gris
+        );
+
+
+        doc.text(
+            "Evolva Academy · Documento académico digital",
+            20,
+            286
+        );
+
+
+        doc.text(
+            "https://evolvacademy.mx",
+            190,
+            286,
+            {
+                align:"right"
+            }
+        );
+
+
+        /* ======================
+           GUARDAR
+        ====================== */
+
+        const nombreArchivo =
+            "Boleta-" +
+            String(folio)
+            .replace(/[^a-zA-Z0-9_-]/g,"-") +
+            ".pdf";
+
+
+        doc.save(
+            nombreArchivo
+        );
+
+
+    }catch(error){
+
+        console.error(
+            error
+        );
+
+        mostrarAlerta(
+            "No fue posible generar el PDF.",
+            "error"
+        );
 
     }
 
-  }
+}
+
+
+/* ==========================================================
+   IMPRIMIR
+========================================================== */
+
+function imprimir(){
+
+    if(!alumnoActual){
+
+        mostrarAlerta(
+            "Primero consulta un folio.",
+            "error"
+        );
+
+        return;
+
+    }
+
+    window.print();
+
+}
+
+
+/* ==========================================================
+   NUEVA CONSULTA
+========================================================== */
+
+function nuevaConsulta(){
+
+    alumnoActual = null;
+
+    calificacionesActuales = [];
+
+
+    result.classList.remove(
+        "show"
+    );
+
+
+    ocultarAlerta();
+
+
+    inputFolio.value = "";
+
+    inputFolio.focus();
+
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+
+}
+
+
+/* ==========================================================
+   ENTER EN EL INPUT
+========================================================== */
+
+inputFolio.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Enter"){
+
+            event.preventDefault();
+
+            consultar();
+
+        }
+
+    }
 );
+
+
+/* ==========================================================
+   LIMPIAR ESPACIOS
+========================================================== */
+
+inputFolio.addEventListener(
+    "input",
+    function(){
+
+        this.value =
+            this.value
+            .toUpperCase()
+            .replace(/\s+/g,"");
+
+    }
+);
+
+
+/* ==========================================================
+   CONSULTA AUTOMÁTICA DESDE URL
+   Ejemplo:
+   calificaciones.html?folio=EVOLVA-123456
+========================================================== */
+
+(function(){
+
+    try{
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const folio =
+            params.get("folio") ||
+            params.get("matricula");
+
+
+        if(folio){
+
+            inputFolio.value =
+                normalizarFolio(folio);
+
+
+            setTimeout(
+                consultar,
+                400
+            );
+
+        }
+
+    }catch(e){
+
+        console.error(e);
+
+    }
+
+})();
 
 </script>
 
