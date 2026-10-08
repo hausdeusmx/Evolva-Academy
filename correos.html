@@ -1,1346 +1,444 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>Correo Institucional | Evolva Academy</title>
-
-  <meta name="description" content="Obtén tu correo institucional de Evolva Academy">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  >
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    :root {
-      --blue: #2563eb;
-      --blue-dark: #1d4ed8;
-      --blue-light: #eff6ff;
-      --text: #172033;
-      --muted: #64748b;
-      --border: #e2e8f0;
-      --white: #ffffff;
-      --success: #16a34a;
-      --danger: #dc2626;
-    }
-
-    body {
-      min-height: 100vh;
-      font-family: "Inter", sans-serif;
-      color: var(--text);
-
-      background:
-        radial-gradient(
-          circle at 10% 10%,
-          rgba(37, 99, 235, 0.12),
-          transparent 30%
-        ),
-        radial-gradient(
-          circle at 90% 90%,
-          rgba(59, 130, 246, 0.10),
-          transparent 30%
-        ),
-        #f8fafc;
-    }
-
-    /* HEADER */
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-
-      height: 74px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      padding: 0 6%;
-
-      background: rgba(255, 255, 255, 0.90);
-      backdrop-filter: blur(14px);
-
-      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-    }
-
-    .logo {
-      text-decoration: none;
-      color: var(--text);
-
-      font-size: 21px;
-      font-weight: 800;
-      letter-spacing: -0.7px;
-    }
-
-    .logo span {
-      color: var(--blue);
-    }
-
-    .back {
-      text-decoration: none;
-
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-
-      color: #475569;
-
-      font-size: 14px;
-      font-weight: 600;
-
-      transition: 0.2s;
-    }
-
-    .back:hover {
-      color: var(--blue);
-    }
-
-    /* MAIN */
-
-    main {
-      min-height: calc(100vh - 74px);
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      padding: 55px 20px 80px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 520px;
-    }
-
-    /* TITLE */
-
-    .intro {
-      text-align: center;
-      margin-bottom: 28px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-
-      padding: 8px 13px;
-
-      border-radius: 999px;
-
-      background: var(--blue-light);
-      color: var(--blue);
-
-      font-size: 12px;
-      font-weight: 700;
-
-      margin-bottom: 16px;
-    }
-
-    .badge-dot {
-      width: 7px;
-      height: 7px;
-
-      border-radius: 50%;
-
-      background: var(--blue);
-    }
-
-    h1 {
-      font-size: clamp(30px, 6vw, 43px);
-      line-height: 1.08;
-      letter-spacing: -1.6px;
-
-      margin-bottom: 13px;
-    }
-
-    .intro p {
-      color: var(--muted);
-
-      font-size: 15px;
-      line-height: 1.65;
-
-      max-width: 430px;
-      margin: auto;
-    }
-
-    /* CARD */
-
-    .card {
-      background: var(--white);
-
-      border: 1px solid var(--border);
-
-      border-radius: 24px;
-
-      padding: 32px;
-
-      box-shadow:
-        0 20px 50px rgba(15, 23, 42, 0.08),
-        0 3px 10px rgba(15, 23, 42, 0.03);
-    }
-
-    .card-title {
-      font-size: 18px;
-      font-weight: 800;
-
-      margin-bottom: 7px;
-    }
-
-    .card-description {
-      color: var(--muted);
-
-      font-size: 13px;
-      line-height: 1.5;
-
-      margin-bottom: 25px;
-    }
-
-    /* FORM */
-
-    label {
-      display: block;
-
-      font-size: 13px;
-      font-weight: 700;
-
-      margin-bottom: 9px;
-    }
-
-    .input-wrapper {
-      position: relative;
-    }
-
-    .input-icon {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-
-      transform: translateY(-50%);
-
-      color: #94a3b8;
-
-      font-size: 17px;
-
-      pointer-events: none;
-    }
-
-    input {
-      width: 100%;
-      height: 54px;
-
-      border: 1px solid var(--border);
-
-      border-radius: 13px;
-
-      outline: none;
-
-      padding: 0 16px 0 45px;
-
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 600;
-
-      color: var(--text);
-
-      background: #fff;
-
-      transition: 0.2s;
-    }
-
-    input::placeholder {
-      color: #94a3b8;
-      font-weight: 400;
-    }
-
-    input:focus {
-      border-color: var(--blue);
-
-      box-shadow:
-        0 0 0 4px rgba(37, 99, 235, 0.10);
-    }
-
-    .hint {
-      margin-top: 9px;
-
-      color: #94a3b8;
-
-      font-size: 11px;
-      line-height: 1.5;
-    }
-
-    /* BUTTON */
-
-    button {
-      width: 100%;
-      height: 54px;
-
-      margin-top: 20px;
-
-      border: none;
-      border-radius: 13px;
-
-      background: linear-gradient(
-        135deg,
-        #2563eb,
-        #1d4ed8
-      );
-
-      color: white;
-
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 700;
-
-      cursor: pointer;
-
-      box-shadow:
-        0 10px 25px rgba(37, 99, 235, 0.22);
-
-      transition:
-        transform 0.2s,
-        box-shadow 0.2s,
-        opacity 0.2s;
-    }
-
-    button:hover {
-      transform: translateY(-1px);
-
-      box-shadow:
-        0 14px 30px rgba(37, 99, 235, 0.28);
-    }
-
-    button:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    /* LOADING */
-
-    .loading {
-      display: none;
-
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-
-      margin-top: 18px;
-
-      color: var(--muted);
-
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .spinner {
-      width: 16px;
-      height: 16px;
-
-      border: 2px solid #dbeafe;
-      border-top-color: var(--blue);
-
-      border-radius: 50%;
-
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* MESSAGE */
-
-    .message {
-      display: none;
-
-      margin-top: 20px;
-
-      padding: 14px 15px;
-
-      border-radius: 12px;
-
-      font-size: 13px;
-      line-height: 1.5;
-      font-weight: 600;
-    }
-
-    .message.error {
-      display: block;
-
-      background: #fef2f2;
-      border: 1px solid #fecaca;
-
-      color: var(--danger);
-    }
-
-    /* RESULT */
-
-    .result {
-      display: none;
-
-      margin-top: 24px;
-
-      border: 1px solid #bfdbfe;
-
-      border-radius: 18px;
-
-      background:
-        linear-gradient(
-          145deg,
-          #eff6ff,
-          #ffffff
-        );
-
-      overflow: hidden;
-    }
-
-    .result-header {
-      padding: 20px 20px 15px;
-
-      border-bottom: 1px solid #dbeafe;
-    }
-
-    .result-success {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-
-      color: var(--success);
-
-      font-size: 12px;
-      font-weight: 800;
-
-      margin-bottom: 8px;
-    }
-
-    .check {
-      width: 19px;
-      height: 19px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      border-radius: 50%;
-
-      background: #dcfce7;
-
-      font-size: 11px;
-    }
-
-    .result-title {
-      font-size: 19px;
-      font-weight: 800;
-    }
-
-    .result-body {
-      padding: 20px;
-    }
-
-    .account-box {
-      padding: 16px;
-
-      border-radius: 13px;
-
-      background: #fff;
-
-      border: 1px solid #dbeafe;
-
-      margin-bottom: 13px;
-    }
-
-    .account-label {
-      color: #64748b;
-
-      font-size: 11px;
-      font-weight: 700;
-
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-
-      margin-bottom: 6px;
-    }
-
-    .account-value {
-      color: var(--blue-dark);
-
-      font-size: 16px;
-      font-weight: 800;
-
-      word-break: break-all;
-    }
-
-    .password-box {
-      position: relative;
-
-      padding: 16px;
-
-      border-radius: 13px;
-
-      background: #fff;
-
-      border: 1px solid #dbeafe;
-
-      margin-bottom: 16px;
-    }
-
-    .password-value {
-      color: var(--text);
-
-      font-size: 16px;
-      font-weight: 800;
-
-      letter-spacing: 0.4px;
-
-      word-break: break-all;
-
-      padding-right: 70px;
-    }
-
-    .copy-btn {
-      position: absolute;
-
-      right: 10px;
-      top: 50%;
-
-      transform: translateY(-50%);
-
-      width: auto;
-      height: 34px;
-
-      margin: 0;
-
-      padding: 0 11px;
-
-      border-radius: 9px;
-
-      background: #eff6ff;
-
-      color: var(--blue);
-
-      box-shadow: none;
-
-      font-size: 11px;
-    }
-
-    .copy-btn:hover {
-      transform: translateY(-50%);
-      box-shadow: none;
-      background: #dbeafe;
-    }
-
-    .login-btn {
-      display: flex;
-
-      align-items: center;
-      justify-content: center;
-
-      width: 100%;
-      height: 48px;
-
-      border-radius: 11px;
-
-      text-decoration: none;
-
-      background: var(--blue);
-
-      color: white;
-
-      font-size: 13px;
-      font-weight: 700;
-
-      transition: 0.2s;
-    }
-
-    .login-btn:hover {
-      background: var(--blue-dark);
-    }
-
-    .warning {
-      margin-top: 15px;
-
-      padding: 12px;
-
-      border-radius: 10px;
-
-      background: #fff7ed;
-      border: 1px solid #fed7aa;
-
-      color: #9a3412;
-
-      font-size: 11px;
-      line-height: 1.5;
-    }
-
-    /* INFO */
-
-    .info {
-      display: grid;
-
-      grid-template-columns: repeat(3, 1fr);
-
-      gap: 10px;
-
-      margin-top: 16px;
-    }
-
-    .info-item {
-      padding: 14px 10px;
-
-      background: rgba(255,255,255,0.8);
-
-      border: 1px solid var(--border);
-
-      border-radius: 12px;
-
-      text-align: center;
-    }
-
-    .info-icon {
-      font-size: 17px;
-
-      margin-bottom: 5px;
-    }
-
-    .info-text {
-      color: #64748b;
-
-      font-size: 10px;
-      line-height: 1.35;
-      font-weight: 600;
-    }
-
-    /* FOOTER */
-
-    footer {
-      text-align: center;
-
-      color: #94a3b8;
-
-      font-size: 11px;
-
-      padding: 0 20px 30px;
-    }
-
-    /* MOBILE */
-
-    @media (max-width: 600px) {
-
-      header {
-        height: 66px;
-
-        padding: 0 20px;
-      }
-
-      .logo {
-        font-size: 18px;
-      }
-
-      .back {
-        font-size: 12px;
-      }
-
-      main {
-        min-height: calc(100vh - 66px);
-
-        padding: 40px 15px 55px;
-      }
-
-      .intro {
-        margin-bottom: 22px;
-      }
-
-      h1 {
-        font-size: 31px;
-      }
-
-      .intro p {
-        font-size: 13px;
-      }
-
-      .card {
-        padding: 22px 18px;
-
-        border-radius: 20px;
-      }
-
-      .info {
-        grid-template-columns: 1fr;
-      }
-
-      .info-item {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-
-        padding: 10px;
-      }
-
-      .info-icon {
-        margin: 0;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Correo Institucional | Evolva Academy</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --azul:#086cff;
+  --oscuro:#063b91;
+  --texto:#172033;
+  --gris:#64748b;
+  --borde:#dbe5f2;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  color:var(--texto);
+  background:linear-gradient(135deg,#edf5ff,#f8fbff);
+  min-height:100vh;
+}
+header {
+  background:#fff;
+  border-bottom:1px solid var(--borde);
+  padding:22px 6%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.logo {
+  font-size:21px;
+  font-weight:800;
+  text-decoration:none;
+  color:var(--oscuro);
+}
+.logo span { color:var(--azul); }
+.volver {
+  color:var(--gris);
+  text-decoration:none;
+  font-size:13px;
+  font-weight:600;
+}
+main {
+  max-width:550px;
+  margin:55px auto;
+  padding:0 18px;
+}
+.intro {
+  text-align:center;
+  margin-bottom:28px;
+}
+.intro h1 {
+  font-size:32px;
+  margin:0 0 12px;
+  color:var(--oscuro);
+}
+.intro p {
+  font-size:14px;
+  line-height:1.7;
+  color:var(--gris);
+}
+.card {
+  background:white;
+  padding:30px;
+  border-radius:22px;
+  border:1px solid var(--borde);
+  box-shadow:0 15px 40px rgba(6,59,145,.08);
+}
+.card h2 {
+  margin:0 0 10px;
+  font-size:20px;
+}
+.descripcion {
+  color:var(--gris);
+  font-size:13px;
+  line-height:1.6;
+  margin-bottom:24px;
+}
+label {
+  display:block;
+  font-size:13px;
+  font-weight:700;
+  margin:20px 0 9px;
+}
+input {
+  width:100%;
+  padding:15px;
+  border:1px solid var(--borde);
+  border-radius:12px;
+  outline:none;
+  font:inherit;
+  font-size:14px;
+}
+input:focus {
+  border-color:var(--azul);
+  box-shadow:0 0 0 3px rgba(8,108,255,.1);
+}
+button {
+  width:100%;
+  margin-top:25px;
+  padding:16px;
+  border:0;
+  border-radius:12px;
+  background:var(--azul);
+  color:#fff;
+  font:inherit;
+  font-size:14px;
+  font-weight:700;
+  cursor:pointer;
+}
+button:disabled {
+  opacity:.6;
+  cursor:not-allowed;
+}
+.mensaje {
+  display:none;
+  padding:14px;
+  margin-top:20px;
+  border-radius:12px;
+  background:#fff1f2;
+  color:#be123c;
+  font-size:13px;
+}
+.resultado {
+  display:none;
+  margin-top:25px;
+  border:1px solid #bfdbfe;
+  border-radius:16px;
+  padding:20px;
+  background:#f0f7ff;
+}
+.resultado h3 {
+  color:var(--oscuro);
+  margin:0 0 18px;
+}
+.dato {
+  background:white;
+  border:1px solid #dbeafe;
+  border-radius:12px;
+  padding:14px;
+  margin-bottom:12px;
+}
+.dato small {
+  display:block;
+  color:var(--gris);
+  font-size:11px;
+  font-weight:700;
+  margin-bottom:7px;
+}
+.dato strong {
+  color:var(--oscuro);
+  font-size:15px;
+  overflow-wrap:anywhere;
+}
+.classroom {
+  display:block;
+  text-align:center;
+  background:var(--oscuro);
+  color:white;
+  padding:15px;
+  border-radius:12px;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:700;
+  margin-top:16px;
+}
+.aviso {
+  color:#92400e;
+  background:#fffbeb;
+  border:1px solid #fde68a;
+  padding:12px;
+  border-radius:10px;
+  font-size:12px;
+  line-height:1.6;
+  margin-top:15px;
+}
+footer {
+  text-align:center;
+  padding:30px;
+  color:#94a3b8;
+  font-size:11px;
+}
+@media(max-width:600px) {
+  main { margin:35px auto; }
+  .card { padding:22px; }
+  .intro h1 { font-size:27px; }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-
   <a href="index.html" class="logo">
     EVOLVA <span>ACADEMY</span>
   </a>
-
-  <a href="index.html" class="back">
-    ← Regresar
-  </a>
-
+  <a href="index.html" class="volver">← Regresar</a>
 </header>
 
-
 <main>
-
-  <div class="container">
-
-    <div class="intro">
-
-      <div class="badge">
-        <span class="badge-dot"></span>
-        CORREO INSTITUCIONAL
-      </div>
-
-      <h1>
-        Tu cuenta de
-        <span style="color:#2563eb;">Evolva Academy</span>
-      </h1>
-
-      <p>
-        Ingresa tu folio para consultar y obtener
-        tu correo institucional.
-      </p>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="card-title">
-        Obtener mi correo
-      </div>
-
-      <div class="card-description">
-        Utiliza el folio que recibiste al realizar
-        tu inscripción.
-      </div>
-
-
-      <form id="correoForm">
-
-        <label for="folio">
-          Folio de alumno
-        </label>
-
-        <div class="input-wrapper">
-
-          <span class="input-icon">🎓</span>
-
-          <input
-            type="text"
-            id="folio"
-            name="folio"
-            placeholder="EVOLVA-000123"
-            autocomplete="off"
-            maxlength="13"
-            required
-          >
-
-        </div>
-
-        <div class="hint">
-          Ejemplo: EVOLVA-000123
-        </div>
-
-
-        <button
-          type="submit"
-          id="btnConsultar"
-        >
-          Obtener correo institucional
-        </button>
-
-      </form>
-
-
-      <div
-        class="loading"
-        id="loading"
-      >
-        <span class="spinner"></span>
-        Consultando información...
-      </div>
-
-
-      <div
-        class="message"
-        id="message"
-      ></div>
-
-
-      <div
-        class="result"
-        id="result"
-      >
-
-        <div class="result-header">
-
-          <div class="result-success">
-
-            <span class="check">✓</span>
-
-            CUENTA INSTITUCIONAL
-
-          </div>
-
-          <div class="result-title">
-            Tu cuenta está lista
-          </div>
-
-        </div>
-
-
-        <div class="result-body">
-
-          <div class="account-box">
-
-            <div class="account-label">
-              Correo institucional
-            </div>
-
-            <div
-              class="account-value"
-              id="correoResultado"
-            >
-              -
-            </div>
-
-          </div>
-
-
-          <div class="password-box">
-
-            <div class="account-label">
-              Contraseña
-            </div>
-
-            <div
-              class="password-value"
-              id="passwordResultado"
-            >
-              -
-            </div>
-
-            <button
-              type="button"
-              class="copy-btn"
-              id="copyPassword"
-            >
-              Copiar
-            </button>
-
-          </div>
-
-
-          <a
-            href="https://accounts.google.com/"
-            target="_blank"
-            class="login-btn"
-          >
-            Entrar a Google
-          </a>
-
-
-          <div class="warning">
-
-            ⚠️ Guarda tu contraseña en un lugar seguro.
-            No compartas tus datos de acceso con otras personas.
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="info">
-
-      <div class="info-item">
-
-        <div class="info-icon">
-          📧
-        </div>
-
-        <div class="info-text">
-          Correo institucional
-        </div>
-
-      </div>
-
-
-      <div class="info-item">
-
-        <div class="info-icon">
-          🔐
-        </div>
-
-        <div class="info-text">
-          Acceso protegido
-        </div>
-
-      </div>
-
-
-      <div class="info-item">
-
-        <div class="info-icon">
-          🎓
-        </div>
-
-        <div class="info-text">
-          Para alumnos
-        </div>
-
-      </div>
-
-    </div>
-
+  <div class="intro">
+    <h1>Tu correo institucional</h1>
+    <p>
+      Consulta los datos de tu cuenta de Evolva Academy
+      utilizando la información de tu inscripción.
+    </p>
   </div>
 
+  <div class="card">
+    <h2>Consultar mi cuenta</h2>
+    <p class="descripcion">
+      Ingresa tu CURP, folio y correo personal.
+      Los tres deben coincidir con tu registro.
+    </p>
+
+    <form id="formConsulta">
+      <label for="curp">CURP</label>
+      <input
+        id="curp"
+        type="text"
+        maxlength="18"
+        placeholder="Ingresa tu CURP"
+        autocomplete="off"
+        required
+      >
+
+      <label for="folio">Folio de alumno</label>
+      <input
+        id="folio"
+        type="text"
+        maxlength="13"
+        placeholder="EVOLVA-123456"
+        autocomplete="off"
+        required
+      >
+
+      <label for="personal">Correo personal</label>
+      <input
+        id="personal"
+        type="email"
+        placeholder="correo@ejemplo.com"
+        autocomplete="email"
+        required
+      >
+
+      <button type="submit" id="btnConsultar">
+        Consultar correo institucional
+      </button>
+    </form>
+
+    <div class="mensaje" id="mensaje"></div>
+
+    <div class="resultado" id="resultado">
+      <h3>✓ Datos de tu cuenta</h3>
+
+      <div class="dato">
+        <small>FOLIO DE ALUMNO</small>
+        <strong id="rFolio">-</strong>
+      </div>
+
+      <div class="dato">
+        <small>CORREO INSTITUCIONAL</small>
+        <strong id="rCorreo">-</strong>
+      </div>
+
+      <div class="dato">
+        <small>DIPLOMADO</small>
+        <strong id="rDiplomado">-</strong>
+      </div>
+
+      <div class="dato">
+        <small>CONTRASEÑA</small>
+        <strong id="rPassword">
+          Solicita tu contraseña a administración
+        </strong>
+      </div>
+
+      <a
+        class="classroom"
+        href="https://classroom.google.com/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Entrar a Google Classroom →
+      </a>
+
+      <div class="aviso">
+        Tu cuenta institucional debe estar activa
+        para poder ingresar a Classroom.
+      </div>
+    </div>
+  </div>
 </main>
 
-
 <footer>
-
   © 2026 Evolva Academy · Todos los derechos reservados.
-
 </footer>
 
-
 <script>
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbyTcVS-daEhDz1N5dwZEaCHVQrm17hC5IjQZvujAiI2oXzpgS6BJhtlZlnv1yjBhYX7Yg/exec";
 
-  /*
-   * ============================================
-   * CONFIGURACIÓN
-   * ============================================
-   */
+const form = document.getElementById("formConsulta");
+const curpInput = document.getElementById("curp");
+const folioInput = document.getElementById("folio");
+const personalInput = document.getElementById("personal");
+const boton = document.getElementById("btnConsultar");
+const mensaje = document.getElementById("mensaje");
+const resultado = document.getElementById("resultado");
 
-  const API_URL =
-    "https://script.google.com/macros/s/AKfycbyTcVS-daEhDz1N5dwZEaCHVQrm17hC5IjQZvujAiI2oXzpgS6BJhtlZlnv1yjBhYX7Yg/exec";
+curpInput.addEventListener("input", () => {
+  curpInput.value =
+    curpInput.value.toUpperCase().replace(/\s/g, "");
+});
 
+folioInput.addEventListener("input", () => {
+  folioInput.value =
+    folioInput.value.toUpperCase().replace(/\s/g, "");
+});
 
-  /*
-   * ============================================
-   * ELEMENTOS
-   * ============================================
-   */
+function mostrarError(texto) {
+  mensaje.textContent = texto;
+  mensaje.style.display = "block";
+}
 
-  const form =
-    document.getElementById("correoForm");
+function consultarCuenta(curp, folio, correoPersonal) {
+  return new Promise((resolve, reject) => {
+    const callback =
+      "evolva_" + Date.now() + "_" +
+      Math.floor(Math.random() * 100000);
 
-  const folioInput =
-    document.getElementById("folio");
+    const script = document.createElement("script");
+    let terminado = false;
 
-  const btnConsultar =
-    document.getElementById("btnConsultar");
+    const timer = setTimeout(() => {
+      finalizar(new Error("El servidor tardó demasiado."));
+    }, 15000);
 
-  const loading =
-    document.getElementById("loading");
+    function finalizar(error, data) {
+      if (terminado) return;
+      terminado = true;
 
-  const message =
-    document.getElementById("message");
+      clearTimeout(timer);
+      script.remove();
+      delete window[callback];
 
-  const result =
-    document.getElementById("result");
+      if (error) reject(error);
+      else resolve(data);
+    }
 
-  const correoResultado =
-    document.getElementById("correoResultado");
+    window[callback] = data => finalizar(null, data);
 
-  const passwordResultado =
-    document.getElementById("passwordResultado");
+    script.onerror = () => {
+      finalizar(new Error("No fue posible conectar con el servidor."));
+    };
 
-  const copyPassword =
-    document.getElementById("copyPassword");
-
-
-  /*
-   * ============================================
-   * FORMATO DEL FOLIO
-   * ============================================
-   */
-
-  folioInput.addEventListener("input", function () {
-
-    let valor = this.value
-      .toUpperCase()
-      .replace(/\s/g, "");
-
-    this.value = valor;
-
-  });
-
-
-  /*
-   * ============================================
-   * MENSAJES
-   * ============================================
-   */
-
-  function mostrarError(texto) {
-
-    message.textContent = texto;
-
-    message.className =
-      "message error";
-
-  }
-
-
-  function ocultarMensaje() {
-
-    message.textContent = "";
-
-    message.className =
-      "message";
-
-  }
-
-
-  /*
-   * ============================================
-   * JSONP
-   * ============================================
-   */
-
-  function consultarFolio(folio) {
-
-    return new Promise((resolve, reject) => {
-
-      const callbackName =
-        "evolvaCorreo_" +
-        Date.now() +
-        "_" +
-        Math.floor(Math.random() * 10000);
-
-
-      const script =
-        document.createElement("script");
-
-
-      const timeout =
-        setTimeout(() => {
-
-          cleanup();
-
-          reject(
-            new Error(
-              "No fue posible comunicarse con el servidor."
-            )
-          );
-
-        }, 15000);
-
-
-      function cleanup() {
-
-        clearTimeout(timeout);
-
-        if (script.parentNode) {
-          script.parentNode.removeChild(script);
-        }
-
-        try {
-          delete window[callbackName];
-        } catch (e) {
-          window[callbackName] = undefined;
-        }
-
-      }
-
-
-      window[callbackName] =
-        function(data) {
-
-          cleanup();
-
-          resolve(data);
-
-        };
-
-
-      script.onerror =
-        function() {
-
-          cleanup();
-
-          reject(
-            new Error(
-              "Error de conexión con el servidor."
-            )
-          );
-
-        };
-
-
-      script.src =
-        API_URL +
-        "?accion=buscarCorreo" +
-        "&folio=" +
-        encodeURIComponent(folio) +
-        "&callback=" +
-        encodeURIComponent(callbackName);
-
-
-      document.body.appendChild(script);
-
+    const params = new URLSearchParams({
+      accion: "consultarCuentaPublica",
+      curp: curp,
+      folio: folio,
+      correoPersonal: correoPersonal,
+      callback: callback
     });
 
+    script.src = API_URL + "?" + params.toString();
+    document.body.appendChild(script);
+  });
+}
+
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  mensaje.style.display = "none";
+  resultado.style.display = "none";
+
+  const curp = curpInput.value.trim().toUpperCase();
+  const folio = folioInput.value.trim().toUpperCase();
+  const correoPersonal =
+    personalInput.value.trim().toLowerCase();
+
+  if (!/^[A-Z0-9]{18}$/.test(curp)) {
+    mostrarError("La CURP debe tener 18 caracteres.");
+    return;
   }
 
+  if (!/^EVOLVA-\d{6}$/.test(folio)) {
+    mostrarError("Ingresa un folio válido: EVOLVA-123456.");
+    return;
+  }
 
-  /*
-   * ============================================
-   * CONSULTAR
-   * ============================================
-   */
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correoPersonal)) {
+    mostrarError("Ingresa un correo personal válido.");
+    return;
+  }
 
-  form.addEventListener(
-    "submit",
-    async function(event) {
+  boton.disabled = true;
+  boton.textContent = "Consultando...";
 
-      event.preventDefault();
+  try {
+    const data = await consultarCuenta(
+      curp,
+      folio,
+      correoPersonal
+    );
 
-      ocultarMensaje();
-
-      result.style.display = "none";
-
-
-      const folio =
-        folioInput.value
-          .trim()
-          .toUpperCase();
-
-
-      /*
-       * VALIDACIÓN
-       */
-
-      if (!/^EVOLVA-\d{6}$/.test(folio)) {
-
-        mostrarError(
-          "Ingresa un folio válido. Ejemplo: EVOLVA-000123"
-        );
-
-        folioInput.focus();
-
-        return;
-
-      }
-
-
-      /*
-       * LOADING
-       */
-
-      btnConsultar.disabled = true;
-
-      btnConsultar.textContent =
-        "Consultando...";
-
-      loading.style.display =
-        "flex";
-
-
-      try {
-
-        const data =
-          await consultarFolio(folio);
-
-
-        /*
-         * ERROR DEL SERVIDOR
-         */
-
-        if (!data || data.ok === false) {
-
-          throw new Error(
-            data?.mensaje ||
-            "No se encontró información para este folio."
-          );
-
-        }
-
-
-        /*
-         * OBTENER CORREO
-         */
-
-        if (!data.correo) {
-
-          throw new Error(
-            "El correo institucional todavía no ha sido generado."
-          );
-
-        }
-
-
-        /*
-         * MOSTRAR DATOS
-         */
-
-        correoResultado.textContent =
-          data.correo;
-
-
-        passwordResultado.textContent =
-          data.password || "Consulta con administración";
-
-
-        result.style.display =
-          "block";
-
-
-        /*
-         * SCROLL
-         */
-
-        setTimeout(() => {
-
-          result.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-          });
-
-        }, 100);
-
-
-      } catch (error) {
-
-        mostrarError(
-          error.message ||
-          "Ocurrió un error. Inténtalo nuevamente."
-        );
-
-      } finally {
-
-        btnConsultar.disabled = false;
-
-        btnConsultar.textContent =
-          "Obtener correo institucional";
-
-        loading.style.display =
-          "none";
-
-      }
-
+    if (!data || data.ok !== true) {
+      throw new Error(
+        data?.mensaje || "No se encontró información."
+      );
     }
-  );
 
-
-  /*
-   * ============================================
-   * COPIAR CONTRASEÑA
-   * ============================================
-   */
-
-  copyPassword.addEventListener(
-    "click",
-    async function() {
-
-      const password =
-        passwordResultado.textContent;
-
-
-      if (
-        !password ||
-        password === "-"
-      ) {
-        return;
-      }
-
-
-      try {
-
-        await navigator.clipboard.writeText(
-          password
-        );
-
-        this.textContent =
-          "¡Copiado!";
-
-        setTimeout(() => {
-
-          this.textContent =
-            "Copiar";
-
-        }, 1800);
-
-      } catch (error) {
-
-        /*
-         * Compatibilidad con navegadores
-         * que no permiten clipboard.
-         */
-
-        const textarea =
-          document.createElement("textarea");
-
-        textarea.value =
-          password;
-
-        document.body.appendChild(
-          textarea
-        );
-
-        textarea.select();
-
-        document.execCommand(
-          "copy"
-        );
-
-        textarea.remove();
-
-        this.textContent =
-          "¡Copiado!";
-
-        setTimeout(() => {
-
-          this.textContent =
-            "Copiar";
-
-        }, 1800);
-
-      }
-
+    if (!data.correo) {
+      throw new Error(
+        "Tu correo institucional todavía no está disponible."
+      );
     }
-  );
 
+    document.getElementById("rFolio").textContent =
+      data.folio || folio;
+
+    document.getElementById("rCorreo").textContent =
+      data.correo;
+
+    document.getElementById("rDiplomado").textContent =
+      data.diplomado || "No disponible";
+
+    resultado.style.display = "block";
+
+  } catch (error) {
+    mostrarError(
+      error.message || "Ocurrió un error al consultar."
+    );
+  } finally {
+    boton.disabled = false;
+    boton.textContent = "Consultar correo institucional";
+  }
+});
 </script>
 
 </body>
