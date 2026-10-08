@@ -1,169 +1,2270 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diplomados Disponibles | Evolva Academy</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Diplomados | Evolva Academy</title>
+
+    <meta
+        name="description"
+        content="Conoce los diplomados profesionales de Evolva Academy en Primeros Auxilios y Finanzas Personales."
+    >
+
+    <meta name="theme-color" content="#086cff">
+
+
     <style>
-        * { box-sizing: border-box; }
-        body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #f7faff; color: #172033; }
-        :root { --azul-oscuro: #063b91; --azul: #086cff; --azul-claro: #2684ff; }
 
-        .header { background: rgba(255,255,255,0.96); backdrop-filter: blur(12px); border-bottom: 1px solid #e8eef7; position: sticky; top: 0; z-index: 100; }
-        .header-container { max-width: 1180px; margin: auto; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
-        .logo { width: 180px; height: auto; display: block; }
-        .btn-header { padding: 11px 18px; border-radius: 10px; color: white; text-decoration: none; font-size: 14px; font-weight: 700; background: linear-gradient(135deg, var(--azul-oscuro), var(--azul)); }
+        /* ==================================================
+           VARIABLES
+        ================================================== */
 
-        .container { max-width: 900px; margin: 50px auto; padding: 0 24px; }
-        .section-title { font-size: 32px; font-weight: 900; color: #101828; text-align: center; margin-bottom: 10px; }
-        .section-subtitle { text-align: center; color: #64748b; font-size: 15px; margin-bottom: 40px; }
+        :root {
 
-        .course-card { background: white; border: 1px solid #e2e8f0; border-radius: 20px; padding: 35px; box-shadow: 0 10px 35px rgba(15,23,42,0.06); margin-bottom: 40px; }
-        .course-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
-        .course-duration { font-size: 12px; font-weight: 800; color: var(--azul); text-transform: uppercase; background: #edf5ff; padding: 6px 12px; border-radius: 8px; }
-        
-        .course-card h2 { margin: 0 0 10px; color: #101828; font-size: 24px; font-weight: 900; }
-        .modalidad { font-size: 13px; color: #063b91; font-weight: 700; margin-bottom: 15px; }
-        .perfil { background: #f8fbff; border-left: 4px solid var(--azul); padding: 12px 15px; border-radius: 0 10px 10px 0; font-size: 14px; color: #334155; margin-bottom: 25px; line-height: 1.6; }
-        
-        .modules-title { font-size: 17px; font-weight: 800; color: #101828; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; }
-        
-        .module-item { margin-bottom: 14px; font-size: 14px; }
-        .module-item strong { color: #063b91; display: block; margin-bottom: 3px; }
-        .module-item span { color: #64748b; line-height: 1.5; display: block; }
+            --azul-oscuro: #063b91;
+            --azul: #086cff;
+            --azul-claro: #4da0ff;
 
-        .btn-inscripcion { display: block; text-align: center; margin-top: 30px; padding: 14px; background: linear-gradient(135deg, #063b91, #086cff); color: white; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 15px; box-shadow: 0 6px 18px rgba(8,108,255,0.2); transition: 0.2s; }
-        .btn-inscripcion:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(8,108,255,0.3); }
+            --azul-suave: #edf5ff;
+            --azul-pale: #f7fbff;
 
-        footer { background: #071b3d; color: #b9c8df; padding: 35px 24px; text-align: center; margin-top: 80px; }
-        .footer-logo { width: 150px; margin: 0 auto 14px; filter: brightness(0) invert(1); }
+            --texto: #111827;
+            --texto-secundario: #64748b;
+
+            --borde: #e4ebf4;
+
+            --blanco: #ffffff;
+
+            --footer: #071b3d;
+
+        }
+
+
+        /* ==================================================
+           RESET
+        ================================================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            color: var(--texto);
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #ffffff 0%,
+                    #f7fbff 45%,
+                    #ffffff 100%
+                );
+
+            min-height: 100vh;
+
+            overflow-x: hidden;
+
+        }
+
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* ==================================================
+           HEADER
+        ================================================== */
+
+        .header {
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+            background:
+                rgba(255,255,255,.94);
+
+            backdrop-filter:
+                blur(18px);
+
+            -webkit-backdrop-filter:
+                blur(18px);
+
+            border-bottom:
+                1px solid
+                rgba(226,234,244,.9);
+
+        }
+
+
+        .header-container {
+
+            max-width: 1180px;
+
+            margin: auto;
+
+            padding: 14px 22px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+        }
+
+
+        .logo {
+
+            width: 170px;
+
+            height: auto;
+
+            display: block;
+
+        }
+
+
+        .header-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+        }
+
+
+        .header-link {
+
+            padding: 9px 13px;
+
+            border-radius: 9px;
+
+            color: #475569;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            transition: .2s ease;
+
+        }
+
+
+        .header-link:hover {
+
+            color: var(--azul);
+
+            background: var(--azul-suave);
+
+        }
+
+
+        .header-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 11px 17px;
+
+            border-radius: 10px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul-oscuro),
+                    var(--azul)
+                );
+
+            font-size: 11px;
+
+            font-weight: 900;
+
+            box-shadow:
+                0 8px 22px
+                rgba(8,108,255,.20);
+
+            transition: .25s ease;
+
+        }
+
+
+        .header-button:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 12px 28px
+                rgba(8,108,255,.28);
+
+        }
+
+
+        /* ==================================================
+           HERO
+        ================================================== */
+
+        .hero {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding:
+                90px 22px
+                115px;
+
+            background:
+
+                radial-gradient(
+                    circle at 75% 20%,
+                    rgba(8,108,255,.13),
+                    transparent 32%
+                ),
+
+                radial-gradient(
+                    circle at 15% 70%,
+                    rgba(77,160,255,.08),
+                    transparent 30%
+                ),
+
+                linear-gradient(
+                    180deg,
+                    #ffffff,
+                    #f5faff
+                );
+
+        }
+
+
+        .hero::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 440px;
+
+            height: 440px;
+
+            border-radius: 50%;
+
+            border:
+                1px solid
+                rgba(8,108,255,.08);
+
+            right: -220px;
+
+            top: -190px;
+
+        }
+
+
+        .hero::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 300px;
+
+            height: 300px;
+
+            border-radius: 50%;
+
+            border:
+                1px solid
+                rgba(8,108,255,.06);
+
+            left: -160px;
+
+            bottom: -170px;
+
+        }
+
+
+        .hero-content {
+
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 850px;
+
+            margin: auto;
+
+            text-align: center;
+
+        }
+
+
+        .hero-label {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 8px 14px;
+
+            border-radius: 999px;
+
+            background: white;
+
+            border:
+                1px solid
+                #dceaff;
+
+            color: var(--azul-oscuro);
+
+            font-size: 10px;
+
+            font-weight: 900;
+
+            text-transform: uppercase;
+
+            letter-spacing: .10em;
+
+            box-shadow:
+                0 8px 20px
+                rgba(15,23,42,.04);
+
+        }
+
+
+        .hero-label::before {
+
+            content: "";
+
+            width: 7px;
+
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: var(--azul);
+
+            box-shadow:
+                0 0 0 5px
+                rgba(8,108,255,.10);
+
+        }
+
+
+        .hero h1 {
+
+            margin-top: 23px;
+
+            color: var(--texto);
+
+            font-size:
+                clamp(
+                    40px,
+                    7vw,
+                    66px
+                );
+
+            line-height: 1.03;
+
+            letter-spacing: -.055em;
+
+            font-weight: 950;
+
+        }
+
+
+        .hero h1 span {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--azul-oscuro),
+                    var(--azul),
+                    var(--azul-claro)
+                );
+
+            -webkit-background-clip: text;
+
+            background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+
+        }
+
+
+        .hero-description {
+
+            max-width: 650px;
+
+            margin: 20px auto 0;
+
+            color: var(--texto-secundario);
+
+            font-size: 15px;
+
+            line-height: 1.8;
+
+        }
+
+
+        .hero-note {
+
+            display: flex;
+
+            justify-content: center;
+
+            flex-wrap: wrap;
+
+            gap: 9px;
+
+            margin-top: 27px;
+
+        }
+
+
+        .hero-pill {
+
+            padding: 8px 12px;
+
+            border-radius: 9px;
+
+            background: rgba(255,255,255,.85);
+
+            border:
+                1px solid
+                #e0eaf6;
+
+            color: #475569;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+        }
+
+
+        /* ==================================================
+           MAIN
+        ================================================== */
+
+        .main {
+
+            max-width: 1080px;
+
+            margin: -50px auto 0;
+
+            padding:
+                0 22px
+                100px;
+
+            position: relative;
+
+            z-index: 5;
+
+        }
+
+
+        /* ==================================================
+           DIPLOMADO CARD
+        ================================================== */
+
+        .diploma-card {
+
+            position: relative;
+
+            overflow: hidden;
+
+            margin-bottom: 28px;
+
+            background: white;
+
+            border:
+                1px solid
+                var(--borde);
+
+            border-radius: 25px;
+
+            box-shadow:
+                0 20px 55px
+                rgba(15,23,42,.07);
+
+            transition: .3s ease;
+
+        }
+
+
+        .diploma-card:hover {
+
+            transform:
+                translateY(-4px);
+
+            box-shadow:
+                0 28px 65px
+                rgba(15,23,42,.10);
+
+        }
+
+
+        .diploma-card::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 230px;
+
+            height: 230px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(8,108,255,.045);
+
+            right: -100px;
+
+            top: -100px;
+
+        }
+
+
+        /* ==================================================
+           CARD HEADER
+        ================================================== */
+
+        .diploma-header {
+
+            position: relative;
+
+            z-index: 2;
+
+            padding: 30px 32px 25px;
+
+            border-bottom:
+                1px solid
+                #edf2f7;
+
+            display: flex;
+
+            align-items: flex-start;
+
+            justify-content: space-between;
+
+            gap: 25px;
+
+        }
+
+
+        .diploma-heading {
+
+            display: flex;
+
+            align-items: flex-start;
+
+            gap: 17px;
+
+        }
+
+
+        .diploma-number {
+
+            flex-shrink: 0;
+
+            width: 53px;
+
+            height: 53px;
+
+            border-radius: 15px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul-oscuro),
+                    var(--azul)
+                );
+
+            color: white;
+
+            font-size: 18px;
+
+            font-weight: 950;
+
+            box-shadow:
+                0 10px 25px
+                rgba(8,108,255,.20);
+
+        }
+
+
+        .diploma-title h2 {
+
+            color: var(--texto);
+
+            font-size: 23px;
+
+            line-height: 1.25;
+
+            font-weight: 950;
+
+        }
+
+
+        .diploma-title p {
+
+            margin-top: 7px;
+
+            color: var(--azul);
+
+            font-size: 10px;
+
+            font-weight: 900;
+
+            text-transform: uppercase;
+
+            letter-spacing: .05em;
+
+        }
+
+
+        .duration {
+
+            flex-shrink: 0;
+
+            padding: 8px 12px;
+
+            border-radius: 9px;
+
+            background: var(--azul-suave);
+
+            color: var(--azul-oscuro);
+
+            font-size: 10px;
+
+            font-weight: 900;
+
+            white-space: nowrap;
+
+        }
+
+
+        /* ==================================================
+           CARD BODY
+        ================================================== */
+
+        .diploma-body {
+
+            position: relative;
+
+            z-index: 2;
+
+            padding: 28px 32px 32px;
+
+        }
+
+
+        .profile {
+
+            padding: 16px 18px;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f5f9ff,
+                    #fbfdff
+                );
+
+            border:
+                1px solid
+                #e1ebf7;
+
+            color: #475569;
+
+            font-size: 12px;
+
+            line-height: 1.7;
+
+        }
+
+
+        .profile strong {
+
+            display: block;
+
+            margin-bottom: 4px;
+
+            color: var(--azul-oscuro);
+
+            font-size: 11px;
+
+        }
+
+
+        /* ==================================================
+           CURRICULUM
+        ================================================== */
+
+        .curriculum-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-top: 30px;
+
+            margin-bottom: 17px;
+
+        }
+
+
+        .curriculum-title {
+
+            color: var(--texto);
+
+            font-size: 16px;
+
+            font-weight: 950;
+
+        }
+
+
+        .curriculum-count {
+
+            padding: 6px 9px;
+
+            border-radius: 7px;
+
+            background: #f3f7fc;
+
+            color: var(--texto-secundario);
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+        }
+
+
+        .modules {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 12px;
+
+        }
+
+
+        .module {
+
+            position: relative;
+
+            padding: 16px 17px 16px 20px;
+
+            border:
+                1px solid
+                #e7edf5;
+
+            border-radius: 13px;
+
+            background: white;
+
+            transition: .2s ease;
+
+        }
+
+
+        .module:hover {
+
+            border-color:
+                #cfe2ff;
+
+            background:
+                #fbfdff;
+
+        }
+
+
+        .module::before {
+
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+
+            top: 15px;
+
+            bottom: 15px;
+
+            width: 3px;
+
+            border-radius: 5px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--azul-oscuro),
+                    var(--azul)
+                );
+
+        }
+
+
+        .module strong {
+
+            display: block;
+
+            color: var(--azul-oscuro);
+
+            font-size: 11px;
+
+            line-height: 1.45;
+
+            margin-bottom: 6px;
+
+        }
+
+
+        .module span {
+
+            display: block;
+
+            color: var(--texto-secundario);
+
+            font-size: 10px;
+
+            line-height: 1.65;
+
+        }
+
+
+        /* ==================================================
+           CARD FOOTER
+        ================================================== */
+
+        .diploma-footer {
+
+            margin-top: 28px;
+
+            padding-top: 23px;
+
+            border-top:
+                1px solid
+                #edf1f6;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+        }
+
+
+        .footer-info {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            flex-wrap: wrap;
+
+        }
+
+
+        .footer-badge {
+
+            padding: 8px 11px;
+
+            border-radius: 9px;
+
+            background: #f5f9ff;
+
+            color: var(--azul-oscuro);
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+        }
+
+
+        .footer-badge.free {
+
+            background:
+                #eefbf5;
+
+            color:
+                #087443;
+
+        }
+
+
+        .btn-inscripcion {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 7px;
+
+            padding: 13px 20px;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul-oscuro),
+                    var(--azul)
+                );
+
+            color: white;
+
+            font-size: 11px;
+
+            font-weight: 900;
+
+            box-shadow:
+                0 9px 22px
+                rgba(8,108,255,.19);
+
+            transition: .25s ease;
+
+            white-space: nowrap;
+
+        }
+
+
+        .btn-inscripcion:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 13px 27px
+                rgba(8,108,255,.27);
+
+        }
+
+
+        /* ==================================================
+           CERTIFICADO
+        ================================================== */
+
+        .certificate {
+
+            margin-top: 45px;
+
+            padding: 28px;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #063b91,
+                    #086cff
+                );
+
+            color: white;
+
+            position: relative;
+
+            overflow: hidden;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 25px;
+
+            box-shadow:
+                0 22px 50px
+                rgba(8,108,255,.18);
+
+        }
+
+
+        .certificate::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 280px;
+
+            height: 280px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.12);
+
+            border-radius: 50%;
+
+            right: -130px;
+
+            top: -150px;
+
+        }
+
+
+        .certificate-content {
+
+            position: relative;
+
+            z-index: 2;
+
+        }
+
+
+        .certificate-label {
+
+            color:
+                rgba(255,255,255,.70);
+
+            font-size: 9px;
+
+            font-weight: 900;
+
+            letter-spacing: .12em;
+
+            text-transform: uppercase;
+
+        }
+
+
+        .certificate h3 {
+
+            margin-top: 7px;
+
+            font-size: 22px;
+
+            font-weight: 950;
+
+        }
+
+
+        .certificate p {
+
+            max-width: 620px;
+
+            margin-top: 7px;
+
+            color:
+                rgba(255,255,255,.80);
+
+            font-size: 11px;
+
+            line-height: 1.6;
+
+        }
+
+
+        .certificate-check {
+
+            position: relative;
+
+            z-index: 2;
+
+            width: 65px;
+
+            height: 65px;
+
+            flex-shrink: 0;
+
+            border-radius: 18px;
+
+            background:
+                rgba(255,255,255,.12);
+
+            border:
+                1px solid
+                rgba(255,255,255,.20);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            color: white;
+
+            font-size: 29px;
+
+            font-weight: 900;
+
+        }
+
+
+        /* ==================================================
+           FOOTER
+        ================================================== */
+
+        footer {
+
+            padding:
+                45px 22px;
+
+            background:
+                var(--footer);
+
+            color:
+                #b9c8df;
+
+            text-align: center;
+
+        }
+
+
+        .footer-logo {
+
+            width: 150px;
+
+            margin: 0 auto 13px;
+
+            filter:
+                brightness(0)
+                invert(1);
+
+        }
+
+
+        footer p {
+
+            font-size: 10px;
+
+            margin: 6px 0;
+
+        }
+
+
+        .footer-links {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            flex-wrap: wrap;
+
+            gap: 4px;
+
+            max-width: 850px;
+
+            margin: 18px auto;
+
+        }
+
+
+        .footer-links a {
+
+            padding: 7px 10px;
+
+            border-radius: 7px;
+
+            color: #cbd8e9;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            transition: .2s ease;
+
+        }
+
+
+        .footer-links a:hover {
+
+            color: white;
+
+            background:
+                rgba(255,255,255,.08);
+
+        }
+
+
+        .website {
+
+            color: #71aaff;
+
+            font-weight: 900;
+
+        }
+
+
+        /* ==================================================
+           RESPONSIVE
+        ================================================== */
+
+        @media (max-width: 850px) {
+
+            .header-container {
+
+                padding:
+                    12px 17px;
+
+            }
+
+
+            .header-link {
+
+                display: none;
+
+            }
+
+
+            .hero {
+
+                padding:
+                    70px 18px
+                    105px;
+
+            }
+
+
+            .main {
+
+                padding:
+                    0 18px
+                    75px;
+
+            }
+
+
+            .modules {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .certificate {
+
+                align-items:
+                    flex-start;
+
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .header-container {
+
+                flex-direction:
+                    column;
+
+                gap: 10px;
+
+            }
+
+
+            .header-actions {
+
+                width: 100%;
+
+            }
+
+
+            .header-button {
+
+                width: 100%;
+
+            }
+
+
+            .logo {
+
+                width: 150px;
+
+            }
+
+
+            .hero h1 {
+
+                font-size: 40px;
+
+            }
+
+
+            .hero-description {
+
+                font-size: 13px;
+
+            }
+
+
+            .hero-note {
+
+                gap: 6px;
+
+            }
+
+
+            .hero-pill {
+
+                font-size: 9px;
+
+            }
+
+
+            .main {
+
+                margin-top: -45px;
+
+            }
+
+
+            .diploma-header {
+
+                padding:
+                    24px 20px;
+
+                flex-direction:
+                    column;
+
+            }
+
+
+            .diploma-heading {
+
+                width: 100%;
+
+            }
+
+
+            .diploma-title h2 {
+
+                font-size: 19px;
+
+            }
+
+
+            .diploma-body {
+
+                padding:
+                    23px 20px
+                    25px;
+
+            }
+
+
+            .curriculum-header {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+
+                gap: 7px;
+
+            }
+
+
+            .diploma-footer {
+
+                align-items:
+                    stretch;
+
+                flex-direction:
+                    column;
+
+            }
+
+
+            .footer-info {
+
+                width: 100%;
+
+            }
+
+
+            .btn-inscripcion {
+
+                width: 100%;
+
+            }
+
+
+            .certificate {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+
+                padding: 24px 20px;
+
+            }
+
+
+            .certificate-check {
+
+                display: none;
+
+            }
+
+        }
+
     </style>
+
 </head>
+
+
 <body>
 
-    <header class="header">
-        <div class="header-container">
-            <a href="index.html"><img src="logo-evolva.png" alt="Evolva Academy" class="logo"></a>
-            <a href="inscripcion.html" class="btn-header">Inscríbete Aquí →</a>
+
+<!-- ==================================================
+     HEADER
+================================================== -->
+
+<header class="header">
+
+    <div class="header-container">
+
+
+        <a href="index.html">
+
+            <img
+                src="logo-evolva.png"
+                alt="Evolva Academy"
+                class="logo"
+            >
+
+        </a>
+
+
+        <div class="header-actions">
+
+
+            <a
+                href="index.html"
+                class="header-link"
+            >
+                ← Inicio
+            </a>
+
+
+            <a
+                href="validar.html"
+                class="header-link"
+            >
+                Validar certificado
+            </a>
+
+
+            <a
+                href="inscripcion.html"
+                class="header-button"
+            >
+                Inscríbete →
+            </a>
+
+
         </div>
-    </header>
 
-    <main class="container">
-        <h1 class="section-title">Nuestros Diplomados Disponibles</h1>
-        <p class="section-subtitle">Conoce a detalle el contenido curricular, la duración y el perfil de egreso de cada programa.</p>
-        
-        <!-- DIPLOMADO 1 -->
-        <article class="course-card">
-            <div class="course-top">
-                <span class="course-duration">Duración: 8 Meses</span>
-                <span style="font-weight:900; color:#063b91; font-size:18px;">01</span>
+    </div>
+
+</header>
+
+
+<!-- ==================================================
+     HERO
+================================================== -->
+
+<section class="hero">
+
+
+    <div class="hero-content">
+
+
+        <span class="hero-label">
+            Formación Evolva Academy
+        </span>
+
+
+        <h1>
+
+            Elige tu próximo
+
+            <span>
+                diplomado.
+            </span>
+
+        </h1>
+
+
+        <p class="hero-description">
+
+            Conoce nuestros programas profesionales,
+            revisa su estructura curricular y elige
+            la formación que mejor se adapte a tus
+            objetivos.
+
+        </p>
+
+
+        <div class="hero-note">
+
+
+            <span class="hero-pill">
+                ✓ 100% En línea
+            </span>
+
+
+            <span class="hero-pill">
+                ✓ Seguimiento académico
+            </span>
+
+
+            <span class="hero-pill">
+                ✓ Certificado al finalizar
+            </span>
+
+
+        </div>
+
+
+    </div>
+
+
+</section>
+
+
+<!-- ==================================================
+     CONTENIDO
+================================================== -->
+
+<main class="main">
+
+
+    <!-- ==================================================
+         DIPLOMADO 1
+    ================================================== -->
+
+    <article class="diploma-card">
+
+
+        <div class="diploma-header">
+
+
+            <div class="diploma-heading">
+
+
+                <div class="diploma-number">
+                    01
+                </div>
+
+
+                <div class="diploma-title">
+
+                    <h2>
+                        Diplomado en Primeros Auxilios
+                        y Gestión de Emergencias
+                    </h2>
+
+                    <p>
+                        Formación en atención y respuesta
+                        ante emergencias
+                    </p>
+
+                </div>
+
+
             </div>
-            <h2>Diplomado en Primeros Auxilios y Gestión de Emergencias</h2>
-            <div class="modalidad">Modalidad: 100% En Línea (Videos guiados, evaluaciones automatizadas y seguimiento técnico oportuno)</div>
-            
-            <div class="perfil">
-                <strong>Perfil del Egresado:</strong> Capacitado como primer respondiente seguro, con la capacidad teórica y práctica de evaluar riesgos, aplicar soporte vital básico, controlar hemorragias y gestionar crisis de salud antes de la llegada de los servicios médicos profesionales.
+
+
+            <span class="duration">
+                8 MESES
+            </span>
+
+
+        </div>
+
+
+        <div class="diploma-body">
+
+
+            <div class="profile">
+
+
+                <strong>
+                    PERFIL DEL EGRESADO
+                </strong>
+
+
+                Capacitado como primer respondiente
+                seguro, con la capacidad teórica y
+                práctica de evaluar riesgos, aplicar
+                soporte vital básico, controlar
+                hemorragias y gestionar crisis de salud
+                antes de la llegada de los servicios
+                médicos profesionales.
+
+
             </div>
 
-            <div class="modules-title">Estructura Curricular Mensual</div>
 
-            <div class="module-item">
-                <strong>Módulo I: Introducción, Marco Legal y Evaluación de la Escena</strong>
-                <span>Responsabilidades y obligaciones del primer respondiente, análisis seguro de entornos y activación correcta de los servicios de emergencia (911).</span>
+            <div class="curriculum-header">
+
+
+                <h3 class="curriculum-title">
+                    Estructura Curricular Mensual
+                </h3>
+
+
+                <span class="curriculum-count">
+                    8 MÓDULOS
+                </span>
+
+
             </div>
 
-            <div class="module-item">
-                <strong>Módulo II: Soporte Vital Básico (SVB) y Reanimación Cardiopulmonar (RCP)</strong>
-                <span>Anatomía básica de emergencia, técnica correcta de compresiones torácicas en adultos, niños y lactantes, y uso conceptual de Desfibriladores Externos Automáticos (DEA).</span>
+
+            <div class="modules">
+
+
+                <div class="module">
+
+                    <strong>
+                        Módulo I: Introducción, Marco Legal
+                        y Evaluación de la Escena
+                    </strong>
+
+                    <span>
+
+                        Responsabilidades y obligaciones
+                        del primer respondiente, análisis
+                        seguro de entornos y activación
+                        correcta de los servicios de
+                        emergencia (911).
+
+                    </span>
+
+                </div>
+
+
+                <div class="module">
+
+                    <strong>
+                        Módulo II: Soporte Vital Básico
+                        (SVB) y Reanimación Cardiopulmonar
+                        (RCP)
+                    </strong>
+
+                    <span>
+
+                        Anatomía básica de emergencia,
+                        técnica correcta de compresiones
+                        torácicas en adultos, niños y
+                        lactantes, y uso conceptual de
+                        Desfibriladores Externos Automáticos
+                        (DEA).
+
+                    </span>
+
+                </div>
+
+
+                <div class="module">
+
+                    <strong>
+                        Módulo III: Obstrucción de Vía
+                        Aérea (Maniobra de Heimlich)
+                    </strong>
+
+                    <span>
+
+                        Diferenciación de atragantamientos
+                        parciales y totales, ejecución de
+                        la maniobra en adultos, niños,
+                        embarazadas y auto-aplicación.
+
+                    </span>
+
+                </div>
+
+
+                <div class="module">
+
+                    <strong>
+                        Módulo IV: Control de Hemorragias
+                        y Heridas
+                    </strong>
+
+                    <span>
+
+                        Tipos de sangrado, técnicas de
+                        presión directa, uso de vendajes,
+                        protocolos de curación básica y
+                        criterios para el manejo de
+                        torniquetes.
+
+                    </span>
+
+                </div>
+
+
+                <div class="module">
+
+                    <strong>
+                        Módulo V: Lesiones en Huesos,
+                        Articulaciones y Músculos
+                    </strong>
+
+                    <span>
+
+                        Identificación de fracturas abiertas
+                        y cerradas, esguinces, luxaciones
+                        y técnicas de inmovilización
+                        provisional con recursos accesibles.
+
+                    </span>
+
+                </div>
+
+
+                <div class="module">
+
+                    <strong>
+                        Módulo VI: Quemaduras,
+                        Intoxicaciones y Envenenamientos
+                    </strong>
+
+                    <span>
+
+                        Clasificación de quemaduras por
+                        grado, atención correcta y actuación
+                        ante sustancias tóxicas, productos
+                        químicos o picaduras ponzoñosas.
+
+                    </span>
+
+                </div>
+
+
+                <div class="module">
+
+                    <strong>
+                        Módulo VII: Urgencias Médicas
+                        Comunes
+                    </strong>
+
+                    <span>
+
+                        Manejo de desmayos, contención
+                        de crisis convulsivas (epilepsia)
+                        y protocolos ante alteraciones
+                        agudas de los niveles de azúcar
+                        en la sangre.
+
+                    </span>
+
+                </div>
+
+
+                <div class="module">
+
+                    <strong>
+                        Módulo VIII: Proyecto Integrador
+                        y Simulacro Práctico Final
+                    </strong>
+
+                    <span>
+
+                        Evaluación integral de casos
+                        clínicos simulados en video,
+                        examen teórico acumulativo y
+                        emisión de la certificación oficial
+                        del diplomado.
+
+                    </span>
+
+                </div>
+
+
             </div>
 
-            <div class="module-item">
-                <strong>Módulo III: Obstrucción de Vía Aérea (Maniobra de Heimlich)</strong>
-                <span>Diferenciación de atragantamientos parciales y totales, ejecución de la maniobra en adultos, niños, embarazadas y auto-aplicación.</span>
+
+            <div class="diploma-footer">
+
+
+                <div class="footer-info">
+
+
+                    <span class="footer-badge">
+                        100% En línea
+                    </span>
+
+
+                    <span class="footer-badge">
+                        8 meses
+                    </span>
+
+
+                    <span class="footer-badge free">
+                        ✓ Certificado al finalizar
+                    </span>
+
+
+                </div>
+
+
+                <a
+                    href="inscripcion.html?diplomado=Primeros+Auxilios"
+                    class="btn-inscripcion"
+                >
+                    Inscribirme a este diplomado →
+                </a>
+
+
             </div>
 
-            <div class="module-item">
-                <strong>Módulo IV: Control de Hemorragias y Heridas</strong>
-                <span>Tipos de sangrado, técnicas de presión directa, uso de vendajes, protocolos de curación básica y criterios para el manejo de torniquetes.</span>
+
+        </div>
+
+
+    </article>
+
+
+    <!-- ==================================================
+         DIPLOMADO 2
+    ================================================== -->
+
+    <article class="diploma-card">
+
+
+        <div class="diploma-header">
+
+
+            <div class="diploma-heading">
+
+
+                <div class="diploma-number">
+                    02
+                </div>
+
+
+                <div class="diploma-title">
+
+                    <h2>
+                        Diplomado en Finanzas Personales
+                        y Control Económico
+                    </h2>
+
+                    <p>
+                        Formación práctica para la gestión
+                        inteligente del dinero
+                    </p>
+
+                </div>
+
+
             </div>
 
-            <div class="module-item">
-                <strong>Módulo V: Lesiones en Huesos, Articulaciones y Músculos</strong>
-                <span>Identificación de fracturas abiertas y cerradas, esguinces, luxaciones y técnicas de inmovilización provisional con recursos accesibles.</span>
+
+            <span class="duration">
+                6 MESES
+            </span>
+
+
+        </div>
+
+
+        <div class="diploma-body">
+
+
+            <div class="profile">
+
+
+                <strong>
+                    PERFIL DEL EGRESADO
+                </strong>
+
+
+                Capaz de tomar el control absoluto
+                de sus recursos financieros, estructurar
+                presupuestos inteligentes, eliminar
+                deudas mediante estrategias financieras
+                probadas, crear fondos de protección
+                y administrar las bases económicas de
+                un pequeño negocio.
+
+
             </div>
 
-            <div class="module-item">
-                <strong>Módulo VI: Quemaduras, Intoxicaciones y Envenenamientos</strong>
-                <span>Clasificación de quemaduras por grado, atención correcta (eliminación de mitos caseros) y actuación ante sustancias tóxicas, productos químicos o picaduras ponzoñosas.</span>
+
+            <div class="curriculum-header">
+
+
+                <h3 class="curriculum-title">
+                    Estructura Curricular Mensual
+                </h3>
+
+
+                <span class="curriculum-count">
+                    6 MÓDULOS
+                </span>
+
+
             </div>
 
-            <div class="module-item">
-                <strong>Módulo VII: Urgencias Médicas Comunes (Síncopes, Convulsiones y Diabetes)</strong>
-                <span>Manejo de desmayos, contención de crisis convulsivas (epilepsia) y protocolos ante alteraciones agudas de los niveles de azúcar en la sangre.</span>
+
+            <div class="modules">
+
+
+                <div class="module">
+
+                    <strong>
+                        Módulo I: Psicología del Dinero
+                        y Diagnóstico Financiero
+                    </strong>
+
+                    <span>
+
+                        Análisis de la relación personal
+                        con el gasto, identificación de
+                        fugas invisibles de dinero
+                        ("gastos hormiga") y establecimiento
+                        de metas financieras claras.
+
+                    </span>
+
+                </div>
+
+
+                <div class="module">
+
+                    <strong>
+                        Módulo II: El Presupuesto Inteligente
+                        y Herramientas Digitales
+                    </strong>
+
+                    <span>
+
+                        Aplicación práctica de la regla
+                        de distribución de ingresos (50/30/20)
+                        y uso inicial de herramientas digitales
+                        u hojas de cálculo para el registro
+                        diario.
+
+                    </span>
+
+                </div>
+
+
+                <div class="module">
+
+                    <strong>
+                        Módulo III: Estrategias Avanzadas
+                        para la Liquidación de Deudas
+                    </strong>
+
+                    <span>
+
+                        Metodologías estructuradas para el
+                        pago de tarjetas de crédito y
+                        préstamos utilizando los sistemas
+                        de "Bola de Nieve" y "Avalancha".
+
+                    </span>
+
+                </div>
+
+
+                <div class="module">
+
+                    <strong>
+                        Módulo IV: Fondo de Emergencia
+                        y Cuentas de Ahorro Estratégicas
+                    </strong>
+
+                    <span>
+
+                        Dimensionamiento del fondo de
+                        protección personal, cálculo de
+                        meses de cobertura y criterios de
+                        seguridad para el resguardo del
+                        capital.
+
+                    </span>
+
+                </div>
+
+
+                <div class="module">
+
+                    <strong>
+                        Módulo V: Finanzas Básicas para
+                        Emprendedores y Negocios
+                    </strong>
+
+                    <span>
+
+                        Separación de finanzas personales
+                        y comerciales, cálculo de costos
+                        operativos, punto de equilibrio y
+                        fijación de precios en entornos
+                        digitales.
+
+                    </span>
+
+                </div>
+
+
+                <div class="module">
+
+                    <strong>
+                        Módulo VI: Proyecto Integrador
+                        y Plan de Libertad Financiera
+                    </strong>
+
+                    <span>
+
+                        Consolidación del Plan Financiero
+                        Personal de Evolva Academy,
+                        evaluación teórica final y emisión
+                        de la certificación oficial del
+                        diplomado.
+
+                    </span>
+
+                </div>
+
+
             </div>
 
-            <div class="module-item">
-                <strong>Módulo VIII: Proyecto Integrador y Simulacro Práctico Final</strong>
-                <span>Evaluación integral de casos clínicos simulados en video, examen teórico acumulativo y emisión de la certificación oficial del diplomado.</span>
+
+            <div class="diploma-footer">
+
+
+                <div class="footer-info">
+
+
+                    <span class="footer-badge">
+                        100% En línea
+                    </span>
+
+
+                    <span class="footer-badge">
+                        6 meses
+                    </span>
+
+
+                    <span class="footer-badge free">
+                        ✓ Certificado al finalizar
+                    </span>
+
+
+                </div>
+
+
+                <a
+                    href="inscripcion.html?diplomado=Finanzas+Personales"
+                    class="btn-inscripcion"
+                >
+                    Inscribirme a este diplomado →
+                </a>
+
+
             </div>
 
-            <a href="inscripcion.html?diplomado=Primeros+Auxilios" class="btn-inscripcion">Inscribirme a este Diplomado</a>
-        </article>
 
-        <!-- DIPLOMADO 2 -->
-        <article class="course-card">
-            <div class="course-top">
-                <span class="course-duration">Duración: 6 Meses</span>
-                <span style="font-weight:900; color:#063b91; font-size:18px;">02</span>
-            </div>
-            <h2>Diplomado en Finanzas Personales y Control Económico</h2>
-            <div class="modalidad">Modalidad: 100% En Línea (Curaduría de contenidos prácticos, plantillas digitales, exámenes y seguimiento de progreso)</div>
-            
-            <div class="perfil">
-                <strong>Perfil del Egresado:</strong> Capaz de tomar el control absoluto de sus recursos financieros, estructurar presupuestos inteligentes, eliminar deudas mediante estrategias financieras probadas, crear fondos de protección y administrar las bases económicas de un pequeño negocio.
-            </div>
+        </div>
 
-            <div class="modules-title">Estructura Curricular Mensual</div>
 
-            <div class="module-item">
-                <strong>Módulo I: Psicología del Dinero y Diagnóstico Financiero</strong>
-                <span>Análisis de la relación personal con el gasto, identificación de fugas invisibles de dinero ("gastos hormiga") y establecimiento de metas financieras claras.</span>
-            </div>
+    </article>
 
-            <div class="module-item">
-                <strong>Módulo II: El Presupuesto Inteligente y Herramientas Digitales</strong>
-                <span>Aplicación práctica de la regla de distribución de ingresos (50/30/20) y uso inicial de herramientas digitales u hojas de cálculo para el registro diario.</span>
-            </div>
 
-            <div class="module-item">
-                <strong>Módulo III: Estrategias Avanzadas para la Liquidación de Deudas</strong>
-                <span>Metodologías estructuradas para el pago de tarjetas de crédito y préstamos utilizando los sistemas de "Bola de Nieve" y "Avalancha".</span>
-            </div>
+    <!-- ==================================================
+         CERTIFICADO
+    ================================================== -->
 
-            <div class="module-item">
-                <strong>Módulo IV: Fondo de Emergencia y Cuentas de Ahorro Estratégicas</strong>
-                <span>Dimensionamiento del fondo de protección personal, cálculo de meses de cobertura y criterios de seguridad para el resguardo del capital.</span>
-            </div>
+    <section class="certificate">
 
-            <div class="module-item">
-                <strong>Módulo V: Finanzas Básicas para Emprendedores y Negocios</strong>
-                <span>Separación de finanzas personales y comerciales, cálculo de costos operativos, punto de equilibrio y fijación de precios en entornos digitales.</span>
-            </div>
 
-            <div class="module-item">
-                <strong>Módulo VI: Proyecto Integrador y Plan de Libertad Financiera</strong>
-                <span>Consolidación del Plan Financiero Personal de Evolva Academy, evaluación teórica final y emisión de la certificación oficial del diplomado.</span>
-            </div>
+        <div class="certificate-content">
 
-            <a href="inscripcion.html?diplomado=Finanzas+Personales" class="btn-inscripcion">Inscribirme a este Diplomado</a>
-        </article>
-    </main>
 
-    <footer>
-        <img src="logo-evolva.png" alt="Evolva Academy" class="footer-logo">
-        <p>Formación que impulsa tu evolución. © 2026 Evolva Academy.</p>
-    </footer>
+            <span class="certificate-label">
+                Reconocimiento Evolva Academy
+            </span>
+
+
+            <h3>
+                Certificado totalmente gratuito
+            </h3>
+
+
+            <p>
+
+                Al finalizar satisfactoriamente tu
+                diplomado podrás obtener tu certificado
+                de Evolva Academy totalmente gratuito.
+
+            </p>
+
+
+        </div>
+
+
+        <div class="certificate-check">
+            ✓
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+<!-- ==================================================
+     FOOTER
+================================================== -->
+
+<footer>
+
+
+    <img
+        src="logo-evolva.png"
+        alt="Evolva Academy"
+        class="footer-logo"
+    >
+
+
+    <p>
+        Formación que impulsa tu evolución.
+    </p>
+
+
+    <div class="footer-links">
+
+
+        <a href="index.html">
+            Inicio
+        </a>
+
+
+        <a href="diplomados.html">
+            Diplomados
+        </a>
+
+
+        <a href="inscripcion.html">
+            Inscripción
+        </a>
+
+
+        <a href="pagos.html">
+            Pagos
+        </a>
+
+
+        <a href="validar.html">
+            Validar certificado
+        </a>
+
+
+        <a href="alumnos.html">
+            Portal de alumnos
+        </a>
+
+
+        <a href="calificaciones.html">
+            Calificaciones
+        </a>
+
+
+        <a href="Correos.html">
+            Correos
+        </a>
+
+
+    </div>
+
+
+    <p>
+
+        Sitio oficial:
+
+        <span class="website">
+            evolvacademy.mx
+        </span>
+
+    </p>
+
+
+    <p>
+        © 2026 Evolva Academy.
+        Todos los derechos reservados.
+    </p>
+
+
+</footer>
+
 
 </body>
+
 </html>
