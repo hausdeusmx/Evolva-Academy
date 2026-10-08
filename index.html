@@ -1,14 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Evolva Academy | Formación Profesional</title>
 
@@ -22,12 +16,7 @@
         content="Evolva Academy, diplomados, primeros auxilios, finanzas, cursos online, certificado"
     >
 
-    <meta name="theme-color" content="#086cff">
-
-
-    <!-- ==================================================
-         GOOGLE ADSENSE
-    ================================================== -->
+    <meta name="theme-color" content="#2469cb">
 
     <script
         async
@@ -35,37 +24,8 @@
         crossorigin="anonymous">
     </script>
 
-
     <style>
-
-        /* ==================================================
-           VARIABLES
-        ================================================== */
-
-        :root {
-
-            --blue-dark: #063b91;
-            --blue: #086cff;
-            --blue-light: #4da0ff;
-
-            --blue-soft: #eef6ff;
-            --blue-pale: #f7fbff;
-
-            --text: #111827;
-            --text-light: #64748b;
-
-            --border: #e5edf7;
-
-            --white: #ffffff;
-
-            --dark: #071b38;
-
-        }
-
-
-        /* ==================================================
-           RESET
-        ================================================== */
+        /* BASE */
 
         * {
             box-sizing: border-box;
@@ -73,2990 +33,1379 @@
             padding: 0;
         }
 
+        :root {
+            --blue: #2469cb;
+            --text-light: #718198;
+            --border: #e4edf7;
+        }
 
         html {
             scroll-behavior: smooth;
+            scroll-padding-top: 95px;
         }
-
 
         body {
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-
-            color: var(--text);
-
-            background:
-                #ffffff;
-
-            min-height: 100vh;
-
-            overflow-x: hidden;
-
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            background: #fff;
+            color: #17304f;
+            line-height: 1.6;
         }
-
 
         a {
-            text-decoration: none;
             color: inherit;
+            text-decoration: none;
         }
 
+        button {
+            font: inherit;
+        }
 
-        /* ==================================================
-           HEADER
-        ================================================== */
+        ::selection {
+            background: #d6e8ff;
+        }
+
+        a:focus-visible {
+            outline: 3px solid #85b4f4;
+            outline-offset: 5px;
+        }
+
+        /* ENCABEZADO */
 
         .header {
-
             position: sticky;
-
             top: 0;
-
-            z-index: 1000;
-
-            background:
-                rgba(255,255,255,.92);
-
-            backdrop-filter:
-                blur(18px);
-
-            -webkit-backdrop-filter:
-                blur(18px);
-
-            border-bottom:
-                1px solid rgba(226,234,244,.85);
-
+            z-index: 30;
+            background: rgba(255, 255, 255, .96);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(16px);
         }
-
 
         .header-inner {
-
-            max-width: 1180px;
-
+            max-width: 1160px;
             margin: auto;
-
-            padding: 15px 22px;
-
+            padding: 19px 24px;
             display: flex;
-
-            align-items: center;
-
             justify-content: space-between;
-
-            gap: 25px;
-
+            align-items: center;
+            gap: 24px;
         }
 
+        /* LOGO DE TEXTO */
 
-        .logo {
-
-            width: 170px;
-
-            display: block;
-
+        .wordmark {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            color: #1260c4;
+            line-height: 1;
+            font-family: Arial, sans-serif;
         }
 
+        .wordmark strong {
+            font-size: 28px;
+            letter-spacing: -1.5px;
+            font-weight: 900;
+        }
+
+        .wordmark span {
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 5px;
+            padding-left: 5px;
+            margin-top: 5px;
+        }
 
         .navigation {
-
             display: flex;
-
             align-items: center;
-
-            gap: 5px;
-
+            gap: 27px;
         }
-
 
         .nav-link {
-
-            padding: 10px 13px;
-
-            border-radius: 9px;
-
-            color: #475569;
-
             font-size: 12px;
-
-            font-weight: 800;
-
-            transition: .2s ease;
-
+            font-weight: 650;
+            color: #576b85;
+            transition: color .2s;
         }
-
 
         .nav-link:hover {
-
             color: var(--blue);
-
-            background: var(--blue-soft);
-
         }
-
 
         .nav-main {
-
-            padding: 11px 18px;
-
-            border-radius: 10px;
-
-            color: white;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--blue-dark),
-                    var(--blue)
-                );
-
             font-size: 12px;
-
-            font-weight: 900;
-
-            box-shadow:
-                0 8px 22px
-                rgba(8,108,255,.22);
-
-            transition: .25s ease;
-
+            font-weight: 750;
+            padding: 12px 19px;
+            border-radius: 10px;
+            background: var(--blue);
+            color: white;
+            box-shadow: 0 5px 15px rgba(36, 105, 203, .10);
         }
 
-
-        .nav-main:hover {
-
-            transform: translateY(-2px);
-
-            box-shadow:
-                0 12px 28px
-                rgba(8,108,255,.30);
-
-        }
-
-
-        /* ==================================================
-           HERO
-        ================================================== */
+        /* PORTADA */
 
         .hero {
-
             position: relative;
-
-            min-height: 680px;
-
-            display: flex;
-
-            align-items: center;
-
             overflow: hidden;
-
             background:
-
                 radial-gradient(
-                    circle at 75% 25%,
-                    rgba(8,108,255,.14),
-                    transparent 32%
+                    ellipse at 90% 20%,
+                    #dceaff,
+                    transparent 55%
                 ),
-
-                radial-gradient(
-                    circle at 20% 80%,
-                    rgba(77,160,255,.10),
-                    transparent 30%
-                ),
-
-                linear-gradient(
-                    180deg,
-                    #ffffff 0%,
-                    #f6faff 100%
-                );
-
+                linear-gradient(120deg, #f5f9ff, #eef5ff);
+            border-bottom: 1px solid #e4edf9;
         }
-
-
-        .hero::before {
-
-            content: "";
-
-            position: absolute;
-
-            width: 520px;
-
-            height: 520px;
-
-            border-radius: 50%;
-
-            border:
-                1px solid
-                rgba(8,108,255,.08);
-
-            right: -210px;
-
-            top: -170px;
-
-        }
-
 
         .hero::after {
-
             content: "";
-
             position: absolute;
-
-            width: 380px;
-
-            height: 380px;
-
+            width: 600px;
+            height: 600px;
+            border: 1px solid #d7e5f8;
             border-radius: 50%;
-
-            border:
-                1px solid
-                rgba(8,108,255,.07);
-
-            left: -180px;
-
-            bottom: -180px;
-
+            right: -210px;
+            top: -260px;
+            pointer-events: none;
         }
-
 
         .hero-container {
-
-            width: 100%;
-
-            max-width: 1180px;
-
+            max-width: 1160px;
             margin: auto;
-
-            padding: 80px 22px;
-
+            padding: 80px 24px 88px;
             display: grid;
-
-            grid-template-columns:
-                1.05fr .95fr;
-
+            grid-template-columns: 1.12fr 1fr;
+            gap: 74px;
             align-items: center;
-
-            gap: 60px;
-
             position: relative;
-
-            z-index: 2;
-
+            z-index: 1;
         }
-
-
-        /* ==================================================
-           HERO CONTENT
-        ================================================== */
-
-        .hero-content {
-
-            max-width: 650px;
-
-        }
-
 
         .hero-label {
-
             display: inline-flex;
-
             align-items: center;
-
-            gap: 9px;
-
-            padding: 8px 13px;
-
-            border-radius: 999px;
-
-            background: white;
-
-            border:
-                1px solid
-                #dceaff;
-
-            color: var(--blue-dark);
-
+            gap: 8px;
             font-size: 10px;
-
-            font-weight: 900;
-
-            letter-spacing: .08em;
-
+            font-weight: 750;
             text-transform: uppercase;
-
-            box-shadow:
-                0 7px 20px
-                rgba(15,23,42,.04);
-
+            letter-spacing: 1.1px;
+            background: white;
+            border: 1px solid #dce7f6;
+            padding: 8px 12px;
+            border-radius: 30px;
+            color: #5b779a;
+            margin-bottom: 22px;
         }
-
 
         .hero-label i {
-
-            width: 7px;
-
-            height: 7px;
-
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
-
-            background: var(--blue);
-
-            box-shadow:
-                0 0 0 5px
-                rgba(8,108,255,.10);
-
+            background: #3e83d9;
         }
-
 
         .hero h1 {
-
-            margin-top: 24px;
-
-            color: var(--text);
-
-            font-size:
-                clamp(
-                    43px,
-                    6vw,
-                    72px
-                );
-
-            line-height: 1.01;
-
-            letter-spacing: -.055em;
-
-            font-weight: 950;
-
+            font-size: clamp(36px, 4.6vw, 60px);
+            line-height: 1.08;
+            letter-spacing: -2.3px;
+            font-weight: 800;
+            margin-bottom: 24px;
         }
-
 
         .hero h1 span {
-
             display: block;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    var(--blue-dark),
-                    var(--blue),
-                    var(--blue-light)
-                );
-
-            -webkit-background-clip: text;
-
-            background-clip: text;
-
-            -webkit-text-fill-color: transparent;
-
-            color: transparent;
-
+            color: #3272cb;
         }
-
 
         .hero-text {
-
-            max-width: 590px;
-
-            margin-top: 24px;
-
-            color: var(--text-light);
-
-            font-size: 16px;
-
-            line-height: 1.8;
-
+            font-size: 15px;
+            line-height: 1.9;
+            color: #6b7f99;
+            max-width: 470px;
         }
-
 
         .hero-buttons {
-
-            margin-top: 32px;
-
             display: flex;
-
-            align-items: center;
-
-            gap: 12px;
-
             flex-wrap: wrap;
-
+            gap: 12px;
+            margin-top: 30px;
         }
 
+        .primary-button,
+        .secondary-button {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 750;
+            padding: 15px 21px;
+            border-radius: 11px;
+            transition: transform .2s, background .2s;
+        }
 
         .primary-button {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 8px;
-
-            padding: 14px 22px;
-
-            border-radius: 11px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--blue-dark),
-                    var(--blue)
-                );
-
+            background: var(--blue);
             color: white;
-
-            font-size: 13px;
-
-            font-weight: 900;
-
-            box-shadow:
-                0 13px 30px
-                rgba(8,108,255,.22);
-
-            transition: .25s ease;
-
+            box-shadow: 0 8px 18px rgba(36, 105, 203, .10);
         }
-
-
-        .primary-button:hover {
-
-            transform: translateY(-3px);
-
-            box-shadow:
-                0 18px 35px
-                rgba(8,108,255,.30);
-
-        }
-
 
         .secondary-button {
-
-            display: inline-flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            padding: 14px 22px;
-
-            border-radius: 11px;
-
-            border:
-                1px solid
-                #dce6f2;
-
             background: white;
-
-            color: #334155;
-
-            font-size: 13px;
-
-            font-weight: 900;
-
-            transition: .25s ease;
-
+            border: 1px solid #dce6f3;
+            color: #41638e;
         }
 
-
+        .primary-button:hover,
         .secondary-button:hover {
-
             transform: translateY(-2px);
-
-            border-color:
-                #bdd7f7;
-
-            color: var(--blue);
-
         }
 
+        .primary-button:hover {
+            background: #1c59b1;
+        }
 
-        /* ==================================================
-           HERO VISUAL
-        ================================================== */
+        /* TARJETA DE FORMACIÓN */
 
         .hero-visual {
+            background: rgba(255, 255, 255, .72);
+            border: 1px solid white;
+            border-radius: 24px;
+            padding: 27px;
+            box-shadow: 0 25px 60px rgba(49, 91, 143, .07);
+            transform: rotate(2deg);
+            animation: enter .6s ease both;
+        }
 
-            position: relative;
-
-            min-height: 450px;
-
+        .path-header {
             display: flex;
-
             align-items: center;
-
-            justify-content: center;
-
+            gap: 12px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e3ecf7;
         }
 
-
-        .visual-main {
-
-            position: relative;
-
-            width: 390px;
-
-            min-height: 390px;
-
-            border-radius: 35px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    #ffffff,
-                    #eef6ff
-                );
-
-            border:
-                1px solid
-                #dceaff;
-
-            box-shadow:
-                0 35px 80px
-                rgba(15,23,42,.10);
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            overflow: hidden;
-
+        .path-symbol {
+            width: 44px;
+            height: 44px;
+            flex: 0 0 44px;
+            display: grid;
+            place-items: center;
+            background: #eaf3ff;
+            color: #3272cb;
+            border-radius: 13px;
+            font-size: 20px;
         }
 
-
-        .visual-main::before {
-
-            content: "";
-
-            position: absolute;
-
-            width: 300px;
-
-            height: 300px;
-
-            border-radius: 50%;
-
-            background:
-                rgba(8,108,255,.07);
-
-        }
-
-
-        .visual-main::after {
-
-            content:
-                "EVOLVA";
-
-            position: absolute;
-
-            font-size: 67px;
-
-            font-weight: 950;
-
-            color:
-                rgba(8,108,255,.045);
-
-            transform:
-                rotate(-25deg);
-
-        }
-
-
-        .visual-center {
-
-            position: relative;
-
-            z-index: 3;
-
-            width: 145px;
-
-            height: 145px;
-
-            border-radius: 35px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--blue-dark),
-                    var(--blue)
-                );
-
-            color: white;
-
-            font-size: 48px;
-
-            font-weight: 900;
-
-            box-shadow:
-                0 22px 45px
-                rgba(8,108,255,.28);
-
-        }
-
-
-        .floating-card {
-
-            position: absolute;
-
-            z-index: 5;
-
-            background: white;
-
-            border:
-                1px solid
-                #e1eaf5;
-
-            border-radius: 15px;
-
-            padding: 14px 17px;
-
-            box-shadow:
-                0 16px 35px
-                rgba(15,23,42,.10);
-
-        }
-
-
-        .floating-card strong {
-
+        .path-header strong {
             display: block;
-
-            color: var(--text);
-
-            font-size: 12px;
-
-            margin-bottom: 3px;
-
+            font-size: 15px;
+            letter-spacing: -.3px;
         }
 
+        .path-header small {
+            font-size: 11px;
+            color: #7c8da5;
+        }
 
-        .floating-card span {
+        .path-row {
+            display: flex;
+            gap: 13px;
+            align-items: center;
+            padding: 19px 0;
+            border-bottom: 1px solid #eaf0f9;
+        }
 
+        .path-row:last-child {
+            border: 0;
+            padding-bottom: 0;
+        }
+
+        .path-number {
+            width: 31px;
+            height: 31px;
+            flex: 0 0 31px;
+            display: grid;
+            place-items: center;
+            border-radius: 9px;
+            background: #f0f5fd;
+            font-size: 11px;
+            font-weight: 800;
+            color: #5481bb;
+        }
+
+        .path-row strong {
             display: block;
-
-            color: var(--text-light);
-
-            font-size: 10px;
-
+            font-size: 13px;
         }
 
-
-        .floating-one {
-
-            left: 5px;
-
-            top: 55px;
-
+        .path-row p {
+            font-size: 11px;
+            color: #7a8ea8;
         }
 
-
-        .floating-two {
-
-            right: -5px;
-
-            bottom: 65px;
-
+        .path-arrow {
+            margin-left: auto;
+            color: #86a6cf;
         }
 
-
-        .floating-three {
-
-            left: 20px;
-
-            bottom: 30px;
-
-        }
-
-
-        /* ==================================================
-           QUICK STATS
-        ================================================== */
+        /* RESUMEN */
 
         .quick-section {
-
+            max-width: 1112px;
+            margin: -28px auto 0;
             position: relative;
-
-            z-index: 10;
-
-            margin-top: -45px;
-
-            padding: 0 22px;
-
+            z-index: 3;
+            padding: 0 24px;
         }
-
 
         .quick-card {
-
-            max-width: 920px;
-
-            margin: auto;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
             background: white;
-
-            border:
-                1px solid
-                var(--border);
-
-            border-radius: 20px;
-
-            box-shadow:
-                0 22px 60px
-                rgba(15,23,42,.09);
-
-            overflow: hidden;
-
+            border: 1px solid #e3ecf7;
+            border-radius: 16px;
+            box-shadow: 0 10px 35px rgba(44, 80, 123, .04);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            padding: 25px 0;
         }
-
 
         .quick-item {
-
             text-align: center;
-
-            padding: 23px 15px;
-
-            border-right:
-                1px solid
-                #edf1f6;
-
+            border-right: 1px solid #e8eef7;
         }
-
 
         .quick-item:last-child {
-
-            border-right: none;
-
+            border: 0;
         }
-
 
         .quick-number {
-
             display: block;
-
-            color: var(--blue-dark);
-
             font-size: 24px;
-
-            font-weight: 950;
-
+            font-weight: 800;
+            color: #2c65b3;
+            line-height: 1.3;
+            letter-spacing: -.7px;
         }
-
 
         .quick-label {
-
             display: block;
-
-            margin-top: 4px;
-
-            color: var(--text-light);
-
             font-size: 10px;
-
-            font-weight: 700;
-
+            color: #7c8da4;
+            margin-top: 5px;
         }
 
-
-        /* ==================================================
-           GENERAL SECTION
-        ================================================== */
+        /* SECCIONES */
 
         .section {
-
-            max-width: 1180px;
-
+            max-width: 1160px;
             margin: auto;
-
-            padding:
-                105px 22px;
-
+            padding: 75px 24px;
         }
-
 
         .section-header {
-
-            max-width: 680px;
-
-            margin-bottom: 40px;
-
+            max-width: 610px;
+            margin-bottom: 32px;
         }
 
-
-        .section-header.center {
-
-            margin-left: auto;
-
-            margin-right: auto;
-
+        .center {
             text-align: center;
-
+            margin-left: auto;
+            margin-right: auto;
         }
-
 
         .section-tag {
-
-            display: inline-block;
-
-            margin-bottom: 10px;
-
-            color: var(--blue);
-
+            display: block;
             font-size: 10px;
-
-            font-weight: 950;
-
-            letter-spacing: .13em;
-
+            font-weight: 800;
+            letter-spacing: 1.8px;
             text-transform: uppercase;
-
+            color: #5082bf;
+            margin-bottom: 10px;
         }
-
 
         .section-title {
-
-            color: var(--text);
-
-            font-size:
-                clamp(
-                    29px,
-                    4vw,
-                    43px
-                );
-
-            line-height: 1.1;
-
-            letter-spacing: -.035em;
-
-            font-weight: 950;
-
+            font-size: 32px;
+            line-height: 1.25;
+            letter-spacing: -1px;
+            margin-bottom: 13px;
         }
-
 
         .section-description {
-
-            margin-top: 12px;
-
-            color: var(--text-light);
-
-            font-size: 14px;
-
-            line-height: 1.75;
-
+            font-size: 13px;
+            color: #7a8ba2;
+            line-height: 1.8;
         }
 
-
-        /* ==================================================
-           DIPLOMADOS
-        ================================================== */
+        /* DIPLOMADOS */
 
         .diploma-grid {
-
             display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap: 22px;
-
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
         }
-
 
         .diploma {
-
-            position: relative;
-
-            overflow: hidden;
-
+            border: 1px solid #dfe9f6;
+            border-radius: 20px;
             padding: 30px;
-
-            border:
-                1px solid
-                var(--border);
-
-            border-radius: 22px;
-
             background: white;
-
-            box-shadow:
-                0 12px 35px
-                rgba(15,23,42,.045);
-
-            transition: .25s ease;
-
+            box-shadow: 0 6px 20px rgba(47, 82, 123, .02);
+            transition: transform .25s, box-shadow .25s;
         }
-
 
         .diploma:hover {
-
-            transform: translateY(-6px);
-
-            box-shadow:
-                0 22px 48px
-                rgba(15,23,42,.09);
-
-            border-color:
-                #cfe2ff;
-
+            transform: translateY(-5px);
+            box-shadow: 0 18px 35px rgba(47, 82, 123, .05);
         }
-
 
         .diploma-top {
-
             display: flex;
-
-            align-items: flex-start;
-
             justify-content: space-between;
-
-            gap: 20px;
-
+            align-items: center;
+            margin-bottom: 21px;
         }
-
 
         .diploma-icon {
-
-            width: 56px;
-
-            height: 56px;
-
-            border-radius: 16px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            background: var(--blue-soft);
-
-            color: var(--blue);
-
+            display: grid;
+            place-items: center;
+            width: 49px;
+            height: 49px;
+            border-radius: 14px;
+            background: #edf4ff;
+            color: #2e70cc;
             font-size: 25px;
-
-            font-weight: 900;
-
+            font-weight: 650;
         }
 
+        .diploma:nth-child(2) .diploma-icon {
+            background: #edf8f7;
+            color: #278d87;
+        }
 
         .diploma-badge {
-
-            padding: 7px 10px;
-
-            border-radius: 999px;
-
-            background: #f3f8ff;
-
-            color: var(--blue-dark);
-
-            font-size: 9px;
-
-            font-weight: 900;
-
-            text-transform: uppercase;
-
+            background: #f2f6fc;
+            color: #6982a2;
+            border-radius: 30px;
+            padding: 7px 12px;
+            font-size: 10px;
+            font-weight: 700;
         }
-
 
         .diploma h3 {
-
-            margin-top: 20px;
-
-            color: var(--text);
-
-            font-size: 21px;
-
-            font-weight: 950;
-
+            font-size: 23px;
+            letter-spacing: -.6px;
+            line-height: 1.3;
+            margin-bottom: 12px;
         }
 
-
-        .diploma p {
-
-            margin-top: 9px;
-
-            color: var(--text-light);
-
-            font-size: 13px;
-
-            line-height: 1.7;
-
+        .diploma > p {
+            font-size: 12px;
+            color: #75869f;
+            line-height: 1.9;
+            max-width: 430px;
         }
-
 
         .diploma-data {
-
             display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap: 10px;
-
-            margin-top: 22px;
-
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            padding: 23px 0;
+            margin: 17px 0 0;
+            border-top: 1px solid #edf2f9;
         }
-
-
-        .data {
-
-            padding: 13px;
-
-            border-radius: 12px;
-
-            background: #f8fbff;
-
-            border:
-                1px solid
-                #e6eef8;
-
-        }
-
 
         .data small {
-
             display: block;
-
-            color: var(--text-light);
-
             font-size: 9px;
-
-            margin-bottom: 4px;
-
+            color: #8a9ab0;
+            margin-bottom: 6px;
         }
-
 
         .data strong {
-
-            color: var(--blue-dark);
-
-            font-size: 14px;
-
+            font-size: 12px;
+            color: #3c5e87;
         }
-
 
         .diploma-footer {
-
-            margin-top: 22px;
-
             display: flex;
-
             align-items: center;
-
             justify-content: space-between;
-
-            gap: 15px;
-
+            gap: 16px;
+            padding-top: 21px;
+            border-top: 1px solid #edf2f9;
         }
-
 
         .diploma-price {
-
-            color: var(--text);
-
-            font-size: 12px;
-
-            font-weight: 800;
-
+            font-size: 10px;
+            color: #8091a8;
         }
-
 
         .diploma-price strong {
-
-            color: var(--blue);
-
-            font-size: 16px;
-
+            font-size: 26px;
+            letter-spacing: -1px;
+            color: #244d81;
+            margin: 0 4px;
         }
-
 
         .diploma-link {
-
-            color: var(--blue);
-
             font-size: 11px;
-
-            font-weight: 900;
-
+            font-weight: 750;
+            color: #2d70cf;
+            padding: 11px 13px;
+            background: #edf4ff;
+            border-radius: 9px;
+            white-space: nowrap;
         }
 
-
-        /* ==================================================
-           CERTIFICADO
-        ================================================== */
+        /* CERTIFICADO */
 
         .certificate-section {
-
-            padding:
-                10px 22px
-                105px;
-
+            background: #f3f7fd;
+            border-top: 1px solid #e8eff8;
+            border-bottom: 1px solid #e8eff8;
         }
-
 
         .certificate-wrapper {
-
-            max-width: 1135px;
-
+            max-width: 1112px;
             margin: auto;
-
-            padding: 45px;
-
-            border-radius: 28px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #063b91,
-                    #086cff
-                );
-
-            position: relative;
-
-            overflow: hidden;
-
+            padding: 50px 24px;
             display: grid;
-
-            grid-template-columns:
-                1.2fr .8fr;
-
+            grid-template-columns: 1.3fr 1fr;
+            gap: 75px;
             align-items: center;
-
-            gap: 40px;
-
-            box-shadow:
-                0 30px 65px
-                rgba(8,108,255,.18);
-
         }
-
-
-        .certificate-wrapper::before {
-
-            content: "";
-
-            position: absolute;
-
-            width: 360px;
-
-            height: 360px;
-
-            border:
-                1px solid
-                rgba(255,255,255,.12);
-
-            border-radius: 50%;
-
-            right: -160px;
-
-            top: -190px;
-
-        }
-
-
-        .certificate-wrapper::after {
-
-            content: "";
-
-            position: absolute;
-
-            width: 260px;
-
-            height: 260px;
-
-            border:
-                1px solid
-                rgba(255,255,255,.10);
-
-            border-radius: 50%;
-
-            left: -150px;
-
-            bottom: -160px;
-
-        }
-
-
-        .certificate-content {
-
-            position: relative;
-
-            z-index: 2;
-
-        }
-
 
         .certificate-tag {
-
-            color:
-                rgba(255,255,255,.75);
-
-            font-size: 10px;
-
-            font-weight: 900;
-
+            font-size: 9px;
+            letter-spacing: 1.6px;
+            font-weight: 800;
             text-transform: uppercase;
-
-            letter-spacing: .12em;
-
+            color: #6487b5;
         }
-
 
         .certificate-content h2 {
-
-            margin-top: 11px;
-
-            color: white;
-
-            font-size:
-                clamp(
-                    28px,
-                    4vw,
-                    42px
-                );
-
-            line-height: 1.08;
-
-            letter-spacing: -.035em;
-
+            font-size: 30px;
+            line-height: 1.25;
+            letter-spacing: -1px;
+            margin: 12px 0 16px;
+            max-width: 480px;
         }
-
 
         .certificate-content p {
-
-            max-width: 610px;
-
-            margin-top: 13px;
-
-            color:
-                rgba(255,255,255,.80);
-
-            font-size: 13px;
-
-            line-height: 1.7;
-
+            font-size: 12px;
+            color: #7b8ca4;
+            line-height: 1.9;
+            max-width: 480px;
         }
-
 
         .certificate-button {
-
             display: inline-flex;
-
-            margin-top: 23px;
-
-            padding: 12px 18px;
-
-            border-radius: 10px;
-
+            margin-top: 20px;
+            padding: 12px 16px;
             background: white;
-
-            color: var(--blue-dark);
-
+            border: 1px solid #dce7f5;
+            border-radius: 10px;
+            color: #356ba8;
             font-size: 11px;
-
-            font-weight: 900;
-
-            transition: .25s ease;
-
+            font-weight: 750;
         }
-
-
-        .certificate-button:hover {
-
-            transform: translateY(-2px);
-
-        }
-
 
         .certificate-preview {
-
-            position: relative;
-
-            z-index: 2;
-
-            min-height: 220px;
-
-            border-radius: 18px;
-
-            background:
-                rgba(255,255,255,.10);
-
-            border:
-                1px solid
-                rgba(255,255,255,.20);
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
+            padding: 12px 20px;
         }
-
 
         .certificate-paper {
-
-            width: 190px;
-
-            height: 135px;
-
-            padding: 16px;
-
             background: white;
-
-            border-radius: 5px;
-
-            box-shadow:
-                0 18px 35px
-                rgba(0,0,0,.16);
-
+            border: 6px double #d8e5f7;
+            box-shadow: 0 16px 35px rgba(54, 86, 126, .05);
+            padding: 32px 15px;
             text-align: center;
-
+            transform: rotate(-3deg);
         }
-
-
-        .certificate-paper strong {
-
-            display: block;
-
-            color: var(--blue-dark);
-
-            font-size: 13px;
-
-            margin-top: 15px;
-
-        }
-
-
-        .certificate-paper span {
-
-            display: block;
-
-            color: #94a3b8;
-
-            font-size: 7px;
-
-            margin-top: 6px;
-
-        }
-
 
         .certificate-check {
-
-            width: 32px;
-
-            height: 32px;
-
-            margin: auto;
-
+            display: grid;
+            place-items: center;
+            margin: 0 auto 18px;
+            width: 43px;
+            height: 43px;
+            background: #eef4ff;
             border-radius: 50%;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            background: var(--blue);
-
-            color: white;
-
-            font-size: 16px;
-
-            font-weight: 900;
-
+            color: #3774c7;
+            font-size: 22px;
         }
 
+        .certificate-paper strong {
+            display: block;
+            font-size: 19px;
+            letter-spacing: 1px;
+            color: #2c5b99;
+        }
 
-        /* ==================================================
-           ACCESOS
-        ================================================== */
+        .certificate-paper span {
+            display: block;
+            font-size: 8px;
+            letter-spacing: 2px;
+            color: #90a4bf;
+            margin-top: 8px;
+        }
+
+        /* ACCESOS */
 
         .access-grid {
-
             display: grid;
-
-            grid-template-columns:
-                repeat(4, 1fr);
-
-            gap: 14px;
-
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
         }
-
 
         .access-card {
-
-            padding: 21px 18px;
-
-            border:
-                1px solid
-                var(--border);
-
-            border-radius: 17px;
-
+            position: relative;
+            display: block;
+            border: 1px solid #e3ebf5;
+            border-radius: 15px;
+            padding: 23px 20px;
             background: white;
-
-            transition: .25s ease;
-
+            transition:
+                transform .2s,
+                border-color .2s,
+                box-shadow .2s;
         }
-
 
         .access-card:hover {
-
-            transform: translateY(-5px);
-
-            border-color:
-                #cfe2ff;
-
-            box-shadow:
-                0 17px 38px
-                rgba(15,23,42,.07);
-
+            transform: translateY(-3px);
+            border-color: #b5d0f4;
+            box-shadow: 0 10px 20px rgba(59, 97, 139, .03);
         }
-
 
         .access-icon {
-
-            width: 42px;
-
-            height: 42px;
-
-            display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            border-radius: 12px;
-
-            background: var(--blue-soft);
-
-            font-size: 20px;
-
-            margin-bottom: 14px;
-
+            width: 37px;
+            height: 37px;
+            border-radius: 10px;
+            background: #f0f5fd;
+            display: grid;
+            place-items: center;
+            font-size: 17px;
+            color: #3774c7;
+            margin-bottom: 17px;
         }
-
 
         .access-card h3 {
-
-            color: var(--text);
-
-            font-size: 13px;
-
-            font-weight: 900;
-
+            font-size: 12px;
+            color: #35547b;
+            margin-bottom: 6px;
         }
-
 
         .access-card p {
-
-            margin-top: 6px;
-
-            color: var(--text-light);
-
             font-size: 10px;
-
-            line-height: 1.5;
-
+            color: #8a99ad;
+            line-height: 1.8;
         }
 
+        .access-card::after {
+            content: "↗";
+            position: absolute;
+            right: 18px;
+            top: 25px;
+            font-size: 12px;
+            color: #aac0dc;
+        }
 
-        /* ==================================================
-           CTA
-        ================================================== */
+        /* INSCRIPCIÓN */
 
         .cta-section {
-
-            max-width: 900px;
-
-            margin: auto;
-
-            padding:
-                10px 22px
-                105px;
-
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 0 24px 65px;
         }
-
 
         .cta {
-
-            padding: 50px 30px;
-
-            border-radius: 25px;
-
-            background:
-                linear-gradient(
-                    180deg,
-                    #f5f9ff,
-                    #ffffff
-                );
-
-            border:
-                1px solid
-                #dceaff;
-
+            border-radius: 22px;
+            padding: 42px 35px;
             text-align: center;
-
+            background: linear-gradient(120deg, #eaf3ff, #f2f7ff);
+            border: 1px solid #e2ecf9;
         }
-
 
         .cta h2 {
-
-            color: var(--text);
-
-            font-size:
-                clamp(
-                    27px,
-                    4vw,
-                    38px
-                );
-
-            letter-spacing: -.035em;
-
+            font-size: 30px;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
         }
-
 
         .cta p {
-
+            font-size: 12px;
+            line-height: 1.8;
+            color: #778ba6;
             max-width: 570px;
-
-            margin: 12px auto 23px;
-
-            color: var(--text-light);
-
-            font-size: 13px;
-
-            line-height: 1.7;
-
+            margin: auto;
         }
 
+        .cta .primary-button {
+            margin-top: 23px;
+        }
 
-        /* ==================================================
-           FOOTER
-        ================================================== */
+        /* PIE */
 
         footer {
-
-            background: var(--dark);
-
-            color: #b8c8de;
-
-            padding: 48px 22px;
-
+            background: #f9fbfe;
+            border-top: 1px solid #e7eef8;
+            padding: 35px 24px;
             text-align: center;
-
         }
 
-
-        .footer-logo {
-
-            width: 150px;
-
-            filter:
-                brightness(0)
-                invert(1);
-
-            margin-bottom: 12px;
-
+        footer > .wordmark {
+            margin-bottom: 15px;
         }
-
 
         footer p {
-
             font-size: 10px;
-
-            margin: 6px 0;
-
+            color: #8a9bb1;
+            margin: 8px 0;
         }
-
 
         .footer-links {
-
-            max-width: 850px;
-
-            margin: 20px auto;
-
+            max-width: 900px;
+            margin: 22px auto;
             display: flex;
-
-            align-items: center;
-
-            justify-content: center;
-
-            gap: 5px;
-
             flex-wrap: wrap;
-
+            gap: 12px 22px;
+            justify-content: center;
         }
-
 
         .footer-links a {
-
-            padding: 7px 10px;
-
-            border-radius: 7px;
-
-            color: #c9d7e9;
-
             font-size: 10px;
-
-            font-weight: 700;
-
-            transition: .2s ease;
-
+            color: #607c9f;
         }
-
 
         .footer-links a:hover {
-
-            color: white;
-
-            background:
-                rgba(255,255,255,.08);
-
+            color: var(--blue);
         }
-
 
         .website {
-
-            color: #70aaff;
-
-            font-weight: 900;
-
+            color: #4774ad;
         }
 
-
-        /* ==================================================
-           RESPONSIVE
-        ================================================== */
-
-        @media (max-width: 950px) {
-
-            .hero-container {
-
-                grid-template-columns: 1fr;
-
-                text-align: center;
-
+        @keyframes enter {
+            from {
+                opacity: 0;
+                translate: 0 12px;
             }
 
-
-            .hero-content {
-
-                margin: auto;
-
+            to {
+                opacity: 1;
+                translate: 0 0;
             }
-
-
-            .hero-text {
-
-                margin-left: auto;
-
-                margin-right: auto;
-
-            }
-
-
-            .hero-buttons {
-
-                justify-content: center;
-
-            }
-
-
-            .hero-visual {
-
-                min-height: 400px;
-
-            }
-
-
-            .access-grid {
-
-                grid-template-columns:
-                    repeat(2, 1fr);
-
-            }
-
         }
 
+        /* TABLET */
 
-        @media (max-width: 750px) {
-
-            .header-inner {
-
-                padding:
-                    12px 15px;
-
-                flex-direction:
-                    column;
-
-                gap: 10px;
-
-            }
-
-
-            .navigation {
-
-                width: 100%;
-
-                justify-content: center;
-
-                flex-wrap: wrap;
-
-            }
-
-
-            .nav-link {
-
-                font-size: 10px;
-
-                padding: 8px 9px;
-
-            }
-
-
-            .nav-main {
-
-                font-size: 10px;
-
-                padding: 9px 12px;
-
-            }
-
-
-            .hero {
-
-                min-height: auto;
-
-            }
-
-
+        @media (max-width: 900px) {
             .hero-container {
-
-                padding:
-                    65px 18px
-                    80px;
-
+                gap: 32px;
+                padding-top: 55px;
+                padding-bottom: 65px;
             }
-
 
             .hero h1 {
-
-                font-size: 45px;
-
+                font-size: 43px;
             }
 
-
-            .hero-text {
-
-                font-size: 14px;
-
+            .navigation {
+                gap: 17px;
             }
 
-
-            .visual-main {
-
-                width: 320px;
-
-                min-height: 320px;
-
+            .access-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
-
-
-            .floating-one {
-
-                left: 0;
-
-                top: 35px;
-
-            }
-
-
-            .floating-two {
-
-                right: 0;
-
-                bottom: 45px;
-
-            }
-
-
-            .quick-card {
-
-                grid-template-columns: 1fr;
-
-            }
-
-
-            .quick-item {
-
-                border-right: none;
-
-                border-bottom:
-                    1px solid
-                    #edf1f6;
-
-            }
-
-
-            .quick-item:last-child {
-
-                border-bottom: none;
-
-            }
-
-
-            .section {
-
-                padding:
-                    75px 18px;
-
-            }
-
-
-            .diploma-grid {
-
-                grid-template-columns: 1fr;
-
-            }
-
-
-            .certificate-section {
-
-                padding:
-                    0 18px
-                    75px;
-
-            }
-
 
             .certificate-wrapper {
-
-                grid-template-columns: 1fr;
-
-                padding: 30px 23px;
-
+                gap: 35px;
             }
 
-
-            .access-grid {
-
-                grid-template-columns:
-                    repeat(2, 1fr);
-
+            .diploma {
+                padding: 25px;
             }
 
-
-            .cta-section {
-
-                padding:
-                    0 18px
-                    75px;
-
+            .diploma-footer {
+                flex-wrap: wrap;
             }
-
         }
 
+        /* CELULAR */
 
-        @media (max-width: 520px) {
-
-            .logo {
-
-                width: 145px;
-
+        @media (max-width: 640px) {
+            .header-inner {
+                padding: 14px 18px;
+                gap: 14px;
+                flex-wrap: wrap;
             }
 
+            .wordmark strong {
+                font-size: 24px;
+            }
 
             .navigation {
-
-                gap: 3px;
-
+                gap: 14px;
+                flex: 1;
+                justify-content: flex-end;
             }
-
 
             .nav-link {
-
-                flex: 1;
-
-                min-width: 0;
-
-                text-align: center;
-
+                font-size: 10px;
             }
-
 
             .nav-main {
-
-                flex: 1;
-
-                text-align: center;
-
+                padding: 9px 12px;
+                font-size: 10px;
             }
 
+            .hero-container {
+                padding: 40px 20px 55px;
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
 
             .hero h1 {
-
-                font-size: 38px;
-
+                font-size: 43px;
+                letter-spacing: -1.8px;
             }
 
+            .hero-text {
+                font-size: 13px;
+            }
+
+            .hero-label {
+                font-size: 9px;
+            }
 
             .hero-buttons {
-
-                flex-direction: column;
-
+                gap: 10px;
             }
-
 
             .primary-button,
             .secondary-button {
-
-                width: 100%;
-
-                max-width: 310px;
-
+                padding: 13px 16px;
+                font-size: 11px;
             }
-
 
             .hero-visual {
-
-                min-height: 340px;
-
+                transform: none;
+                padding: 22px;
+                border-radius: 18px;
             }
 
-
-            .visual-main {
-
-                width: 280px;
-
-                min-height: 280px;
-
+            .quick-section {
+                padding: 0 16px;
+                margin-top: -20px;
             }
 
-
-            .visual-center {
-
-                width: 105px;
-
-                height: 105px;
-
-                border-radius: 27px;
-
-                font-size: 36px;
-
+            .quick-card {
+                padding: 20px 5px;
             }
 
-
-            .floating-card {
-
-                padding:
-                    10px 12px;
-
+            .quick-number {
+                font-size: 20px;
             }
 
-
-            .floating-card strong {
-
-                font-size: 10px;
-
-            }
-
-
-            .floating-card span {
-
+            .quick-label {
                 font-size: 8px;
-
             }
 
-
-            .floating-one {
-
-                left: -5px;
-
+            .section {
+                padding: 48px 18px;
             }
 
-
-            .floating-two {
-
-                right: -5px;
-
+            .section-title {
+                font-size: 27px;
             }
 
+            .section-description {
+                font-size: 12px;
+            }
+
+            .diploma-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .diploma {
+                padding: 25px;
+            }
+
+            .diploma h3 {
+                font-size: 22px;
+            }
 
             .diploma-data {
+                gap: 8px;
+            }
 
+            .certificate-wrapper {
+                padding: 36px 20px;
                 grid-template-columns: 1fr;
-
+                gap: 25px;
             }
 
-
-            .diploma-footer {
-
-                align-items: flex-start;
-
-                flex-direction: column;
-
+            .certificate-content h2 {
+                font-size: 27px;
             }
-
-
-            .access-grid {
-
-                grid-template-columns: 1fr;
-
-            }
-
 
             .certificate-preview {
-
-                min-height: 180px;
-
+                max-width: 350px;
+                width: 100%;
+                margin: auto;
             }
 
+            .access-card {
+                padding: 20px 16px;
+            }
+
+            .access-grid {
+                gap: 12px;
+            }
+
+            .cta-section {
+                padding: 0 18px 40px;
+            }
+
+            .cta {
+                padding: 32px 22px;
+            }
+
+            .cta h2 {
+                font-size: 26px;
+            }
         }
 
+        @media (max-width: 420px) {
+            .header-inner {
+                justify-content: center;
+            }
+
+            .navigation {
+                flex-basis: 100%;
+                justify-content: center;
+                gap: 17px;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .diploma-data {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .diploma-footer {
+                gap: 12px;
+            }
+
+            .access-card h3 {
+                font-size: 11px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important;
+            }
+        }
     </style>
-
 </head>
-
 
 <body>
 
-
-<!-- ==================================================
-     HEADER
-================================================== -->
-
 <header class="header">
-
     <div class="header-inner">
-
-
-        <a href="index.html">
-
-            <img
-                src="logo-evolva.png"
-                alt="Evolva Academy"
-                class="logo"
-            >
-
+        <a href="index.html" aria-label="Evolva Academy, inicio">
+            <div class="wordmark" role="img" aria-label="Evolva Academy">
+                <strong>EVOLVA</strong>
+                <span>ACADEMY</span>
+            </div>
         </a>
 
-
-        <nav class="navigation">
-
-
-            <a
-                href="diplomados.html"
-                class="nav-link"
-            >
+        <nav class="navigation" aria-label="Navegación principal">
+            <a href="diplomados.html" class="nav-link">
                 Diplomados
             </a>
 
-
-            <a
-                href="validar.html"
-                class="nav-link"
-            >
+            <a href="validar.html" class="nav-link">
                 Validar certificado
             </a>
 
-
-            <a
-                href="pagos.html"
-                class="nav-link"
-            >
+            <a href="pagos.html" class="nav-link">
                 Pagos
             </a>
 
-
-            <a
-                href="inscripcion.html"
-                class="nav-main"
-            >
+            <a href="inscripcion.html" class="nav-main">
                 Inscríbete →
             </a>
-
-
         </nav>
-
     </div>
-
 </header>
-
 
 <main>
 
+    <!-- PORTADA -->
 
-<!-- ==================================================
-     HERO
-================================================== -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-label">
+                    <i aria-hidden="true"></i>
+                    Academia Digital Profesional
+                </div>
 
-<section class="hero">
+                <h1>
+                    Tu formación.
+                    <span>Tu evolución.</span>
+                </h1>
 
-    <div class="hero-container">
+                <p class="hero-text">
+                    Desarrolla conocimientos que pueden impulsar tu
+                    crecimiento personal y profesional con nuestros
+                    diplomados completamente en línea.
+                </p>
 
+                <div class="hero-buttons">
+                    <a href="diplomados.html" class="primary-button">
+                        Explorar diplomados →
+                    </a>
 
-        <div class="hero-content">
-
-
-            <div class="hero-label">
-
-                <i></i>
-
-                Academia Digital Profesional
-
+                    <a href="inscripcion.html" class="secondary-button">
+                        Comenzar inscripción
+                    </a>
+                </div>
             </div>
 
+            <div class="hero-visual" aria-label="Pasos de tu formación">
+                <div class="path-header">
+                    <span class="path-symbol" aria-hidden="true">↗</span>
 
-            <h1>
+                    <div>
+                        <strong>Tu siguiente paso empieza aquí</strong>
+                        <small>Una ruta clara para seguir aprendiendo.</small>
+                    </div>
+                </div>
 
-                Tu formación.
-                <span>Tu evolución.</span>
+                <div class="path-row">
+                    <span class="path-number">01</span>
 
-            </h1>
+                    <div>
+                        <strong>Elige tu diplomado</strong>
+                        <p>Finanzas o Primeros Auxilios.</p>
+                    </div>
 
+                    <span class="path-arrow" aria-hidden="true">→</span>
+                </div>
 
-            <p class="hero-text">
+                <div class="path-row">
+                    <span class="path-number">02</span>
 
-                Desarrolla conocimientos que pueden
-                impulsar tu crecimiento personal y
-                profesional con nuestros diplomados
-                completamente en línea.
+                    <div>
+                        <strong>Aprende a tu ritmo</strong>
+                        <p>Formación completamente en línea.</p>
+                    </div>
 
-            </p>
+                    <span class="path-arrow" aria-hidden="true">→</span>
+                </div>
 
+                <div class="path-row">
+                    <span class="path-number">03</span>
 
-            <div class="hero-buttons">
+                    <div>
+                        <strong>Completa tu formación</strong>
+                        <p>Obtén tu certificado al finalizar.</p>
+                    </div>
 
-
-                <a
-                    href="diplomados.html"
-                    class="primary-button"
-                >
-                    Explorar diplomados →
-                </a>
-
-
-                <a
-                    href="inscripcion.html"
-                    class="secondary-button"
-                >
-                    Comenzar inscripción
-                </a>
-
-
+                    <span class="path-arrow" aria-hidden="true">✓</span>
+                </div>
             </div>
-
-
         </div>
+    </section>
 
+    <!-- RESUMEN -->
 
-        <!-- VISUAL -->
-
-        <div class="hero-visual">
-
-
-            <div class="visual-main">
-
-
-                <div class="visual-center">
-                    EA
-                </div>
-
-
+    <section class="quick-section" aria-label="Nuestra oferta">
+        <div class="quick-card">
+            <div class="quick-item">
+                <span class="quick-number">2</span>
+                <span class="quick-label">Diplomados disponibles</span>
             </div>
 
-
-            <div class="floating-card floating-one">
-
-                <strong>
-                    🎓 Formación online
-                </strong>
-
-                <span>
-                    Estudia a tu ritmo
-                </span>
-
+            <div class="quick-item">
+                <span class="quick-number">100%</span>
+                <span class="quick-label">Formación online</span>
             </div>
 
-
-            <div class="floating-card floating-two">
-
-                <strong>
-                    ✓ Certificado
-                </strong>
-
-                <span>
-                    Totalmente gratuito
-                </span>
-
+            <div class="quick-item">
+                <span class="quick-number">GRATIS</span>
+                <span class="quick-label">Certificado al finalizar</span>
             </div>
-
-
-            <div class="floating-card floating-three">
-
-                <strong>
-                    2 diplomados
-                </strong>
-
-                <span>
-                    Disponibles actualmente
-                </span>
-
-            </div>
-
-
         </div>
+    </section>
 
+    <!-- DIPLOMADOS -->
 
-    </div>
+    <section class="section" id="diplomados">
+        <div class="section-header center">
+            <span class="section-tag">Nuestra formación</span>
 
-</section>
-
-
-<!-- ==================================================
-     ESTADÍSTICAS
-================================================== -->
-
-<section class="quick-section">
-
-    <div class="quick-card">
-
-
-        <div class="quick-item">
-
-            <span class="quick-number">
-                2
-            </span>
-
-            <span class="quick-label">
-                Diplomados disponibles
-            </span>
-
-        </div>
-
-
-        <div class="quick-item">
-
-            <span class="quick-number">
-                100%
-            </span>
-
-            <span class="quick-label">
-                Formación online
-            </span>
-
-        </div>
-
-
-        <div class="quick-item">
-
-            <span class="quick-number">
-                GRATIS
-            </span>
-
-            <span class="quick-label">
-                Certificado al finalizar
-            </span>
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-<!-- ==================================================
-     DIPLOMADOS
-================================================== -->
-
-<section class="section" id="diplomados">
-
-
-    <div class="section-header center">
-
-        <span class="section-tag">
-            Nuestra formación
-        </span>
-
-        <h2 class="section-title">
-            Elige cómo quieres evolucionar
-        </h2>
-
-        <p class="section-description">
-
-            Programas diseñados para ayudarte a
-            adquirir conocimientos útiles y avanzar
-            hacia nuevas oportunidades.
-
-        </p>
-
-    </div>
-
-
-    <div class="diploma-grid">
-
-
-        <!-- FINANZAS -->
-
-        <article class="diploma">
-
-
-            <div class="diploma-top">
-
-                <div class="diploma-icon">
-                    $
-                </div>
-
-                <span class="diploma-badge">
-                    6 meses
-                </span>
-
-            </div>
-
-
-            <h3>
-                Diplomado en Finanzas
-            </h3>
-
-
-            <p>
-
-                Aprende a organizar tus finanzas,
-                administrar mejor tus recursos y
-                desarrollar conocimientos para tomar
-                mejores decisiones financieras.
-
-            </p>
-
-
-            <div class="diploma-data">
-
-
-                <div class="data">
-
-                    <small>
-                        Duración
-                    </small>
-
-                    <strong>
-                        6 meses
-                    </strong>
-
-                </div>
-
-
-                <div class="data">
-
-                    <small>
-                        Modalidad
-                    </small>
-
-                    <strong>
-                        Online
-                    </strong>
-
-                </div>
-
-
-                <div class="data">
-
-                    <small>
-                        Semanal
-                    </small>
-
-                    <strong>
-                        $100
-                    </strong>
-
-                </div>
-
-
-                <div class="data">
-
-                    <small>
-                        Mensual
-                    </small>
-
-                    <strong>
-                        $400
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-
-            <div class="diploma-footer">
-
-
-                <div class="diploma-price">
-
-                    Desde
-
-                    <strong>
-                        $100
-                    </strong>
-
-                    / semana
-
-                </div>
-
-
-                <a
-                    href="diplomados.html"
-                    class="diploma-link"
-                >
-                    Ver diplomado →
-                </a>
-
-
-            </div>
-
-
-        </article>
-
-
-        <!-- PRIMEROS AUXILIOS -->
-
-        <article class="diploma">
-
-
-            <div class="diploma-top">
-
-                <div class="diploma-icon">
-                    +
-                </div>
-
-                <span class="diploma-badge">
-                    8 meses
-                </span>
-
-            </div>
-
-
-            <h3>
-                Diplomado en Primeros Auxilios
-            </h3>
-
-
-            <p>
-
-                Adquiere conocimientos fundamentales
-                para actuar correctamente ante
-                situaciones que requieran atención
-                y primeros auxilios.
-
-            </p>
-
-
-            <div class="diploma-data">
-
-
-                <div class="data">
-
-                    <small>
-                        Duración
-                    </small>
-
-                    <strong>
-                        8 meses
-                    </strong>
-
-                </div>
-
-
-                <div class="data">
-
-                    <small>
-                        Modalidad
-                    </small>
-
-                    <strong>
-                        Online
-                    </strong>
-
-                </div>
-
-
-                <div class="data">
-
-                    <small>
-                        Semanal
-                    </small>
-
-                    <strong>
-                        $150
-                    </strong>
-
-                </div>
-
-
-                <div class="data">
-
-                    <small>
-                        Mensual
-                    </small>
-
-                    <strong>
-                        $500
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-
-            <div class="diploma-footer">
-
-
-                <div class="diploma-price">
-
-                    Desde
-
-                    <strong>
-                        $150
-                    </strong>
-
-                    / semana
-
-                </div>
-
-
-                <a
-                    href="diplomados.html"
-                    class="diploma-link"
-                >
-                    Ver diplomado →
-                </a>
-
-
-            </div>
-
-
-        </article>
-
-
-    </div>
-
-</section>
-
-
-<!-- ==================================================
-     CERTIFICADO
-================================================== -->
-
-<section class="certificate-section">
-
-
-    <div class="certificate-wrapper">
-
-
-        <div class="certificate-content">
-
-
-            <span class="certificate-tag">
-                Reconocimiento Evolva Academy
-            </span>
-
-
-            <h2>
-                Finaliza tu diplomado y obtén tu certificado.
+            <h2 class="section-title">
+                Elige cómo quieres evolucionar
             </h2>
 
-
-            <p>
-
-                Al finalizar satisfactoriamente tu
-                diplomado podrás obtener tu certificado
-                de Evolva Academy totalmente gratuito.
-
+            <p class="section-description">
+                Programas diseñados para ayudarte a adquirir conocimientos
+                útiles y avanzar hacia nuevas oportunidades.
             </p>
-
-
-            <a
-                href="validar.html"
-                class="certificate-button"
-            >
-                ✓ Validar un certificado
-            </a>
-
-
         </div>
 
-
-        <div class="certificate-preview">
-
-
-            <div class="certificate-paper">
-
-
-                <div class="certificate-check">
-                    ✓
+        <div class="diploma-grid">
+            <article class="diploma">
+                <div class="diploma-top">
+                    <div class="diploma-icon" aria-hidden="true">$</div>
+                    <span class="diploma-badge">6 meses</span>
                 </div>
 
+                <h3>Diplomado en Finanzas</h3>
 
-                <strong>
-                    EVOLVA ACADEMY
-                </strong>
+                <p>
+                    Aprende a organizar tus finanzas, administrar mejor
+                    tus recursos y desarrollar conocimientos para tomar
+                    mejores decisiones financieras.
+                </p>
 
+                <div class="diploma-data">
+                    <div class="data">
+                        <small>Duración</small>
+                        <strong>6 meses</strong>
+                    </div>
 
-                <span>
-                    CERTIFICADO ACADÉMICO
+                    <div class="data">
+                        <small>Modalidad</small>
+                        <strong>Online</strong>
+                    </div>
+
+                    <div class="data">
+                        <small>Semanal</small>
+                        <strong>$100</strong>
+                    </div>
+
+                    <div class="data">
+                        <small>Mensual</small>
+                        <strong>$400</strong>
+                    </div>
+                </div>
+
+                <div class="diploma-footer">
+                    <div class="diploma-price">
+                        Desde <strong>$100</strong> / semana
+                    </div>
+
+                    <a href="diplomados.html" class="diploma-link">
+                        Ver diplomado →
+                    </a>
+                </div>
+            </article>
+
+            <article class="diploma">
+                <div class="diploma-top">
+                    <div class="diploma-icon" aria-hidden="true">+</div>
+                    <span class="diploma-badge">8 meses</span>
+                </div>
+
+                <h3>Diplomado en Primeros Auxilios</h3>
+
+                <p>
+                    Adquiere conocimientos fundamentales para actuar
+                    correctamente ante situaciones que requieran atención
+                    y primeros auxilios.
+                </p>
+
+                <div class="diploma-data">
+                    <div class="data">
+                        <small>Duración</small>
+                        <strong>8 meses</strong>
+                    </div>
+
+                    <div class="data">
+                        <small>Modalidad</small>
+                        <strong>Online</strong>
+                    </div>
+
+                    <div class="data">
+                        <small>Semanal</small>
+                        <strong>$150</strong>
+                    </div>
+
+                    <div class="data">
+                        <small>Mensual</small>
+                        <strong>$500</strong>
+                    </div>
+                </div>
+
+                <div class="diploma-footer">
+                    <div class="diploma-price">
+                        Desde <strong>$150</strong> / semana
+                    </div>
+
+                    <a href="diplomados.html" class="diploma-link">
+                        Ver diplomado →
+                    </a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- CERTIFICADO -->
+
+    <section class="certificate-section">
+        <div class="certificate-wrapper">
+            <div class="certificate-content">
+                <span class="certificate-tag">
+                    Reconocimiento Evolva Academy
                 </span>
 
+                <h2>
+                    Finaliza tu diplomado y obtén tu certificado.
+                </h2>
 
+                <p>
+                    Al finalizar satisfactoriamente tu diplomado podrás
+                    obtener tu certificado de Evolva Academy
+                    totalmente gratuito.
+                </p>
+
+                <a href="validar.html" class="certificate-button">
+                    ✓ Validar un certificado
+                </a>
             </div>
 
+            <div class="certificate-preview">
+                <div class="certificate-paper">
+                    <div class="certificate-check" aria-hidden="true">✓</div>
+                    <strong>EVOLVA ACADEMY</strong>
+                    <span>CERTIFICADO ACADÉMICO</span>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- ACCESOS -->
+
+    <section class="section">
+        <div class="section-header center">
+            <span class="section-tag">Plataforma Evolva</span>
+
+            <h2 class="section-title">Todo lo que necesitas</h2>
+
+            <p class="section-description">
+                Accede rápidamente a los diferentes servicios y plataformas
+                de Evolva Academy.
+            </p>
         </div>
 
+        <div class="access-grid">
+            <a href="inscripcion.html" class="access-card">
+                <div class="access-icon" aria-hidden="true">📝</div>
+                <h3>Inscripción</h3>
+                <p>Regístrate y obtén tu folio.</p>
+            </a>
 
-    </div>
+            <a href="pagos.html" class="access-card">
+                <div class="access-icon" aria-hidden="true">💳</div>
+                <h3>Pagos</h3>
+                <p>Consulta y realiza tu proceso de pago.</p>
+            </a>
 
-</section>
+            <a href="alumnos.html" class="access-card">
+                <div class="access-icon" aria-hidden="true">🎓</div>
+                <h3>Portal de alumnos</h3>
+                <p>Ingresa a tu plataforma académica.</p>
+            </a>
 
+            <a href="calificaciones.html" class="access-card">
+                <div class="access-icon" aria-hidden="true">📊</div>
+                <h3>Calificaciones</h3>
+                <p>Consulta tus resultados académicos.</p>
+            </a>
 
-<!-- ==================================================
-     ACCESOS RÁPIDOS
-================================================== -->
+            <a href="validar.html" class="access-card">
+                <div class="access-icon" aria-hidden="true">✓</div>
+                <h3>Validar certificado</h3>
+                <p>Comprueba la autenticidad de un certificado.</p>
+            </a>
 
-<section class="section">
+            <a href="diplomados.html" class="access-card">
+                <div class="access-icon" aria-hidden="true">📚</div>
+                <h3>Diplomados</h3>
+                <p>Conoce nuestros programas disponibles.</p>
+            </a>
 
+            <a href="Correos.html" class="access-card">
+                <div class="access-icon" aria-hidden="true">✉️</div>
+                <h3>Correos</h3>
+                <p>Accede al sistema de correos institucionales.</p>
+            </a>
 
-    <div class="section-header center">
+            <a href="index.html" class="access-card">
+                <div class="access-icon" aria-hidden="true">🏠</div>
+                <h3>Inicio</h3>
+                <p>Regresa a la página principal.</p>
+            </a>
+        </div>
+    </section>
 
-        <span class="section-tag">
-            Plataforma Evolva
-        </span>
+    <!-- INVITACIÓN -->
 
-
-        <h2 class="section-title">
-            Todo lo que necesitas
-        </h2>
-
-
-        <p class="section-description">
-
-            Accede rápidamente a los diferentes
-            servicios y plataformas de Evolva Academy.
-
-        </p>
-
-    </div>
-
-
-    <div class="access-grid">
-
-
-        <a
-            href="inscripcion.html"
-            class="access-card"
-        >
-
-            <div class="access-icon">
-                📝
-            </div>
-
-            <h3>
-                Inscripción
-            </h3>
-
-            <p>
-                Regístrate y obtén tu folio.
-            </p>
-
-        </a>
-
-
-        <a
-            href="pagos.html"
-            class="access-card"
-        >
-
-            <div class="access-icon">
-                💳
-            </div>
-
-            <h3>
-                Pagos
-            </h3>
+    <section class="cta-section">
+        <div class="cta">
+            <h2>Tu evolución comienza aquí.</h2>
 
             <p>
-                Consulta y realiza tu proceso de pago.
+                Elige tu diplomado, realiza tu inscripción y comienza
+                a construir nuevos conocimientos con Evolva Academy.
             </p>
 
-        </a>
-
-
-        <a
-            href="alumnos.html"
-            class="access-card"
-        >
-
-            <div class="access-icon">
-                🎓
-            </div>
-
-            <h3>
-                Portal de alumnos
-            </h3>
-
-            <p>
-                Ingresa a tu plataforma académica.
-            </p>
-
-        </a>
-
-
-        <a
-            href="calificaciones.html"
-            class="access-card"
-        >
-
-            <div class="access-icon">
-                📊
-            </div>
-
-            <h3>
-                Calificaciones
-            </h3>
-
-            <p>
-                Consulta tus resultados académicos.
-            </p>
-
-        </a>
-
-
-        <a
-            href="validar.html"
-            class="access-card"
-        >
-
-            <div class="access-icon">
-                ✓
-            </div>
-
-            <h3>
-                Validar certificado
-            </h3>
-
-            <p>
-                Comprueba la autenticidad de un certificado.
-            </p>
-
-        </a>
-
-
-        <a
-            href="diplomados.html"
-            class="access-card"
-        >
-
-            <div class="access-icon">
-                📚
-            </div>
-
-            <h3>
-                Diplomados
-            </h3>
-
-            <p>
-                Conoce nuestros programas disponibles.
-            </p>
-
-        </a>
-
-
-        <a
-            href="Correos.html"
-            class="access-card"
-        >
-
-            <div class="access-icon">
-                ✉️
-            </div>
-
-            <h3>
-                Correos
-            </h3>
-
-            <p>
-                Accede al sistema de correos institucionales.
-            </p>
-
-        </a>
-
-
-        <a
-            href="index.html"
-            class="access-card"
-        >
-
-            <div class="access-icon">
-                🏠
-            </div>
-
-            <h3>
-                Inicio
-            </h3>
-
-            <p>
-                Regresa a la página principal.
-            </p>
-
-        </a>
-
-
-    </div>
-
-</section>
-
-
-<!-- ==================================================
-     CTA
-================================================== -->
-
-<section class="cta-section">
-
-
-    <div class="cta">
-
-
-        <h2>
-            Tu evolución comienza aquí.
-        </h2>
-
-
-        <p>
-
-            Elige tu diplomado, realiza tu inscripción
-            y comienza a construir nuevos conocimientos
-            con Evolva Academy.
-
-        </p>
-
-
-        <a
-            href="inscripcion.html"
-            class="primary-button"
-        >
-            Crear mi inscripción →
-        </a>
-
-
-    </div>
-
-</section>
-
+            <a href="inscripcion.html" class="primary-button">
+                Crear mi inscripción →
+            </a>
+        </div>
+    </section>
 
 </main>
 
-
-<!-- ==================================================
-     FOOTER
-================================================== -->
-
 <footer>
-
-
-    <img
-        src="logo-evolva.png"
-        alt="Evolva Academy"
-        class="footer-logo"
-    >
-
-
-    <p>
-        Formación que impulsa tu evolución.
-    </p>
-
-
-    <div class="footer-links">
-
-
-        <a href="index.html">
-            Inicio
-        </a>
-
-
-        <a href="diplomados.html">
-            Diplomados
-        </a>
-
-
-        <a href="inscripcion.html">
-            Inscripción
-        </a>
-
-
-        <a href="pagos.html">
-            Pagos
-        </a>
-
-
-        <a href="validar.html">
-            Validar certificado
-        </a>
-
-
-        <a href="alumnos.html">
-            Portal de alumnos
-        </a>
-
-
-        <a href="calificaciones.html">
-            Calificaciones
-        </a>
-
-
-        <a href="Correos.html">
-            Correos
-        </a>
-
-
+    <div class="wordmark" role="img" aria-label="Evolva Academy">
+        <strong>EVOLVA</strong>
+        <span>ACADEMY</span>
     </div>
 
+    <p>Formación que impulsa tu evolución.</p>
+
+    <div class="footer-links">
+        <a href="index.html">Inicio</a>
+        <a href="diplomados.html">Diplomados</a>
+        <a href="inscripcion.html">Inscripción</a>
+        <a href="pagos.html">Pagos</a>
+        <a href="validar.html">Validar certificado</a>
+        <a href="alumnos.html">Portal de alumnos</a>
+        <a href="calificaciones.html">Calificaciones</a>
+        <a href="Correos.html">Correos</a>
+    </div>
 
     <p>
-
         Sitio oficial:
-
-        <span class="website">
-            evolvacademy.mx
-        </span>
-
+        <span class="website">evolvacademy.mx</span>
     </p>
 
-
-    <p>
-
-        © 2026 Evolva Academy.
-        Todos los derechos reservados.
-
-    </p>
-
-
+    <p>© 2026 Evolva Academy. Todos los derechos reservados.</p>
 </footer>
 
-
 </body>
-
 </html>
