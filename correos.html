@@ -4,313 +4,703 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Correo Institucional | Evolva Academy</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#063b91">
+
+<title>Mi Correo Institucional | Evolva Academy</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 :root {
-  --azul:#086cff;
-  --oscuro:#063b91;
-  --texto:#172033;
-  --gris:#64748b;
-  --borde:#dbe5f2;
+  --primary: #086cff;
+  --primary-dark: #063b91;
+  --primary-light: #eaf3ff;
+  --background: #f5f8fd;
+  --white: #ffffff;
+  --text: #172033;
+  --muted: #64748b;
+  --border: #e2eaf5;
+  --success: #047857;
+  --danger: #be123c;
 }
-* { box-sizing:border-box; }
+
+* {
+  box-sizing: border-box;
+}
+
 body {
-  margin:0;
-  font-family:Inter,Arial,sans-serif;
-  color:var(--texto);
-  background:linear-gradient(135deg,#edf5ff,#f8fbff);
-  min-height:100vh;
+  margin: 0;
+  font-family: 'Inter', Arial, sans-serif;
+  background: var(--background);
+  color: var(--text);
+  min-height: 100vh;
 }
-header {
-  background:#fff;
-  border-bottom:1px solid var(--borde);
-  padding:22px 6%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+
+a {
+  text-decoration: none;
 }
+
+/* HEADER */
+
+.header {
+  height: 82px;
+  background: white;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 7%;
+}
+
 .logo {
-  font-size:21px;
-  font-weight:800;
-  text-decoration:none;
-  color:var(--oscuro);
+  color: var(--primary-dark);
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -1px;
 }
-.logo span { color:var(--azul); }
-.volver {
-  color:var(--gris);
-  text-decoration:none;
-  font-size:13px;
-  font-weight:600;
+
+.logo span {
+  color: var(--primary);
 }
-main {
-  max-width:550px;
-  margin:55px auto;
-  padding:0 18px;
+
+.header-link {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary-dark);
+  background: var(--primary-light);
+  padding: 12px 18px;
+  border-radius: 10px;
 }
-.intro {
-  text-align:center;
-  margin-bottom:28px;
+
+/* HERO */
+
+.hero {
+  background:
+    radial-gradient(circle at 80% 20%, rgba(255,255,255,.13), transparent 30%),
+    linear-gradient(125deg, #063b91, #086cff);
+  color: white;
+  padding: 65px 20px 115px;
+  text-align: center;
 }
-.intro h1 {
-  font-size:32px;
-  margin:0 0 12px;
-  color:var(--oscuro);
+
+.hero-tag {
+  display: inline-block;
+  padding: 9px 16px;
+  border-radius: 30px;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.25);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 22px;
 }
-.intro p {
-  font-size:14px;
-  line-height:1.7;
-  color:var(--gris);
+
+.hero h1 {
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 900;
+  margin: 0 0 16px;
+  letter-spacing: -1.5px;
 }
+
+.hero p {
+  max-width: 570px;
+  margin: auto;
+  font-size: 14px;
+  line-height: 1.9;
+  color: #e1edff;
+}
+
+/* CONTENIDO */
+
+.container {
+  max-width: 1080px;
+  margin: -65px auto 65px;
+  padding: 0 20px;
+  position: relative;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap: 25px;
+  align-items: start;
+}
+
 .card {
-  background:white;
-  padding:30px;
-  border-radius:22px;
-  border:1px solid var(--borde);
-  box-shadow:0 15px 40px rgba(6,59,145,.08);
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  box-shadow: 0 15px 45px rgba(6,59,145,.08);
+  padding: 35px;
 }
-.card h2 {
-  margin:0 0 10px;
-  font-size:20px;
+
+.card-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 25px;
 }
-.descripcion {
-  color:var(--gris);
-  font-size:13px;
-  line-height:1.6;
-  margin-bottom:24px;
+
+.card-icon {
+  width: 49px;
+  height: 49px;
+  border-radius: 14px;
+  background: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 23px;
 }
+
+.card-heading h2 {
+  font-size: 20px;
+  margin: 0 0 6px;
+  color: var(--primary-dark);
+}
+
+.card-heading p {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.form-group {
+  margin-bottom: 22px;
+}
+
 label {
-  display:block;
-  font-size:13px;
-  font-weight:700;
-  margin:20px 0 9px;
+  display: block;
+  font-size: 12px;
+  font-weight: 800;
+  margin-bottom: 10px;
 }
+
 input {
-  width:100%;
-  padding:15px;
-  border:1px solid var(--borde);
-  border-radius:12px;
-  outline:none;
-  font:inherit;
-  font-size:14px;
+  width: 100%;
+  border: 1px solid var(--border);
+  background: #fbfdff;
+  padding: 16px;
+  border-radius: 12px;
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: .2s;
 }
+
 input:focus {
-  border-color:var(--azul);
-  box-shadow:0 0 0 3px rgba(8,108,255,.1);
+  border-color: var(--primary);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(8,108,255,.09);
 }
-button {
-  width:100%;
-  margin-top:25px;
-  padding:16px;
-  border:0;
-  border-radius:12px;
-  background:var(--azul);
-  color:#fff;
-  font:inherit;
-  font-size:14px;
-  font-weight:700;
-  cursor:pointer;
+
+.helper {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 8px;
+  line-height: 1.6;
 }
-button:disabled {
-  opacity:.6;
-  cursor:not-allowed;
+
+.btn {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 17px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 800;
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: .2s;
 }
-.mensaje {
-  display:none;
-  padding:14px;
-  margin-top:20px;
-  border-radius:12px;
-  background:#fff1f2;
-  color:#be123c;
-  font-size:13px;
+
+.btn:hover {
+  background: var(--primary-dark);
 }
-.resultado {
-  display:none;
-  margin-top:25px;
-  border:1px solid #bfdbfe;
-  border-radius:16px;
-  padding:20px;
-  background:#f0f7ff;
+
+.btn:disabled {
+  opacity: .65;
+  cursor: not-allowed;
 }
-.resultado h3 {
-  color:var(--oscuro);
-  margin:0 0 18px;
+
+.error {
+  display: none;
+  margin-top: 20px;
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  color: var(--danger);
+  padding: 15px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.7;
 }
-.dato {
-  background:white;
-  border:1px solid #dbeafe;
-  border-radius:12px;
-  padding:14px;
-  margin-bottom:12px;
+
+.result {
+  display: none;
+  margin-top: 25px;
+  padding: 22px;
+  border: 1px solid #bbf7d0;
+  border-radius: 16px;
+  background: #f0fdf4;
 }
-.dato small {
-  display:block;
-  color:var(--gris);
-  font-size:11px;
-  font-weight:700;
-  margin-bottom:7px;
+
+.result h3 {
+  color: var(--success);
+  margin: 0 0 20px;
+  font-size: 17px;
 }
-.dato strong {
-  color:var(--oscuro);
-  font-size:15px;
-  overflow-wrap:anywhere;
+
+.result-item {
+  background: white;
+  border: 1px solid #dcfce7;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 12px;
 }
-.classroom {
-  display:block;
-  text-align:center;
-  background:var(--oscuro);
-  color:white;
-  padding:15px;
-  border-radius:12px;
-  text-decoration:none;
-  font-size:13px;
-  font-weight:700;
-  margin-top:16px;
+
+.result-item small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  letter-spacing: .5px;
 }
-.aviso {
-  color:#92400e;
-  background:#fffbeb;
-  border:1px solid #fde68a;
-  padding:12px;
-  border-radius:10px;
-  font-size:12px;
-  line-height:1.6;
-  margin-top:15px;
+
+.result-item strong {
+  font-size: 14px;
+  color: var(--primary-dark);
+  overflow-wrap: anywhere;
 }
+
+.copy-btn {
+  display: inline-block;
+  margin-top: 10px;
+  border: 1px solid #bfdbfe;
+  background: #eff6ff;
+  color: var(--primary-dark);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.classroom-btn {
+  display: block;
+  text-align: center;
+  margin-top: 18px;
+  background: var(--primary-dark);
+  color: white;
+  border-radius: 12px;
+  padding: 15px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+/* PANEL LATERAL */
+
+.side-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 30px;
+  box-shadow: 0 15px 45px rgba(6,59,145,.05);
+}
+
+.side-card h3 {
+  color: var(--primary-dark);
+  font-size: 18px;
+  margin: 0 0 20px;
+}
+
+.step {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.step-number {
+  width: 33px;
+  height: 33px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.step strong {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.step p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.notice {
+  margin-top: 10px;
+  padding: 18px;
+  background: #eff6ff;
+  border-radius: 13px;
+  color: var(--primary-dark);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.notice strong {
+  display: block;
+  margin-bottom: 7px;
+}
+
+.side-link {
+  display: block;
+  margin-top: 20px;
+  padding: 14px;
+  text-align: center;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  color: var(--primary-dark);
+  font-size: 12px;
+  font-weight: 800;
+}
+
 footer {
-  text-align:center;
-  padding:30px;
-  color:#94a3b8;
-  font-size:11px;
+  text-align: center;
+  padding: 25px;
+  color: #94a3b8;
+  font-size: 11px;
 }
-@media(max-width:600px) {
-  main { margin:35px auto; }
-  .card { padding:22px; }
-  .intro h1 { font-size:27px; }
+
+/* RESPONSIVE */
+
+@media (max-width: 800px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding: 55px 20px 100px;
+  }
+
+  .card,
+  .side-card {
+    padding: 25px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 0 18px;
+    height: 70px;
+  }
+
+  .logo {
+    font-size: 17px;
+  }
+
+  .header-link {
+    padding: 10px;
+    font-size: 11px;
+  }
+
+  .container {
+    padding: 0 14px;
+  }
+
+  .card {
+    padding: 22px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header>
+<header class="header">
   <a href="index.html" class="logo">
     EVOLVA <span>ACADEMY</span>
   </a>
-  <a href="index.html" class="volver">← Regresar</a>
+
+  <a href="index.html" class="header-link">
+    ← Volver al inicio
+  </a>
 </header>
 
-<main>
-  <div class="intro">
-    <h1>Tu correo institucional</h1>
-    <p>
-      Consulta los datos de tu cuenta de Evolva Academy
-      utilizando la información de tu inscripción.
-    </p>
+<section class="hero">
+  <div class="hero-tag">
+    PORTAL OFICIAL DE ALUMNOS
   </div>
 
-  <div class="card">
-    <h2>Consultar mi cuenta</h2>
-    <p class="descripcion">
-      Ingresa tu CURP, folio y correo personal.
-      Los tres deben coincidir con tu registro.
-    </p>
+  <h1>Consulta tu correo institucional</h1>
 
-    <form id="formConsulta">
-      <label for="curp">CURP</label>
-      <input
-        id="curp"
-        type="text"
-        maxlength="18"
-        placeholder="Ingresa tu CURP"
-        autocomplete="off"
-        required
-      >
+  <p>
+    Accede a la información de tu cuenta académica.
+    Consulta tu correo institucional y continúa tu
+    formación en Evolva Academy.
+  </p>
+</section>
 
-      <label for="folio">Folio de alumno</label>
-      <input
-        id="folio"
-        type="text"
-        maxlength="13"
-        placeholder="EVOLVA-123456"
-        autocomplete="off"
-        required
-      >
+<main class="container">
 
-      <label for="personal">Correo personal</label>
-      <input
-        id="personal"
-        type="email"
-        placeholder="correo@ejemplo.com"
-        autocomplete="email"
-        required
-      >
+  <div class="layout">
 
-      <button type="submit" id="btnConsultar">
-        Consultar correo institucional
-      </button>
-    </form>
+    <section class="card">
 
-    <div class="mensaje" id="mensaje"></div>
+      <div class="card-heading">
+        <div class="card-icon">✉️</div>
 
-    <div class="resultado" id="resultado">
-      <h3>✓ Datos de tu cuenta</h3>
-
-      <div class="dato">
-        <small>FOLIO DE ALUMNO</small>
-        <strong id="rFolio">-</strong>
+        <div>
+          <h2>Buscar mi cuenta</h2>
+          <p>Identifica tu registro académico.</p>
+        </div>
       </div>
 
-      <div class="dato">
-        <small>CORREO INSTITUCIONAL</small>
-        <strong id="rCorreo">-</strong>
+      <form id="formConsulta">
+
+        <div class="form-group">
+          <label for="curp">CURP DEL ALUMNO</label>
+
+          <input
+            type="text"
+            id="curp"
+            maxlength="18"
+            placeholder="Ingresa los 18 caracteres de tu CURP"
+            autocomplete="off"
+            required
+          >
+
+          <small class="helper">
+            Escribe tu CURP exactamente como aparece
+            en tu registro.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="folio">MATRÍCULA / FOLIO</label>
+
+          <input
+            type="text"
+            id="folio"
+            maxlength="13"
+            placeholder="EVOLVA-123456"
+            autocomplete="off"
+            required
+          >
+
+          <small class="helper">
+            Puedes encontrar tu folio en el
+            comprobante de inscripción.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label for="personal">CORREO PERSONAL</label>
+
+          <input
+            type="email"
+            id="personal"
+            placeholder="ejemplo@gmail.com"
+            autocomplete="email"
+            required
+          >
+
+          <small class="helper">
+            Utiliza el mismo correo registrado
+            durante tu inscripción.
+          </small>
+        </div>
+
+        <button
+          type="submit"
+          class="btn"
+          id="btnConsultar"
+        >
+          Consultar mi correo →
+        </button>
+
+      </form>
+
+      <div
+        id="mensaje"
+        class="error"
+        role="alert"
+      ></div>
+
+      <div
+        id="resultado"
+        class="result"
+        aria-live="polite"
+      >
+
+        <h3>✓ Cuenta encontrada</h3>
+
+        <div class="result-item">
+          <small>MATRÍCULA</small>
+          <strong id="rFolio">-</strong>
+        </div>
+
+        <div class="result-item">
+          <small>CORREO INSTITUCIONAL</small>
+          <strong id="rCorreo">-</strong>
+
+          <div>
+            <button
+              type="button"
+              class="copy-btn"
+              id="btnCopiar"
+            >
+              Copiar correo
+            </button>
+          </div>
+        </div>
+
+        <div class="result-item">
+          <small>DIPLOMADO INSCRITO</small>
+          <strong id="rDiplomado">-</strong>
+        </div>
+
+        <div class="result-item">
+          <small>CONTRASEÑA</small>
+          <strong>
+            Solicita tu acceso a administración.
+          </strong>
+        </div>
+
+        <a
+          href="https://classroom.google.com/"
+          class="classroom-btn"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Entrar a Google Classroom →
+        </a>
+
       </div>
 
-      <div class="dato">
-        <small>DIPLOMADO</small>
-        <strong id="rDiplomado">-</strong>
+    </section>
+
+    <aside class="side-card">
+
+      <h3>¿Cómo funciona?</h3>
+
+      <div class="step">
+        <div class="step-number">1</div>
+
+        <div>
+          <strong>Ingresa tu CURP</strong>
+          <p>
+            Escribe los 18 caracteres registrados
+            en tu inscripción.
+          </p>
+        </div>
       </div>
 
-      <div class="dato">
-        <small>CONTRASEÑA</small>
-        <strong id="rPassword">
-          Solicita tu contraseña a administración
-        </strong>
+      <div class="step">
+        <div class="step-number">2</div>
+
+        <div>
+          <strong>Escribe tu matrícula</strong>
+          <p>
+            Introduce tu folio único de alumno
+            de Evolva Academy.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+
+        <div>
+          <strong>Confirma tu correo personal</strong>
+          <p>
+            Los datos deben coincidir con los
+            registrados en nuestra plataforma.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">4</div>
+
+        <div>
+          <strong>Consulta tu cuenta</strong>
+          <p>
+            Si ya tienes un correo institucional
+            asignado, podrás visualizarlo.
+          </p>
+        </div>
+      </div>
+
+      <div class="notice">
+        <strong>Información importante</strong>
+
+        Tu correo institucional debe estar
+        registrado y activo para utilizarlo
+        en Google Classroom.
       </div>
 
       <a
-        class="classroom"
-        href="https://classroom.google.com/"
-        target="_blank"
-        rel="noopener noreferrer"
+        href="alumnos.html"
+        class="side-link"
       >
-        Entrar a Google Classroom →
+        Ir al portal de alumnos →
       </a>
 
-      <div class="aviso">
-        Tu cuenta institucional debe estar activa
-        para poder ingresar a Classroom.
-      </div>
-    </div>
+    </aside>
+
   </div>
+
 </main>
 
 <footer>
-  © 2026 Evolva Academy · Todos los derechos reservados.
+  © 2026 Evolva Academy · Plataforma Académica Digital
 </footer>
 
 <script>
+
+/* =========================================
+   CONFIGURACIÓN DE GOOGLE APPS SCRIPT
+========================================= */
+
 const API_URL =
-  "https://script.google.com/macros/s/AKfycbyTcVS-daEhDz1N5dwZEaCHVQrm17hC5IjQZvujAiI2oXzpgS6BJhtlZlnv1yjBhYX7Yg/exec";
+  "https://script.google.com/macros/s/AKfycbwPbOaBJBnwNd039RawS29RwL0WaM48o8s1O2EEDxKwYpng2P_kVVKUSf_ZPcgOAJMFng/exec";
+
+/* =========================================
+   ELEMENTOS
+========================================= */
 
 const form = document.getElementById("formConsulta");
+
 const curpInput = document.getElementById("curp");
 const folioInput = document.getElementById("folio");
 const personalInput = document.getElementById("personal");
+
 const boton = document.getElementById("btnConsultar");
+
 const mensaje = document.getElementById("mensaje");
 const resultado = document.getElementById("resultado");
+
+const rFolio = document.getElementById("rFolio");
+const rCorreo = document.getElementById("rCorreo");
+const rDiplomado = document.getElementById("rDiplomado");
+
+const btnCopiar = document.getElementById("btnCopiar");
+
+/* =========================================
+   FORMATO AUTOMÁTICO
+========================================= */
 
 curpInput.addEventListener("input", () => {
   curpInput.value =
@@ -322,40 +712,71 @@ folioInput.addEventListener("input", () => {
     folioInput.value.toUpperCase().replace(/\s/g, "");
 });
 
+/* =========================================
+   MENSAJES
+========================================= */
+
 function mostrarError(texto) {
   mensaje.textContent = texto;
   mensaje.style.display = "block";
 }
 
+function limpiarPantalla() {
+  mensaje.textContent = "";
+  mensaje.style.display = "none";
+  resultado.style.display = "none";
+}
+
+/* =========================================
+   CONSULTA JSONP
+========================================= */
+
 function consultarCuenta(curp, folio, correoPersonal) {
+
   return new Promise((resolve, reject) => {
+
     const callback =
-      "evolva_" + Date.now() + "_" +
+      "evolva_" +
+      Date.now() +
+      "_" +
       Math.floor(Math.random() * 100000);
 
     const script = document.createElement("script");
+
     let terminado = false;
 
     const timer = setTimeout(() => {
-      finalizar(new Error("El servidor tardó demasiado."));
+      finalizar(new Error(
+        "El servidor tardó demasiado en responder."
+      ));
     }, 15000);
 
     function finalizar(error, data) {
+
       if (terminado) return;
+
       terminado = true;
 
       clearTimeout(timer);
       script.remove();
+
       delete window[callback];
 
-      if (error) reject(error);
-      else resolve(data);
+      if (error) {
+        reject(error);
+      } else {
+        resolve(data);
+      }
     }
 
-    window[callback] = data => finalizar(null, data);
+    window[callback] = data => {
+      finalizar(null, data);
+    };
 
     script.onerror = () => {
-      finalizar(new Error("No fue posible conectar con el servidor."));
+      finalizar(new Error(
+        "No fue posible conectar con el servidor."
+      ));
     };
 
     const params = new URLSearchParams({
@@ -366,41 +787,60 @@ function consultarCuenta(curp, folio, correoPersonal) {
       callback: callback
     });
 
-    script.src = API_URL + "?" + params.toString();
+    script.src =
+      API_URL + "?" + params.toString();
+
     document.body.appendChild(script);
+
   });
+
 }
 
+/* =========================================
+   CONSULTAR CUENTA
+========================================= */
+
 form.addEventListener("submit", async event => {
+
   event.preventDefault();
 
-  mensaje.style.display = "none";
-  resultado.style.display = "none";
+  limpiarPantalla();
 
-  const curp = curpInput.value.trim().toUpperCase();
-  const folio = folioInput.value.trim().toUpperCase();
+  const curp =
+    curpInput.value.trim().toUpperCase();
+
+  const folio =
+    folioInput.value.trim().toUpperCase();
+
   const correoPersonal =
     personalInput.value.trim().toLowerCase();
 
   if (!/^[A-Z0-9]{18}$/.test(curp)) {
-    mostrarError("La CURP debe tener 18 caracteres.");
+    mostrarError(
+      "La CURP debe contener exactamente 18 caracteres."
+    );
     return;
   }
 
   if (!/^EVOLVA-\d{6}$/.test(folio)) {
-    mostrarError("Ingresa un folio válido: EVOLVA-123456.");
+    mostrarError(
+      "Ingresa una matrícula válida. Ejemplo: EVOLVA-123456."
+    );
     return;
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correoPersonal)) {
-    mostrarError("Ingresa un correo personal válido.");
+    mostrarError(
+      "Ingresa un correo personal válido."
+    );
     return;
   }
 
   boton.disabled = true;
-  boton.textContent = "Consultando...";
+  boton.textContent = "Consultando información...";
 
   try {
+
     const data = await consultarCuenta(
       curp,
       folio,
@@ -409,36 +849,82 @@ form.addEventListener("submit", async event => {
 
     if (!data || data.ok !== true) {
       throw new Error(
-        data?.mensaje || "No se encontró información."
+        data?.mensaje ||
+        "No se encontró una cuenta con esos datos."
       );
     }
 
-    if (!data.correo) {
+    const correoInstitucional = String(
+      data.correo ||
+      data.correoInstitucional ||
+      data.CORREO_INSTITUCIONAL ||
+      ""
+    ).trim();
+
+    if (!correoInstitucional) {
       throw new Error(
-        "Tu correo institucional todavía no está disponible."
+        "Tu correo institucional todavía no está disponible. " +
+        "Comunícate con administración."
       );
     }
 
-    document.getElementById("rFolio").textContent =
+    rFolio.textContent =
       data.folio || folio;
 
-    document.getElementById("rCorreo").textContent =
-      data.correo;
+    rCorreo.textContent =
+      correoInstitucional;
 
-    document.getElementById("rDiplomado").textContent =
+    rDiplomado.textContent =
       data.diplomado || "No disponible";
 
     resultado.style.display = "block";
 
   } catch (error) {
+
     mostrarError(
-      error.message || "Ocurrió un error al consultar."
+      error.message ||
+      "Ocurrió un error al consultar tu cuenta."
     );
+
   } finally {
+
     boton.disabled = false;
-    boton.textContent = "Consultar correo institucional";
+    boton.textContent = "Consultar mi correo →";
+
   }
+
 });
+
+/* =========================================
+   COPIAR CORREO
+========================================= */
+
+btnCopiar.addEventListener("click", async () => {
+
+  const correo = rCorreo.textContent.trim();
+
+  if (!correo || correo === "-") return;
+
+  try {
+
+    await navigator.clipboard.writeText(correo);
+
+    btnCopiar.textContent = "✓ Copiado";
+
+    setTimeout(() => {
+      btnCopiar.textContent = "Copiar correo";
+    }, 2000);
+
+  } catch (error) {
+
+    mostrarError(
+      "No fue posible copiar el correo automáticamente."
+    );
+
+  }
+
+});
+
 </script>
 
 </body>
