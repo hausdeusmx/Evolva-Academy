@@ -10,77 +10,140 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Evolva Academy | Formación Digital Profesional</title>
+    <title>Evolva Academy | Diplomados Profesionales</title>
 
     <meta
         name="description"
-        content="Evolva Academy - Diplomados profesionales para impulsar tu desarrollo y evolución."
+        content="Evolva Academy ofrece diplomados online en Primeros Auxilios y Finanzas. Estudia a tu ritmo y obtén tu certificado totalmente gratuito al finalizar."
     >
 
-    <!-- Google AdSense Script -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7608137670081617"
-        crossorigin="anonymous"></script>
+    <meta
+        name="keywords"
+        content="Evolva Academy, diplomados, primeros auxilios, finanzas, cursos online, certificado"
+    >
+
+    <meta name="theme-color" content="#086cff">
+
+
+    <!-- ==================================================
+         GOOGLE ADSENSE
+    ================================================== -->
+
+    <script
+        async
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7608137670081617"
+        crossorigin="anonymous">
+    </script>
+
 
     <style>
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        /* ==================================================
+           VARIABLES
+        ================================================== */
+
+        :root {
+
+            --azul-oscuro: #063b91;
+
+            --azul: #086cff;
+
+            --azul-claro: #2684ff;
+
+            --azul-suave: #edf5ff;
+
+            --azul-muy-suave: #f7faff;
+
+            --texto: #172033;
+
+            --texto-oscuro: #101828;
+
+            --gris: #64748b;
+
+            --gris-claro: #e1eaf5;
+
+            --blanco: #ffffff;
+
+            --footer: #061b3e;
+
         }
+
+
+        /* ==================================================
+           RESET
+        ================================================== */
+
+        * {
+
+            box-sizing: border-box;
+
+            margin: 0;
+
+            padding: 0;
+
+        }
+
 
         html {
+
             scroll-behavior: smooth;
+
         }
 
+
         body {
+
             font-family:
                 Arial,
                 Helvetica,
                 sans-serif;
 
-            color: #172033;
+            color:
+                var(--texto);
 
             background:
+
                 radial-gradient(
                     circle at 10% 10%,
                     rgba(38,132,255,.10),
                     transparent 30%
                 ),
+
                 radial-gradient(
                     circle at 90% 40%,
                     rgba(8,108,255,.08),
                     transparent 30%
                 ),
-                #f7faff;
-        }
 
+                var(--azul-muy-suave);
 
-        :root {
-
-            --azul-oscuro: #063b91;
-            --azul: #086cff;
-            --azul-claro: #2684ff;
-
-            --texto: #172033;
-            --gris: #64748b;
-
-            --borde: #e1eaf5;
+            min-height: 100vh;
 
         }
 
 
-        /* =====================================
-            HEADER
-        ===================================== */
+        a {
+
+            -webkit-tap-highlight-color:
+                transparent;
+
+        }
+
+
+        /* ==================================================
+           HEADER
+        ================================================== */
 
         .header {
 
-            position: sticky;
+            position:
+                sticky;
 
-            top: 0;
+            top:
+                0;
 
-            z-index: 1000;
+            z-index:
+                1000;
 
             background:
                 rgba(255,255,255,.94);
@@ -88,79 +151,141 @@
             backdrop-filter:
                 blur(18px);
 
+            -webkit-backdrop-filter:
+                blur(18px);
+
             border-bottom:
                 1px solid #e7eef7;
 
             box-shadow:
-                0 5px 25px rgba(15,23,42,.04);
+                0 5px 25px
+                rgba(15,23,42,.04);
 
         }
 
 
         .header-container {
 
-            max-width: 1180px;
+            max-width:
+                1200px;
 
-            margin: auto;
+            margin:
+                auto;
 
             padding:
-                14px 24px;
+                13px 22px;
 
-            display: flex;
+            display:
+                flex;
 
-            align-items: center;
+            align-items:
+                center;
 
-            justify-content: space-between;
+            justify-content:
+                space-between;
 
-            gap: 20px;
+            gap:
+                20px;
+
+        }
+
+
+        /* ==================================================
+           LOGO
+        ================================================== */
+
+        .logo-link {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            text-decoration:
+                none;
+
+            flex-shrink:
+                0;
 
         }
 
 
         .logo {
 
-            width: 180px;
+            width:
+                175px;
 
-            display: block;
+            height:
+                auto;
+
+            display:
+                block;
 
         }
 
 
+        /* ==================================================
+           NAV
+        ================================================== */
+
         .nav-links {
 
-            display: flex;
+            display:
+                flex;
 
-            align-items: center;
+            align-items:
+                center;
 
-            gap: 10px;
+            justify-content:
+                flex-end;
+
+            gap:
+                7px;
+
+            flex-wrap:
+                wrap;
 
         }
 
 
         .btn-nav {
 
-            display: inline-flex;
+            display:
+                inline-flex;
 
-            align-items: center;
+            align-items:
+                center;
 
-            justify-content: center;
+            justify-content:
+                center;
 
             padding:
-                10px 16px;
+                9px 13px;
 
-            border-radius: 10px;
+            border-radius:
+                10px;
 
             color:
                 var(--azul-oscuro);
 
             background:
-                #edf5ff;
+                var(--azul-suave);
 
-            text-decoration: none;
+            border:
+                1px solid transparent;
 
-            font-size: 13px;
+            text-decoration:
+                none;
 
-            font-weight: 800;
+            font-size:
+                12px;
+
+            font-weight:
+                800;
+
+            white-space:
+                nowrap;
 
             transition:
                 .25s ease;
@@ -173,6 +298,9 @@
             background:
                 #dcecff;
 
+            border-color:
+                #cce0fa;
+
             transform:
                 translateY(-1px);
 
@@ -181,18 +309,23 @@
 
         .btn-header {
 
-            display: inline-flex;
+            display:
+                inline-flex;
 
-            align-items: center;
+            align-items:
+                center;
 
-            justify-content: center;
+            justify-content:
+                center;
 
             padding:
-                11px 18px;
+                10px 17px;
 
-            border-radius: 10px;
+            border-radius:
+                10px;
 
-            color: white;
+            color:
+                white;
 
             background:
                 linear-gradient(
@@ -201,11 +334,17 @@
                     var(--azul)
                 );
 
-            text-decoration: none;
+            text-decoration:
+                none;
 
-            font-size: 13px;
+            font-size:
+                12px;
 
-            font-weight: 800;
+            font-weight:
+                800;
+
+            white-space:
+                nowrap;
 
             box-shadow:
                 0 8px 22px
@@ -229,27 +368,30 @@
         }
 
 
-        /* =====================================
-            HERO
-        ===================================== */
+        /* ==================================================
+           HERO
+        ================================================== */
 
         .hero {
 
-            position: relative;
+            position:
+                relative;
 
-            overflow: hidden;
+            overflow:
+                hidden;
 
             padding:
                 105px 24px
-                90px;
+                95px;
 
-            text-align: center;
+            text-align:
+                center;
 
             background:
 
                 radial-gradient(
                     circle at 50% 0%,
-                    rgba(38,132,255,.17),
+                    rgba(38,132,255,.18),
                     transparent 45%
                 ),
 
@@ -262,74 +404,93 @@
         }
 
 
-        /* DECORACIONES */
-
         .hero::before {
 
-            content: "";
+            content:
+                "";
 
-            position: absolute;
+            position:
+                absolute;
 
-            width: 280px;
+            width:
+                290px;
 
-            height: 280px;
+            height:
+                290px;
 
-            border-radius: 50%;
+            border-radius:
+                50%;
 
             border:
                 1px solid
                 rgba(8,108,255,.10);
 
-            top: 40px;
+            top:
+                40px;
 
-            left: -120px;
+            left:
+                -130px;
 
         }
 
 
         .hero::after {
 
-            content: "";
+            content:
+                "";
 
-            position: absolute;
+            position:
+                absolute;
 
-            width: 360px;
+            width:
+                380px;
 
-            height: 360px;
+            height:
+                380px;
 
-            border-radius: 50%;
+            border-radius:
+                50%;
 
             border:
                 1px solid
                 rgba(8,108,255,.08);
 
-            right: -160px;
+            right:
+                -180px;
 
-            bottom: -180px;
+            bottom:
+                -190px;
 
         }
 
 
         .hero-content {
 
-            position: relative;
+            position:
+                relative;
 
-            z-index: 2;
+            z-index:
+                2;
 
-            max-width: 900px;
+            max-width:
+                900px;
 
-            margin: auto;
+            margin:
+                auto;
 
         }
 
 
         .hero-badge {
 
-            display: inline-flex;
+            display:
+                inline-flex;
 
-            align-items: center;
+            align-items:
+                center;
 
-            gap: 8px;
+            gap:
+                8px;
 
             padding:
                 8px 15px;
@@ -346,9 +507,11 @@
             color:
                 var(--azul-oscuro);
 
-            font-size: 11px;
+            font-size:
+                11px;
 
-            font-weight: 900;
+            font-weight:
+                900;
 
             letter-spacing:
                 .08em;
@@ -361,13 +524,17 @@
 
         .hero-badge::before {
 
-            content: "";
+            content:
+                "";
 
-            width: 7px;
+            width:
+                7px;
 
-            height: 7px;
+            height:
+                7px;
 
-            border-radius: 50%;
+            border-radius:
+                50%;
 
             background:
                 var(--azul);
@@ -385,7 +552,7 @@
                 25px 0 20px;
 
             color:
-                #101828;
+                var(--texto-oscuro);
 
             font-size:
                 clamp(
@@ -419,7 +586,13 @@
             -webkit-background-clip:
                 text;
 
+            background-clip:
+                text;
+
             -webkit-text-fill-color:
+                transparent;
+
+            color:
                 transparent;
 
         }
@@ -585,9 +758,9 @@
         }
 
 
-        /* =====================================
-            ESTADÍSTICAS
-        ===================================== */
+        /* ==================================================
+           ESTADÍSTICAS
+        ================================================== */
 
         .stats {
 
@@ -621,7 +794,7 @@
                 white;
 
             border:
-                1px solid var(--borde);
+                1px solid var(--gris-claro);
 
             border-radius:
                 20px;
@@ -695,9 +868,9 @@
         }
 
 
-        /* =====================================
-            SECCIÓN DIPLOMADOS
-        ===================================== */
+        /* ==================================================
+           CURSOS
+        ================================================== */
 
         .courses {
 
@@ -756,7 +929,7 @@
                 0 0 10px;
 
             color:
-                #101828;
+                var(--texto-oscuro);
 
             font-size:
                 clamp(
@@ -777,7 +950,7 @@
         .section-heading p {
 
             max-width:
-                570px;
+                620px;
 
             margin:
                 auto;
@@ -817,13 +990,13 @@
                 hidden;
 
             padding:
-                27px;
+                28px;
 
             background:
                 white;
 
             border:
-                1px solid var(--borde);
+                1px solid var(--gris-claro);
 
             border-radius:
                 20px;
@@ -855,16 +1028,17 @@
 
         .course-card::after {
 
-            content: "";
+            content:
+                "";
 
             position:
                 absolute;
 
             width:
-                120px;
+                140px;
 
             height:
-                120px;
+                140px;
 
             border-radius:
                 50%;
@@ -873,10 +1047,10 @@
                 rgba(38,132,255,.07);
 
             right:
-                -45px;
+                -50px;
 
             top:
-                -45px;
+                -50px;
 
         }
 
@@ -884,10 +1058,10 @@
         .course-icon {
 
             width:
-                52px;
+                55px;
 
             height:
-                52px;
+                55px;
 
             display:
                 flex;
@@ -908,7 +1082,10 @@
                 var(--azul);
 
             font-size:
-                23px;
+                25px;
+
+            font-weight:
+                900;
 
             margin-bottom:
                 20px;
@@ -922,10 +1099,10 @@
                 0 0 9px;
 
             color:
-                #101828;
+                var(--texto-oscuro);
 
             font-size:
-                19px;
+                20px;
 
             font-weight:
                 900;
@@ -950,7 +1127,78 @@
         }
 
 
+        .course-info {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap:
+                10px;
+
+            margin:
+                20px 0;
+
+        }
+
+
+        .info-box {
+
+            padding:
+                13px;
+
+            border-radius:
+                12px;
+
+            background:
+                #f7faff;
+
+            border:
+                1px solid #e4edf8;
+
+        }
+
+
+        .info-label {
+
+            display:
+                block;
+
+            color:
+                var(--gris);
+
+            font-size:
+                10px;
+
+            margin-bottom:
+                4px;
+
+        }
+
+
+        .info-value {
+
+            display:
+                block;
+
+            color:
+                var(--azul-oscuro);
+
+            font-size:
+                15px;
+
+            font-weight:
+                900;
+
+        }
+
+
         .course-link {
+
+            display:
+                inline-flex;
 
             color:
                 var(--azul);
@@ -964,12 +1212,387 @@
             font-weight:
                 900;
 
+            transition:
+                .2s ease;
+
         }
 
 
-        /* =====================================
-            LLAMADA A LA ACCIÓN
-        ===================================== */
+        .course-link:hover {
+
+            transform:
+                translateX(3px);
+
+        }
+
+
+        /* ==================================================
+           CERTIFICADO
+        ================================================== */
+
+        .certificate {
+
+            max-width:
+                1050px;
+
+            margin:
+                0 auto 90px;
+
+            padding:
+                0 24px;
+
+        }
+
+
+        .certificate-card {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1.2fr .8fr;
+
+            align-items:
+                center;
+
+            gap:
+                35px;
+
+            padding:
+                45px;
+
+            background:
+                white;
+
+            border:
+                1px solid var(--gris-claro);
+
+            border-radius:
+                25px;
+
+            box-shadow:
+                0 18px 50px
+                rgba(15,23,42,.07);
+
+        }
+
+
+        .certificate-content span {
+
+            display:
+                inline-block;
+
+            margin-bottom:
+                10px;
+
+            color:
+                var(--azul);
+
+            font-size:
+                11px;
+
+            font-weight:
+                900;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                .10em;
+
+        }
+
+
+        .certificate-content h2 {
+
+            margin-bottom:
+                12px;
+
+            color:
+                var(--texto-oscuro);
+
+            font-size:
+                clamp(
+                    27px,
+                    4vw,
+                    38px
+                );
+
+            font-weight:
+                900;
+
+        }
+
+
+        .certificate-content p {
+
+            color:
+                var(--gris);
+
+            font-size:
+                14px;
+
+            line-height:
+                1.7;
+
+            margin-bottom:
+                22px;
+
+        }
+
+
+        .certificate-badge {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            gap:
+                9px;
+
+            padding:
+                11px 15px;
+
+            border-radius:
+                12px;
+
+            background:
+                #edf5ff;
+
+            color:
+                var(--azul-oscuro);
+
+            font-size:
+                12px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .certificate-visual {
+
+            min-height:
+                190px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            border-radius:
+                20px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #edf5ff,
+                    #ffffff
+                );
+
+            border:
+                1px solid #dbeaff;
+
+            position:
+                relative;
+
+            overflow:
+                hidden;
+
+        }
+
+
+        .certificate-visual::before {
+
+            content:
+                "EVOLVA";
+
+            position:
+                absolute;
+
+            font-size:
+                65px;
+
+            font-weight:
+                900;
+
+            color:
+                rgba(8,108,255,.055);
+
+            transform:
+                rotate(-18deg);
+
+        }
+
+
+        .certificate-icon {
+
+            position:
+                relative;
+
+            z-index:
+                2;
+
+            width:
+                90px;
+
+            height:
+                90px;
+
+            border-radius:
+                50%;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul-oscuro),
+                    var(--azul)
+                );
+
+            color:
+                white;
+
+            font-size:
+                35px;
+
+            box-shadow:
+                0 15px 35px
+                rgba(8,108,255,.25);
+
+        }
+
+
+        /* ==================================================
+           ACCESOS
+        ================================================== */
+
+        .access {
+
+            max-width:
+                1100px;
+
+            margin:
+                0 auto 90px;
+
+            padding:
+                0 24px;
+
+        }
+
+
+        .access-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap:
+                15px;
+
+        }
+
+
+        .access-card {
+
+            display:
+                block;
+
+            padding:
+                22px 17px;
+
+            background:
+                white;
+
+            border:
+                1px solid var(--gris-claro);
+
+            border-radius:
+                17px;
+
+            text-decoration:
+                none;
+
+            transition:
+                .25s ease;
+
+        }
+
+
+        .access-card:hover {
+
+            transform:
+                translateY(-4px);
+
+            border-color:
+                #cfe2ff;
+
+            box-shadow:
+                0 15px 35px
+                rgba(15,23,42,.08);
+
+        }
+
+
+        .access-icon {
+
+            font-size:
+                25px;
+
+            margin-bottom:
+                10px;
+
+        }
+
+
+        .access-card h3 {
+
+            color:
+                var(--texto-oscuro);
+
+            font-size:
+                14px;
+
+            margin-bottom:
+                6px;
+
+        }
+
+
+        .access-card p {
+
+            color:
+                var(--gris);
+
+            font-size:
+                11px;
+
+            line-height:
+                1.5;
+
+        }
+
+
+        /* ==================================================
+           CTA
+        ================================================== */
 
         .cta {
 
@@ -994,7 +1617,7 @@
                 hidden;
 
             padding:
-                45px;
+                48px 35px;
 
             border-radius:
                 25px;
@@ -1022,7 +1645,8 @@
 
         .cta-card::before {
 
-            content: "";
+            content:
+                "";
 
             position:
                 absolute;
@@ -1076,13 +1700,13 @@
                 relative;
 
             max-width:
-                560px;
+                600px;
 
             margin:
                 0 auto 23px;
 
             color:
-                rgba(255,255,255,.82);
+                rgba(255,255,255,.84);
 
             font-size:
                 13px;
@@ -1100,6 +1724,12 @@
 
             display:
                 inline-flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
 
             padding:
                 13px 23px;
@@ -1136,17 +1766,17 @@
         }
 
 
-        /* =====================================
-            FOOTER
-        ===================================== */
+        /* ==================================================
+           FOOTER
+        ================================================== */
 
         footer {
 
             padding:
-                42px 24px;
+                45px 24px;
 
             background:
-                #061b3e;
+                var(--footer);
 
             color:
                 #b9c8df;
@@ -1174,7 +1804,7 @@
         footer p {
 
             margin:
-                5px 0;
+                6px 0;
 
             font-size:
                 11px;
@@ -1184,8 +1814,11 @@
 
         .footer-links {
 
+            max-width:
+                950px;
+
             margin:
-                15px 0;
+                18px auto;
 
             display:
                 flex;
@@ -1193,8 +1826,11 @@
             justify-content:
                 center;
 
+            align-items:
+                center;
+
             gap:
-                18px;
+                7px;
 
             flex-wrap:
                 wrap;
@@ -1203,6 +1839,18 @@
 
 
         .footer-links a {
+
+            display:
+                inline-flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            padding:
+                8px 12px;
 
             color:
                 #d5e2f5;
@@ -1216,6 +1864,12 @@
             font-weight:
                 700;
 
+            border-radius:
+                8px;
+
+            transition:
+                .2s ease;
+
         }
 
 
@@ -1224,19 +1878,83 @@
             color:
                 white;
 
+            background:
+                rgba(255,255,255,.08);
+
         }
 
 
-        /* =====================================
-            RESPONSIVE
-        ===================================== */
+        .website {
+
+            color:
+                #7db3ff;
+
+            font-weight:
+                900;
+
+        }
+
+
+        /* ==================================================
+           RESPONSIVE
+        ================================================== */
+
+        @media (max-width: 1000px) {
+
+            .header-container {
+
+                padding:
+                    12px 18px;
+
+            }
+
+
+            .nav-links {
+
+                gap:
+                    5px;
+
+            }
+
+
+            .btn-nav {
+
+                padding:
+                    8px 9px;
+
+                font-size:
+                    10px;
+
+            }
+
+
+            .btn-header {
+
+                padding:
+                    9px 11px;
+
+                font-size:
+                    10px;
+
+            }
+
+
+            .access-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
 
         @media (max-width: 750px) {
 
             .header-container {
 
                 padding:
-                    12px 15px;
+                    11px 14px;
 
             }
 
@@ -1252,19 +1970,29 @@
             .nav-links {
 
                 gap:
-                    6px;
+                    4px;
 
             }
 
 
-            .btn-nav,
+            .btn-nav {
+
+                padding:
+                    7px 8px;
+
+                font-size:
+                    9px;
+
+            }
+
+
             .btn-header {
 
                 padding:
-                    9px 10px;
+                    8px 9px;
 
                 font-size:
-                    10px;
+                    9px;
 
             }
 
@@ -1321,6 +2049,14 @@
             }
 
 
+            .courses {
+
+                padding:
+                    70px 18px;
+
+            }
+
+
             .course-grid {
 
                 grid-template-columns:
@@ -1329,10 +2065,43 @@
             }
 
 
-            .courses {
+            .certificate {
 
                 padding:
-                    70px 18px;
+                    0 18px;
+
+                margin-bottom:
+                    70px;
+
+            }
+
+
+            .certificate-card {
+
+                grid-template-columns:
+                    1fr;
+
+                padding:
+                    30px 22px;
+
+            }
+
+
+            .access {
+
+                padding:
+                    0 18px;
+
+                margin-bottom:
+                    70px;
+
+            }
+
+
+            .access-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
 
             }
 
@@ -1361,20 +2130,38 @@
         }
 
 
-        @media (max-width: 420px) {
+        @media (max-width: 520px) {
 
-            .logo {
+            .header-container {
 
-                width:
-                    125px;
+                flex-direction:
+                    column;
+
+                gap:
+                    10px;
 
             }
 
 
-            .btn-nav {
+            .nav-links {
 
-                display:
-                    none;
+                width:
+                    100%;
+
+                justify-content:
+                    center;
+
+            }
+
+
+            .btn-nav,
+            .btn-header {
+
+                flex:
+                    1;
+
+                min-width:
+                    0;
 
             }
 
@@ -1402,11 +2189,63 @@
                     100%;
 
                 max-width:
-                    300px;
+                    310px;
+
+            }
+
+
+            .course-info {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .access-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .certificate-card {
+
+                padding:
+                    25px 18px;
+
+            }
+
+
+            .certificate-visual {
+
+                min-height:
+                    160px;
+
+            }
+
+
+            .footer-links {
+
+                gap:
+                    4px;
+
+            }
+
+
+            .footer-links a {
+
+                font-size:
+                    10px;
+
+                padding:
+                    7px 9px;
 
             }
 
         }
+
 
     </style>
 
@@ -1416,15 +2255,20 @@
 <body>
 
 
-<!-- =====================================
+<!-- ==================================================
      HEADER
-===================================== -->
+================================================== -->
 
 <header class="header">
 
     <div class="header-container">
 
-        <a href="index.html">
+
+        <a
+            href="index.html"
+            class="logo-link"
+            aria-label="Evolva Academy - Inicio"
+        >
 
             <img
                 src="logo-evolva.png"
@@ -1435,13 +2279,32 @@
         </a>
 
 
-        <nav class="nav-links">
+        <nav
+            class="nav-links"
+            aria-label="Navegación principal"
+        >
 
             <a
                 href="diplomados.html"
                 class="btn-nav"
             >
-                Ver Diplomados
+                Diplomados
+            </a>
+
+
+            <a
+                href="validar.html"
+                class="btn-nav"
+            >
+                Validar certificado
+            </a>
+
+
+            <a
+                href="pagos.html"
+                class="btn-nav"
+            >
+                Pagos
             </a>
 
 
@@ -1459,18 +2322,21 @@
 </header>
 
 
-<!-- =====================================
+<!-- ==================================================
      CONTENIDO
-===================================== -->
+================================================== -->
 
 <main>
 
 
-    <!-- HERO -->
+    <!-- ==================================================
+         HERO
+    ================================================== -->
 
     <section class="hero">
 
         <div class="hero-content">
+
 
             <span class="hero-badge">
                 Academia Digital Profesional
@@ -1502,6 +2368,7 @@
 
             <div class="hero-buttons">
 
+
                 <a
                     href="diplomados.html"
                     class="btn-primary"
@@ -1517,18 +2384,23 @@
                     Comenzar inscripción
                 </a>
 
+
             </div>
+
 
         </div>
 
     </section>
 
 
-    <!-- ESTADÍSTICAS -->
+    <!-- ==================================================
+         ESTADÍSTICAS
+    ================================================== -->
 
     <section class="stats">
 
         <div class="stats-card">
+
 
             <div class="stat">
 
@@ -1537,7 +2409,7 @@
                 </span>
 
                 <span class="stat-label">
-                    Diplomados profesionales
+                    Diplomados disponibles
                 </span>
 
             </div>
@@ -1550,7 +2422,7 @@
                 </span>
 
                 <span class="stat-label">
-                    Formación digital
+                    Formación online
                 </span>
 
             </div>
@@ -1559,39 +2431,49 @@
             <div class="stat">
 
                 <span class="stat-number">
-                    24/7
+                    GRATIS
                 </span>
 
                 <span class="stat-label">
-                    Acceso a tu formación
+                    Certificado al finalizar
                 </span>
 
             </div>
+
 
         </div>
 
     </section>
 
 
-    <!-- DIPLOMADOS -->
+    <!-- ==================================================
+         DIPLOMADOS
+    ================================================== -->
 
-    <section class="courses">
+    <section class="courses" id="diplomados">
+
 
         <div class="section-heading">
+
 
             <span class="section-label">
                 Nuestra formación
             </span>
 
+
             <h2>
-                Aprende algo que transforme tu futuro
+                Elige tu próximo diplomado
             </h2>
 
+
             <p>
-                Elige el diplomado que mejor se adapte
-                a tus objetivos y comienza tu proceso
-                de formación con Evolva Academy.
+
+                Fórmate con Evolva Academy mediante
+                programas diseñados para desarrollar
+                conocimientos útiles para tu futuro.
+
             </p>
+
 
         </div>
 
@@ -1599,60 +2481,160 @@
         <div class="course-grid">
 
 
-            <!-- FINANZAS -->
+            <!-- ==================================================
+                 FINANZAS
+            ================================================== -->
 
             <article class="course-card">
+
 
                 <div class="course-icon">
                     $
                 </div>
 
+
                 <h3>
-                    Diplomado en Finanzas Personales
+                    Diplomado en Finanzas
                 </h3>
 
+
                 <p>
-                    Aprende a comprender, organizar y
-                    administrar mejor tus recursos
-                    financieros para tomar decisiones
-                    más inteligentes.
+
+                    Aprende a organizar tus finanzas,
+                    administrar mejor tu dinero y
+                    desarrollar conocimientos para tomar
+                    mejores decisiones financieras.
+
                 </p>
+
+
+                <div class="course-info">
+
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Duración
+                        </span>
+
+                        <span class="info-value">
+                            6 meses
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Desde
+                        </span>
+
+                        <span class="info-value">
+                            $100 / semana
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+                <p>
+
+                    <strong>
+                        $400 por mes
+                    </strong>
+
+                </p>
+
 
                 <a
                     href="diplomados.html"
                     class="course-link"
                 >
-                    Conocer diplomado →
+                    Ver información completa →
                 </a>
+
 
             </article>
 
 
-            <!-- PRIMEROS AUXILIOS -->
+            <!-- ==================================================
+                 PRIMEROS AUXILIOS
+            ================================================== -->
 
             <article class="course-card">
+
 
                 <div class="course-icon">
                     +
                 </div>
 
+
                 <h3>
                     Diplomado en Primeros Auxilios
                 </h3>
 
+
                 <p>
+
                     Adquiere conocimientos fundamentales
-                    para actuar de manera adecuada ante
+                    para actuar correctamente ante
                     situaciones que requieran atención
                     y primeros auxilios.
+
                 </p>
+
+
+                <div class="course-info">
+
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Duración
+                        </span>
+
+                        <span class="info-value">
+                            8 meses
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <span class="info-label">
+                            Desde
+                        </span>
+
+                        <span class="info-value">
+                            $150 / semana
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+                <p>
+
+                    <strong>
+                        $500 por mes
+                    </strong>
+
+                </p>
+
 
                 <a
                     href="diplomados.html"
                     class="course-link"
                 >
-                    Conocer diplomado →
+                    Ver información completa →
                 </a>
+
 
             </article>
 
@@ -1662,22 +2644,309 @@
     </section>
 
 
-    <!-- CTA -->
+    <!-- ==================================================
+         CERTIFICADO
+    ================================================== -->
+
+    <section class="certificate">
+
+
+        <div class="certificate-card">
+
+
+            <div class="certificate-content">
+
+
+                <span>
+                    Reconocimiento Evolva Academy
+                </span>
+
+
+                <h2>
+                    Certificado totalmente gratuito
+                </h2>
+
+
+                <p>
+
+                    Al finalizar satisfactoriamente tu
+                    diplomado, podrás obtener tu
+                    certificado de Evolva Academy
+                    totalmente gratuito.
+
+                </p>
+
+
+                <a
+                    href="validar.html"
+                    class="certificate-badge"
+                >
+                    ✓ Validar certificado
+                </a>
+
+
+            </div>
+
+
+            <div class="certificate-visual">
+
+
+                <div class="certificate-icon">
+                    ✓
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+    <!-- ==================================================
+         ACCESOS
+    ================================================== -->
+
+    <section class="access">
+
+
+        <div class="section-heading">
+
+
+            <span class="section-label">
+                Accesos rápidos
+            </span>
+
+
+            <h2>
+                Todo Evolva Academy en un solo lugar
+            </h2>
+
+
+            <p>
+
+                Accede rápidamente a los servicios
+                disponibles para nuestros alumnos.
+
+            </p>
+
+
+        </div>
+
+
+        <div class="access-grid">
+
+
+            <!-- INSCRIPCIÓN -->
+
+            <a
+                href="inscripcion.html"
+                class="access-card"
+            >
+
+                <div class="access-icon">
+                    📝
+                </div>
+
+                <h3>
+                    Inscripción
+                </h3>
+
+                <p>
+                    Regístrate y obtén tu folio.
+                </p>
+
+            </a>
+
+
+            <!-- PAGOS -->
+
+            <a
+                href="pagos.html"
+                class="access-card"
+            >
+
+                <div class="access-icon">
+                    💳
+                </div>
+
+                <h3>
+                    Pagos
+                </h3>
+
+                <p>
+                    Consulta y realiza tu proceso
+                    de pago.
+                </p>
+
+            </a>
+
+
+            <!-- ALUMNOS -->
+
+            <a
+                href="alumnos.html"
+                class="access-card"
+            >
+
+                <div class="access-icon">
+                    🎓
+                </div>
+
+                <h3>
+                    Portal de alumnos
+                </h3>
+
+                <p>
+                    Ingresa a tu plataforma académica.
+                </p>
+
+            </a>
+
+
+            <!-- CALIFICACIONES -->
+
+            <a
+                href="calificaciones.html"
+                class="access-card"
+            >
+
+                <div class="access-icon">
+                    📊
+                </div>
+
+                <h3>
+                    Calificaciones
+                </h3>
+
+                <p>
+                    Consulta tus resultados académicos.
+                </p>
+
+            </a>
+
+
+            <!-- VALIDAR -->
+
+            <a
+                href="validar.html"
+                class="access-card"
+            >
+
+                <div class="access-icon">
+                    ✓
+                </div>
+
+                <h3>
+                    Validar certificado
+                </h3>
+
+                <p>
+                    Comprueba la autenticidad de un
+                    certificado.
+                </p>
+
+            </a>
+
+
+            <!-- DIPLOMADOS -->
+
+            <a
+                href="diplomados.html"
+                class="access-card"
+            >
+
+                <div class="access-icon">
+                    📚
+                </div>
+
+                <h3>
+                    Diplomados
+                </h3>
+
+                <p>
+                    Conoce nuestros programas disponibles.
+                </p>
+
+            </a>
+
+
+            <!-- CORREOS -->
+
+            <a
+                href="Correos.html"
+                class="access-card"
+            >
+
+                <div class="access-icon">
+                    ✉️
+                </div>
+
+                <h3>
+                    Correos
+                </h3>
+
+                <p>
+                    Accede al sistema de correos
+                    institucionales.
+                </p>
+
+            </a>
+
+
+            <!-- INICIO -->
+
+            <a
+                href="index.html"
+                class="access-card"
+            >
+
+                <div class="access-icon">
+                    🏠
+                </div>
+
+                <h3>
+                    Inicio
+                </h3>
+
+                <p>
+                    Regresa a la página principal.
+                </p>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- ==================================================
+         CTA
+    ================================================== -->
 
     <section class="cta">
 
+
         <div class="cta-card">
+
 
             <h2>
                 Tu evolución comienza aquí.
             </h2>
 
+
             <p>
-                Regístrate en Evolva Academy,
-                obtén tu folio y comienza el proceso
-                para formar parte de nuestros
-                diplomados profesionales.
+
+                Elige uno de nuestros diplomados,
+                realiza tu inscripción y comienza
+                tu formación profesional con
+                Evolva Academy.
+
             </p>
+
 
             <a
                 href="inscripcion.html"
@@ -1686,7 +2955,9 @@
                 Crear mi inscripción →
             </a>
 
+
         </div>
+
 
     </section>
 
@@ -1694,11 +2965,12 @@
 </main>
 
 
-<!-- =====================================
+<!-- ==================================================
      FOOTER
-===================================== -->
+================================================== -->
 
 <footer>
+
 
     <img
         src="logo-evolva.png"
@@ -1714,29 +2986,68 @@
 
     <div class="footer-links">
 
+
         <a href="index.html">
             Inicio
         </a>
+
 
         <a href="diplomados.html">
             Diplomados
         </a>
 
+
         <a href="inscripcion.html">
             Inscripción
         </a>
+
 
         <a href="pagos.html">
             Pagos
         </a>
 
+
+        <a href="validar.html">
+            Validar certificado
+        </a>
+
+
+        <a href="alumnos.html">
+            Portal de alumnos
+        </a>
+
+
+        <a href="calificaciones.html">
+            Calificaciones
+        </a>
+
+
+        <a href="Correos.html">
+            Correos
+        </a>
+
+
     </div>
 
 
     <p>
+
+        Sitio oficial:
+
+        <span class="website">
+            evolvacademy.mx
+        </span>
+
+    </p>
+
+
+    <p>
+
         © 2026 Evolva Academy.
         Todos los derechos reservados.
+
     </p>
+
 
 </footer>
 
