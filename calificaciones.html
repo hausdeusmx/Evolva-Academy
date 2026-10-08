@@ -1,2230 +1,1434 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Calificaciones | Evolva Academy</title>
 
-<!-- =====================================================
-     LIBRERÍAS
-===================================================== -->
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-
 <style>
-
-/* =====================================================
-   RESET
-===================================================== */
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-html{
-    scroll-behavior:smooth;
+:root {
+    --ink: #183353;
+    --blue: #1e6bd9;
+    --muted: #6b7f99;
+    --line: #e2eaf5;
 }
 
-body{
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    color:#172033;
-
-    background:#f4f7fc;
-
-    min-height:100vh;
+html {
+    scroll-behavior: smooth;
 }
 
-
-/* =====================================================
-   HEADER — NUEVO DISEÑO WEB
-===================================================== */
-
-.topbar{
-
-    height:76px;
-
-    background:#ffffff;
-
-    border-bottom:1px solid #e2e8f0;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    padding:0 42px;
-
-    position:relative;
-
-    z-index:20;
+body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: #f5f8fd;
+    color: var(--ink);
+    min-height: 100vh;
 }
 
-.brand{
+/* LOGO INTEGRADO */
 
-    display:flex;
-
-    align-items:center;
-
-    gap:13px;
+.evolva-logo {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #075bd2;
+    line-height: 1;
+    font-family: Arial, Helvetica, sans-serif;
+    white-space: nowrap;
+    padding: 5px 0;
 }
 
-.brand img{
-
-    height:45px;
-
-    width:auto;
-
-    object-fit:contain;
+.logo-word {
+    font-size: 29px;
+    font-weight: 900;
+    letter-spacing: -1.6px;
+    line-height: 1.05;
 }
 
-.brand-text{
-
-    font-size:18px;
-
-    font-weight:900;
-
-    color:#063b91;
-
-    letter-spacing:.5px;
+.logo-subtitle {
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    margin-top: 4px;
+    padding-left: 5px;
+    line-height: 1.2;
 }
 
-.back-link{
+/* ENCABEZADO */
 
-    text-decoration:none;
-
-    color:#334155;
-
-    font-size:13px;
-
-    font-weight:700;
-
-    padding:10px 15px;
-
-    border-radius:8px;
-
-    transition:.2s;
+.topbar {
+    height: 82px;
+    background: white;
+    padding: 0 max(24px, calc((100vw - 1160px) / 2));
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    position: relative;
+    z-index: 20;
 }
 
-.back-link:hover{
-
-    background:#f1f5f9;
-
-    color:#063b91;
+.brand {
+    display: flex;
+    align-items: center;
 }
 
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
 
-/* =====================================================
-   HERO WEB
-===================================================== */
+.payment-link {
+    font-size: 12px;
+    color: #5b6f88;
+    font-weight: 700;
+    text-decoration: none;
+}
 
-.web-hero{
+.back-link {
+    font-size: 12px;
+    font-weight: 700;
+    background: #edf4ff;
+    border: 1px solid #dce9fc;
+    border-radius: 10px;
+    color: #2564ba;
+    padding: 12px 17px;
+    text-decoration: none;
+    transition: background .2s;
+}
 
-    position:relative;
+.back-link:hover {
+    background: #dfeeff;
+}
 
-    overflow:hidden;
+/* PRESENTACIÓN */
 
+.web-hero {
+    position: relative;
+    padding: 72px 24px;
     background:
-
         radial-gradient(
-            circle at 15% 20%,
-            rgba(38,132,255,.18),
-            transparent 28%
+            ellipse at 8% 0%,
+            rgba(36, 104, 187, .38),
+            transparent 50%
         ),
-
-        radial-gradient(
-            circle at 90% 80%,
-            rgba(8,108,255,.10),
-            transparent 30%
-        ),
-
-        linear-gradient(
-            135deg,
-            #063b91 0%,
-            #0757c9 52%,
-            #086cff 100%
-        );
-
-    color:white;
-
-    padding:72px 20px 105px;
-
-    text-align:center;
-}
-
-
-/* círculos decorativos */
-
-.web-hero::before{
-
-    content:"";
-
-    position:absolute;
-
-    width:330px;
-
-    height:330px;
-
-    border:1px solid rgba(255,255,255,.10);
-
-    border-radius:50%;
-
-    top:-180px;
-
-    right:-70px;
-}
-
-.web-hero::after{
-
-    content:"";
-
-    position:absolute;
-
-    width:240px;
-
-    height:240px;
-
-    border:1px solid rgba(255,255,255,.09);
-
-    border-radius:50%;
-
-    bottom:-140px;
-
-    left:-70px;
-}
-
-.hero-content{
-
-    position:relative;
-
-    z-index:2;
-
-    max-width:760px;
-
-    margin:auto;
-}
-
-.hero-badge{
-
-    display:inline-flex;
-
-    align-items:center;
-
-    gap:7px;
-
-    padding:8px 14px;
-
-    border:1px solid rgba(255,255,255,.22);
-
-    background:rgba(255,255,255,.10);
-
-    border-radius:30px;
-
-    font-size:11px;
-
-    font-weight:800;
-
-    letter-spacing:.7px;
-
-    text-transform:uppercase;
-
-    margin-bottom:20px;
-}
-
-.hero-badge::before{
-
-    content:"";
-
-    width:7px;
-
-    height:7px;
-
-    border-radius:50%;
-
-    background:#ffffff;
+        linear-gradient(120deg, #0d2f60, #105abb);
+    color: white;
+    overflow: hidden;
+}
+
+.web-hero::before,
+.web-hero::after {
+    content: "";
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 50%;
+    pointer-events: none;
 }
-
-.hero-content h1{
 
-    font-size:42px;
+.web-hero::before {
+    width: 520px;
+    height: 520px;
+    right: -100px;
+    top: -260px;
+}
+
+.web-hero::after {
+    width: 370px;
+    height: 370px;
+    left: 23%;
+    bottom: -290px;
+}
 
-    line-height:1.12;
-
-    font-weight:900;
-
-    letter-spacing:-.8px;
-
-    margin-bottom:16px;
+.hero-layout {
+    max-width: 1160px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 65px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
 }
-
-.hero-content p{
-
-    max-width:610px;
-
-    margin:auto;
 
-    color:rgba(255,255,255,.86);
-
-    font-size:16px;
-
-    line-height:1.65;
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    padding: 10px 13px;
+    background: rgba(255, 255, 255, .05);
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 30px;
+    margin-bottom: 24px;
+    color: #dbeaff;
+}
+
+.hero-badge::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #90c3ff;
+}
+
+.hero-content h1 {
+    font-size: clamp(34px, 4vw, 52px);
+    line-height: 1.13;
+    letter-spacing: -1.8px;
+    font-weight: 800;
+    margin-bottom: 22px;
+}
+
+.hero-content h1 span {
+    color: #9ccaff;
 }
-
-
-/* =====================================================
-   CONTENEDOR WEB
-===================================================== */
-
-.container{
-
-    width:min(1100px, calc(100% - 32px));
-
-    margin:-48px auto 70px;
-
-    position:relative;
-
-    z-index:5;
+
+.hero-content p {
+    color: #d3e2f7;
+    font-size: 15px;
+    line-height: 1.9;
+    max-width: 440px;
+}
+
+/* CONSULTA */
+
+.search-box {
+    width: 100%;
+    background: white;
+    border: 1px solid #e6eef9;
+    border-radius: 22px;
+    box-shadow: 0 24px 50px rgba(0, 28, 75, .15);
+    padding: 30px;
+    color: var(--ink);
+    animation: rise .5s ease both;
+}
+
+.search-top {
+    margin-bottom: 24px;
 }
-
-
-/* =====================================================
-   TARJETA PRINCIPAL DE CONSULTA
-===================================================== */
-
-.search-box{
+
+.search-title {
+    font-size: 21px;
+    font-weight: 900;
+    color: #183353;
+    letter-spacing: -.5px;
+    margin-bottom: 8px;
+}
+
+.search-description {
+    font-size: 12px;
+    color: #72839b;
+    line-height: 1.7;
+}
 
-    background:#ffffff;
-
-    border:1px solid #e2e8f0;
-
-    border-radius:18px;
-
-    padding:34px 38px;
-
-    box-shadow:
-        0 18px 45px rgba(15,40,75,.10);
-
-    max-width:900px;
-
-    margin:0 auto;
+.search-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #5f7797;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
 }
 
-.search-top{
-
-    display:flex;
-
-    align-items:flex-start;
-
-    justify-content:space-between;
-
-    gap:20px;
-
-    margin-bottom:24px;
+.search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
 }
-
-.search-title{
 
-    color:#063b91;
-
-    font-size:21px;
-
-    font-weight:900;
-
-    margin-bottom:7px;
+.search-input-wrapper {
+    position: relative;
 }
-
-.search-description{
-
-    color:#64748b;
-
-    font-size:13px;
 
-    line-height:1.55;
+.search-input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6585af;
+    display: flex;
+    pointer-events: none;
 }
-
-.search-label{
-
-    font-size:11px;
-
-    font-weight:900;
-
-    color:#475569;
-
-    text-transform:uppercase;
-
-    letter-spacing:.5px;
-
-    margin-bottom:8px;
 
-    display:block;
+.search-form input {
+    width: 100%;
+    height: 55px;
+    border: 1px solid #d8e4f4;
+    border-radius: 11px;
+    background: #f7faff;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--ink);
+    padding: 0 15px 0 42px;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
 }
 
-.search-form{
-
-    display:flex;
-
-    gap:11px;
+.search-form input::placeholder {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: #94a3b8;
 }
-
-.search-input-wrapper{
 
-    position:relative;
-
-    flex:1;
+.search-form input:focus {
+    background: white;
+    border-color: #367dde;
+    box-shadow: 0 0 0 4px rgba(53, 124, 233, .08);
 }
-
-.search-input-icon{
-
-    position:absolute;
 
-    left:15px;
-
-    top:50%;
-
-    transform:translateY(-50%);
-
-    color:#64748b;
-
-    font-size:15px;
-
-    pointer-events:none;
+.search-form button {
+    width: 100%;
+    height: 51px;
+    border: 0;
+    border-radius: 11px;
+    background: #1d6cda;
+    color: white;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(29, 108, 218, .13);
+    transition: background .2s, transform .2s;
 }
-
-.search-form input{
 
-    width:100%;
-
-    height:52px;
-
-    border:1px solid #cbd5e1;
-
-    border-radius:9px;
-
-    padding:0 15px 0 42px;
-
-    background:#f8fafc;
-
-    color:#172033;
-
-    font-size:14px;
-
-    font-weight:600;
-
-    outline:none;
-
-    transition:.2s;
+.search-form button:hover {
+    background: #155ec6;
+    transform: translateY(-2px);
 }
-
-.search-form input::placeholder{
-
-    color:#94a3b8;
 
-    font-weight:400;
+.search-form button:disabled {
+    opacity: .65;
+    cursor: wait;
+    transform: none;
 }
 
-.search-form input:focus{
-
-    background:#ffffff;
-
-    border-color:#086cff;
-
-    box-shadow:
-        0 0 0 4px rgba(8,108,255,.08);
+.search-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: #7a8ca4;
+    font-size: 10px;
+    line-height: 1.6;
+    margin-top: 20px;
+    padding-top: 17px;
+    border-top: 1px solid #edf1f5;
 }
-
-.search-form button{
-
-    height:52px;
-
-    border:0;
-
-    border-radius:9px;
-
-    padding:0 28px;
-
-    background:#063b91;
-
-    color:white;
-
-    font-size:13px;
-
-    font-weight:800;
 
-    cursor:pointer;
+.search-note strong {
+    color: #526f92;
+}
+
+/* TARJETAS */
 
-    transition:.2s;
-
-    white-space:nowrap;
+.container {
+    width: min(1160px, calc(100% - 48px));
+    margin: 32px auto 55px;
 }
-
-.search-form button:hover{
-
-    background:#086cff;
 
-    box-shadow:
-        0 8px 18px rgba(8,108,255,.22);
-
-    transform:translateY(-1px);
+.features {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(3, 1fr);
 }
-
-
-/* =====================================================
-   AYUDA DEL BUSCADOR
-===================================================== */
-
-.search-note{
-
-    margin-top:15px;
-
-    padding-top:15px;
-
-    border-top:1px solid #edf1f5;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:8px;
 
-    color:#64748b;
-
-    font-size:11px;
+.feature-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    background: white;
+    border: 1px solid #e3ebf6;
+    padding: 25px;
+    border-radius: 16px;
+    transition: transform .2s, box-shadow .2s;
 }
 
-.search-note strong{
-
-    color:#334155;
+.feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 25px rgba(38, 70, 111, .04);
 }
-
-
-/* =====================================================
-   CARACTERÍSTICAS
-===================================================== */
-
-.features{
-
-    max-width:900px;
 
-    margin:24px auto 0;
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:14px;
+.feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 43px;
+    height: 43px;
+    flex: 0 0 43px;
+    border-radius: 12px;
+    background: #eaf2ff;
+    color: #2168cc;
+    font-size: 14px;
+    font-weight: 900;
 }
-
-.feature-card{
-
-    background:#ffffff;
-
-    border:1px solid #e2e8f0;
 
-    border-radius:12px;
-
-    padding:20px;
-
-    display:flex;
-
-    align-items:flex-start;
-
-    gap:13px;
-
-    box-shadow:
-        0 6px 20px rgba(15,40,75,.045);
+.feature-title {
+    font-size: 13px;
+    font-weight: 900;
+    color: #254569;
+    margin-bottom: 7px;
 }
-
-.feature-icon{
-
-    flex:0 0 38px;
-
-    width:38px;
-
-    height:38px;
-
-    border-radius:9px;
-
-    background:#edf4ff;
-
-    color:#063b91;
 
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    font-size:16px;
-
-    font-weight:900;
+.feature-text {
+    font-size: 11px;
+    line-height: 1.7;
+    color: #74869d;
 }
-
-.feature-title{
-
-    font-size:12px;
 
-    font-weight:900;
+/* MENSAJES */
 
-    color:#334155;
-
-    margin-bottom:4px;
+.message {
+    display: none;
+    margin: 20px auto;
+    padding: 14px 17px;
+    border-radius: 13px;
+    font-size: 13px;
+    line-height: 1.6;
 }
-
-.feature-text{
-
-    font-size:11px;
 
-    line-height:1.45;
-
-    color:#64748b;
+.message.error {
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    color: #be123c;
 }
-
-
-/* =====================================================
-   MENSAJE
-===================================================== */
 
-.message{
-
-    display:none;
-
-    max-width:900px;
-
-    margin:20px auto;
-
-    padding:14px 17px;
-
-    border-radius:9px;
-
-    font-size:13px;
+.message.success {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
 }
 
-.message.error{
-
-    display:block;
-
-    background:#fff1f2;
-
-    border:1px solid #fecdd3;
-
-    color:#be123c;
+.loading {
+    display: none;
+    margin: 20px auto;
+    padding: 30px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 13px;
+    text-align: center;
+    color: #64748b;
+    font-size: 13px;
 }
-
-.message.success{
-
-    display:block;
-
-    background:#f0fdf4;
 
-    border:1px solid #bbf7d0;
-
-    color:#166534;
+.spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid #dbe4ef;
+    border-top-color: #063b91;
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+    margin: 0 auto 10px;
 }
-
-
-/* =====================================================
-   LOADING
-===================================================== */
-
-.loading{
-
-    display:none;
-
-    max-width:900px;
-
-    margin:20px auto;
-
-    padding:24px;
-
-    background:#ffffff;
-
-    border:1px solid #e2e8f0;
-
-    border-radius:12px;
-
-    text-align:center;
 
-    color:#64748b;
-
-    font-size:13px;
-
-    box-shadow:
-        0 8px 25px rgba(15,40,75,.05);
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
-
-.spinner{
-
-    width:28px;
-
-    height:28px;
-
-    border:3px solid #dbe4ef;
 
-    border-top-color:#063b91;
-
-    border-radius:50%;
-
-    animation:spin .8s linear infinite;
-
-    margin:0 auto 10px;
+@keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes spin{
+/* BOLETA */
 
-    to{
-        transform:rotate(360deg);
-    }
+#boleta {
+    display: none;
 }
-
-
-/* =====================================================
-   BOLETA
-   =====================================================
-   IMPORTANTE:
-   ESTA PARTE SE CONSERVA PARA QUE EL PDF SEA EL MISMO
-   ===================================================== */
-
-#boleta{
 
-    display:none;
+.report-card {
+    position: relative;
+    background: white;
+    border: 1px solid #bfc9d6;
+    box-shadow: 0 5px 22px rgba(15, 40, 75, .10);
+    overflow: hidden;
+    margin-top: 28px;
 }
 
-.report-card{
-
-    position:relative;
-
-    background:#fff;
-
-    border:1px solid #bfc9d6;
-
-    box-shadow:
-        0 5px 22px rgba(15,40,75,.10);
-
-    overflow:hidden;
+.report-header {
+    border-bottom: 4px solid #063b91;
+    padding: 25px 30px 18px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
 }
-
-
-/* =====================================================
-   ENCABEZADO INSTITUCIONAL
-===================================================== */
-
-.report-header{
-
-    border-bottom:4px solid #063b91;
-
-    padding:25px 30px 18px;
-
-    display:flex;
-
-    align-items:center;
 
-    gap:25px;
+.logo-area {
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.logo-area{
-
-    width:150px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
+.logo-area .logo-word {
+    font-size: 28px;
 }
-
-.logo-area img{
-
-    max-width:145px;
 
-    max-height:75px;
-
-    object-fit:contain;
+.institution {
+    flex: 1;
+    text-align: center;
 }
-
-.institution{
-
-    flex:1;
 
-    text-align:center;
+.institution h1 {
+    font-size: 25px;
+    color: #063b91;
+    font-weight: 900;
+    letter-spacing: .5px;
+    margin-bottom: 5px;
 }
-
-.institution h1{
-
-    font-size:25px;
-
-    color:#063b91;
-
-    font-weight:900;
 
-    letter-spacing:.5px;
-
-    margin-bottom:5px;
+.institution h2 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #334155;
+    text-transform: uppercase;
+    margin-bottom: 8px;
 }
-
-.institution h2{
-
-    font-size:15px;
-
-    font-weight:700;
-
-    color:#334155;
-
-    text-transform:uppercase;
 
-    margin-bottom:8px;
+.institution p {
+    font-size: 12px;
+    color: #64748b;
 }
 
-.institution p{
-
-    font-size:12px;
-
-    color:#64748b;
+.header-code {
+    width: 150px;
+    text-align: right;
+    font-size: 11px;
+    color: #475569;
 }
-
-.header-code{
-
-    width:150px;
-
-    text-align:right;
-
-    font-size:11px;
 
-    color:#475569;
+.header-code strong {
+    display: block;
+    font-size: 13px;
+    color: #063b91;
+    margin-bottom: 4px;
 }
 
-.header-code strong{
-
-    display:block;
-
-    font-size:13px;
-
-    color:#063b91;
-
-    margin-bottom:4px;
+.student-section {
+    padding: 18px 30px;
+    border-bottom: 1px solid #cbd5e1;
 }
-
-
-/* =====================================================
-   DATOS
-===================================================== */
 
-.student-section{
-
-    padding:18px 30px;
-
-    border-bottom:1px solid #cbd5e1;
+.section-title {
+    font-size: 12px;
+    font-weight: 900;
+    color: #063b91;
+    text-transform: uppercase;
+    border-bottom: 1px solid #d8e0e9;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
 }
-
-.section-title{
-
-    font-size:12px;
-
-    font-weight:900;
-
-    color:#063b91;
 
-    text-transform:uppercase;
-
-    border-bottom:1px solid #d8e0e9;
-
-    padding-bottom:6px;
-
-    margin-bottom:12px;
+.student-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    border: 1px solid #cbd5e1;
 }
-
-.student-grid{
-
-    display:grid;
-
-    grid-template-columns:
-        2fr 1fr 1fr;
 
-    border:1px solid #cbd5e1;
+.data-cell {
+    min-height: 54px;
+    padding: 8px 11px;
+    border-right: 1px solid #cbd5e1;
+    border-bottom: 1px solid #cbd5e1;
 }
 
-.data-cell{
-
-    min-height:54px;
-
-    padding:8px 11px;
-
-    border-right:1px solid #cbd5e1;
-
-    border-bottom:1px solid #cbd5e1;
+.data-cell:nth-child(3n) {
+    border-right: 0;
 }
 
-.data-cell:nth-child(3n){
-
-    border-right:0;
+.data-label {
+    font-size: 9px;
+    color: #64748b;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 5px;
 }
-
-.data-label{
 
-    font-size:9px;
-
-    color:#64748b;
-
-    text-transform:uppercase;
-
-    font-weight:800;
-
-    margin-bottom:5px;
+.data-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #172033;
+    overflow-wrap: anywhere;
 }
-
-.data-value{
-
-    font-size:13px;
 
-    font-weight:700;
-
-    color:#172033;
-
-    word-break:break-word;
+.academic-section {
+    padding: 18px 30px 10px;
 }
-
 
-/* =====================================================
-   TABLA
-===================================================== */
-
-.academic-section{
-
-    padding:18px 30px 10px;
+.table-wrapper {
+    overflow-x: auto;
 }
 
-.table-wrapper{
-
-    overflow-x:auto;
+.grades-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
 }
-
-.grades-table{
 
-    width:100%;
-
-    border-collapse:collapse;
-
-    font-size:11px;
+.grades-table th {
+    background: #063b91;
+    color: white;
+    border: 1px solid #063b91;
+    padding: 9px 7px;
+    text-align: center;
+    font-size: 10px;
+    text-transform: uppercase;
 }
-
-.grades-table th{
-
-    background:#063b91;
-
-    color:white;
-
-    border:1px solid #063b91;
 
-    padding:9px 7px;
-
-    text-align:center;
-
-    font-size:10px;
-
-    text-transform:uppercase;
+.grades-table td {
+    border: 1px solid #cbd5e1;
+    padding: 8px 7px;
+    vertical-align: middle;
 }
-
-.grades-table td{
-
-    border:1px solid #cbd5e1;
-
-    padding:8px 7px;
 
-    vertical-align:middle;
+.grades-table tbody tr:nth-child(even) {
+    background: #f8fafc;
 }
 
-.grades-table tbody tr:nth-child(even){
-
-    background:#f8fafc;
+.col-module {
+    width: 22%;
+    font-weight: 700;
+    color: #334155;
 }
-
-.col-module{
-
-    width:22%;
 
-    font-weight:700;
-
-    color:#334155;
+.col-key {
+    width: 9%;
+    text-align: center;
+    font-weight: 700;
+    color: #063b91;
 }
-
-.col-key{
-
-    width:9%;
 
-    text-align:center;
-
-    font-weight:700;
-
-    color:#063b91;
+.col-evaluation {
+    width: 48%;
 }
-
-.col-evaluation{
 
-    width:48%;
+.col-grade {
+    width: 9%;
+    text-align: center;
+    font-weight: 900;
+    font-size: 13px;
 }
-
-.col-grade{
-
-    width:9%;
-
-    text-align:center;
 
-    font-weight:900;
-
-    font-size:13px;
+.col-status {
+    width: 12%;
+    text-align: center;
 }
-
-.col-status{
-
-    width:12%;
 
-    text-align:center;
+.module-name {
+    font-weight: 800;
+    color: #334155;
 }
 
-.module-name{
-
-    font-weight:800;
-
-    color:#334155;
+.grade-approved {
+    color: #166534;
 }
-
-.grade-approved{
 
-    color:#166534;
+.grade-pending {
+    color: #92400e;
 }
 
-.grade-pending{
-
-    color:#92400e;
+.grade-failed {
+    color: #991b1b;
 }
-
-.status{
-
-    display:inline-block;
-
-    padding:3px 7px;
-
-    border-radius:4px;
-
-    font-size:9px;
 
-    font-weight:800;
+.status {
+    display: inline-block;
+    padding: 3px 7px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 800;
 }
 
-.status-approved{
-
-    background:#dcfce7;
-
-    color:#166534;
+.status-approved {
+    background: #dcfce7;
+    color: #166534;
 }
-
-.status-pending{
 
-    background:#fef3c7;
-
-    color:#92400e;
+.status-pending {
+    background: #fef3c7;
+    color: #92400e;
 }
-
-.status-failed{
-
-    background:#fee2e2;
 
-    color:#991b1b;
+.status-failed {
+    background: #fee2e2;
+    color: #991b1b;
 }
 
-
-/* =====================================================
-   RESUMEN
-===================================================== */
-
-.summary-section{
-
-    padding:18px 30px;
+.summary-section {
+    padding: 18px 30px;
 }
 
-.summary-grid{
-
-    display:grid;
-
-    grid-template-columns:
-        1fr 1fr 1fr;
-
-    gap:12px;
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
 }
-
-.summary-box{
 
-    border:1px solid #cbd5e1;
-
-    text-align:center;
-
-    padding:13px;
-
-    background:#f8fafc;
+.summary-box {
+    border: 1px solid #cbd5e1;
+    text-align: center;
+    padding: 13px;
+    background: #f8fafc;
 }
-
-.summary-label{
-
-    font-size:10px;
-
-    color:#64748b;
 
-    font-weight:800;
-
-    text-transform:uppercase;
-
-    margin-bottom:5px;
+.summary-label {
+    font-size: 10px;
+    color: #64748b;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 5px;
 }
-
-.summary-value{
 
-    font-size:22px;
-
-    color:#063b91;
-
-    font-weight:900;
+.summary-value {
+    font-size: 22px;
+    color: #063b91;
+    font-weight: 900;
 }
-
 
-/* =====================================================
-   PIE
-===================================================== */
-
-.report-footer{
-
-    margin-top:8px;
-
-    padding:22px 30px 30px;
-
-    border-top:1px solid #cbd5e1;
-
-    display:grid;
-
-    grid-template-columns:
-        1fr 180px 1fr;
-
-    gap:25px;
-
-    align-items:end;
+.report-footer {
+    margin-top: 8px;
+    padding: 22px 30px 30px;
+    border-top: 1px solid #cbd5e1;
+    display: grid;
+    grid-template-columns: 1fr 180px 1fr;
+    gap: 25px;
+    align-items: end;
 }
-
-.observations{
 
-    align-self:stretch;
+.observations {
+    align-self: stretch;
 }
-
-.observations-title{
-
-    font-size:10px;
-
-    text-transform:uppercase;
-
-    font-weight:900;
 
-    color:#063b91;
-
-    margin-bottom:7px;
+.observations-title {
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: 900;
+    color: #063b91;
+    margin-bottom: 7px;
 }
-
-.observations p{
-
-    font-size:10px;
 
-    line-height:1.5;
-
-    color:#64748b;
+.observations p {
+    font-size: 10px;
+    line-height: 1.5;
+    color: #64748b;
 }
 
-.signature{
-
-    text-align:center;
+.signature {
+    text-align: center;
 }
-
-.signature-line{
 
-    border-top:1px solid #334155;
-
-    padding-top:7px;
-
-    margin-top:42px;
+.signature-line {
+    border-top: 1px solid #334155;
+    padding-top: 7px;
+    margin-top: 42px;
 }
-
-.signature-name{
 
-    font-weight:800;
-
-    font-size:12px;
+.signature-name {
+    font-weight: 800;
+    font-size: 12px;
 }
-
-.signature-role{
-
-    font-size:9px;
 
-    color:#64748b;
-
-    margin-top:3px;
+.signature-role {
+    font-size: 9px;
+    color: #64748b;
+    margin-top: 3px;
 }
-
-.qr-area{
-
-    display:flex;
 
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:flex-end;
+.qr-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
 }
-
-#qrcode{
-
-    width:100px;
-
-    height:100px;
-
-    padding:5px;
-
-    border:1px solid #d1d5db;
-
-    background:white;
-
-    display:flex;
-
-    align-items:center;
 
-    justify-content:center;
+#qrcode {
+    width: 100px;
+    height: 100px;
+    padding: 5px;
+    border: 1px solid #d1d5db;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #qrcode img,
-#qrcode canvas{
-
-    max-width:90px;
-
-    max-height:90px;
+#qrcode canvas {
+    max-width: 90px;
+    max-height: 90px;
 }
 
-.qr-label{
-
-    margin-top:6px;
-
-    text-align:center;
-
-    font-size:8px;
-
-    color:#64748b;
-
-    line-height:1.3;
+.qr-label {
+    margin-top: 6px;
+    text-align: center;
+    font-size: 8px;
+    color: #64748b;
+    line-height: 1.3;
 }
 
-
-/* =====================================================
-   MARCA DE AGUA
-===================================================== */
-
-.watermark::after{
-
-    content:"EVOLVA ACADEMY";
-
-    position:absolute;
-
-    left:50%;
-
-    top:55%;
-
-    transform:
-        translate(-50%,-50%)
-        rotate(-25deg);
-
-    font-size:65px;
-
-    font-weight:900;
-
-    color:rgba(6,59,145,.035);
-
-    pointer-events:none;
-
-    white-space:nowrap;
-
-    z-index:0;
+.watermark::after {
+    content: "EVOLVA ACADEMY";
+    position: absolute;
+    left: 50%;
+    top: 55%;
+    transform: translate(-50%, -50%) rotate(-25deg);
+    font-size: 65px;
+    font-weight: 900;
+    color: rgba(6, 59, 145, .035);
+    pointer-events: none;
+    white-space: nowrap;
+    z-index: 0;
 }
 
-.report-card > *{
-
-    position:relative;
-
-    z-index:1;
+.report-card > * {
+    position: relative;
+    z-index: 1;
 }
 
+/* ACCIONES */
 
-/* =====================================================
-   BOTONES PDF
-===================================================== */
-
-.actions{
-
-    display:none;
-
-    margin-top:20px;
-
-    gap:10px;
-
-    justify-content:flex-end;
+.actions {
+    display: none;
+    margin-top: 20px;
+    gap: 10px;
+    justify-content: flex-end;
 }
 
-.actions button{
-
-    border:0;
-
-    border-radius:7px;
-
-    padding:11px 18px;
-
-    cursor:pointer;
-
-    font-weight:700;
-
-    font-size:13px;
+.actions button {
+    border: 0;
+    border-radius: 10px;
+    padding: 13px 20px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 13px;
 }
 
-.actions button:disabled{
-
-    opacity:.65;
-
-    cursor:not-allowed;
+.actions button:disabled {
+    opacity: .65;
+    cursor: not-allowed;
 }
 
-.btn-pdf{
-
-    background:#063b91;
-
-    color:white;
+.btn-pdf {
+    background: #063b91;
+    color: white;
 }
 
-.btn-print{
-
-    background:#e2e8f0;
-
-    color:#172033;
+.btn-print {
+    background: #e2e8f0;
+    color: #172033;
 }
 
-.btn-pdf:hover{
-
-    background:#086cff;
+.btn-pdf:hover {
+    background: #086cff;
 }
 
-.btn-print:hover{
-
-    background:#cbd5e1;
+.btn-print:hover {
+    background: #cbd5e1;
 }
 
+.portal-footer {
+    max-width: 1160px;
+    margin: 0 auto 30px;
+    padding: 24px 0 0;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    color: #8091a8;
+    font-size: 11px;
+}
 
-/* =====================================================
-   RESPONSIVE
-===================================================== */
+.portal-footer strong {
+    color: #5c789b;
+    font-size: 11px;
+    letter-spacing: 1.4px;
+}
 
-@media(max-width:800px){
+a:focus-visible,
+button:focus-visible {
+    outline: 3px solid #8bb7f2;
+    outline-offset: 4px;
+}
 
-    .topbar{
+/* CELULAR */
 
-        height:auto;
-
-        min-height:72px;
-
-        padding:12px 15px;
-
-        gap:10px;
+@media screen and (max-width: 800px) {
+    .topbar {
+        padding: 14px 18px;
+        height: 74px;
     }
 
-    .brand-text{
-
-        font-size:14px;
+    .brand .logo-word {
+        font-size: 24px;
     }
 
-    .brand img{
-
-        height:39px;
+    .brand .logo-subtitle {
+        font-size: 7px;
+        letter-spacing: 4px;
+        padding-left: 4px;
     }
 
-    .back-link{
-
-        font-size:11px;
-
-        padding:8px 9px;
+    .header-nav {
+        gap: 12px;
     }
 
-    .web-hero{
-
-        padding:
-            50px
-            18px
-            85px;
+    .payment-link {
+        font-size: 10px;
     }
 
-    .hero-content h1{
-
-        font-size:30px;
-
-        letter-spacing:-.4px;
+    .back-link {
+        font-size: 10px;
+        padding: 9px 12px;
     }
 
-    .hero-content p{
-
-        font-size:14px;
+    .web-hero {
+        padding: 38px 20px;
     }
 
-    .container{
-
-        width:
-            calc(100% - 18px);
-
-        margin-top:-38px;
+    .hero-layout {
+        grid-template-columns: 1fr;
+        gap: 28px;
     }
 
-    .search-box{
-
-        padding:25px 18px;
-
-        border-radius:14px;
+    .hero-content h1 {
+        font-size: 36px;
+        letter-spacing: -1px;
     }
 
-    .search-top{
-
-        display:block;
-
-        margin-bottom:20px;
+    .hero-content p {
+        font-size: 13px;
     }
 
-    .search-title{
-
-        font-size:19px;
+    .hero-badge {
+        font-size: 9px;
+        margin-bottom: 20px;
     }
 
-    .search-form{
-
-        flex-direction:column;
+    .search-box {
+        padding: 24px;
+        border-radius: 18px;
     }
 
-    .search-form button{
-
-        width:100%;
+    .search-title {
+        font-size: 20px;
     }
 
-    .features{
-
-        grid-template-columns:1fr;
-
+    .container {
+        width: calc(100% - 32px);
+        margin-top: 22px;
     }
 
-    .feature-card{
-
-        padding:16px;
+    .features {
+        grid-template-columns: 1fr;
+        gap: 12px;
     }
 
+    .feature-card {
+        padding: 20px;
+    }
 
-    /* BOLETA */
+    .portal-footer {
+        margin: 0 18px 24px;
+        flex-direction: column;
+        line-height: 1.7;
+    }
 
-    .report-header{
-
-        padding:18px 15px;
-
-        flex-direction:column;
-
-        gap:10px;
+    .report-header {
+        padding: 18px 15px;
+        flex-direction: column;
+        gap: 10px;
     }
 
     .logo-area,
-    .header-code{
-
-        width:auto;
+    .header-code {
+        width: auto;
     }
 
-    .header-code{
-
-        text-align:center;
+    .header-code {
+        text-align: center;
     }
 
-    .institution h1{
-
-        font-size:20px;
+    .institution h1 {
+        font-size: 20px;
     }
 
-    .institution h2{
-
-        font-size:12px;
+    .institution h2 {
+        font-size: 12px;
     }
 
     .student-section,
     .academic-section,
-    .summary-section{
-
-        padding-left:12px;
-
-        padding-right:12px;
+    .summary-section {
+        padding-left: 12px;
+        padding-right: 12px;
     }
 
-    .student-grid{
-
-        grid-template-columns:1fr;
+    .student-grid {
+        grid-template-columns: 1fr;
     }
 
     .data-cell,
-    .data-cell:nth-child(3n){
-
-        border-right:0;
+    .data-cell:nth-child(3n) {
+        border-right: 0;
     }
 
-    .grades-table{
-
-        min-width:850px;
+    .grades-table {
+        min-width: 850px;
     }
 
-    .summary-grid{
-
-        grid-template-columns:1fr;
+    .summary-grid {
+        grid-template-columns: 1fr;
     }
 
-    .report-footer{
-
-        grid-template-columns:1fr;
-
-        text-align:center;
+    .report-footer {
+        grid-template-columns: 1fr;
+        text-align: center;
     }
 
-    .qr-area{
-
-        order:-1;
+    .qr-area {
+        order: -1;
     }
 
-    .observations{
-
-        text-align:left;
+    .observations {
+        text-align: left;
     }
 
-    .actions{
-
-        flex-direction:column;
+    .actions {
+        flex-direction: column;
     }
 
-    .actions button{
-
-        width:100%;
+    .actions button {
+        width: 100%;
     }
 }
 
+@media screen and (max-width: 420px) {
+    .header-nav {
+        gap: 10px;
+    }
+}
 
-/* =====================================================
-   IMPRESIÓN
-===================================================== */
+/* IMPRESIÓN */
 
-@media print{
-
-    @page{
-
-        size:letter;
-
-        margin:10mm;
+@media print {
+    @page {
+        size: letter;
+        margin: 10mm;
     }
 
-    body{
-
-        background:white;
+    body {
+        background: white;
     }
 
     .topbar,
     .web-hero,
-    .search-box,
     .features,
     .message,
     .loading,
-    .actions{
-
-        display:none !important;
+    .actions,
+    .portal-footer {
+        display: none !important;
     }
 
-    .container{
-
-        width:100%;
-
-        margin:0;
+    .container {
+        width: 100%;
+        margin: 0;
     }
 
-    #boleta{
-
-        display:block !important;
+    #boleta {
+        display: block !important;
     }
 
-    .report-card{
-
-        width:100%;
-
-        box-shadow:none;
-
-        border:1px solid #777;
+    .report-card {
+        width: 100%;
+        margin: 0;
+        box-shadow: none;
+        border: 1px solid #777;
     }
 
-    .watermark::after{
-
-        display:block;
-    }
-
-    .table-wrapper{
-
-        overflow:visible !important;
+    .table-wrapper {
+        overflow: visible !important;
     }
 }
 
+/* PDF */
 
-/* =====================================================
-   EXPORTACIÓN PDF
-===================================================== */
-
-.pdf-export{
-
-    background:#ffffff !important;
-
-    box-shadow:none !important;
+.pdf-export {
+    background: white !important;
+    box-shadow: none !important;
 }
 
-.pdf-export .table-wrapper{
-
-    overflow:visible !important;
+.pdf-export .table-wrapper {
+    overflow: visible !important;
 }
 
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}
 </style>
-
 </head>
-
 
 <body>
 
-
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
 <header class="topbar">
-
     <div class="brand">
-
-        <img
-            src="logo-evolva.png"
-            alt="Evolva Academy"
+        <div
+            class="evolva-logo"
+            role="img"
+            aria-label="Evolva Academy"
         >
-
-        <div class="brand-text">
-            EVOLVA ACADEMY
+            <span class="logo-word">EVOLVA</span>
+            <span class="logo-subtitle">ACADEMY</span>
         </div>
-
     </div>
 
+    <nav class="header-nav" aria-label="Navegación principal">
+        <a class="payment-link" href="pagos.html">
+            Pagos
+        </a>
 
-    <a
-        href="alumnos.html"
-        class="back-link"
-    >
-        ← Portal del alumno
-    </a>
-
+        <a href="alumnos.html" class="back-link">
+            ← Portal del alumno
+        </a>
+    </nav>
 </header>
 
-
-<!-- =====================================================
-     HERO NUEVO
-===================================================== -->
-
 <section class="web-hero">
+    <div class="hero-layout">
 
-    <div class="hero-content">
+        <div class="hero-content">
+            <div class="hero-badge">
+                EVOLVA · SERVICIOS ACADÉMICOS
+            </div>
 
-        <div class="hero-badge">
-            Portal académico Evolva
+            <h1>
+                Cada logro cuenta.<br>
+                <span>Consulta tu progreso.</span>
+            </h1>
+
+            <p>
+                Tu historial académico, claro y siempre a tu alcance.
+                Revisa tus evaluaciones y descarga tu boleta
+                con la CURP de tu registro.
+            </p>
         </div>
 
+        <section class="search-box" aria-labelledby="searchTitle">
+            <div class="search-top">
+                <h2 class="search-title" id="searchTitle">
+                    Consulta de calificaciones
+                </h2>
 
-        <h1>
-            Consulta tus calificaciones
-        </h1>
+                <p class="search-description">
+                    Introduce la CURP que utilizaste al registrarte
+                    en Evolva Academy.
+                </p>
+            </div>
 
+            <form class="search-form" id="searchForm">
+                <div>
+                    <label class="search-label" for="curp">
+                        CURP del alumno
+                    </label>
 
-        <p>
-            Consulta de manera rápida y sencilla tu historial
-            académico, promedio y avance de tu diplomado.
-        </p>
+                    <div class="search-input-wrapper">
+                        <span class="search-input-icon">
+                            <svg
+                                width="19"
+                                height="19"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.8"
+                                aria-hidden="true"
+                            >
+                                <circle cx="10.5" cy="10.5" r="6.5"/>
+                                <path d="m16 16 5 5"/>
+                            </svg>
+                        </span>
 
+                        <input
+                            type="text"
+                            id="curp"
+                            name="curp"
+                            autocapitalize="characters"
+                            spellcheck="false"
+                            placeholder="Ingresa tu CURP de 18 caracteres"
+                            minlength="18"
+                            maxlength="18"
+                            pattern="[A-Za-z0-9]{18}"
+                            autocomplete="off"
+                            aria-describedby="curpHelp"
+                            required
+                        >
+                    </div>
+                </div>
+
+                <button type="submit" id="searchButton">
+                    Consultar calificaciones
+                </button>
+            </form>
+
+            <div class="search-note" id="curpHelp">
+                <span aria-hidden="true">ⓘ</span>
+
+                <span>
+                    <strong>Consulta mediante CURP.</strong>
+                    Tu información académica se obtiene directamente
+                    del sistema de Evolva Academy.
+                </span>
+            </div>
+        </section>
     </div>
-
 </section>
 
-
-<!-- =====================================================
-     CONTENIDO
-===================================================== -->
-
 <main class="container">
-
-
-    <!-- =================================================
-         BUSCADOR
-    ================================================== -->
-
-    <section class="search-box">
-
-
-        <div class="search-top">
+    <section class="features" aria-label="Servicios disponibles">
+        <div class="feature-card">
+            <div class="feature-icon" aria-hidden="true">✓</div>
 
             <div>
-
-                <div class="search-title">
-                    Acceso a tu historial académico
-                </div>
-
-                <div class="search-description">
-                    Introduce el folio que recibiste al realizar
-                    tu registro en Evolva Academy.
-                </div>
-
+                <h3 class="feature-title">Historial académico</h3>
+                <p class="feature-text">
+                    Consulta las evaluaciones registradas de tu diplomado.
+                </p>
             </div>
-
         </div>
-
-
-        <form
-            class="search-form"
-            id="searchForm"
-        >
-
-            <div class="search-input-wrapper">
-
-                <span class="search-input-icon">
-                    🔎
-                </span>
-
-                <input
-                    type="text"
-                    id="folio"
-                    placeholder="Ingresa tu folio. Ejemplo: EVOLVA-123456"
-                    autocomplete="off"
-                    required
-                >
-
-            </div>
-
-
-            <button type="submit">
-
-                Consultar
-
-            </button>
-
-        </form>
-
-
-        <div class="search-note">
-
-            <span>🔒</span>
-
-            <span>
-                <strong>Consulta mediante folio.</strong>
-                Tu información académica se obtiene directamente
-                del sistema de Evolva Academy.
-            </span>
-
-        </div>
-
-
-    </section>
-
-
-    <!-- =================================================
-         CARACTERÍSTICAS
-    ================================================== -->
-
-    <section class="features">
-
 
         <div class="feature-card">
-
-            <div class="feature-icon">
-                ✓
-            </div>
+            <div class="feature-icon" aria-hidden="true">%</div>
 
             <div>
-
-                <div class="feature-title">
-                    Historial académico
-                </div>
-
-                <div class="feature-text">
-                    Consulta las evaluaciones registradas
-                    de tu diplomado.
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="feature-card">
-
-            <div class="feature-icon">
-                %
-            </div>
-
-            <div>
-
-                <div class="feature-title">
-                    Promedio y avance
-                </div>
-
-                <div class="feature-text">
+                <h3 class="feature-title">Promedio y avance</h3>
+                <p class="feature-text">
                     Visualiza tu promedio general y porcentaje
                     de avance académico.
-                </div>
-
+                </p>
             </div>
-
         </div>
-
 
         <div class="feature-card">
-
-            <div class="feature-icon">
-                PDF
-            </div>
+            <div class="feature-icon" aria-hidden="true">PDF</div>
 
             <div>
-
-                <div class="feature-title">
-                    Boleta académica
-                </div>
-
-                <div class="feature-text">
-                    Genera e imprime tu documento académico
-                    en formato PDF.
-                </div>
-
+                <h3 class="feature-title">Boleta académica</h3>
+                <p class="feature-text">
+                    Genera e imprime tu documento académico en formato PDF.
+                </p>
             </div>
-
         </div>
-
-
     </section>
-
-
-    <!-- =================================================
-         MENSAJE
-    ================================================== -->
 
     <div
         id="message"
         class="message"
+        role="status"
+        aria-live="polite"
     ></div>
-
-
-    <!-- =================================================
-         LOADING
-    ================================================== -->
 
     <div
         id="loading"
         class="loading"
+        role="status"
+        aria-live="polite"
     >
-
-        <div class="spinner"></div>
-
+        <div class="spinner" aria-hidden="true"></div>
         Consultando información académica...
-
     </div>
 
-
-    <!-- =================================================
-         BOLETA
-         ESTE DISEÑO SE CONSERVA PARA EL PDF
-    ================================================== -->
-
-    <section id="boleta">
-
-        <div
-            class="report-card watermark"
-            id="reportCard"
-        >
-
+    <section id="boleta" aria-label="Boleta académica">
+        <div class="report-card watermark" id="reportCard">
 
             <div class="report-header">
-
                 <div class="logo-area">
-
-                    <img
-                        src="logo-evolva.png"
-                        alt="Evolva Academy"
+                    <div
+                        class="evolva-logo"
+                        role="img"
+                        aria-label="Evolva Academy"
                     >
-
+                        <span class="logo-word">EVOLVA</span>
+                        <span class="logo-subtitle">ACADEMY</span>
+                    </div>
                 </div>
-
 
                 <div class="institution">
-
-                    <h1>
-                        EVOLVA ACADEMY
-                    </h1>
-
-                    <h2>
-                        Reporte Académico de Calificaciones
-                    </h2>
-
-                    <p>
-                        Formación Digital Profesional
-                    </p>
-
+                    <h1>EVOLVA ACADEMY</h1>
+                    <h2>Reporte Académico de Calificaciones</h2>
+                    <p>Formación Digital Profesional</p>
                 </div>
-
 
                 <div class="header-code">
-
-                    <strong id="headerFolio">
-                        —
-                    </strong>
-
+                    <strong id="headerFolio">—</strong>
                     Documento académico
-
                 </div>
-
             </div>
-
 
             <div class="student-section">
-
-                <div class="section-title">
-                    Datos del alumno
-                </div>
-
+                <div class="section-title">Datos del alumno</div>
 
                 <div class="student-grid">
-
-
                     <div class="data-cell">
-
-                        <div class="data-label">
-                            Nombre del alumno
-                        </div>
-
-                        <div
-                            class="data-value"
-                            id="studentName"
-                        >
-                            —
-                        </div>
-
+                        <div class="data-label">Nombre del alumno</div>
+                        <div class="data-value" id="studentName">—</div>
                     </div>
 
-
                     <div class="data-cell">
-
-                        <div class="data-label">
-                            Matrícula / Folio
-                        </div>
-
-                        <div
-                            class="data-value"
-                            id="studentFolio"
-                        >
-                            —
-                        </div>
-
+                        <div class="data-label">Matrícula / Folio</div>
+                        <div class="data-value" id="studentFolio">—</div>
                     </div>
 
-
                     <div class="data-cell">
-
-                        <div class="data-label">
-                            Grupo
-                        </div>
-
-                        <div
-                            class="data-value"
-                            id="studentGroup"
-                        >
-                            —
-                        </div>
-
+                        <div class="data-label">Grupo</div>
+                        <div class="data-value" id="studentGroup">—</div>
                     </div>
 
-
                     <div class="data-cell">
-
-                        <div class="data-label">
-                            CURP
-                        </div>
-
-                        <div
-                            class="data-value"
-                            id="studentCurp"
-                        >
-                            —
-                        </div>
-
+                        <div class="data-label">CURP</div>
+                        <div class="data-value" id="studentCurp">—</div>
                     </div>
 
-
                     <div class="data-cell">
-
-                        <div class="data-label">
-                            Diplomado
-                        </div>
-
-                        <div
-                            class="data-value"
-                            id="studentDiploma"
-                        >
-                            —
-                        </div>
-
+                        <div class="data-label">Diplomado</div>
+                        <div class="data-value" id="studentDiploma">—</div>
                     </div>
 
-
                     <div class="data-cell">
-
-                        <div class="data-label">
-                            Periodo
-                        </div>
-
-                        <div
-                            class="data-value"
-                            id="studentPeriod"
-                        >
-                            —
-                        </div>
-
+                        <div class="data-label">Periodo</div>
+                        <div class="data-value" id="studentPeriod">—</div>
                     </div>
-
-
                 </div>
-
             </div>
-
 
             <div class="academic-section">
-
-                <div class="section-title">
-                    Historial académico
-                </div>
-
+                <div class="section-title">Historial académico</div>
 
                 <div class="table-wrapper">
-
                     <table class="grades-table">
-
                         <thead>
-
                             <tr>
-
-                                <th>
-                                    Módulo
-                                </th>
-
-                                <th>
-                                    Clave
-                                </th>
-
-                                <th>
-                                    Evaluación
-                                </th>
-
-                                <th>
-                                    Calificación
-                                </th>
-
-                                <th>
-                                    Estado
-                                </th>
-
+                                <th scope="col">Módulo</th>
+                                <th scope="col">Clave</th>
+                                <th scope="col">Evaluación</th>
+                                <th scope="col">Calificación</th>
+                                <th scope="col">Estado</th>
                             </tr>
-
                         </thead>
 
-
-                        <tbody
-                            id="gradesBody"
-                        >
-
-                        </tbody>
-
+                        <tbody id="gradesBody"></tbody>
                     </table>
-
                 </div>
-
             </div>
-
 
             <div class="summary-section">
-
-                <div class="section-title">
-                    Resumen académico
-                </div>
-
+                <div class="section-title">Resumen académico</div>
 
                 <div class="summary-grid">
-
-
                     <div class="summary-box">
-
-                        <div class="summary-label">
-                            Evaluaciones
-                        </div>
-
-                        <div
-                            class="summary-value"
-                            id="totalEvaluations"
-                        >
+                        <div class="summary-label">Evaluaciones</div>
+                        <div class="summary-value" id="totalEvaluations">
                             0
                         </div>
-
                     </div>
 
-
                     <div class="summary-box">
-
-                        <div class="summary-label">
-                            Promedio general
-                        </div>
-
-                        <div
-                            class="summary-value"
-                            id="generalAverage"
-                        >
+                        <div class="summary-label">Promedio general</div>
+                        <div class="summary-value" id="generalAverage">
                             —
                         </div>
-
                     </div>
-
 
                     <div class="summary-box">
-
-                        <div class="summary-label">
-                            Avance académico
-                        </div>
-
-                        <div
-                            class="summary-value"
-                            id="academicProgress"
-                        >
+                        <div class="summary-label">Avance académico</div>
+                        <div class="summary-value" id="academicProgress">
                             0%
                         </div>
-
                     </div>
-
-
                 </div>
-
             </div>
 
-
             <div class="report-footer">
-
-
                 <div class="observations">
-
-                    <div class="observations-title">
-                        Observaciones
-                    </div>
+                    <div class="observations-title">Observaciones</div>
 
                     <p id="observations">
                         Documento generado desde el sistema académico
                         de Evolva Academy. Las calificaciones corresponden
                         al historial registrado en el sistema.
                     </p>
-
                 </div>
 
-
                 <div class="signature">
-
                     <div class="signature-line">
-
-                        <div class="signature-name">
-                            Alexis Soto
-                        </div>
+                        <div class="signature-name">Alexis Soto</div>
 
                         <div class="signature-role">
                             Director General<br>
                             Evolva Academy
                         </div>
-
                     </div>
-
                 </div>
 
-
                 <div class="qr-area">
-
                     <div id="qrcode"></div>
 
                     <div class="qr-label">
                         Escanea para validar<br>
                         este documento
                     </div>
-
                 </div>
-
-
             </div>
-
-
         </div>
-
     </section>
 
-
-    <!-- =================================================
-         ACCIONES
-    ================================================== -->
-
-    <div
-        class="actions"
-        id="actions"
-    >
-
+    <div class="actions" id="actions">
         <button
+            type="button"
             class="btn-print"
             onclick="imprimirBoleta()"
         >
-            🖨 Imprimir
+            Imprimir
         </button>
 
-
         <button
+            type="button"
             class="btn-pdf"
             onclick="generarPDF()"
         >
-            📄 Descargar PDF
+            Descargar PDF
         </button>
-
     </div>
-
-
 </main>
 
-
-<!-- =====================================================
-     JAVASCRIPT ORIGINAL
-===================================================== -->
+<footer class="portal-footer">
+    <strong>EVOLVA ACADEMY</strong>
+    <span>
+        Formación Digital Profesional · Portal de calificaciones
+    </span>
+</footer>
 
 <script>
-
-/* =====================================================
-   CONFIGURACIÓN
-===================================================== */
+/* CONFIGURACIÓN */
 
 const API_URL =
     'https://script.google.com/macros/s/AKfycbwPbOaBJBnwNd039RawS29RwL0WaM48o8s1O2EEDxKwYpng2P_kVVKUSf_ZPcgOAJMFng/exec';
@@ -2232,496 +1436,311 @@ const API_URL =
 const VALIDACION_URL =
     'https://evolvacademy.mx/validar.html';
 
-const LOGO_URL =
-    'logo-evolva.png';
-
 let alumnoActual = null;
 let calificacionesActuales = [];
+let consultaEnCurso = false;
 
+const searchForm = document.getElementById('searchForm');
+const curpInput = document.getElementById('curp');
+const searchButton = document.getElementById('searchButton');
+const message = document.getElementById('message');
+const loading = document.getElementById('loading');
+const boleta = document.getElementById('boleta');
+const actions = document.getElementById('actions');
+const reportCard = document.getElementById('reportCard');
 
-/* =====================================================
-   ELEMENTOS
-===================================================== */
+/* MENSAJES Y CARGA */
 
-const searchForm =
-    document.getElementById('searchForm');
-
-const folioInput =
-    document.getElementById('folio');
-
-const message =
-    document.getElementById('message');
-
-const loading =
-    document.getElementById('loading');
-
-const boleta =
-    document.getElementById('boleta');
-
-const actions =
-    document.getElementById('actions');
-
-const reportCard =
-    document.getElementById('reportCard');
-
-
-/* =====================================================
-   MENSAJE
-===================================================== */
-
-function mostrarMensaje(
-    texto,
-    tipo = 'error'
-){
-
+function mostrarMensaje(texto, tipo = 'error') {
     message.textContent = texto;
-
-    message.className =
-        'message ' + tipo;
-
+    message.className = 'message ' + tipo;
+    message.style.display = 'block';
 }
 
-
-/* =====================================================
-   LOADING
-===================================================== */
-
-function mostrarLoading(
-    mostrar
-){
-
-    loading.style.display =
-        mostrar ? 'block' : 'none';
-
+function ocultarMensaje() {
+    message.textContent = '';
+    message.style.display = 'none';
 }
 
+function mostrarLoading(mostrar) {
+    loading.style.display = mostrar ? 'block' : 'none';
+    searchButton.disabled = mostrar;
+    searchButton.textContent = mostrar
+        ? 'Consultando…'
+        : 'Consultar calificaciones';
 
-/* =====================================================
-   JSONP
-===================================================== */
+    searchForm.setAttribute('aria-busy', String(mostrar));
+}
 
-function jsonp(
-    url,
-    params = {}
-){
+/* CONEXIÓN JSONP */
 
-    return new Promise(
-        function(resolve, reject){
+function jsonp(url, params = {}) {
+    return new Promise(function(resolve, reject) {
+        const callbackName =
+            'evolvaCallback_' +
+            Date.now() +
+            '_' +
+            Math.floor(Math.random() * 100000);
 
-            const callbackName =
-                'evolvaCallback_' +
-                Date.now() +
-                '_' +
-                Math.floor(
-                    Math.random() * 100000
+        const parametros = {
+            ...params,
+            callback: callbackName
+        };
+
+        const query = Object.keys(parametros)
+            .map(function(key) {
+                return (
+                    encodeURIComponent(key) +
+                    '=' +
+                    encodeURIComponent(parametros[key])
                 );
+            })
+            .join('&');
 
-            params.callback =
-                callbackName;
+        const script = document.createElement('script');
 
-            const query =
-                Object.keys(params)
-                    .map(
-                        function(key){
+        const timeout = setTimeout(function() {
+            cleanup();
+            reject(new Error('Tiempo de espera agotado.'));
+        }, 15000);
 
-                            return (
-                                encodeURIComponent(key) +
-                                '=' +
-                                encodeURIComponent(
-                                    params[key]
-                                )
-                            );
+        function cleanup() {
+            clearTimeout(timeout);
+            delete window[callbackName];
 
-                        }
-                    )
-                    .join('&');
-
-            const script =
-                document.createElement('script');
-
-            const timeout =
-                setTimeout(
-                    function(){
-
-                        cleanup();
-
-                        reject(
-                            new Error(
-                                'Tiempo de espera agotado.'
-                            )
-                        );
-
-                    },
-                    15000
-                );
-
-            function cleanup(){
-
-                clearTimeout(timeout);
-
-                delete window[callbackName];
-
-                if(script.parentNode){
-
-                    script.parentNode.removeChild(
-                        script
-                    );
-
-                }
-
+            if (script.parentNode) {
+                script.parentNode.removeChild(script);
             }
-
-            window[callbackName] =
-                function(data){
-
-                    cleanup();
-
-                    resolve(data);
-
-                };
-
-            script.onerror =
-                function(){
-
-                    cleanup();
-
-                    reject(
-                        new Error(
-                            'No fue posible conectar con Evolva Academy.'
-                        )
-                    );
-
-                };
-
-            script.src =
-                url + '?' + query;
-
-            document.body.appendChild(script);
-
         }
-    );
 
+        window[callbackName] = function(data) {
+            cleanup();
+            resolve(data);
+        };
+
+        script.onerror = function() {
+            cleanup();
+
+            reject(
+                new Error(
+                    'No fue posible conectar con Evolva Academy.'
+                )
+            );
+        };
+
+        script.src =
+            url +
+            (url.includes('?') ? '&' : '?') +
+            query;
+
+        document.body.appendChild(script);
+    });
 }
 
-
-/* =====================================================
-   NORMALIZAR DIPLOMADO
-===================================================== */
-
-function normalizarDiplomado(
-    texto
-){
-
-    return String(
-        texto || ''
-    )
-    .normalize('NFD')
-    .replace(
-        /[\u0300-\u036f]/g,
-        ''
-    )
-    .trim()
-    .toLowerCase();
-
+function normalizarDiplomado(texto) {
+    return String(texto || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim()
+        .toLowerCase();
 }
 
+/* CONSULTA POR CURP */
 
-/* =====================================================
-   CONSULTAR
-===================================================== */
+async function consultar() {
+    if (consultaEnCurso) return;
 
-async function consultar(){
+    const curp = curpInput.value.trim().toUpperCase();
+    curpInput.value = curp;
 
-    const folio =
-        folioInput.value
-            .trim()
-            .toUpperCase();
-
-    if(!folio){
-
+    if (!/^[A-Z0-9]{18}$/.test(curp)) {
         mostrarMensaje(
-            'Ingresa tu folio.',
-            'error'
+            'La CURP debe contener 18 caracteres: letras y números.'
         );
-
+        curpInput.focus();
         return;
-
     }
+
+    consultaEnCurso = true;
+    alumnoActual = null;
+    calificacionesActuales = [];
 
     boleta.style.display = 'none';
     actions.style.display = 'none';
 
-    message.style.display = 'none';
-
+    ocultarMensaje();
     mostrarLoading(true);
 
-    try{
+    try {
+        /*
+         * El Apps Script actualizado acepta CURP
+         * en la acción buscarfolio.
+         */
+        const alumnoResponse = await jsonp(API_URL, {
+            accion: 'buscarfolio',
+            curp: curp
+        });
 
-        const alumnoResponse =
-            await jsonp(
-                API_URL,
-                {
-                    accion:'buscarfolio',
-                    folio:folio
-                }
-            );
-
-        if(
+        if (
             !alumnoResponse ||
             !alumnoResponse.ok ||
             !alumnoResponse.alumno
-        ){
-
+        ) {
             throw new Error(
-                alumnoResponse &&
-                alumnoResponse.error
-                    ? alumnoResponse.error
-                    : 'No se encontró el alumno.'
+                alumnoResponse?.error ||
+                alumnoResponse?.mensaje ||
+                'No se encontró un alumno con esa CURP.'
             );
-
         }
 
-        alumnoActual =
-            alumnoResponse.alumno;
+        const alumno = alumnoResponse.alumno;
+        const folio = String(
+            alumno.FOLIO || alumno.folio || ''
+        ).trim();
 
-
-        const gradesResponse =
-            await jsonp(
-                API_URL,
-                {
-                    accion:'calificaciones',
-                    folio:folio
-                }
-            );
-
-        if(
-            !gradesResponse ||
-            !gradesResponse.ok
-        ){
-
+        if (!folio) {
             throw new Error(
-                gradesResponse &&
-                gradesResponse.error
-                    ? gradesResponse.error
-                    : 'No fue posible obtener las calificaciones.'
+                'El alumno no tiene un folio asignado.'
             );
-
         }
 
-
-        calificacionesActuales =
-            Array.isArray(
-                gradesResponse.calificaciones
-            )
-                ? gradesResponse.calificaciones
-                : [];
-
-
-        const diplomadoAlumno =
-            normalizarDiplomado(
-                alumnoActual.DIPLOMADO
-            );
-
-
-        calificacionesActuales =
-            calificacionesActuales.filter(
-                function(item){
-
-                    const diplomadoEvaluacion =
-                        normalizarDiplomado(
-                            item.diplomado
-                        );
-
-                    if(!diplomadoEvaluacion){
-
-                        return true;
-
-                    }
-
-                    return (
-                        diplomadoEvaluacion ===
-                        diplomadoAlumno
-                    );
-
-                }
-            );
-
-
-        construirBoleta(
-            alumnoActual,
-            gradesResponse
-        );
-
-
-        boleta.style.display = 'block';
-
-        actions.style.display = 'flex';
-
-
-        window.scrollTo({
-
-            top:
-                boleta.offsetTop - 20,
-
-            behavior:'smooth'
-
+        const gradesResponse = await jsonp(API_URL, {
+            accion: 'calificaciones',
+            folio: folio
         });
 
+        if (!gradesResponse || !gradesResponse.ok) {
+            throw new Error(
+                gradesResponse?.error ||
+                gradesResponse?.mensaje ||
+                'No fue posible obtener las calificaciones.'
+            );
+        }
 
-    }catch(error){
+        const diplomadoAlumno =
+            normalizarDiplomado(alumno.DIPLOMADO);
 
+        const evaluaciones = Array.isArray(
+            gradesResponse.calificaciones
+        )
+            ? gradesResponse.calificaciones
+            : [];
+
+        calificacionesActuales = evaluaciones.filter(
+            function(item) {
+                const diplomadoEvaluacion =
+                    normalizarDiplomado(item.diplomado);
+
+                return (
+                    !diplomadoEvaluacion ||
+                    diplomadoEvaluacion === diplomadoAlumno
+                );
+            }
+        );
+
+        alumnoActual = alumno;
+
+        construirBoleta(alumno, gradesResponse);
+
+        boleta.style.display = 'block';
+        actions.style.display = 'flex';
+
+        requestAnimationFrame(function() {
+            const reducirMovimiento = window.matchMedia(
+                '(prefers-reduced-motion: reduce)'
+            ).matches;
+
+            window.scrollTo({
+                top:
+                    boleta.getBoundingClientRect().top +
+                    window.scrollY -
+                    20,
+                behavior: reducirMovimiento ? 'auto' : 'smooth'
+            });
+        });
+
+    } catch (error) {
         console.error(error);
 
+        alumnoActual = null;
+
         mostrarMensaje(
-
             error.message ||
-            'Ocurrió un error al consultar.',
-
-            'error'
-
+            'Ocurrió un error al consultar.'
         );
 
-    }finally{
+        message.scrollIntoView({
+            block: 'nearest',
+            behavior: 'auto'
+        });
 
+    } finally {
+        consultaEnCurso = false;
         mostrarLoading(false);
-
     }
-
 }
 
+/* CONSTRUIR BOLETA */
 
-/* =====================================================
-   CONSTRUIR BOLETA
-===================================================== */
+function escribir(id, valor) {
+    document.getElementById(id).textContent = valor;
+}
 
-function construirBoleta(
-    alumno,
-    datos
-){
+function construirBoleta(alumno, datos) {
+    escribir('headerFolio', alumno.FOLIO || '—');
+    escribir('studentName', alumno.NOMBRE || '—');
+    escribir('studentFolio', alumno.FOLIO || '—');
+    escribir('studentGroup', alumno.GRUPO || '—');
+    escribir('studentCurp', alumno.CURP || '—');
+    escribir('studentDiploma', alumno.DIPLOMADO || '—');
+    escribir('studentPeriod', obtenerPeriodo(alumno));
 
-    document.getElementById(
-        'headerFolio'
-    ).textContent =
-        alumno.FOLIO || '—';
+    construirTabla(calificacionesActuales);
 
+    const promedioServidor = convertirNumero(datos.promedio);
 
-    document.getElementById(
-        'studentName'
-    ).textContent =
-        alumno.NOMBRE || '—';
+    const promedio = promedioServidor !== null
+        ? promedioServidor
+        : calcularPromedioLocal(calificacionesActuales);
 
-
-    document.getElementById(
-        'studentFolio'
-    ).textContent =
-        alumno.FOLIO || '—';
-
-
-    document.getElementById(
-        'studentGroup'
-    ).textContent =
-        alumno.GRUPO || '—';
-
-
-    document.getElementById(
-        'studentCurp'
-    ).textContent =
-        alumno.CURP || '—';
-
-
-    document.getElementById(
-        'studentDiploma'
-    ).textContent =
-        alumno.DIPLOMADO || '—';
-
-
-    document.getElementById(
-        'studentPeriod'
-    ).textContent =
-        obtenerPeriodo(alumno);
-
-
-    construirTabla(
-        calificacionesActuales
+    escribir(
+        'generalAverage',
+        promedio === null ? '—' : promedio.toFixed(2)
     );
 
+    escribir(
+        'totalEvaluations',
+        calificacionesActuales.length
+    );
 
-    const promedio =
-        datos.promedio !== '' &&
-        datos.promedio !== null &&
-        datos.promedio !== undefined
+    escribir(
+        'academicProgress',
+        calcularAvance(calificacionesActuales) + '%'
+    );
 
-            ? datos.promedio
-
-            : calcularPromedioLocal(
-                calificacionesActuales
-            );
-
-
-    document.getElementById(
-        'generalAverage'
-    ).textContent =
-        promedio === ''
-            ? '—'
-            : Number(promedio).toFixed(2);
-
-
-    document.getElementById(
-        'totalEvaluations'
-    ).textContent =
-        calificacionesActuales.length;
-
-
-    const avance =
-        calcularAvance(
-            calificacionesActuales
-        );
-
-
-    document.getElementById(
-        'academicProgress'
-    ).textContent =
-        avance + '%';
-
-
-    document.getElementById(
-        'observations'
-    ).textContent =
+    escribir(
+        'observations',
         construirObservaciones(
             alumno,
             calificacionesActuales,
             promedio
-        );
-
-
-    generarQR(
-        alumno.FOLIO
+        )
     );
 
+    generarQR(alumno.FOLIO);
 }
 
+/* TABLA */
 
-/* =====================================================
-   TABLA
-===================================================== */
-
-function construirTabla(
-    evaluaciones
-){
-
-    const tbody =
-        document.getElementById('gradesBody');
+function construirTabla(evaluaciones) {
+    const tbody = document.getElementById('gradesBody');
 
     tbody.innerHTML = '';
 
+    if (!evaluaciones.length) {
+        const tr = document.createElement('tr');
 
-    if(!evaluaciones.length){
-
-        const tr =
-            document.createElement('tr');
-
-        tr.innerHTML =
-            `
+        tr.innerHTML = `
             <td
                 colspan="5"
                 style="
@@ -2732,931 +1751,404 @@ function construirTabla(
             >
                 No existen evaluaciones registradas.
             </td>
-            `;
+        `;
 
         tbody.appendChild(tr);
-
         return;
-
     }
 
-
-    evaluaciones.forEach(
-        function(item){
-
-            const tr =
-                document.createElement('tr');
-
-
-            const calificacion =
-                convertirNumero(
-                    item.calificacion
-                );
-
-
-            const calificacionTexto =
-                calificacion === null
-
-                    ? '—'
-
-                    : Number(
-                        calificacion
-                      ).toFixed(2);
-
-
-            let estado =
-                String(
-                    item.estado || ''
-                ).trim();
-
-
-            const aprobado =
-                calificacion !== null &&
-                calificacion >= 6;
-
-
-            if(!estado){
-
-                estado =
-                    calificacion === null
-
-                        ? 'PENDIENTE'
-
-                        : aprobado
-
-                            ? 'APROBADA'
-
-                            : 'NO APROBADA';
-
-            }
-
-
-            let estadoClase =
-                'status-approved';
-
-
-            const estadoMayus =
-                estado.toUpperCase();
-
-
-            if(
-                estadoMayus.includes('PENDIENTE')
-            ){
-
-                estadoClase =
-                    'status-pending';
-
-            }else if(
-
-                estadoMayus.includes('NO APROBADA') ||
-
-                estadoMayus.includes('REPROBADA') ||
-
-                estadoMayus.includes('REPROBADO')
-
-            ){
-
-                estadoClase =
-                    'status-failed';
-
-            }
-
-
-            const modulo =
-                item.modulo ||
-                '—';
-
-
-            const moduloCorto =
-                acortarModulo(
-                    modulo
-                );
-
-
-            let clave =
-                item.clave ||
-                item.codigo ||
-                item.idEvaluacion ||
-                '—';
-
-
-            let evaluacion =
-                item.evaluacion ||
-                item.nombre ||
-                'Calificación registrada';
-
-
-            if(
-
-                item.modulo &&
-
-                /^M\d+$/i.test(
-                    String(item.modulo).trim()
-                )
-
-            ){
-
-                clave =
-                    item.modulo;
-
-                evaluacion =
-                    item.evaluacion ||
-                    'Calificación registrada';
-
-            }
-
-
-            tr.innerHTML =
-                `
-                <td class="col-module">
-
-                    <div class="module-name">
-
-                        ${escapeHtml(moduloCorto)}
-
-                    </div>
-
-                </td>
-
-                <td class="col-key">
-
-                    ${escapeHtml(clave)}
-
-                </td>
-
-                <td class="col-evaluation">
-
-                    ${escapeHtml(evaluacion)}
-
-                </td>
-
-                <td class="col-grade ${
-                    calificacion === null
-
-                        ? 'grade-pending'
-
-                        : (
-
-                            aprobado
-
-                                ? 'grade-approved'
-
-                                : 'grade-pending'
-
-                          )
-
-                }">
-
-                    ${calificacionTexto}
-
-                </td>
-
-                <td class="col-status">
-
-                    <span class="status ${estadoClase}">
-
-                        ${escapeHtml(estado)}
-
-                    </span>
-
-                </td>
-                `;
-
-
-            tbody.appendChild(tr);
-
-        }
-    );
-
-}
-
-
-/* =====================================================
-   ACORTAR NOMBRE DE MÓDULO
-===================================================== */
-
-function acortarModulo(
-    texto
-){
-
-    const match =
-        String(texto)
-            .match(
-                /^Módulo\s+([IVX]+):\s*(.*)$/i
-            );
-
-
-    if(!match){
-
-        return texto;
-
-    }
-
-
-    return (
-
-        'Módulo ' +
-
-        match[1] +
-
-        ': ' +
-
-        match[2]
-
-    );
-
-}
-
-
-/* =====================================================
-   PROMEDIO LOCAL
-===================================================== */
-
-function calcularPromedioLocal(
-    lista
-){
-
-    const valores =
-        lista
-
-            .map(
-                function(item){
-
-                    return convertirNumero(
-                        item.calificacion
-                    );
-
-                }
-            )
-
-            .filter(
-                function(valor){
-
-                    return valor !== null;
-
-                }
-            );
-
-
-    if(!valores.length){
-
-        return '';
-
-    }
-
-
-    const suma =
-        valores.reduce(
-
-            function(total, valor){
-
-                return total + valor;
-
-            },
-
-            0
-
+    evaluaciones.forEach(function(item) {
+        const tr = document.createElement('tr');
+
+        const calificacion = convertirNumero(
+            item.calificacion
         );
 
+        const calificacionTexto = calificacion === null
+            ? '—'
+            : calificacion.toFixed(2);
 
-    return (
+        const aprobado =
+            calificacion !== null &&
+            calificacion >= 6;
 
-        suma /
-        valores.length
+        let estado = String(item.estado || '').trim();
 
-    ).toFixed(2);
+        if (!estado) {
+            estado = calificacion === null
+                ? 'PENDIENTE'
+                : aprobado
+                    ? 'APROBADA'
+                    : 'NO APROBADA';
+        }
 
+        const estadoMayus = estado.toUpperCase();
+
+        let estadoClase = 'status-approved';
+
+        if (estadoMayus.includes('PENDIENTE')) {
+            estadoClase = 'status-pending';
+
+        } else if (
+            estadoMayus.includes('NO APROBAD') ||
+            estadoMayus.includes('REPROBAD')
+        ) {
+            estadoClase = 'status-failed';
+        }
+
+        const modulo = item.modulo || '—';
+
+        let clave =
+            item.clave ||
+            item.codigo ||
+            item.idEvaluacion ||
+            '—';
+
+        const evaluacion =
+            item.evaluacion ||
+            item.nombre ||
+            'Calificación registrada';
+
+        if (/^M\d+$/i.test(String(modulo).trim())) {
+            clave = modulo;
+        }
+
+        const claseCalificacion = calificacion === null
+            ? 'grade-pending'
+            : aprobado
+                ? 'grade-approved'
+                : 'grade-failed';
+
+        tr.innerHTML = `
+            <td class="col-module">
+                <div class="module-name">
+                    ${escapeHtml(modulo)}
+                </div>
+            </td>
+
+            <td class="col-key">
+                ${escapeHtml(clave)}
+            </td>
+
+            <td class="col-evaluation">
+                ${escapeHtml(evaluacion)}
+            </td>
+
+            <td class="col-grade ${claseCalificacion}">
+                ${calificacionTexto}
+            </td>
+
+            <td class="col-status">
+                <span class="status ${estadoClase}">
+                    ${escapeHtml(estado)}
+                </span>
+            </td>
+        `;
+
+        tbody.appendChild(tr);
+    });
 }
 
+/* PROMEDIO Y AVANCE */
 
-/* =====================================================
-   AVANCE
-===================================================== */
+function calcularPromedioLocal(lista) {
+    const valores = lista
+        .map(function(item) {
+            return convertirNumero(item.calificacion);
+        })
+        .filter(function(valor) {
+            return valor !== null;
+        });
 
-function calcularAvance(
-    lista
-){
+    if (!valores.length) return null;
 
-    if(!lista.length){
+    const suma = valores.reduce(function(total, valor) {
+        return total + valor;
+    }, 0);
 
-        return 0;
+    return suma / valores.length;
+}
 
-    }
+function calcularAvance(lista) {
+    if (!lista.length) return 0;
 
-
-    const completadas =
-        lista.filter(
-
-            function(item){
-
-                return (
-
-                    convertirNumero(
-                        item.calificacion
-                    ) !== null
-
-                );
-
-            }
-
-        ).length;
-
+    const completadas = lista.filter(function(item) {
+        return convertirNumero(item.calificacion) !== null;
+    }).length;
 
     return Math.round(
-
-        (
-
-            completadas /
-            lista.length
-
-        ) * 100
-
+        (completadas / lista.length) * 100
     );
-
 }
 
-
-/* =====================================================
-   OBSERVACIONES
-===================================================== */
-
-function construirObservaciones(
-    alumno,
-    lista,
-    promedio
-){
-
-    const completadas =
-        lista.filter(
-
-            function(item){
-
-                return (
-
-                    convertirNumero(
-                        item.calificacion
-                    ) !== null
-
-                );
-
-            }
-
-        ).length;
-
-
-    const total =
-        lista.length;
-
+function construirObservaciones(alumno, lista, promedio) {
+    const completadas = lista.filter(function(item) {
+        return convertirNumero(item.calificacion) !== null;
+    }).length;
 
     let texto =
-
         'Alumno inscrito en el diplomado ' +
-
         (alumno.DIPLOMADO || '') +
-
         ', grupo ' +
-
         (alumno.GRUPO || 'sin grupo') +
-
         '. ';
 
-
     texto +=
-
         'Se han registrado ' +
-
         completadas +
-
         ' de ' +
-
-        total +
-
+        lista.length +
         ' evaluaciones. ';
 
-
-    if(
-
-        promedio === '' ||
-
-        promedio === null ||
-
-        promedio === undefined
-
-    ){
-
-        texto +=
-
-            'El promedio se encuentra pendiente de integración.';
-
-    }else{
-
-        texto +=
-
-            'Promedio general registrado: ' +
-
-            Number(promedio).toFixed(2) +
-
-            '.';
-
-    }
-
+    texto += promedio === null
+        ? 'El promedio se encuentra pendiente de integración.'
+        : 'Promedio general registrado: ' +
+          promedio.toFixed(2) +
+          '.';
 
     return texto;
-
 }
 
+function obtenerPeriodo(alumno) {
+    const fecha = alumno.FECHA_REGISTRO;
 
-/* =====================================================
-   PERIODO
-===================================================== */
-
-function obtenerPeriodo(
-    alumno
-){
-
-    const fecha =
-        alumno.FECHA_REGISTRO;
-
-
-    if(!fecha){
-
-        return String(
-            new Date().getFullYear()
-        );
-
+    if (!fecha) {
+        return String(new Date().getFullYear());
     }
 
+    const fechaObj = new Date(fecha);
 
-    const fechaObj =
-        new Date(fecha);
-
-
-    if(
-
-        isNaN(
-            fechaObj.getTime()
-        )
-
-    ){
-
-        return String(
-            new Date().getFullYear()
-        );
-
+    if (Number.isNaN(fechaObj.getTime())) {
+        return String(new Date().getFullYear());
     }
 
+    return String(fechaObj.getFullYear());
+}
 
-    return String(
-        fechaObj.getFullYear()
+function convertirNumero(valor) {
+    if (
+        valor === null ||
+        valor === undefined ||
+        String(valor).trim() === ''
+    ) {
+        return null;
+    }
+
+    const numero = Number(
+        String(valor).replace(',', '.').trim()
     );
 
+    return Number.isFinite(numero) ? numero : null;
 }
 
+/* QR */
 
-/* =====================================================
-   CONVERTIR NÚMERO
-===================================================== */
-
-function convertirNumero(
-    valor
-){
-
-    if(
-
-        valor === null ||
-
-        valor === undefined ||
-
-        valor === ''
-
-    ){
-
-        return null;
-
-    }
-
-
-    const numero =
-
-        Number(
-
-            String(valor)
-
-                .replace(',', '.')
-
-                .trim()
-
-        );
-
-
-    if(
-
-        isNaN(numero)
-
-    ){
-
-        return null;
-
-    }
-
-
-    return numero;
-
-}
-
-
-/* =====================================================
-   QR
-===================================================== */
-
-function generarQR(
-    folio
-){
-
-    const contenedor =
-        document.getElementById('qrcode');
-
+function generarQR(folio) {
+    const contenedor = document.getElementById('qrcode');
 
     contenedor.innerHTML = '';
 
+    if (typeof QRCode === 'undefined') {
+        contenedor.textContent = 'QR no disponible';
+        return;
+    }
 
     const url =
-
         VALIDACION_URL +
-
         '?folio=' +
+        encodeURIComponent(folio || '');
 
-        encodeURIComponent(
-            folio || ''
-        );
-
-
-    new QRCode(
-
-        contenedor,
-
-        {
-
-            text:url,
-
-            width:90,
-
-            height:90,
-
-            colorDark:'#063b91',
-
-            colorLight:'#ffffff',
-
-            correctLevel:
-                QRCode.CorrectLevel.M
-
-        }
-
-    );
-
+    new QRCode(contenedor, {
+        text: url,
+        width: 90,
+        height: 90,
+        colorDark: '#063b91',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.M
+    });
 }
 
+/* PROTEGER TEXTO INSERTADO EN LA TABLA */
 
-/* =====================================================
-   ESCAPAR HTML
-===================================================== */
-
-function escapeHtml(
-    texto
-){
-
-    return String(
-
-        texto == null
-
-            ? ''
-
-            : texto
-
-    )
-
-    .replace(
-        /&/g,
-        '&amp;'
-    )
-
-    .replace(
-        /</g,
-        '&lt;'
-    )
-
-    .replace(
-        />/g,
-        '&gt;'
-    )
-
-    .replace(
-        /"/g,
-        '&quot;'
-    )
-
-    .replace(
-        /'/g,
-        '&#039;'
-    );
-
+function escapeHtml(texto) {
+    return String(texto ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
 }
 
+/* IMPRESIÓN */
 
-/* =====================================================
-   IMPRIMIR
-===================================================== */
-
-function imprimirBoleta(){
-
-    if(!alumnoActual){
-
-        return;
-
-    }
-
+function imprimirBoleta() {
+    if (!alumnoActual) return;
 
     window.print();
-
 }
 
-
-/* =====================================================
-   ESPERAR IMÁGENES
-===================================================== */
-
-function esperarImagenes(){
-
-    const imagenes =
-        reportCard.querySelectorAll('img');
-
-
-    const promesas =
-
-        Array.from(imagenes)
-
-            .map(
-
-                function(img){
-
-                    if(img.complete){
-
-                        return Promise.resolve();
-
-                    }
-
-
-                    return new Promise(
-
-                        function(resolve){
-
-                            img.onload = resolve;
-
-                            img.onerror = resolve;
-
-                        }
-
-                    );
-
-                }
-
-            );
-
-
-    return Promise.all(promesas);
-
-}
-
-
-/* =====================================================
-   GENERAR PDF
-===================================================== */
-
-async function generarPDF(){
-
-    if(!alumnoActual){
-
-        mostrarMensaje(
-
-            'Primero consulta un folio.',
-
-            'error'
-
-        );
-
-        return;
-
-    }
-
-
-    if(
-
-        typeof html2pdf === 'undefined'
-
-    ){
-
-        mostrarMensaje(
-
-            'No se pudo cargar el generador de PDF. Recarga la página.',
-
-            'error'
-
-        );
-
-        return;
-
-    }
-
-
-    const boton =
-        document.querySelector('.btn-pdf');
-
-
-    const textoOriginal =
-        boton.innerHTML;
-
-
-    boton.disabled = true;
-
-
-    boton.innerHTML =
-        'Generando PDF...';
-
-
-    try{
-
-        await esperarImagenes();
-
-
-        reportCard.classList.add(
-            'pdf-export'
-        );
-
-
-        const folio =
-
-            String(
-
-                alumnoActual.FOLIO ||
-
-                'Evolva'
-
-            ).trim();
-
-
-        const opciones = {
-
-            margin: [8,8,8,8],
-
-            filename:
-
-                'Boleta_' +
-
-                folio +
-
-                '.pdf',
-
-            image:{
-
-                type:'jpeg',
-
-                quality:0.98
-
-            },
-
-            html2canvas:{
-
-                scale:2,
-
-                useCORS:true,
-
-                allowTaint:false,
-
-                backgroundColor:'#ffffff',
-
-                scrollX:0,
-
-                scrollY:0,
-
-                logging:false
-
-            },
-
-            jsPDF:{
-
-                unit:'mm',
-
-                format:'letter',
-
-                orientation:'portrait',
-
-                compress:true
-
-            },
-
-            pagebreak:{
-
-                mode:[
-
-                    'css',
-
-                    'legacy'
-
-                ],
-
-                avoid:[
-
-                    '.report-header',
-
-                    '.student-section',
-
-                    '.summary-section',
-
-                    '.report-footer',
-
-                    'tr'
-
-                ]
-
+/* PDF */
+
+function esperarImagenes() {
+    const imagenes = reportCard.querySelectorAll('img');
+
+    return Promise.all(
+        Array.from(imagenes).map(function(img) {
+            if (img.complete) {
+                return Promise.resolve();
             }
 
-        };
+            return new Promise(function(resolve) {
+                img.addEventListener('load', resolve, {
+                    once: true
+                });
 
-
-        await html2pdf()
-
-            .set(opciones)
-
-            .from(reportCard)
-
-            .save();
-
-
-    }catch(error){
-
-        console.error(
-
-            'Error generando PDF:',
-
-            error
-
-        );
-
-
-        mostrarMensaje(
-
-            'No fue posible generar el PDF. Intenta nuevamente.',
-
-            'error'
-
-        );
-
-
-    }finally{
-
-        reportCard.classList.remove(
-            'pdf-export'
-        );
-
-
-        boton.disabled = false;
-
-
-        boton.innerHTML =
-            textoOriginal;
-
-    }
-
+                img.addEventListener('error', resolve, {
+                    once: true
+                });
+            });
+        })
+    );
 }
 
-
-/* =====================================================
-   EVENTO FORMULARIO
-===================================================== */
-
-searchForm.addEventListener(
-
-    'submit',
-
-    function(event){
-
-        event.preventDefault();
-
-        consultar();
-
+async function generarPDF() {
+    if (!alumnoActual) {
+        mostrarMensaje(
+            'Primero consulta tus calificaciones con tu CURP.'
+        );
+        return;
     }
 
-);
+    if (typeof html2pdf === 'undefined') {
+        mostrarMensaje(
+            'No se pudo cargar el generador de PDF. Recarga la página.'
+        );
+        return;
+    }
 
+    const boton = document.querySelector('.btn-pdf');
+    const textoOriginal = boton.textContent;
 
-/* =====================================================
-   AUTOFOCUS
-===================================================== */
+    boton.disabled = true;
+    boton.textContent = 'Generando PDF...';
 
-folioInput.focus();
+    try {
+        await esperarImagenes();
 
+        if (document.fonts && document.fonts.ready) {
+            await document.fonts.ready;
+        }
+
+        reportCard.classList.add('pdf-export');
+
+        const folio = String(
+            alumnoActual.FOLIO || 'Evolva'
+        ).trim();
+
+        const opciones = {
+            margin: [8, 8, 8, 8],
+
+            filename: 'Boleta_' + folio + '.pdf',
+
+            image: {
+                type: 'jpeg',
+                quality: 0.98
+            },
+
+            html2canvas: {
+                scale: 2,
+                useCORS: true,
+                allowTaint: false,
+                backgroundColor: '#ffffff',
+                scrollX: 0,
+                scrollY: 0,
+                logging: false,
+
+                /*
+                 * Utiliza el diseño de escritorio para exportar
+                 * la boleta, incluso desde un celular.
+                 */
+                windowWidth: 1200,
+
+                onclone: function(documento) {
+                    const tarjeta = documento.getElementById(
+                        'reportCard'
+                    );
+
+                    const contenedor = documento.querySelector(
+                        '.container'
+                    );
+
+                    if (contenedor) {
+                        contenedor.style.width = '740px';
+                        contenedor.style.margin = '0';
+                    }
+
+                    if (tarjeta) {
+                        tarjeta.style.width = '740px';
+                        tarjeta.style.margin = '0';
+                    }
+                }
+            },
+
+            jsPDF: {
+                unit: 'mm',
+                format: 'letter',
+                orientation: 'portrait',
+                compress: true
+            },
+
+            pagebreak: {
+                mode: ['css', 'legacy'],
+
+                avoid: [
+                    '.report-header',
+                    '.student-section',
+                    '.summary-section',
+                    '.report-footer',
+                    'tr'
+                ]
+            }
+        };
+
+        await html2pdf()
+            .set(opciones)
+            .from(reportCard)
+            .save();
+
+    } catch (error) {
+        console.error('Error generando PDF:', error);
+
+        mostrarMensaje(
+            'No fue posible generar el PDF. Intenta nuevamente.'
+        );
+
+    } finally {
+        reportCard.classList.remove('pdf-export');
+
+        boton.disabled = false;
+        boton.textContent = textoOriginal;
+    }
+}
+
+/* EVENTOS */
+
+searchForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    consultar();
+});
+
+curpInput.addEventListener('input', function() {
+    const inicio = this.selectionStart;
+    const fin = this.selectionEnd;
+
+    this.value = this.value.toUpperCase();
+
+    if (inicio !== null && fin !== null) {
+        this.setSelectionRange(inicio, fin);
+    }
+});
 </script>
-
 
 </body>
 </html>
