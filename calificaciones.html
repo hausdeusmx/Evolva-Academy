@@ -6,8 +6,8 @@
 
 <title>Calificaciones | Evolva Academy</title>
 
-<!-- Librerías PDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- HTML2PDF: convierte la MISMA boleta HTML en PDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <!-- QR -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -175,9 +175,11 @@ body{
 }
 
 .report-card{
+    position:relative;
     background:#fff;
     border:1px solid #bfc9d6;
     box-shadow:0 5px 22px rgba(15,40,75,.10);
+    overflow:hidden;
 }
 
 /* =====================================================
@@ -293,6 +295,7 @@ body{
     font-size:13px;
     font-weight:700;
     color:#172033;
+    word-break:break-word;
 }
 
 /* =====================================================
@@ -391,6 +394,11 @@ body{
 .status-pending{
     background:#fef3c7;
     color:#92400e;
+}
+
+.status-failed{
+    background:#fee2e2;
+    color:#991b1b;
 }
 
 /* =====================================================
@@ -494,6 +502,15 @@ body{
     padding:5px;
     border:1px solid #d1d5db;
     background:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+#qrcode img,
+#qrcode canvas{
+    max-width:90px;
+    max-height:90px;
 }
 
 .qr-label{
@@ -507,10 +524,6 @@ body{
 /* =====================================================
    MARCA DE AGUA
 ===================================================== */
-
-.watermark{
-    position:relative;
-}
 
 .watermark::after{
     content:"EVOLVA ACADEMY";
@@ -549,6 +562,11 @@ body{
     cursor:pointer;
     font-weight:700;
     font-size:13px;
+}
+
+.actions button:disabled{
+    opacity:.65;
+    cursor:not-allowed;
 }
 
 .btn-pdf{
@@ -727,6 +745,7 @@ body{
     }
 
     .report-card{
+        width:100%;
         box-shadow:none;
         border:1px solid #777;
     }
@@ -735,16 +754,23 @@ body{
         display:block;
     }
 
+    .table-wrapper{
+        overflow:visible !important;
+    }
+
 }
 
 /* =====================================================
-   PDF
+   EXPORTACIÓN PDF
 ===================================================== */
 
-.pdf-mode{
-    width:816px !important;
-    background:white !important;
+.pdf-export{
+    background:#ffffff !important;
     box-shadow:none !important;
+}
+
+.pdf-export .table-wrapper{
+    overflow:visible !important;
 }
 
 </style>
@@ -848,7 +874,7 @@ body{
 
     <section id="boleta">
 
-        <div class="report-card watermark">
+        <div class="report-card watermark" id="reportCard">
 
 
             <!-- =========================================
@@ -1233,20 +1259,14 @@ body{
 const API_URL =
     'https://script.google.com/macros/s/AKfycbwPbOaBJBnwNd039RawS29RwL0WaM48o8s1O2EEDxKwYpng2P_kVVKUSf_ZPcgOAJMFng/exec';
 
-
 const VALIDACION_URL =
     'https://evolvacademy.mx/validar.html';
-
 
 const LOGO_URL =
     'logo-evolva.png';
 
-
-let alumnoActual =
-    null;
-
-let calificacionesActuales =
-    [];
+let alumnoActual = null;
+let calificacionesActuales = [];
 
 
 /* =====================================================
@@ -1254,39 +1274,25 @@ let calificacionesActuales =
 ===================================================== */
 
 const searchForm =
-    document.getElementById(
-        'searchForm'
-    );
-
+    document.getElementById('searchForm');
 
 const folioInput =
-    document.getElementById(
-        'folio'
-    );
-
+    document.getElementById('folio');
 
 const message =
-    document.getElementById(
-        'message'
-    );
-
+    document.getElementById('message');
 
 const loading =
-    document.getElementById(
-        'loading'
-    );
-
+    document.getElementById('loading');
 
 const boleta =
-    document.getElementById(
-        'boleta'
-    );
-
+    document.getElementById('boleta');
 
 const actions =
-    document.getElementById(
-        'actions'
-    );
+    document.getElementById('actions');
+
+const reportCard =
+    document.getElementById('reportCard');
 
 
 /* =====================================================
@@ -1298,12 +1304,10 @@ function mostrarMensaje(
     tipo = 'error'
 ){
 
-    message.textContent =
-        texto;
+    message.textContent = texto;
 
     message.className =
-        'message ' +
-        tipo;
+        'message ' + tipo;
 
 }
 
@@ -1317,9 +1321,7 @@ function mostrarLoading(
 ){
 
     loading.style.display =
-        mostrar
-            ? 'block'
-            : 'none';
+        mostrar ? 'block' : 'none';
 
 }
 
@@ -1344,14 +1346,11 @@ function jsonp(
                     Math.random() * 100000
                 );
 
-
             params.callback =
                 callbackName;
 
-
             const query =
                 Object.keys(params)
-
                     .map(
                         function(key){
 
@@ -1365,15 +1364,10 @@ function jsonp(
 
                         }
                     )
-
                     .join('&');
 
-
             const script =
-                document.createElement(
-                    'script'
-                );
-
+                document.createElement('script');
 
             const timeout =
                 setTimeout(
@@ -1391,20 +1385,13 @@ function jsonp(
                     15000
                 );
 
-
             function cleanup(){
 
-                clearTimeout(
-                    timeout
-                );
+                clearTimeout(timeout);
 
-                delete window[
-                    callbackName
-                ];
+                delete window[callbackName];
 
-                if (
-                    script.parentNode
-                ){
+                if(script.parentNode){
 
                     script.parentNode.removeChild(
                         script
@@ -1414,20 +1401,14 @@ function jsonp(
 
             }
 
-
-            window[
-                callbackName
-            ] =
+            window[callbackName] =
                 function(data){
 
                     cleanup();
 
-                    resolve(
-                        data
-                    );
+                    resolve(data);
 
                 };
-
 
             script.onerror =
                 function(){
@@ -1442,19 +1423,35 @@ function jsonp(
 
                 };
 
-
             script.src =
-                url +
-                '?' +
-                query;
+                url + '?' + query;
 
-
-            document.body.appendChild(
-                script
-            );
+            document.body.appendChild(script);
 
         }
     );
+
+}
+
+
+/* =====================================================
+   NORMALIZAR DIPLOMADO
+===================================================== */
+
+function normalizarDiplomado(
+    texto
+){
+
+    return String(
+        texto || ''
+    )
+    .normalize('NFD')
+    .replace(
+        /[\u0300-\u036f]/g,
+        ''
+    )
+    .trim()
+    .toLowerCase();
 
 }
 
@@ -1470,8 +1467,7 @@ async function consultar(){
             .trim()
             .toUpperCase();
 
-
-    if (!folio){
+    if(!folio){
 
         mostrarMensaje(
             'Ingresa tu folio.',
@@ -1482,48 +1478,29 @@ async function consultar(){
 
     }
 
+    boleta.style.display = 'none';
+    actions.style.display = 'none';
 
-    boleta.style.display =
-        'none';
+    message.style.display = 'none';
 
-    actions.style.display =
-        'none';
-
-
-    mostrarMensaje(
-        '',
-        'success'
-    );
-
-    message.style.display =
-        'none';
-
-
-    mostrarLoading(
-        true
-    );
-
+    mostrarLoading(true);
 
     try{
 
-        /*
-         * Primero buscamos al alumno.
-         */
+        /* ==============================================
+           BUSCAR ALUMNO
+        ============================================== */
 
         const alumnoResponse =
             await jsonp(
                 API_URL,
                 {
-                    accion:
-                        'buscarfolio',
-
-                    folio:
-                        folio
+                    accion:'buscarfolio',
+                    folio:folio
                 }
             );
 
-
-        if (
+        if(
             !alumnoResponse ||
             !alumnoResponse.ok ||
             !alumnoResponse.alumno
@@ -1538,30 +1515,24 @@ async function consultar(){
 
         }
 
-
         alumnoActual =
             alumnoResponse.alumno;
 
 
-        /*
-         * Después consultamos las
-         * evaluaciones.
-         */
+        /* ==============================================
+           BUSCAR CALIFICACIONES
+        ============================================== */
 
         const gradesResponse =
             await jsonp(
                 API_URL,
                 {
-                    accion:
-                        'calificaciones',
-
-                    folio:
-                        folio
+                    accion:'calificaciones',
+                    folio:folio
                 }
             );
 
-
-        if (
+        if(
             !gradesResponse ||
             !gradesResponse.ok
         ){
@@ -1585,28 +1556,54 @@ async function consultar(){
 
 
         /*
-         * Seguridad:
-         * el diplomado de las evaluaciones
-         * debe coincidir con el alumno.
+         * IMPORTANTE:
+         *
+         * Solo filtramos por diplomado cuando
+         * la evaluación realmente trae ese campo.
+         *
+         * Esto permite funcionar tanto con el
+         * backend actual como con el backend nuevo.
          */
+
+        const diplomadoAlumno =
+            normalizarDiplomado(
+                alumnoActual.DIPLOMADO
+            );
 
         calificacionesActuales =
             calificacionesActuales.filter(
                 function(item){
 
+                    const diplomadoEvaluacion =
+                        normalizarDiplomado(
+                            item.diplomado
+                        );
+
+                    /*
+                     * Si la evaluación no trae
+                     * diplomado, se conserva.
+                     *
+                     * Si sí lo trae, debe coincidir.
+                     */
+
+                    if(!diplomadoEvaluacion){
+
+                        return true;
+
+                    }
+
                     return (
-                        String(
-                            item.diplomado || ''
-                        ).trim()
-                        ===
-                        String(
-                            alumnoActual.DIPLOMADO || ''
-                        ).trim()
+                        diplomadoEvaluacion ===
+                        diplomadoAlumno
                     );
 
                 }
             );
 
+
+        /* ==============================================
+           CONSTRUIR
+        ============================================== */
 
         construirBoleta(
             alumnoActual,
@@ -1614,24 +1611,19 @@ async function consultar(){
         );
 
 
-        boleta.style.display =
-            'block';
-
-        actions.style.display =
-            'flex';
-
+        boleta.style.display = 'block';
+        actions.style.display = 'flex';
 
         window.scrollTo({
             top:
-                boleta.offsetTop -
-                20,
-
-            behavior:
-                'smooth'
+                boleta.offsetTop - 20,
+            behavior:'smooth'
         });
 
 
     }catch(error){
+
+        console.error(error);
 
         mostrarMensaje(
             error.message ||
@@ -1641,9 +1633,7 @@ async function consultar(){
 
     }finally{
 
-        mostrarLoading(
-            false
-        );
+        mostrarLoading(false);
 
     }
 
@@ -1698,9 +1688,7 @@ function construirBoleta(
     document.getElementById(
         'studentPeriod'
     ).textContent =
-        obtenerPeriodo(
-            alumno
-        );
+        obtenerPeriodo(alumno);
 
 
     construirTabla(
@@ -1725,9 +1713,7 @@ function construirBoleta(
     ).textContent =
         promedio === ''
             ? '—'
-            : Number(
-                promedio
-              ).toFixed(2);
+            : Number(promedio).toFixed(2);
 
 
     document.getElementById(
@@ -1774,24 +1760,15 @@ function construirTabla(
 ){
 
     const tbody =
-        document.getElementById(
-            'gradesBody'
-        );
+        document.getElementById('gradesBody');
+
+    tbody.innerHTML = '';
 
 
-    tbody.innerHTML =
-        '';
-
-
-    if (
-        !evaluaciones.length
-    ){
+    if(!evaluaciones.length){
 
         const tr =
-            document.createElement(
-                'tr'
-            );
-
+            document.createElement('tr');
 
         tr.innerHTML =
             `
@@ -1807,11 +1784,7 @@ function construirTabla(
             </td>
             `;
 
-
-        tbody.appendChild(
-            tr
-        );
-
+        tbody.appendChild(tr);
 
         return;
 
@@ -1822,9 +1795,7 @@ function construirTabla(
         function(item){
 
             const tr =
-                document.createElement(
-                    'tr'
-                );
+                document.createElement('tr');
 
 
             const calificacion =
@@ -1841,7 +1812,7 @@ function construirTabla(
                       ).toFixed(2);
 
 
-            const estado =
+            let estado =
                 String(
                     item.estado || ''
                 ).trim();
@@ -1852,27 +1823,43 @@ function construirTabla(
                 calificacion >= 6;
 
 
-            let estadoTexto =
-                estado ||
-                (
+            if(!estado){
+
+                estado =
                     calificacion === null
                         ? 'PENDIENTE'
                         : aprobado
                             ? 'APROBADA'
-                            : 'NO APROBADA'
-                );
+                            : 'NO APROBADA';
+
+            }
 
 
             let estadoClase =
-                (
-                    estadoTexto
-                        .toUpperCase()
-                        .indexOf(
-                            'PENDIENTE'
-                        ) !== -1
-                )
-                    ? 'status-pending'
-                    : 'status-approved';
+                'status-approved';
+
+
+            const estadoMayus =
+                estado.toUpperCase();
+
+
+            if(
+                estadoMayus.includes('PENDIENTE')
+            ){
+
+                estadoClase =
+                    'status-pending';
+
+            }else if(
+                estadoMayus.includes('NO APROBADA') ||
+                estadoMayus.includes('REPROBADA') ||
+                estadoMayus.includes('REPROBADO')
+            ){
+
+                estadoClase =
+                    'status-failed';
+
+            }
 
 
             const modulo =
@@ -1886,6 +1873,47 @@ function construirTabla(
                 );
 
 
+            /*
+             * Soporte para backend nuevo
+             * y backend anterior.
+             */
+
+            let clave =
+                item.clave ||
+                item.codigo ||
+                item.idEvaluacion ||
+                '—';
+
+
+            let evaluacion =
+                item.evaluacion ||
+                item.nombre ||
+                'Calificación registrada';
+
+
+            /*
+             * Si el backend anterior devuelve
+             * M1, M2, M3, M4, mostramos la clave
+             * sin inventar materias.
+             */
+
+            if(
+                item.modulo &&
+                /^M\d+$/i.test(
+                    String(item.modulo).trim()
+                )
+            ){
+
+                clave =
+                    item.modulo;
+
+                evaluacion =
+                    item.evaluacion ||
+                    'Calificación registrada';
+
+            }
+
+
             tr.innerHTML =
                 `
                 <td class="col-module">
@@ -1895,38 +1923,34 @@ function construirTabla(
                 </td>
 
                 <td class="col-key">
-                    ${escapeHtml(
-                        item.clave || '—'
-                    )}
+                    ${escapeHtml(clave)}
                 </td>
 
                 <td class="col-evaluation">
-                    ${escapeHtml(
-                        item.evaluacion || '—'
-                    )}
+                    ${escapeHtml(evaluacion)}
                 </td>
 
                 <td class="col-grade ${
                     calificacion === null
                         ? 'grade-pending'
-                        : 'grade-approved'
+                        : (
+                            aprobado
+                                ? 'grade-approved'
+                                : 'grade-pending'
+                          )
                 }">
                     ${calificacionTexto}
                 </td>
 
                 <td class="col-status">
                     <span class="status ${estadoClase}">
-                        ${escapeHtml(
-                            estadoTexto
-                        )}
+                        ${escapeHtml(estado)}
                     </span>
                 </td>
                 `;
 
 
-            tbody.appendChild(
-                tr
-            );
+            tbody.appendChild(tr);
 
         }
     );
@@ -1949,7 +1973,7 @@ function acortarModulo(
             );
 
 
-    if (!match){
+    if(!match){
 
         return texto;
 
@@ -1976,7 +2000,6 @@ function calcularPromedioLocal(
 
     const valores =
         lista
-
             .map(
                 function(item){
 
@@ -1986,7 +2009,6 @@ function calcularPromedioLocal(
 
                 }
             )
-
             .filter(
                 function(valor){
 
@@ -1996,9 +2018,7 @@ function calcularPromedioLocal(
             );
 
 
-    if (
-        !valores.length
-    ){
+    if(!valores.length){
 
         return '';
 
@@ -2032,9 +2052,7 @@ function calcularAvance(
     lista
 ){
 
-    if (
-        !lista.length
-    ){
+    if(!lista.length){
 
         return 0;
 
@@ -2109,7 +2127,7 @@ function construirObservaciones(
         ' evaluaciones. ';
 
 
-    if (
+    if(
         promedio === '' ||
         promedio === null ||
         promedio === undefined
@@ -2122,9 +2140,7 @@ function construirObservaciones(
 
         texto +=
             'Promedio general registrado: ' +
-            Number(
-                promedio
-            ).toFixed(2) +
+            Number(promedio).toFixed(2) +
             '.';
 
     }
@@ -2143,34 +2159,24 @@ function obtenerPeriodo(
     alumno
 ){
 
-    /*
-     * Se usa la fecha de registro cuando
-     * está disponible.
-     */
-
     const fecha =
         alumno.FECHA_REGISTRO;
 
 
-    if (!fecha){
-
-        const ahora =
-            new Date();
+    if(!fecha){
 
         return String(
-            ahora.getFullYear()
+            new Date().getFullYear()
         );
 
     }
 
 
     const fechaObj =
-        new Date(
-            fecha
-        );
+        new Date(fecha);
 
 
-    if (
+    if(
         isNaN(
             fechaObj.getTime()
         )
@@ -2198,7 +2204,7 @@ function convertirNumero(
     valor
 ){
 
-    if (
+    if(
         valor === null ||
         valor === undefined ||
         valor === ''
@@ -2211,18 +2217,13 @@ function convertirNumero(
 
     const numero =
         Number(
-            String(
-                valor
-            )
-            .replace(
-                ',',
-                '.'
-            )
-            .trim()
+            String(valor)
+                .replace(',', '.')
+                .trim()
         );
 
 
-    if (
+    if(
         isNaN(numero)
     ){
 
@@ -2245,43 +2246,27 @@ function generarQR(
 ){
 
     const contenedor =
-        document.getElementById(
-            'qrcode'
-        );
+        document.getElementById('qrcode');
 
 
-    contenedor.innerHTML =
-        '';
+    contenedor.innerHTML = '';
 
 
     const url =
         VALIDACION_URL +
         '?folio=' +
-        encodeURIComponent(
-            folio
-        );
+        encodeURIComponent(folio || '');
 
 
     new QRCode(
         contenedor,
         {
-            text:
-                url,
-
-            width:
-                90,
-
-            height:
-                90,
-
-            colorDark:
-                '#063b91',
-
-            colorLight:
-                '#ffffff',
-
-            correctLevel:
-                QRCode.CorrectLevel.M
+            text:url,
+            width:90,
+            height:90,
+            colorDark:'#063b91',
+            colorLight:'#ffffff',
+            correctLevel:QRCode.CorrectLevel.M
         }
     );
 
@@ -2301,31 +2286,11 @@ function escapeHtml(
             ? ''
             : texto
     )
-
-    .replace(
-        /&/g,
-        '&amp;'
-    )
-
-    .replace(
-        /</g,
-        '&lt;'
-    )
-
-    .replace(
-        />/g,
-        '&gt;'
-    )
-
-    .replace(
-        /"/g,
-        '&quot;'
-    )
-
-    .replace(
-        /'/g,
-        '&#039;'
-    );
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
 
 }
 
@@ -2336,9 +2301,7 @@ function escapeHtml(
 
 function imprimirBoleta(){
 
-    if (
-        !alumnoActual
-    ){
+    if(!alumnoActual){
 
         return;
 
@@ -2351,14 +2314,51 @@ function imprimirBoleta(){
 
 
 /* =====================================================
+   ESPERAR IMÁGENES
+===================================================== */
+
+function esperarImagenes(){
+
+    const imagenes =
+        reportCard.querySelectorAll('img');
+
+
+    const promesas =
+        Array.from(imagenes)
+            .map(
+                function(img){
+
+                    if(img.complete){
+
+                        return Promise.resolve();
+
+                    }
+
+                    return new Promise(
+                        function(resolve){
+
+                            img.onload = resolve;
+                            img.onerror = resolve;
+
+                        }
+                    );
+
+                }
+            );
+
+
+    return Promise.all(promesas);
+
+}
+
+
+/* =====================================================
    GENERAR PDF
 ===================================================== */
 
 async function generarPDF(){
 
-    if (
-        !alumnoActual
-    ){
+    if(!alumnoActual){
 
         mostrarMensaje(
             'Primero consulta un folio.',
@@ -2370,18 +2370,29 @@ async function generarPDF(){
     }
 
 
-    const boton =
-        document.querySelector(
-            '.btn-pdf'
+    if(
+        typeof html2pdf === 'undefined'
+    ){
+
+        mostrarMensaje(
+            'No se pudo cargar el generador de PDF. Recarga la página.',
+            'error'
         );
+
+        return;
+
+    }
+
+
+    const boton =
+        document.querySelector('.btn-pdf');
 
 
     const textoOriginal =
         boton.innerHTML;
 
 
-    boton.disabled =
-        true;
+    boton.disabled = true;
 
     boton.innerHTML =
         'Generando PDF...';
@@ -2390,755 +2401,118 @@ async function generarPDF(){
     try{
 
         /*
-         * Para mantener el diseño institucional
-         * en el PDF se genera desde HTML.
+         * Esperamos a que el logo y demás imágenes
+         * estén completamente cargados.
          */
 
-        const { jsPDF } =
-            window.jspdf;
-
-
-        const pdf =
-            new jsPDF({
-                orientation:
-                    'portrait',
-
-                unit:
-                    'pt',
-
-                format:
-                    'letter'
-            });
-
-
-        const ancho =
-            pdf.internal.pageSize.getWidth();
-
-
-        const alto =
-            pdf.internal.pageSize.getHeight();
+        await esperarImagenes();
 
 
         /*
-         * Encabezado
+         * IMPORTANTE:
+         *
+         * Exportamos directamente #reportCard.
+         *
+         * NO creamos otra boleta.
+         * NO dibujamos encabezados con jsPDF.
+         *
+         * El PDF será la misma versión que
+         * se está mostrando en pantalla.
          */
 
-        pdf.setDrawColor(
-            6,
-            59,
-            145
-        );
-
-        pdf.setLineWidth(
-            3
-        );
-
-        pdf.line(
-            40,
-            70,
-            ancho - 40,
-            70
+        reportCard.classList.add(
+            'pdf-export'
         );
 
 
-        pdf.setFont(
-            'helvetica',
-            'bold'
-        );
-
-        pdf.setTextColor(
-            6,
-            59,
-            145
-        );
-
-        pdf.setFontSize(
-            20
-        );
-
-        pdf.text(
-            'EVOLVA ACADEMY',
-            ancho / 2,
-            45,
-            {
-                align:
-                    'center'
-            }
-        );
-
-
-        pdf.setFontSize(
-            11
-        );
-
-        pdf.setTextColor(
-            50,
-            60,
-            70
-        );
-
-        pdf.text(
-            'REPORTE ACADÉMICO DE CALIFICACIONES',
-            ancho / 2,
-            62,
-            {
-                align:
-                    'center'
-            }
-        );
-
-
-        /*
-         * Datos
-         */
-
-        let y =
-            95;
-
-
-        pdf.setFillColor(
-            245,
-            248,
-            252
-        );
-
-        pdf.rect(
-            40,
-            y,
-            ancho - 80,
-            100,
-            'F'
-        );
-
-
-        pdf.setTextColor(
-            6,
-            59,
-            145
-        );
-
-        pdf.setFont(
-            'helvetica',
-            'bold'
-        );
-
-        pdf.setFontSize(
-            8
-        );
-
-
-        pdf.text(
-            'NOMBRE DEL ALUMNO',
-            52,
-            y + 18
-        );
-
-
-        pdf.text(
-            'MATRÍCULA / FOLIO',
-            52,
-            y + 53
-        );
-
-
-        pdf.text(
-            'GRUPO',
-            ancho / 2,
-            y + 18
-        );
-
-
-        pdf.text(
-            'DIPLOMADO',
-            ancho / 2,
-            y + 53
-        );
-
-
-        pdf.setTextColor(
-            25,
-            32,
-            45
-        );
-
-        pdf.setFont(
-            'helvetica',
-            'bold'
-        );
-
-        pdf.setFontSize(
-            10
-        );
-
-
-        pdf.text(
-            String(
-                alumnoActual.NOMBRE || '—'
-            ),
-            52,
-            y + 32
-        );
-
-
-        pdf.text(
-            String(
-                alumnoActual.FOLIO || '—'
-            ),
-            52,
-            y + 67
-        );
-
-
-        pdf.text(
-            String(
-                alumnoActual.GRUPO || '—'
-            ),
-            ancho / 2,
-            y + 32
-        );
-
-
-        pdf.text(
-            String(
-                alumnoActual.DIPLOMADO || '—'
-            ),
-            ancho / 2,
-            y + 67
-        );
-
-
-        y +=
-            120;
-
-
-        /*
-         * Tabla
-         */
-
-        pdf.setFillColor(
-            6,
-            59,
-            145
-        );
-
-        pdf.rect(
-            40,
-            y,
-            ancho - 80,
-            23,
-            'F'
-        );
-
-
-        pdf.setTextColor(
-            255,
-            255,
-            255
-        );
-
-        pdf.setFontSize(
-            7
-        );
-
-
-        pdf.text(
-            'CLAVE',
-            48,
-            y + 15
-        );
-
-
-        pdf.text(
-            'EVALUACIÓN',
-            95,
-            y + 15
-        );
-
-
-        pdf.text(
-            'CALIF.',
-            ancho - 105,
-            y + 15
-        );
-
-
-        pdf.text(
-            'ESTADO',
-            ancho - 65,
-            y + 15
-        );
-
-
-        y +=
-            23;
-
-
-        pdf.setFont(
-            'helvetica',
-            'normal'
-        );
-
-
-        calificacionesActuales.forEach(
-            function(item){
-
-                const evaluacion =
-                    String(
-                        item.evaluacion ||
-                        ''
-                    );
-
-
-                const lineas =
-                    pdf.splitTextToSize(
-                        evaluacion,
-                        360
-                    );
-
-
-                const altura =
-                    Math.max(
-                        28,
-                        lineas.length * 9 + 12
-                    );
-
-
-                /*
-                 * Nueva página si hace falta.
-                 */
-
-                if (
-                    y + altura >
-                    alto - 100
-                ){
-
-                    pdf.addPage();
-
-                    y =
-                        45;
-
-                }
-
-
-                pdf.setDrawColor(
-                    190,
-                    200,
-                    210
-                );
-
-
-                pdf.rect(
-                    40,
-                    y,
-                    ancho - 80,
-                    altura
-                );
-
-
-                pdf.setTextColor(
-                    35,
-                    45,
-                    60
-                );
-
-                pdf.setFontSize(
-                    7
-                );
-
-
-                pdf.text(
-                    String(
-                        item.clave || '—'
-                    ),
-                    48,
-                    y + 15
-                );
-
-
-                pdf.text(
-                    lineas,
-                    95,
-                    y + 12
-                );
-
-
-                const cal =
-                    convertirNumero(
-                        item.calificacion
-                    );
-
-
-                pdf.setFont(
-                    'helvetica',
-                    'bold'
-                );
-
-
-                pdf.text(
-                    cal === null
-                        ? '—'
-                        : Number(
-                            cal
-                          ).toFixed(2),
-                    ancho - 100,
-                    y + 15,
-                    {
-                        align:
-                            'center'
-                    }
-                );
-
-
-                pdf.setFont(
-                    'helvetica',
-                    'normal'
-                );
-
-
-                pdf.text(
-                    String(
-                        item.estado ||
-                        (
-                            cal === null
-                                ? 'PENDIENTE'
-                                : 'REGISTRADA'
-                        )
-                    ),
-                    ancho - 55,
-                    y + 15,
-                    {
-                        align:
-                            'center'
-                    }
-                );
-
-
-                y +=
-                    altura;
-
-            }
-        );
-
-
-        /*
-         * Resumen
-         */
-
-        if (
-            y + 80 >
-            alto - 50
-        ){
-
-            pdf.addPage();
-
-            y =
-                45;
-
-        }
-
-
-        y +=
-            18;
-
-
-        pdf.setFillColor(
-            245,
-            248,
-            252
-        );
-
-        pdf.rect(
-            40,
-            y,
-            ancho - 80,
-            55,
-            'F'
-        );
-
-
-        pdf.setTextColor(
-            6,
-            59,
-            145
-        );
-
-        pdf.setFont(
-            'helvetica',
-            'bold'
-        );
-
-        pdf.setFontSize(
-            8
-        );
-
-
-        pdf.text(
-            'PROMEDIO GENERAL',
-            70,
-            y + 20
-        );
-
-
-        pdf.text(
-            'EVALUACIONES',
-            ancho / 2 - 20,
-            y + 20
-        );
-
-
-        pdf.text(
-            'GRUPO',
-            ancho - 120,
-            y + 20
-        );
-
-
-        pdf.setFontSize(
-            15
-        );
-
-
-        pdf.text(
-            obtenerPromedioPDF(),
-            90,
-            y + 42,
-            {
-                align:
-                    'center'
-            }
-        );
-
-
-        pdf.setFontSize(
-            12
-        );
-
-
-        pdf.text(
-            String(
-                calificacionesActuales.length
-            ),
-            ancho / 2 + 5,
-            y + 42,
-            {
-                align:
-                    'center'
-            }
-        );
-
-
-        pdf.text(
-            String(
-                alumnoActual.GRUPO || '—'
-            ),
-            ancho - 95,
-            y + 42,
-            {
-                align:
-                    'center'
-            }
-        );
-
-
-        /*
-         * Firma
-         */
-
-        y +=
-            85;
-
-
-        pdf.setDrawColor(
-            70,
-            80,
-            90
-        );
-
-
-        pdf.line(
-            ancho / 2 - 90,
-            y,
-            ancho / 2 + 90,
-            y
-        );
-
-
-        pdf.setTextColor(
-            30,
-            40,
-            50
-        );
-
-        pdf.setFont(
-            'helvetica',
-            'bold'
-        );
-
-        pdf.setFontSize(
-            9
-        );
-
-
-        pdf.text(
-            'Alexis Soto',
-            ancho / 2,
-            y + 14,
-            {
-                align:
-                    'center'
-            }
-        );
-
-
-        pdf.setFont(
-            'helvetica',
-            'normal'
-        );
-
-        pdf.setFontSize(
-            8
-        );
-
-
-        pdf.text(
-            'Director General',
-            ancho / 2,
-            y + 26,
-            {
-                align:
-                    'center'
-            }
-        );
-
-
-        pdf.text(
-            'Evolva Academy',
-            ancho / 2,
-            y + 37,
-            {
-                align:
-                    'center'
-            }
-        );
-
-
-        /*
-         * Pie
-         */
-
-        pdf.setFontSize(
-            7
-        );
-
-        pdf.setTextColor(
-            110,
-            120,
-            130
-        );
-
-
-        pdf.text(
-            'Documento generado por el sistema académico de Evolva Academy.',
-            ancho / 2,
-            alto - 30,
-            {
-                align:
-                    'center'
-            }
-        );
-
-
-        const nombreArchivo =
-            'Boleta_' +
+        const folio =
             String(
                 alumnoActual.FOLIO ||
                 'Evolva'
-            ) +
-            '.pdf';
+            ).trim();
 
 
-        pdf.save(
-            nombreArchivo
-        );
+        const opciones = {
+
+            margin: [8,8,8,8],
+
+            filename:
+                'Boleta_' +
+                folio +
+                '.pdf',
+
+            image:{
+                type:'jpeg',
+                quality:0.98
+            },
+
+            html2canvas:{
+                scale:2,
+                useCORS:true,
+                allowTaint:false,
+                backgroundColor:'#ffffff',
+                scrollX:0,
+                scrollY:0,
+                logging:false
+            },
+
+            jsPDF:{
+                unit:'mm',
+                format:'letter',
+                orientation:'portrait',
+                compress:true
+            },
+
+            pagebreak:{
+                mode:[
+                    'css',
+                    'legacy'
+                ],
+                avoid:[
+                    '.report-header',
+                    '.student-section',
+                    '.summary-section',
+                    '.report-footer',
+                    'tr'
+                ]
+            }
+
+        };
+
+
+        await html2pdf()
+            .set(opciones)
+            .from(reportCard)
+            .save();
 
 
     }catch(error){
 
         console.error(
+            'Error generando PDF:',
             error
         );
 
 
         mostrarMensaje(
-            'No fue posible generar el PDF.',
+            'No fue posible generar el PDF. Intenta nuevamente.',
             'error'
         );
 
+
     }finally{
 
-        boton.disabled =
-            false;
+        reportCard.classList.remove(
+            'pdf-export'
+        );
+
+
+        boton.disabled = false;
 
         boton.innerHTML =
             textoOriginal;
 
     }
-
-}
-
-
-/* =====================================================
-   PROMEDIO PARA PDF
-===================================================== */
-
-function obtenerPromedioPDF(){
-
-    const valores =
-        calificacionesActuales
-
-            .map(
-                function(item){
-
-                    return convertirNumero(
-                        item.calificacion
-                    );
-
-                }
-            )
-
-            .filter(
-                function(valor){
-
-                    return valor !== null;
-
-                }
-            );
-
-
-    if (
-        !valores.length
-    ){
-
-        return '—';
-
-    }
-
-
-    const suma =
-        valores.reduce(
-            function(a,b){
-
-                return a + b;
-
-            },
-            0
-        );
-
-
-    return (
-        suma /
-        valores.length
-    ).toFixed(2);
 
 }
 
