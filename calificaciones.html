@@ -34,34 +34,18 @@ body {
     min-height: 100vh;
 }
 
-/* LOGO INTEGRADO */
+/* LOGO */
 
-.evolva-logo {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #075bd2;
-    line-height: 1;
-    font-family: Arial, Helvetica, sans-serif;
-    white-space: nowrap;
-    padding: 5px 0;
+.evolva-image {
+    display: block;
+    width: 130px;
+    height: 44px;
+    object-fit: contain;
 }
 
-.logo-word {
-    font-size: 29px;
-    font-weight: 900;
-    letter-spacing: -1.6px;
-    line-height: 1.05;
-}
-
-.logo-subtitle {
-    font-size: 8px;
-    font-weight: 700;
-    letter-spacing: 5px;
-    margin-top: 4px;
-    padding-left: 5px;
-    line-height: 1.2;
+.logo-area .evolva-image {
+    width: 145px;
+    height: 70px;
 }
 
 /* ENCABEZADO */
@@ -113,7 +97,7 @@ body {
     background: #dfeeff;
 }
 
-/* PRESENTACIÓN */
+/* PORTADA */
 
 .web-hero {
     position: relative;
@@ -205,7 +189,7 @@ body {
     max-width: 440px;
 }
 
-/* CONSULTA */
+/* FORMULARIO */
 
 .search-box {
     width: 100%;
@@ -441,8 +425,14 @@ body {
 }
 
 @keyframes rise {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* BOLETA */
@@ -473,10 +463,6 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.logo-area .logo-word {
-    font-size: 28px;
 }
 
 .institution {
@@ -800,7 +786,7 @@ body {
     z-index: 1;
 }
 
-/* ACCIONES */
+/* BOTONES */
 
 .actions {
     display: none;
@@ -873,14 +859,9 @@ button:focus-visible {
         height: 74px;
     }
 
-    .brand .logo-word {
-        font-size: 24px;
-    }
-
-    .brand .logo-subtitle {
-        font-size: 7px;
-        letter-spacing: 4px;
-        padding-left: 4px;
+    .brand .evolva-image {
+        width: 105px;
+        height: 36px;
     }
 
     .header-nav {
@@ -1093,14 +1074,11 @@ button:focus-visible {
 
 <header class="topbar">
     <div class="brand">
-        <div
-            class="evolva-logo"
-            role="img"
-            aria-label="Evolva Academy"
+        <img
+            src="logo-evolva.png"
+            class="evolva-image"
+            alt="Evolva Academy"
         >
-            <span class="logo-word">EVOLVA</span>
-            <span class="logo-subtitle">ACADEMY</span>
-        </div>
     </div>
 
     <nav class="header-nav" aria-label="Navegación principal">
@@ -1116,7 +1094,6 @@ button:focus-visible {
 
 <section class="web-hero">
     <div class="hero-layout">
-
         <div class="hero-content">
             <div class="hero-badge">
                 EVOLVA · SERVICIOS ACADÉMICOS
@@ -1259,17 +1236,13 @@ button:focus-visible {
 
     <section id="boleta" aria-label="Boleta académica">
         <div class="report-card watermark" id="reportCard">
-
             <div class="report-header">
                 <div class="logo-area">
-                    <div
-                        class="evolva-logo"
-                        role="img"
-                        aria-label="Evolva Academy"
+                    <img
+                        src="logo-evolva.png"
+                        class="evolva-image"
+                        alt="Evolva Academy"
                     >
-                        <span class="logo-word">EVOLVA</span>
-                        <span class="logo-subtitle">ACADEMY</span>
-                    </div>
                 </div>
 
                 <div class="institution">
@@ -1449,7 +1422,7 @@ const boleta = document.getElementById('boleta');
 const actions = document.getElementById('actions');
 const reportCard = document.getElementById('reportCard');
 
-/* MENSAJES Y CARGA */
+/* MENSAJES */
 
 function mostrarMensaje(texto, tipo = 'error') {
     message.textContent = texto;
@@ -1465,6 +1438,7 @@ function ocultarMensaje() {
 function mostrarLoading(mostrar) {
     loading.style.display = mostrar ? 'block' : 'none';
     searchButton.disabled = mostrar;
+
     searchButton.textContent = mostrar
         ? 'Consultando…'
         : 'Consultar calificaciones';
@@ -1472,7 +1446,7 @@ function mostrarLoading(mostrar) {
     searchForm.setAttribute('aria-busy', String(mostrar));
 }
 
-/* CONEXIÓN JSONP */
+/* JSONP */
 
 function jsonp(url, params = {}) {
     return new Promise(function(resolve, reject) {
@@ -1557,6 +1531,7 @@ async function consultar() {
         mostrarMensaje(
             'La CURP debe contener 18 caracteres: letras y números.'
         );
+
         curpInput.focus();
         return;
     }
@@ -1573,11 +1548,13 @@ async function consultar() {
 
     try {
         /*
-         * El Apps Script actualizado acepta CURP
-         * en la acción buscarfolio.
+         * Se envía la CURP en ambos parámetros.
+         * El Apps Script debe tener la actualización
+         * que resuelve una CURP al folio del alumno.
          */
         const alumnoResponse = await jsonp(API_URL, {
             accion: 'buscarfolio',
+            folio: curp,
             curp: curp
         });
 
@@ -1594,6 +1571,7 @@ async function consultar() {
         }
 
         const alumno = alumnoResponse.alumno;
+
         const folio = String(
             alumno.FOLIO || alumno.folio || ''
         ).trim();
@@ -1655,7 +1633,10 @@ async function consultar() {
                     boleta.getBoundingClientRect().top +
                     window.scrollY -
                     20,
-                behavior: reducirMovimiento ? 'auto' : 'smooth'
+
+                behavior: reducirMovimiento
+                    ? 'auto'
+                    : 'smooth'
             });
         });
 
@@ -1680,7 +1661,7 @@ async function consultar() {
     }
 }
 
-/* CONSTRUIR BOLETA */
+/* BOLETA */
 
 function escribir(id, valor) {
     document.getElementById(id).textContent = valor;
@@ -1697,7 +1678,9 @@ function construirBoleta(alumno, datos) {
 
     construirTabla(calificacionesActuales);
 
-    const promedioServidor = convertirNumero(datos.promedio);
+    const promedioServidor = convertirNumero(
+        datos.promedio
+    );
 
     const promedio = promedioServidor !== null
         ? promedioServidor
@@ -1968,7 +1951,7 @@ function generarQR(folio) {
     });
 }
 
-/* PROTEGER TEXTO INSERTADO EN LA TABLA */
+/* TEXTO SEGURO */
 
 function escapeHtml(texto) {
     return String(texto ?? '')
@@ -2063,11 +2046,6 @@ async function generarPDF() {
                 scrollX: 0,
                 scrollY: 0,
                 logging: false,
-
-                /*
-                 * Utiliza el diseño de escritorio para exportar
-                 * la boleta, incluso desde un celular.
-                 */
                 windowWidth: 1200,
 
                 onclone: function(documento) {
