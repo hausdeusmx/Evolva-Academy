@@ -155,7 +155,7 @@ body{background:#fff}
 .pdf-export .table-wrapper{overflow:visible!important}
 
 /* Exportación compacta para que toda la boleta quepa en una hoja carta. */
-.pdf-one-page{width:700px!important;max-width:700px!important;margin:0!important;box-shadow:none!important;overflow:visible!important}
+.pdf-one-page{width:820px!important;max-width:820px!important;margin:0!important;box-shadow:none!important;overflow:visible!important}
 .pdf-one-page .report-header{padding:9px 13px 8px;gap:10px;border-bottom-width:2px}
 .pdf-one-page .logo-area{width:88px;flex:0 0 88px}
 .pdf-one-page .logo-area .evolva-image{width:82px;height:38px}
@@ -486,7 +486,6 @@ function construirBoleta(alumno) {
 
     construirTabla(calificacionesActuales);
 
-    // Promedio y avance usan solo las evaluaciones de este diplomado.
     const promedio = calcularPromedio(calificacionesActuales);
     const avance = calcularAvance(calificacionesActuales);
 
@@ -506,11 +505,10 @@ function construirTabla(evaluaciones) {
         return;
     }
 
-    // Agrupa las evaluaciones para mostrar una sola celda por módulo.
     const grupos = new Map();
 
     evaluaciones.forEach(function(item) {
-        const modulo = String(item.modulo || 'Módulo sin nombre').trim();
+        const modulo = obtenerNombreModulo(item);
         if (!grupos.has(modulo)) grupos.set(modulo, []);
         grupos.get(modulo).push(item);
     });
@@ -562,15 +560,61 @@ function construirTabla(evaluaciones) {
     });
 }
 
+function obtenerNombreModulo(item) {
+    const nombreRecibido = String(item.modulo ?? item.MODULO ?? '').trim();
+    if (nombreRecibido) return nombreRecibido;
+
+    const clave = String(item.clave || item.codigo || item.idEvaluacion || '').trim().toUpperCase();
+    const modulosFinanzas = {
+        I: 'Psicología del Dinero y Diagnóstico Financiero',
+        II: 'El Presupuesto Inteligente y Herramientas Digitales',
+        III: 'Estrategias Avanzadas para la Liquidación de Deudas',
+        IV: 'Fondo de Emergencia y Cuentas de Ahorro Estratégicas',
+        V: 'Finanzas Básicas para Emprendedores y Negocios',
+        VI: 'Proyecto Integrador y Plan de Libertad Financiera'
+    };
+
+    const numeroFinanzas = clave.match(/^FIN-E(\d{2})$/);
+
+    if (numeroFinanzas) {
+        const n = Number(numeroFinanzas[1]);
+        const romano = n <= 3 ? 'I' : n <= 5 ? 'II' : n <= 7 ? 'III' : n <= 9 ? 'IV' : n <= 11 ? 'V' : 'VI';
+        return 'Módulo ' + romano + ': ' + modulosFinanzas[romano];
+    }
+
+    const modulosAuxilios = {
+        1: 'Introducción, Marco Legal y Evaluación de la Escena',
+        2: 'Soporte Vital Básico y Reanimación Cardiopulmonar',
+        3: 'Obstrucción de Vía Aérea y Maniobra de Heimlich',
+        4: 'Control de Hemorragias y Heridas',
+        5: 'Lesiones en Huesos, Articulaciones y Músculos',
+        6: 'Quemaduras, Intoxicaciones y Envenenamientos',
+        7: 'Urgencias Médicas Comunes',
+        8: 'Proyecto Integrador y Simulacro Práctico Final'
+    };
+
+    const numeroAuxilios = clave.match(/^PA-M(\d+)-E\d+$/);
+
+    if (numeroAuxilios && modulosAuxilios[numeroAuxilios[1]]) {
+        const romanos = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII'];
+        const n = Number(numeroAuxilios[1]);
+        return 'Módulo ' + romanos[n] + ': ' + modulosAuxilios[n];
+    }
+
+    return 'Módulo sin nombre';
+}
+
 function calcularPromedio(lista) {
     const valores = lista.map(item => convertirNumero(item.calificacion))
         .filter(valor => valor !== null);
+
     if (!valores.length) return null;
     return valores.reduce((total, valor) => total + valor, 0) / valores.length;
 }
 
 function calcularAvance(lista) {
     if (!lista.length) return 0;
+
     const calificadas = lista.filter(item => convertirNumero(item.calificacion) !== null).length;
     return Math.round(calificadas / lista.length * 100);
 }
@@ -632,6 +676,7 @@ function imprimirBoleta() {
 function esperarImagenes() {
     return Promise.all(Array.from(reportCard.querySelectorAll('img')).map(function(img) {
         if (img.complete) return Promise.resolve();
+
         return new Promise(resolve => {
             img.addEventListener('load', resolve, {once:true});
             img.addEventListener('error', resolve, {once:true});
@@ -667,6 +712,7 @@ async function generarPDF() {
             scrollX:0,
             scrollY:0,
             windowWidth:1200,
+
             onclone:function(documento) {
                 const tarjeta = documento.getElementById('reportCard');
                 const seccion = documento.getElementById('boleta');
@@ -675,8 +721,8 @@ async function generarPDF() {
                 if (seccion) seccion.style.display = 'block';
 
                 if (contenedor) {
-                    contenedor.style.width = '720px';
-                    contenedor.style.maxWidth = '720px';
+                    contenedor.style.width = '840px';
+                    contenedor.style.maxWidth = '840px';
                     contenedor.style.margin = '0 auto';
                     contenedor.style.padding = '0';
                     contenedor.style.overflow = 'visible';
@@ -688,7 +734,7 @@ async function generarPDF() {
 
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF({
-            orientation:'portrait',
+            orientation:'landscape',
             unit:'mm',
             format:'letter',
             compress:true
