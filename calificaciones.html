@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calificaciones | Evolva Academy</title>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
@@ -122,6 +123,7 @@ button,input{font:inherit}
 .btn-print{background:#e2e8f0;color:#172033}
 .portal-footer{max-width:1160px;margin:0 auto 30px;padding:24px 0 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;color:#8091a8;font-size:11px}
 .portal-footer strong{color:#5c789b;font-size:11px;letter-spacing:1.4px}
+
 @media(max-width:800px){
 .topbar{padding:14px 18px;height:74px}.brand .evolva-image{width:105px;height:36px}
 .header-nav{gap:12px}.payment-link,.back-link{font-size:10px}.back-link{padding:9px 12px}
@@ -139,6 +141,7 @@ button,input{font:inherit}
 .report-footer{grid-template-columns:1fr;text-align:center}.qr-area{order:-1}
 .actions{flex-direction:column}.actions button{width:100%}
 }
+
 @media print{
 @page{size:letter;margin:10mm}
 body{background:#fff}
@@ -150,6 +153,42 @@ body{background:#fff}
 }
 .pdf-export{background:#fff!important;box-shadow:none!important}
 .pdf-export .table-wrapper{overflow:visible!important}
+
+/* Exportación compacta para que toda la boleta quepa en una hoja carta. */
+.pdf-one-page{width:700px!important;max-width:700px!important;margin:0!important;box-shadow:none!important;overflow:visible!important}
+.pdf-one-page .report-header{padding:9px 13px 8px;gap:10px;border-bottom-width:2px}
+.pdf-one-page .logo-area{width:88px;flex:0 0 88px}
+.pdf-one-page .logo-area .evolva-image{width:82px;height:38px}
+.pdf-one-page .institution h1{font-size:16px;margin-bottom:2px}
+.pdf-one-page .institution h2{font-size:9px;margin-bottom:3px}
+.pdf-one-page .institution p{font-size:8px}
+.pdf-one-page .header-code{width:105px;flex:0 0 105px;font-size:7px}
+.pdf-one-page .header-code strong{font-size:9px;margin-bottom:2px}
+.pdf-one-page .student-section{padding:7px 13px}
+.pdf-one-page .section-title{font-size:8px;padding-bottom:3px;margin-bottom:5px}
+.pdf-one-page .data-cell{min-height:29px;padding:4px 6px}
+.pdf-one-page .data-label{font-size:6px;margin-bottom:2px}
+.pdf-one-page .data-value{font-size:8px;line-height:1.2}
+.pdf-one-page .academic-section{padding:7px 13px 3px}
+.pdf-one-page .grades-table{font-size:7px;table-layout:fixed}
+.pdf-one-page .grades-table th{font-size:6px;padding:4px 3px}
+.pdf-one-page .grades-table td{font-size:7px;padding:3px 4px;line-height:1.15}
+.pdf-one-page .status{font-size:6px;padding:2px 4px}
+.pdf-one-page .summary-section{padding:6px 13px}
+.pdf-one-page .summary-grid{gap:6px}
+.pdf-one-page .summary-box{padding:5px}
+.pdf-one-page .summary-label{font-size:6px;margin-bottom:2px}
+.pdf-one-page .summary-value{font-size:14px}
+.pdf-one-page .report-footer{margin-top:2px;padding:8px 13px 9px;grid-template-columns:1fr 125px 1fr;gap:10px}
+.pdf-one-page .observations-title{font-size:7px;margin-bottom:3px}
+.pdf-one-page .observations p{font-size:7px;line-height:1.25}
+.pdf-one-page .signature-line{padding-top:4px;margin-top:15px}
+.pdf-one-page .signature-name{font-size:8px}
+.pdf-one-page .signature-role{font-size:6px;margin-top:2px}
+.pdf-one-page #qrcode{width:58px;height:58px;padding:3px}
+.pdf-one-page #qrcode img,.pdf-one-page #qrcode canvas{max-width:50px;max-height:50px}
+.pdf-one-page .qr-label{font-size:6px;margin-top:3px}
+.pdf-one-page.watermark:after{font-size:38px}
 </style>
 </head>
 
@@ -447,7 +486,7 @@ function construirBoleta(alumno) {
 
     construirTabla(calificacionesActuales);
 
-    // Promedio y avance se calculan solo con evaluaciones de este diplomado.
+    // Promedio y avance usan solo las evaluaciones de este diplomado.
     const promedio = calcularPromedio(calificacionesActuales);
     const avance = calcularAvance(calificacionesActuales);
 
@@ -467,7 +506,7 @@ function construirTabla(evaluaciones) {
         return;
     }
 
-    // Agrupa las evaluaciones para que el nombre de cada módulo aparezca una vez.
+    // Agrupa las evaluaciones para mostrar una sola celda por módulo.
     const grupos = new Map();
 
     evaluaciones.forEach(function(item) {
@@ -606,99 +645,86 @@ async function generarPDF() {
         return;
     }
 
-    if (typeof html2pdf === 'undefined') {
-        mostrarMensaje('No se pudo cargar el generador de PDF. Recarga la página.');
+    if (typeof html2canvas === 'undefined' || !window.jspdf?.jsPDF) {
+        mostrarMensaje('No se pudieron cargar las herramientas para generar el PDF. Recarga la página.');
         return;
     }
 
     const boton = document.querySelector('.btn-pdf');
     const textoOriginal = boton.textContent;
-
     boton.disabled = true;
     boton.textContent = 'Generando PDF...';
 
     try {
         await esperarImagenes();
+        if (document.fonts?.ready) await document.fonts.ready;
 
-        if (document.fonts?.ready) {
-            await document.fonts.ready;
-        }
+        const canvas = await html2canvas(reportCard, {
+            scale:2,
+            useCORS:true,
+            allowTaint:false,
+            backgroundColor:'#ffffff',
+            scrollX:0,
+            scrollY:0,
+            windowWidth:1200,
+            onclone:function(documento) {
+                const tarjeta = documento.getElementById('reportCard');
+                const seccion = documento.getElementById('boleta');
+                const contenedor = documento.querySelector('.container');
 
-        reportCard.classList.add('pdf-export');
+                if (seccion) seccion.style.display = 'block';
 
-        const opciones = {
-            margin: [8, 8, 8, 8],
-            filename: 'Boleta_' + alumnoActual.FOLIO + '.pdf',
-
-            image: {
-                type: 'jpeg',
-                quality: 0.98
-            },
-
-            html2canvas: {
-                scale: 2,
-                useCORS: true,
-                allowTaint: false,
-                backgroundColor: '#ffffff',
-                scrollX: 0,
-                scrollY: 0,
-                logging: false,
-
-                // Mantiene el diseño de escritorio durante la exportación.
-                windowWidth: 1200,
-
-                onclone: function(documento) {
-                    const tarjeta = documento.getElementById('reportCard');
-                    const contenedor = documento.querySelector('.container');
-
-                    if (contenedor) {
-                        contenedor.style.width = '700px';
-                        contenedor.style.maxWidth = '700px';
-                        contenedor.style.margin = '0 auto';
-                        contenedor.style.padding = '0';
-                        contenedor.style.overflow = 'visible';
-                    }
-
-                    if (tarjeta) {
-                        tarjeta.style.width = '700px';
-                        tarjeta.style.maxWidth = '700px';
-                        tarjeta.style.margin = '0 auto';
-                        tarjeta.style.boxSizing = 'border-box';
-                        tarjeta.style.overflow = 'visible';
-                    }
+                if (contenedor) {
+                    contenedor.style.width = '720px';
+                    contenedor.style.maxWidth = '720px';
+                    contenedor.style.margin = '0 auto';
+                    contenedor.style.padding = '0';
+                    contenedor.style.overflow = 'visible';
                 }
-            },
 
-            jsPDF: {
-                unit: 'mm',
-                format: 'letter',
-                orientation: 'portrait',
-                compress: true
-            },
-
-            pagebreak: {
-                mode: ['css', 'legacy'],
-                avoid: [
-                    '.report-header',
-                    '.student-section',
-                    '.summary-section',
-                    '.report-footer',
-                    'tr'
-                ]
+                if (tarjeta) tarjeta.classList.add('pdf-one-page');
             }
-        };
+        });
 
-        await html2pdf()
-            .set(opciones)
-            .from(reportCard)
-            .save();
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({
+            orientation:'portrait',
+            unit:'mm',
+            format:'letter',
+            compress:true
+        });
+
+        const margen = 5;
+        const anchoPagina = pdf.internal.pageSize.getWidth();
+        const altoPagina = pdf.internal.pageSize.getHeight();
+
+        const escala = Math.min(
+            (anchoPagina - margen * 2) / canvas.width,
+            (altoPagina - margen * 2) / canvas.height
+        );
+
+        const anchoImagen = canvas.width * escala;
+        const altoImagen = canvas.height * escala;
+        const x = (anchoPagina - anchoImagen) / 2;
+        const y = (altoPagina - altoImagen) / 2;
+
+        pdf.addImage(
+            canvas.toDataURL('image/jpeg', 0.96),
+            'JPEG',
+            x,
+            y,
+            anchoImagen,
+            altoImagen,
+            undefined,
+            'FAST'
+        );
+
+        pdf.save('Boleta_' + alumnoActual.FOLIO + '.pdf');
 
     } catch (error) {
         console.error(error);
         mostrarMensaje('No fue posible generar el PDF. Intenta nuevamente.');
-
     } finally {
-        reportCard.classList.remove('pdf-export');
         boton.disabled = false;
         boton.textContent = textoOriginal;
     }
