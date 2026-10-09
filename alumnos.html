@@ -2,190 +2,121 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Portal del alumno | Evolva Academy</title>
 
 <style>
-:root{
-  --navy:#102c50;
-  --blue:#2879d0;
-  --aqua:#25b99e;
-  --ink:#18334f;
-  --muted:#75899e;
-  --line:#dfe8f2;
-  --bg:#f2f6fb;
-  --white:#fff;
-}
+:root{--navy:#153b67;--blue:#2878c5;--pale:#e8f1fc;--sky:#72b5ed;--ink:#203851;--muted:#71849a;--line:#dfe8f3;--bg:#f3f7fc}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
-button,input{font:inherit}
-button{cursor:pointer}
-.hidden{display:none!important}
-button:focus-visible,input:focus-visible{outline:3px solid #87b9ed;outline-offset:2px}
+button,input{font:inherit}button{cursor:pointer}.hidden{display:none!important}
+button:focus-visible,input:focus-visible{outline:3px solid #8abbed;outline-offset:3px}
 
 /* Acceso */
-#loginPage{
-  min-height:100vh;display:grid;place-items:center;padding:24px;
-  background:
-    radial-gradient(ellipse at 15% 15%,rgba(45,140,227,.38),transparent 34%),
-    radial-gradient(ellipse at 85% 85%,rgba(35,184,154,.23),transparent 32%),
-    linear-gradient(140deg,#092344,#114979 58%,#0c3159);
-}
-.login-wrap{width:min(450px,100%)}
-.login-brand{text-align:center;color:#fff;margin-bottom:20px}
-.login-brand img{width:140px;max-width:55%;filter:brightness(0) invert(1);margin-bottom:13px}
-.login-brand h1{font-size:clamp(30px,7vw,40px);line-height:1.08;letter-spacing:-1.5px;margin-bottom:8px}
-.login-brand h1 span{color:#60ddc0}
-.login-brand p{color:#d0e1f2;font-size:13px;line-height:1.6}
-.login-card{background:#fff;border-radius:20px;padding:clamp(24px,6vw,38px);box-shadow:0 25px 65px #02142b55}
-.login-card h2{font-size:23px;color:#183b5d;margin-bottom:7px}
-.login-card>p{color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:21px}
-.field{margin-bottom:15px}
-.field label{display:block;font-size:12px;font-weight:800;margin-bottom:7px}
-.field input{height:49px;width:100%;border:1px solid var(--line);border-radius:10px;background:#f7f9fc;padding:0 13px}
+#loginPage{min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 12% 15%,#e0edfb 0,transparent 34%),#f3f7fc}
+.login-wrap{width:min(1000px,100%);display:grid;grid-template-columns:1fr 410px;background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:0 24px 70px #17385c1a}
+.login-brand{min-height:540px;padding:clamp(28px,6vw,64px);display:flex;flex-direction:column;justify-content:space-between;color:#fff;background:linear-gradient(145deg,#12345b,#1c5b98 70%,#2788c8);position:relative;overflow:hidden}
+.login-brand:after{content:"";position:absolute;width:390px;height:390px;border:1px solid #ffffff30;border-radius:50%;right:-175px;bottom:-180px;box-shadow:0 0 0 40px #ffffff0b,0 0 0 80px #ffffff08}
+.login-brand img{width:150px;max-width:70%;height:auto;object-fit:contain;filter:brightness(0) invert(1);position:relative;z-index:1}
+.login-brand h1{font-size:clamp(34px,5vw,54px);line-height:1.05;letter-spacing:-2px;margin:0 0 15px;position:relative;z-index:1}
+.login-brand h1 span{color:#a9d8ff}.login-brand p{max-width:420px;color:#e0efff;font-size:14px;line-height:1.8;position:relative;z-index:1}
+.login-card{align-self:center;padding:clamp(25px,5vw,46px)}
+.login-card h2{font:700 29px Georgia,serif;color:var(--navy);margin-bottom:8px}
+.login-card>p{color:var(--muted);font-size:13px;line-height:1.65;margin-bottom:24px}
+.field{margin-bottom:16px}.field label{display:block;font-size:11px;font-weight:800;margin-bottom:8px;color:#385574}
+.field input{height:50px;width:100%;border:1px solid #d7e4f2;border-radius:11px;background:#f7faff;padding:0 13px;color:var(--ink)}
 .field input:focus{background:#fff;border-color:var(--blue)}
-.password-wrap{display:flex;gap:7px}
-.password-wrap input{flex:1;min-width:0}
-.show-password{border:1px solid var(--line);border-radius:9px;background:#fff;padding:0 11px;color:#49627b}
-.primary{width:100%;min-height:49px;border:0;border-radius:10px;background:linear-gradient(100deg,#2377cd,#23a9aa);color:#fff;font-weight:800}
-.primary:disabled{opacity:.6;cursor:wait}
-.error{display:none;margin-top:13px;padding:11px 12px;border-radius:9px;background:#fff0f0;color:#a72323;font-size:12px;line-height:1.5}
-.error.show{display:block}
-.server{margin-top:16px;color:#8192a4;font-size:11px;text-align:center}
-.server.ok{color:#188269}.server.bad{color:#b42318}
+.password-wrap{display:flex;gap:8px}.password-wrap input{flex:1;min-width:0}
+.show-password{border:1px solid var(--line);border-radius:10px;background:#fff;padding:0 12px;color:#49627e;font-size:12px}
+.primary{width:100%;min-height:50px;border:0;border-radius:11px;background:var(--blue);color:#fff;font-weight:800;transition:.2s}
+.primary:hover{background:#1c65ad;transform:translateY(-1px)}.primary:disabled{opacity:.6;cursor:wait}
+.error{display:none;margin-top:13px;padding:11px 12px;border-radius:9px;background:#fff0f1;color:#a42335;font-size:12px;line-height:1.5}
+.error.show{display:block}.server{margin-top:16px;color:#8191a3;font-size:11px;text-align:center}.server.ok{color:#188269}.server.bad{color:#b42318}
 
 /* Navegación */
 #app{min-height:100vh}
-.topnav{
-  position:sticky;top:0;z-index:50;background:linear-gradient(105deg,#102c50,#174c7c 65%,#126a83);
-  min-height:76px;padding:10px clamp(15px,3vw,40px);display:flex;align-items:center;gap:15px;color:#fff;
-  box-shadow:0 7px 20px #0d2b4b26
-}
-.brand{display:flex;flex-direction:column;flex:0 0 145px}
-.brand img{width:125px;filter:brightness(0) invert(1)}
-.brand small{font-size:8px;letter-spacing:1px;color:#b4cee5;margin-top:3px}
-.nav-toggle{display:none}
-.navlinks{display:flex;justify-content:center;align-items:center;gap:4px;flex:1}
-.navlinks button,.logout{
-  border:0;border-radius:9px;padding:10px 11px;background:transparent;color:#c3d8ed;
-  font-size:11px;font-weight:750;white-space:nowrap
-}
-.navlinks button:hover,.logout:hover{background:#ffffff1a;color:#fff}
-.navlinks button.active{background:var(--aqua);color:#073a50}
-.logout{border:1px solid #ffffff38;color:#e3effb}
-.pagebar{min-height:69px;padding:12px clamp(16px,4vw,48px);display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fff;border-bottom:1px solid var(--line)}
-.pagebar-title{font-size:14px;font-weight:850;color:#183b5d}
-.pagebar-sub{font-size:10px;color:#8193a6;margin-top:3px}
-.user{display:flex;align-items:center;gap:9px;max-width:48%}
-.avatar{width:37px;height:37px;border-radius:50%;background:#e3f3f0;color:#147a75;display:grid;place-items:center;font-weight:900}
-.user-info{min-width:0}
-.user-name,.user-email{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.user-name{font-size:11px;font-weight:800}
-.user-email{font-size:10px;color:var(--muted);margin-top:2px}
-.content{width:min(1240px,100%);margin:auto;padding:24px clamp(15px,4vw,42px) 48px}
-.view{display:none}
-.view.active{display:block;animation:appear .2s ease}
+.topnav{position:sticky;top:0;z-index:50;min-height:76px;padding:10px clamp(16px,4vw,56px);display:flex;align-items:center;gap:18px;background:#fff;border-bottom:1px solid var(--line);box-shadow:0 5px 18px #193d3210}
+.brand{display:flex;flex-direction:column;flex:0 0 145px}.brand img{display:block;width:132px;height:42px;object-fit:contain}
+.brand small{font-size:8px;letter-spacing:1px;color:#8191a3;margin-top:2px}
+.nav-toggle{display:none}.navlinks{display:flex;justify-content:center;align-items:center;gap:5px;flex:1}
+.navlinks button,.logout{border:0;border-radius:9px;padding:10px 11px;background:transparent;color:#63768c;font-size:11px;font-weight:750;white-space:nowrap;transition:.18s}
+.navlinks button:hover{background:#f0f6fd;color:var(--navy)}.navlinks button.active{background:var(--pale);color:var(--navy)}
+.logout{border:1px solid #dce7f2;color:#42678e}.logout:hover{background:#f2f7fd}
+.pagebar{min-height:72px;padding:13px clamp(16px,4vw,56px);display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fbfdff;border-bottom:1px solid var(--line)}
+.pagebar-title{font:700 17px Georgia,serif;color:var(--navy)}.pagebar-sub{font-size:10px;color:#8393a5;margin-top:4px}
+.user{display:flex;align-items:center;gap:10px;max-width:48%}.avatar{width:38px;height:38px;border-radius:12px;background:var(--navy);color:#fff;display:grid;place-items:center;font-weight:900}
+.user-info{min-width:0}.user-name,.user-email{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.user-name{font-size:11px;font-weight:800}.user-email{font-size:10px;color:var(--muted);margin-top:2px}
+.content{width:min(1220px,100%);margin:auto;padding:27px clamp(16px,4vw,48px) 55px}
+.view{display:none}.view.active{display:block;animation:appear .2s ease}
 @keyframes appear{from{opacity:.5;transform:translateY(4px)}to{opacity:1;transform:none}}
-.heading{margin:0 0 18px}
-.heading h2{font-size:25px;letter-spacing:-.7px;color:#183b5d}
-.heading p{font-size:12px;color:var(--muted);margin-top:4px}
-.hero{
-  min-height:170px;padding:28px;border-radius:16px;margin-bottom:17px;color:#fff;
-  background:linear-gradient(110deg,#14538b,#218bb0 65%,#25a993);position:relative;overflow:hidden
-}
-.hero:after{content:"";position:absolute;width:230px;height:230px;border:34px solid #ffffff17;border-radius:50%;right:-60px;bottom:-140px}
-.hero-tag{display:inline-block;font-size:9px;letter-spacing:1px;text-transform:uppercase;background:#ffffff20;border:1px solid #ffffff3d;border-radius:30px;padding:7px 10px;margin-bottom:13px}
-.hero h1{font-size:clamp(24px,4vw,36px);letter-spacing:-1px;margin-bottom:7px}
-.hero h1 span{color:#8af0d1}
-.hero p{font-size:12px;line-height:1.6;color:#e0eff8;max-width:600px}
+.heading{margin:0 0 18px}.heading h2{font:700 29px Georgia,serif;color:var(--navy)}.heading p{font-size:12px;color:var(--muted);margin-top:5px}
+
+/* Panel */
+.hero{min-height:185px;padding:clamp(22px,4vw,36px);border:1px solid #dce8f5;border-radius:20px;margin-bottom:17px;color:var(--navy);background:linear-gradient(105deg,#e7f0fb,#f4f8fd 65%,#e4f1fb);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:240px;height:240px;border:1px solid #1c5b9820;border-radius:50%;right:-55px;bottom:-145px;box-shadow:0 0 0 28px #1c5b9808,0 0 0 58px #1c5b9806}
+.hero-tag{display:inline-block;font-size:9px;letter-spacing:1px;text-transform:uppercase;background:#fff9;border:1px solid #dce7f3;border-radius:30px;padding:7px 10px;margin-bottom:14px;color:#52749a}
+.hero h1{font:700 clamp(28px,4vw,39px)/1.1 Georgia,serif;margin-bottom:9px}.hero h1 span{color:var(--blue)}
+.hero p{font-size:12px;line-height:1.7;color:#61778e;max-width:620px}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:17px}
-.stat,.card,.module-card,.exam-card{background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 8px 24px #1a40630e}
-.stat{padding:16px;position:relative;overflow:hidden}
-.stat:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#3384d2}
-.stat:nth-child(2):before{background:#20aa9c}.stat:nth-child(3):before{background:#efa84a}.stat:nth-child(4):before{background:#7189a4}
-.stat-label{font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.5px}
-.stat-value{font-size:23px;font-weight:900;color:#244c71;margin-top:9px}
-.columns{display:grid;grid-template-columns:1.15fr .85fr;gap:15px}
-.card{padding:19px}
-.card h3{font-size:14px;color:#244966;margin-bottom:5px}
+.stat,.card,.module-card,.exam-card{background:#fff;border:1px solid var(--line);border-radius:15px;box-shadow:0 5px 19px #23423708}
+.stat{padding:17px;position:relative;overflow:hidden}.stat:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--navy)}
+.stat:nth-child(2):before{background:#438aca}.stat:nth-child(3):before{background:#74b5e8}.stat:nth-child(4):before{background:#8a9eb4}
+.stat-label{font-size:9px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.7px}
+.stat-value{font:700 26px Georgia,serif;color:var(--navy);margin-top:10px}
+.columns{display:grid;grid-template-columns:1.15fr .85fr;gap:15px}.card{padding:20px}.card h3{font:700 16px Georgia,serif;color:#315272;margin-bottom:5px}
 .card-desc{font-size:11px;color:var(--muted);margin-bottom:16px}
 .progress-row{display:flex;justify-content:space-between;font-size:11px;font-weight:800;margin:15px 0 7px}
-.progress-bar{height:8px;background:#e8eff6;border-radius:20px;overflow:hidden}
-.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#2979c9,#23b99e);border-radius:20px;transition:width .3s}
+.progress-bar{height:8px;background:#eaf0f7;border-radius:20px;overflow:hidden}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#2878c5,#72b5ed);border-radius:20px;transition:width .3s}
 .notice-list,.grade-list,.module-list,.exam-list{display:grid;gap:10px}
-.notice{border:1px solid #e6eef5;border-radius:10px;background:#fafdff;padding:12px}
-.notice strong{display:block;font-size:11px;margin-bottom:4px}
-.notice p{font-size:10px;line-height:1.5;color:#71859a}
+.notice{border:1px solid #e5edf5;border-radius:11px;background:#fcfdff;padding:13px}
+.notice strong{display:block;font-size:11px;margin-bottom:4px;color:#365879}.notice p{font-size:10px;line-height:1.55;color:#71849a}
 .notice small{display:block;font-size:9px;color:#94a2b1;margin-top:6px}
-.module-card{overflow:hidden}
-.module-head{display:flex;align-items:center;gap:11px;padding:14px;background:#edf5fc;border-bottom:1px solid #e1ebf4}
-.module-no{width:36px;height:36px;flex:0 0 36px;border-radius:11px;background:#dcecfb;color:#2868ad;display:grid;place-items:center;font-weight:900;font-size:12px}
-.module-info{flex:1;min-width:0}
-.module-kicker{font-size:8px;color:#2673b5;font-weight:900;letter-spacing:.8px;text-transform:uppercase}
-.module-title{font-size:12px;line-height:1.35;margin-top:3px;color:#244661}
-.module-average{text-align:right;font-size:8px;color:#75899e;white-space:nowrap}
-.module-average strong{display:block;font-size:12px;color:#12866e;margin-top:3px}
+.module-card{overflow:hidden;border-radius:15px}
+.module-head{display:flex;align-items:center;gap:12px;padding:15px 16px;background:#f5f8fc;border-bottom:1px solid #e7edf5}
+.module-no{width:38px;height:38px;flex:0 0 38px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font:700 15px Georgia,serif}
+.module-info{flex:1;min-width:0}.module-kicker{font-size:8px;color:#6683a1;font-weight:900;letter-spacing:.9px;text-transform:uppercase}
+.module-title{font-size:12px;line-height:1.4;margin-top:3px;color:#294766}
+.module-average{text-align:right;font-size:8px;color:#75899e;white-space:nowrap}.module-average strong{display:block;font-size:13px;color:var(--blue);margin-top:3px}
 .module-average.pending strong{color:#9b6a1f}
-.subject{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid #edf1f5}
-.subject:last-child{border:0}
-.subject-name{font-size:10px;font-weight:850;color:#40576b}
-.subject-detail{font-size:9px;line-height:1.45;color:#829099;margin-top:3px}
-.subject-grade{font-size:11px;font-weight:900;color:#12866e;white-space:nowrap}
-.subject-grade.pending{color:#9b6a1f}
+.subject{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #eff3f7}
+.subject:last-child{border:0}.subject-name{font-size:10px;font-weight:850;color:#40576f}.subject-detail{font-size:9px;line-height:1.45;color:#8291a0;margin-top:3px}
+.subject-grade{font-size:11px;font-weight:900;color:var(--blue);white-space:nowrap}.subject-grade.pending{color:#9b6a1f}
 .grade-row,.exam-card{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px}
-.grade-title,.exam-title{font-size:11px;font-weight:800}
-.grade-detail,.exam-detail{font-size:9px;color:#8495a6;margin-top:4px}
-.grade-score{font-size:14px;font-weight:900;color:#2873b8;white-space:nowrap}
-.average{margin-top:14px;background:#edf6fc;text-align:center;padding:22px;border-radius:13px}
-.average strong{display:block;font-size:30px;color:#2873b8}
-.average span{font-size:9px;font-weight:800;letter-spacing:.7px;color:#74899e}
-.badge{font-size:9px;border-radius:30px;padding:6px 8px;background:#fff4dd;color:#98691f;white-space:nowrap}
-.badge.ok{background:#e8f7f1;color:#18765d}
-.badge.bad{background:#fff0ef;color:#a23e37}
+.grade-title,.exam-title{font-size:11px;font-weight:800}.grade-detail,.exam-detail{font-size:9px;color:#8495a6;margin-top:4px}
+.grade-score{font-size:14px;font-weight:900;color:var(--blue);white-space:nowrap}
+.average{margin-top:14px;background:#edf4fc;text-align:center;padding:24px;border-radius:14px}
+.average strong{display:block;font:700 36px Georgia,serif;color:var(--navy)}.average span{font-size:9px;font-weight:800;letter-spacing:.8px;color:#74899f}
+.badge{font-size:9px;border-radius:30px;padding:6px 9px;background:#fff4dd;color:#98691f;white-space:nowrap}
+.badge.ok{background:#e8f7f1;color:#18765d}.badge.bad{background:#fff0ef;color:#a23e37}
 .empty{text-align:center;padding:25px;color:var(--muted);font-size:12px}
-.profile-grid{display:grid;grid-template-columns:230px 1fr;gap:15px}
-.profile-card{text-align:center}
-.profile-avatar{width:75px;height:75px;margin:4px auto 12px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#2879c6,#25ad9e);color:#fff;font-size:25px;font-weight:900}
-.profile-name{font-weight:850;font-size:14px}
-.profile-email{font-size:10px;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}
+.profile-grid{display:grid;grid-template-columns:230px 1fr;gap:15px}.profile-card{text-align:center}
+.profile-avatar{width:78px;height:78px;margin:4px auto 12px;border-radius:22px;display:grid;place-items:center;background:var(--navy);color:#fff;font:700 25px Georgia,serif}
+.profile-name{font-weight:850;font-size:14px}.profile-email{font-size:10px;color:var(--muted);margin-top:4px;overflow-wrap:anywhere}
 .profile-data{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.data{background:#f8fbfe;border:1px solid #e7eef5;border-radius:10px;padding:12px}
-.data-label{font-size:8px;color:#8294a6;text-transform:uppercase;letter-spacing:.6px;font-weight:850}
+.data{background:#f8fafd;border:1px solid #e7eef6;border-radius:10px;padding:12px}
+.data-label{font-size:8px;color:#8293a5;text-transform:uppercase;letter-spacing:.6px;font-weight:850}
 .data-value{font-size:11px;font-weight:750;margin-top:5px;overflow-wrap:anywhere}
-.loading{position:fixed;inset:0;z-index:200;background:#fffD;display:grid;place-items:center}
-.loading.hidden{display:none}
-.loading-box{background:#fff;padding:20px 25px;border-radius:14px;box-shadow:0 12px 40px #18334f25;text-align:center;font-size:12px;font-weight:800}
-.spinner{width:26px;height:26px;margin:0 auto 10px;border:3px solid #dfeaf5;border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
+.loading{position:fixed;inset:0;z-index:200;background:#ffffffef;display:grid;place-items:center}
+.loading.hidden{display:none}.loading-box{background:#fff;padding:21px 26px;border:1px solid var(--line);border-radius:15px;box-shadow:0 12px 40px #18334f20;text-align:center;font-size:12px;font-weight:800}
+.spinner{width:27px;height:27px;margin:0 auto 10px;border:3px solid #e3eaf2;border-top-color:var(--blue);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-@media(max-width:950px){
-  .topnav{flex-wrap:wrap}
-  .brand{flex-basis:125px}
-  .navlinks{order:3;flex-basis:100%;justify-content:flex-start;overflow:auto}
-  .navlinks button{font-size:10px}
-  .columns{grid-template-columns:1fr}
-}
+@media(max-width:1000px){.topnav{flex-wrap:wrap;gap:10px}.brand{flex-basis:125px}.navlinks{order:3;flex-basis:100%;justify-content:flex-start;overflow:auto}.navlinks button{font-size:10px}.columns{grid-template-columns:1fr}}
 @media(max-width:650px){
-  .topnav{min-height:65px;flex-wrap:nowrap;padding:9px 12px}
-  .brand{flex:1}
-  .nav-toggle{display:block;border:1px solid #ffffff45;border-radius:8px;background:#ffffff12;color:#fff;padding:8px 10px}
-  .navlinks{display:none;position:absolute;top:64px;left:0;right:0;background:#123b65;padding:10px;flex-direction:column;align-items:stretch;max-height:70vh;overflow:auto}
-  .navlinks.open{display:flex}
-  .navlinks button{text-align:left;padding:11px}
-  .logout{padding:9px;font-size:10px}
-  .pagebar{min-height:62px;padding:10px 13px}
-  .user-info{display:none}
-  .content{padding:17px 12px 30px}
-  .hero{min-height:155px;padding:20px}
-  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
-  .stat{padding:12px}
-  .stat-value{font-size:20px}
-  .profile-grid{grid-template-columns:1fr}
-  .profile-data{grid-template-columns:1fr}
-  .module-head{align-items:flex-start}
-  .subject{align-items:flex-start}
+  #loginPage{padding:14px}.login-wrap{grid-template-columns:1fr;max-width:450px;border-radius:19px}
+  .login-brand{min-height:230px;padding:24px}.login-brand img{width:118px}.login-brand h1{font-size:34px;letter-spacing:-1px}.login-brand p{font-size:12px}
+  .login-card{padding:25px}.login-card h2{font-size:25px}
+  .topnav{min-height:65px;flex-wrap:nowrap;padding:9px 12px}.brand{flex:1}.brand img{width:116px;height:36px}.brand small{font-size:7px}
+  .nav-toggle{display:block;border:1px solid #dce7f2;border-radius:9px;background:#f4f8fd;color:var(--navy);padding:8px 10px;font-size:11px;font-weight:800}
+  .navlinks{display:none;position:absolute;top:64px;left:0;right:0;background:#fff;padding:10px;flex-direction:column;align-items:stretch;max-height:70vh;overflow:auto;border-bottom:1px solid var(--line);box-shadow:0 10px 15px #18334f15}
+  .navlinks.open{display:flex}.navlinks button{text-align:left;padding:12px}.logout{padding:9px;font-size:10px}
+  .pagebar{min-height:62px;padding:10px 13px}.user-info{display:none}.content{padding:17px 12px 30px}
+  .hero{min-height:155px;padding:20px}.hero h1{font-size:29px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.stat{padding:12px}.stat-value{font-size:22px}
+  .profile-grid{grid-template-columns:1fr}.profile-data{grid-template-columns:1fr}.module-head,.subject{align-items:flex-start}
+  .heading h2{font-size:25px}
 }
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 
@@ -194,9 +125,12 @@ button:focus-visible,input:focus-visible{outline:3px solid #87b9ed;outline-offse
   <div class="login-wrap">
     <div class="login-brand">
       <img src="logo-evolva.png" alt="Evolva Academy">
-      <h1>Tu aprendizaje.<br><span>Tu evolución.</span></h1>
-      <p>Accede a tus cursos, calificaciones, exámenes y constancia.</p>
+      <div>
+        <h1>Tu aprendizaje.<br><span>Tu evolución.</span></h1>
+        <p>Accede a tus cursos, calificaciones, exámenes y constancia.</p>
+      </div>
     </div>
+
     <form class="login-card" id="loginForm">
       <h2>Portal del alumno</h2>
       <p>Ingresa con el correo y la contraseña de tu registro.</p>
@@ -292,8 +226,14 @@ button:focus-visible,input:focus-visible{outline:3px solid #87b9ed;outline-offse
     <section class="view" id="view-calificaciones">
       <div class="heading"><h2>Calificaciones</h2><p>Resultados cargados desde el sistema académico.</p></div>
       <div class="columns">
-        <article class="card"><h3>Mis evaluaciones</h3><div class="card-desc">Materias y notas registradas</div><div class="grade-list" id="gradesList"></div></article>
-        <article class="card"><div class="average"><strong id="averageValue">—</strong><span>PROMEDIO GENERAL</span></div></article>
+        <article class="card">
+          <h3>Mis evaluaciones</h3>
+          <div class="card-desc">Materias y notas registradas</div>
+          <div class="grade-list" id="gradesList"></div>
+        </article>
+        <article class="card">
+          <div class="average"><strong id="averageValue">—</strong><span>PROMEDIO GENERAL</span></div>
+        </article>
       </div>
     </section>
 
@@ -324,9 +264,7 @@ button:focus-visible,input:focus-visible{outline:3px solid #87b9ed;outline-offse
           <div class="profile-name" id="profileName">Alumno</div>
           <div class="profile-email" id="profileEmail">—</div>
         </article>
-        <article class="card">
-          <div class="profile-data" id="profileData"></div>
-        </article>
+        <article class="card"><div class="profile-data" id="profileData"></div></article>
       </div>
     </section>
   </main>
@@ -338,7 +276,7 @@ button:focus-visible,input:focus-visible{outline:3px solid #87b9ed;outline-offse
 
 <script>
 const API_URL="https://script.google.com/macros/s/AKfycbwPbOaBJBnwNd039RawS29RwL0WaM48o8s1O2EEDxKwYpng2P_kVVKUSf_ZPcgOAJMFng/exec";
-let alumnoActual=null, calificacionesActuales=[], datosConstancia=null;
+let alumnoActual=null,calificacionesActuales=[],datosConstancia=null;
 
 const $=id=>document.getElementById(id);
 const norm=s=>String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();
@@ -356,7 +294,11 @@ function api(params={}){
     let done=false;
     const timer=setTimeout(()=>finish(new Error("El servidor tardó demasiado en responder.")),20000);
     function finish(err,data){
-      if(done)return;done=true;clearTimeout(timer);delete window[cb];script.remove();
+      if(done)return;
+      done=true;
+      clearTimeout(timer);
+      delete window[cb];
+      script.remove();
       err?reject(err):resolve(data);
     }
     window[cb]=data=>{
@@ -372,6 +314,7 @@ function api(params={}){
   });
 }
 
+/* Diplomados y materias */
 const PLANES={
   primerosAuxilios:[
     {titulo:"Introducción, Marco Legal y Evaluación de la Escena",materias:[
@@ -455,14 +398,16 @@ function textoItem(item){
   ].filter(Boolean).join(" "));
 }
 function moduloItem(item,index,plan){
-  const fields=[item.modulo,item.MODULO,item.idModulo,item.ID_MODULO,item.moduloNombre,item.MODULO_NOMBRE,item.nombreModulo,item.NOMBRE_MODULO,item.claveModulo,item.CLAVE_MODULO].filter(Boolean);
+  const fields=[
+    item.modulo,item.MODULO,item.idModulo,item.ID_MODULO,item.moduloNombre,item.MODULO_NOMBRE,
+    item.nombreModulo,item.NOMBRE_MODULO,item.claveModulo,item.CLAVE_MODULO
+  ].filter(Boolean);
   const code=String(item.clave??item.CLAVE??item.codigo??item.CODIGO??item.idEvaluacion??item.ID_EVALUACION??"");
   const codeNorm=norm(code).replace(/\s/g,"");
   for(let i=0;i<plan.length;i++){
     const n=i+1,roman=["i","ii","iii","iv","v","vi","vii","viii"][i];
     const re=new RegExp("(?:^|[^a-z0-9])m0?"+n+"[^a-z0-9]*e0?\\d+","i");
-    if(re.test(code))return i;
-    if(codeNorm.startsWith("m"+n+"e"))return i;
+    if(re.test(code)||codeNorm.startsWith("m"+n+"e"))return i;
     const title=norm(plan[i].titulo);
     for(const field of fields){
       const f=norm(field);
@@ -471,32 +416,31 @@ function moduloItem(item,index,plan){
   }
   return -1;
 }
-function findSubject(materia,moduleIndex,module,subjectIndex,plan){
+function findSubject(materia,moduleIndex,subjectIndex,plan){
   const rows=calificacionesActuales.filter(row=>moduloItem(row,moduleIndex,plan)===moduleIndex);
   const keys=[materia[0],...(materia[2]||[])].map(norm).filter(Boolean);
-  let row=rows.find(item=>keys.some(key=>textoItem(item).includes(key)));
-  if(row)return notaItem(row);
-  const alumnoFields=[
-    `M${moduleIndex+1}_E${subjectIndex+1}`,`M${moduleIndex+1}E${subjectIndex+1}`,
-    `M${moduleIndex+1}_CALIFICACION_${subjectIndex+1}`,
-    `CALIFICACION_M${moduleIndex+1}_E${subjectIndex+1}`
-  ];
-  for(const key of alumnoFields){
+  const match=rows.find(item=>keys.some(key=>textoItem(item).includes(key)));
+  if(match)return notaItem(match);
+
+  const m=moduleIndex+1,e=subjectIndex+1;
+  const alumnoKeys=[`M${m}_E${e}`,`M${m}E${e}`,`M${m}_CALIFICACION_${e}`,`CALIFICACION_M${m}_E${e}`];
+  for(const key of alumnoKeys){
     const value=num(alumnoActual?.[key]??alumnoActual?.[key.toLowerCase()]);
     if(value!==null)return value;
   }
-  const codeRe=new RegExp("m0?"+(moduleIndex+1)+"[^a-z0-9]*e0?"+(subjectIndex+1)+"(?:$|[^0-9])","i");
-  row=calificacionesActuales.find(item=>{
+
+  const codeRe=new RegExp("m0?"+m+"[^a-z0-9]*e0?"+e+"(?:$|[^0-9])","i");
+  const row=calificacionesActuales.find(item=>{
     const code=String(item.clave??item.CLAVE??item.codigo??item.CODIGO??item.idEvaluacion??item.ID_EVALUACION??"");
     return codeRe.test(code)&&moduloItem(item,moduleIndex,plan)===moduleIndex;
   });
   return notaItem(row);
 }
-function moduleGrade(module,index,grades,plan){
+function moduleGrade(index,grades,plan){
   const n=index+1;
   for(const key of [`M${n}_CALIFICACION`,`CALIFICACION_M${n}`,`PROMEDIO_M${n}`,`MODULO_${n}_CALIFICACION`]){
-    const v=num(alumnoActual?.[key]??alumnoActual?.[key.toLowerCase()]);
-    if(v!==null)return v;
+    const value=num(alumnoActual?.[key]??alumnoActual?.[key.toLowerCase()]);
+    if(value!==null)return value;
   }
   const summary=calificacionesActuales.find(item=>{
     if(moduloItem(item,index,plan)!==index)return false;
@@ -504,7 +448,7 @@ function moduleGrade(module,index,grades,plan){
     return type.includes("promedio")||type.includes("final modulo")||type.includes("calificacion modulo");
   });
   if(summary)return notaItem(summary);
-  if(!grades.length||grades.some(v=>v===null))return null;
+  if(!grades.length||grades.some(value=>value===null))return null;
   return grades.reduce((a,b)=>a+b,0)/grades.length;
 }
 function getPlanName(){
@@ -515,18 +459,22 @@ function getPlanName(){
 function renderModules(){
   const plan=PLANES[programa()];
   $("modulesList").innerHTML=plan.map((module,i)=>{
-    const grades=module.materias.map((m,j)=>findSubject(m,i,module,j,plan));
-    const average=moduleGrade(module,i,grades,plan);
+    const grades=module.materias.map((materia,j)=>findSubject(materia,i,j,plan));
+    const average=moduleGrade(i,grades,plan);
     return `<article class="module-card">
       <div class="module-head">
         <div class="module-no">${i+1}</div>
-        <div class="module-info"><div class="module-kicker">Módulo ${i+1}</div><div class="module-title">${esc(module.titulo)}</div></div>
+        <div class="module-info">
+          <div class="module-kicker">Módulo ${i+1}</div>
+          <div class="module-title">${esc(module.titulo)}</div>
+        </div>
         <div class="module-average ${average===null?"pending":""}">Calificación<strong>${average===null?"Pendiente":fmt(average)}</strong></div>
       </div>
-      ${module.materias.map((m,j)=>`<div class="subject">
-        <div><div class="subject-name">${esc(m[0])}</div><div class="subject-detail">${esc(m[1])}</div></div>
-        <div class="subject-grade ${grades[j]===null?"pending":""}">${grades[j]===null?"Pendiente":fmt(grades[j])}</div>
-      </div>`).join("")}
+      ${module.materias.map((materia,j)=>`
+        <div class="subject">
+          <div><div class="subject-name">${esc(materia[0])}</div><div class="subject-detail">${esc(materia[1])}</div></div>
+          <div class="subject-grade ${grades[j]===null?"pending":""}">${grades[j]===null?"Pendiente":fmt(grades[j])}</div>
+        </div>`).join("")}
     </article>`;
   }).join("");
 }
@@ -542,7 +490,7 @@ function renderGrades(data){
       return `<div class="grade-row"><div><div class="grade-title">${esc(name)}</div><div class="grade-detail">${esc(mod)}</div></div><div class="grade-score">${grade===null?"Pendiente":fmt(grade)}</div></div>`;
     }).join("");
   }
-  const local=calificacionesActuales.map(notaItem).filter(v=>v!==null);
+  const local=calificacionesActuales.map(notaItem).filter(value=>value!==null);
   const server=num(data?.promedio);
   const avg=server??(local.length?local.reduce((a,b)=>a+b,0)/local.length:null);
   $("averageValue").textContent=avg===null?"—":fmt(avg);
@@ -560,9 +508,9 @@ function renderExams(data){
 }
 function renderNotices(data){
   const notices=Array.isArray(data?.avisos)?data.avisos:[];
-  const html=notices.length?notices.slice(0,10).map(n=>`<article class="notice"><strong>${esc(n.TITULO??"Aviso")}</strong><p>${esc(n.MENSAJE??"")}</p><small>${esc(n.FECHA??"")}</small></article>`).join(""):'<div class="empty">No hay avisos nuevos.</div>';
-  $("noticesList").innerHTML=html;
-  $("homeNotices").innerHTML=notices.length?notices.slice(0,3).map(n=>`<article class="notice"><strong>${esc(n.TITULO??"Aviso")}</strong><p>${esc(n.MENSAJE??"")}</p><small>${esc(n.FECHA??"")}</small></article>`).join(""):'<div class="empty">No hay avisos nuevos.</div>';
+  const makeNotice=n=>`<article class="notice"><strong>${esc(n.TITULO??"Aviso")}</strong><p>${esc(n.MENSAJE??"")}</p><small>${esc(n.FECHA??"")}</small></article>`;
+  $("noticesList").innerHTML=notices.length?notices.slice(0,10).map(makeNotice).join(""):'<div class="empty">No hay avisos nuevos.</div>';
+  $("homeNotices").innerHTML=notices.length?notices.slice(0,3).map(makeNotice).join(""):'<div class="empty">No hay avisos nuevos.</div>';
 }
 function renderCertificate(data){
   datosConstancia=data?.encontrada?data.constancia:null;
@@ -580,12 +528,8 @@ function renderProfile(){
   $("profileAvatar").textContent=inits;
   $("profileName").textContent=name;
   $("profileEmail").textContent=a.CORREO_PERSONAL||"—";
-  const rows=[
-    ["Folio",a.FOLIO],["CURP",a.CURP],["Diplomado",a.DIPLOMADO],
-    ["Grupo",a.GRUPO],["Estado",a.ESTADO],["Pago",a.PAGO],
-    ["Correo institucional",a.CORREO_INSTITUCIONAL]
-  ];
-  $("profileData").innerHTML=rows.map(([k,v])=>`<div class="data"><div class="data-label">${esc(k)}</div><div class="data-value">${esc(v||"—")}</div></div>`).join("");
+  const rows=[["Folio",a.FOLIO],["CURP",a.CURP],["Diplomado",a.DIPLOMADO],["Grupo",a.GRUPO],["Estado",a.ESTADO],["Pago",a.PAGO],["Correo institucional",a.CORREO_INSTITUCIONAL]];
+  $("profileData").innerHTML=rows.map(([key,value])=>`<div class="data"><div class="data-label">${esc(key)}</div><div class="data-value">${esc(value||"—")}</div></div>`).join("");
 }
 function renderProgress(){
   const value=Math.max(0,Math.min(100,num(alumnoActual?.AVANCE)??0));
@@ -627,17 +571,18 @@ function openApp(alumno){
   sessionStorage.setItem("evolvaAlumno",JSON.stringify(alumno));
   $("loginPage").classList.add("hidden");
   $("app").classList.remove("hidden");
-  loadPortal().catch(err=>{console.error(err);hideLoading()});
+  loadPortal().catch(error=>{console.error(error);hideLoading()});
 }
 function showView(name,button){
-  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".view").forEach(view=>view.classList.remove("active"));
   $("view-"+name)?.classList.add("active");
-  document.querySelectorAll(".navlinks button").forEach(x=>x.classList.toggle("active",x===button));
+  document.querySelectorAll(".navlinks button").forEach(item=>item.classList.toggle("active",item===button));
   const titles={inicio:"Inicio",curso:"Mi diplomado",calificaciones:"Calificaciones",examenes:"Exámenes",avisos:"Avisos",constancia:"Mi constancia",perfil:"Mi perfil"};
   $("pageTitle").textContent=titles[name]||"Portal del alumno";
   $("navlinks").classList.remove("open");
   window.scrollTo({top:0,behavior:"smooth"});
 }
+
 document.querySelectorAll(".navlinks button").forEach(button=>button.addEventListener("click",()=>showView(button.dataset.view,button)));
 $("navToggle").addEventListener("click",()=>$("navlinks").classList.toggle("open"));
 $("togglePassword").addEventListener("click",()=>{
@@ -648,8 +593,10 @@ $("togglePassword").addEventListener("click",()=>{
 $("logoutButton").addEventListener("click",()=>{
   sessionStorage.removeItem("evolvaAlumno");
   alumnoActual=null;calificacionesActuales=[];datosConstancia=null;
-  $("app").classList.add("hidden");$("loginPage").classList.remove("hidden");
-  $("password").value="";$("email").focus();
+  $("app").classList.add("hidden");
+  $("loginPage").classList.remove("hidden");
+  $("password").value="";
+  $("email").focus();
 });
 $("certificateButton").addEventListener("click",()=>{
   const url=String(datosConstancia?.ARCHIVO??"").trim();
@@ -670,9 +617,11 @@ $("loginForm").addEventListener("submit",async event=>{
     error.textContent=err.message||"No fue posible iniciar sesión.";
     error.classList.add("show");
   }finally{
-    button.disabled=false;button.textContent="Ingresar a mi plataforma";
+    button.disabled=false;
+    button.textContent="Ingresar a mi plataforma";
   }
 });
+
 (async()=>{
   try{
     const res=await api({accion:"ping"});
@@ -685,7 +634,9 @@ $("loginForm").addEventListener("submit",async event=>{
   try{
     const saved=JSON.parse(sessionStorage.getItem("evolvaAlumno")||"null");
     if(saved?.FOLIO)openApp(saved);
-  }catch{sessionStorage.removeItem("evolvaAlumno")}
+  }catch{
+    sessionStorage.removeItem("evolvaAlumno");
+  }
 })();
 </script>
 </body>
