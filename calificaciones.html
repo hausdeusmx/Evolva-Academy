@@ -10,1061 +10,200 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-:root {
-    --ink: #183353;
-    --blue: #1e6bd9;
-    --muted: #6b7f99;
-    --line: #e2eaf5;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-    background: #f5f8fd;
-    color: var(--ink);
-    min-height: 100vh;
-}
-
-/* LOGO */
-
-.evolva-image {
-    display: block;
-    width: 130px;
-    height: 44px;
-    object-fit: contain;
-}
-
-.logo-area .evolva-image {
-    width: 145px;
-    height: 70px;
-}
-
-/* ENCABEZADO */
-
-.topbar {
-    height: 82px;
-    background: white;
-    padding: 0 max(24px, calc((100vw - 1160px) / 2));
-    border-bottom: 1px solid var(--line);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    position: relative;
-    z-index: 20;
-}
-
-.brand {
-    display: flex;
-    align-items: center;
-}
-
-.header-nav {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-}
-
-.payment-link {
-    font-size: 12px;
-    color: #5b6f88;
-    font-weight: 700;
-    text-decoration: none;
-}
-
-.back-link {
-    font-size: 12px;
-    font-weight: 700;
-    background: #edf4ff;
-    border: 1px solid #dce9fc;
-    border-radius: 10px;
-    color: #2564ba;
-    padding: 12px 17px;
-    text-decoration: none;
-    transition: background .2s;
-}
-
-.back-link:hover {
-    background: #dfeeff;
-}
-
-/* PORTADA */
-
-.web-hero {
-    position: relative;
-    padding: 72px 24px;
-    background:
-        radial-gradient(
-            ellipse at 8% 0%,
-            rgba(36, 104, 187, .38),
-            transparent 50%
-        ),
-        linear-gradient(120deg, #0d2f60, #105abb);
-    color: white;
-    overflow: hidden;
-}
-
-.web-hero::before,
-.web-hero::after {
-    content: "";
-    position: absolute;
-    border: 1px solid rgba(255, 255, 255, .08);
-    border-radius: 50%;
-    pointer-events: none;
-}
-
-.web-hero::before {
-    width: 520px;
-    height: 520px;
-    right: -100px;
-    top: -260px;
-}
-
-.web-hero::after {
-    width: 370px;
-    height: 370px;
-    left: 23%;
-    bottom: -290px;
-}
-
-.hero-layout {
-    max-width: 1160px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: 1.05fr 1fr;
-    gap: 65px;
-    align-items: center;
-    position: relative;
-    z-index: 2;
-}
-
-.hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 1.2px;
-    padding: 10px 13px;
-    background: rgba(255, 255, 255, .05);
-    border: 1px solid rgba(255, 255, 255, .16);
-    border-radius: 30px;
-    margin-bottom: 24px;
-    color: #dbeaff;
-}
-
-.hero-badge::before {
-    content: "";
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #90c3ff;
-}
-
-.hero-content h1 {
-    font-size: clamp(34px, 4vw, 52px);
-    line-height: 1.13;
-    letter-spacing: -1.8px;
-    font-weight: 800;
-    margin-bottom: 22px;
-}
-
-.hero-content h1 span {
-    color: #9ccaff;
-}
-
-.hero-content p {
-    color: #d3e2f7;
-    font-size: 15px;
-    line-height: 1.9;
-    max-width: 440px;
-}
-
-/* FORMULARIO */
-
-.search-box {
-    width: 100%;
-    background: white;
-    border: 1px solid #e6eef9;
-    border-radius: 22px;
-    box-shadow: 0 24px 50px rgba(0, 28, 75, .15);
-    padding: 30px;
-    color: var(--ink);
-    animation: rise .5s ease both;
-}
-
-.search-top {
-    margin-bottom: 24px;
-}
-
-.search-title {
-    font-size: 21px;
-    font-weight: 900;
-    color: #183353;
-    letter-spacing: -.5px;
-    margin-bottom: 8px;
-}
-
-.search-description {
-    font-size: 12px;
-    color: #72839b;
-    line-height: 1.7;
-}
-
-.search-label {
-    display: block;
-    font-size: 10px;
-    font-weight: 800;
-    text-transform: uppercase;
-    color: #5f7797;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-}
-
-.search-form {
-    display: flex;
-    flex-direction: column;
-    gap: 13px;
-}
-
-.search-input-wrapper {
-    position: relative;
-}
-
-.search-input-icon {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #6585af;
-    display: flex;
-    pointer-events: none;
-}
-
-.search-form input {
-    width: 100%;
-    height: 55px;
-    border: 1px solid #d8e4f4;
-    border-radius: 11px;
-    background: #f7faff;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: var(--ink);
-    padding: 0 15px 0 42px;
-    outline: none;
-    transition: border-color .2s, box-shadow .2s;
-}
-
-.search-form input::placeholder {
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 0;
-    color: #94a3b8;
-}
-
-.search-form input:focus {
-    background: white;
-    border-color: #367dde;
-    box-shadow: 0 0 0 4px rgba(53, 124, 233, .08);
-}
-
-.search-form button {
-    width: 100%;
-    height: 51px;
-    border: 0;
-    border-radius: 11px;
-    background: #1d6cda;
-    color: white;
-    font-size: 13px;
-    font-weight: 800;
-    cursor: pointer;
-    box-shadow: 0 6px 16px rgba(29, 108, 218, .13);
-    transition: background .2s, transform .2s;
-}
-
-.search-form button:hover {
-    background: #155ec6;
-    transform: translateY(-2px);
-}
-
-.search-form button:disabled {
-    opacity: .65;
-    cursor: wait;
-    transform: none;
-}
-
-.search-note {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    color: #7a8ca4;
-    font-size: 10px;
-    line-height: 1.6;
-    margin-top: 20px;
-    padding-top: 17px;
-    border-top: 1px solid #edf1f5;
-}
-
-.search-note strong {
-    color: #526f92;
-}
-
-/* TARJETAS */
-
-.container {
-    width: min(1160px, calc(100% - 48px));
-    margin: 32px auto 55px;
-}
-
-.features {
-    display: grid;
-    gap: 18px;
-    grid-template-columns: repeat(3, 1fr);
-}
-
-.feature-card {
-    display: flex;
-    align-items: flex-start;
-    gap: 13px;
-    background: white;
-    border: 1px solid #e3ebf6;
-    padding: 25px;
-    border-radius: 16px;
-    transition: transform .2s, box-shadow .2s;
-}
-
-.feature-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 25px rgba(38, 70, 111, .04);
-}
-
-.feature-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 43px;
-    height: 43px;
-    flex: 0 0 43px;
-    border-radius: 12px;
-    background: #eaf2ff;
-    color: #2168cc;
-    font-size: 14px;
-    font-weight: 900;
-}
-
-.feature-title {
-    font-size: 13px;
-    font-weight: 900;
-    color: #254569;
-    margin-bottom: 7px;
-}
-
-.feature-text {
-    font-size: 11px;
-    line-height: 1.7;
-    color: #74869d;
-}
-
-/* MENSAJES */
-
-.message {
-    display: none;
-    margin: 20px auto;
-    padding: 14px 17px;
-    border-radius: 13px;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-.message.error {
-    background: #fff1f2;
-    border: 1px solid #fecdd3;
-    color: #be123c;
-}
-
-.message.success {
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
-    color: #166534;
-}
-
-.loading {
-    display: none;
-    margin: 20px auto;
-    padding: 30px;
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 13px;
-    text-align: center;
-    color: #64748b;
-    font-size: 13px;
-}
-
-.spinner {
-    width: 28px;
-    height: 28px;
-    border: 3px solid #dbe4ef;
-    border-top-color: #063b91;
-    border-radius: 50%;
-    animation: spin .8s linear infinite;
-    margin: 0 auto 10px;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-@keyframes rise {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* BOLETA */
-
-#boleta {
-    display: none;
-}
-
-.report-card {
-    position: relative;
-    background: white;
-    border: 1px solid #bfc9d6;
-    box-shadow: 0 5px 22px rgba(15, 40, 75, .10);
-    overflow: hidden;
-    margin-top: 28px;
-}
-
-.report-header {
-    border-bottom: 4px solid #063b91;
-    padding: 25px 30px 18px;
-    display: flex;
-    align-items: center;
-    gap: 25px;
-}
-
-.logo-area {
-    width: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.institution {
-    flex: 1;
-    text-align: center;
-}
-
-.institution h1 {
-    font-size: 25px;
-    color: #063b91;
-    font-weight: 900;
-    letter-spacing: .5px;
-    margin-bottom: 5px;
-}
-
-.institution h2 {
-    font-size: 15px;
-    font-weight: 700;
-    color: #334155;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-}
-
-.institution p {
-    font-size: 12px;
-    color: #64748b;
-}
-
-.header-code {
-    width: 150px;
-    text-align: right;
-    font-size: 11px;
-    color: #475569;
-}
-
-.header-code strong {
-    display: block;
-    font-size: 13px;
-    color: #063b91;
-    margin-bottom: 4px;
-}
-
-.student-section {
-    padding: 18px 30px;
-    border-bottom: 1px solid #cbd5e1;
-}
-
-.section-title {
-    font-size: 12px;
-    font-weight: 900;
-    color: #063b91;
-    text-transform: uppercase;
-    border-bottom: 1px solid #d8e0e9;
-    padding-bottom: 6px;
-    margin-bottom: 12px;
-}
-
-.student-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    border: 1px solid #cbd5e1;
-}
-
-.data-cell {
-    min-height: 54px;
-    padding: 8px 11px;
-    border-right: 1px solid #cbd5e1;
-    border-bottom: 1px solid #cbd5e1;
-}
-
-.data-cell:nth-child(3n) {
-    border-right: 0;
-}
-
-.data-label {
-    font-size: 9px;
-    color: #64748b;
-    text-transform: uppercase;
-    font-weight: 800;
-    margin-bottom: 5px;
-}
-
-.data-value {
-    font-size: 13px;
-    font-weight: 700;
-    color: #172033;
-    overflow-wrap: anywhere;
-}
-
-.academic-section {
-    padding: 18px 30px 10px;
-}
-
-.table-wrapper {
-    overflow-x: auto;
-}
-
-.grades-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 11px;
-}
-
-.grades-table th {
-    background: #063b91;
-    color: white;
-    border: 1px solid #063b91;
-    padding: 9px 7px;
-    text-align: center;
-    font-size: 10px;
-    text-transform: uppercase;
-}
-
-.grades-table td {
-    border: 1px solid #cbd5e1;
-    padding: 8px 7px;
-    vertical-align: middle;
-}
-
-.grades-table tbody tr:nth-child(even) {
-    background: #f8fafc;
-}
-
-.col-module {
-    width: 22%;
-    font-weight: 700;
-    color: #334155;
-}
-
-.col-key {
-    width: 9%;
-    text-align: center;
-    font-weight: 700;
-    color: #063b91;
-}
-
-.col-evaluation {
-    width: 48%;
-}
-
-.col-grade {
-    width: 9%;
-    text-align: center;
-    font-weight: 900;
-    font-size: 13px;
-}
-
-.col-status {
-    width: 12%;
-    text-align: center;
-}
-
-.module-name {
-    font-weight: 800;
-    color: #334155;
-}
-
-.grade-approved {
-    color: #166534;
-}
-
-.grade-pending {
-    color: #92400e;
-}
-
-.grade-failed {
-    color: #991b1b;
-}
-
-.status {
-    display: inline-block;
-    padding: 3px 7px;
-    border-radius: 4px;
-    font-size: 9px;
-    font-weight: 800;
-}
-
-.status-approved {
-    background: #dcfce7;
-    color: #166534;
-}
-
-.status-pending {
-    background: #fef3c7;
-    color: #92400e;
-}
-
-.status-failed {
-    background: #fee2e2;
-    color: #991b1b;
-}
-
-.summary-section {
-    padding: 18px 30px;
-}
-
-.summary-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-}
-
-.summary-box {
-    border: 1px solid #cbd5e1;
-    text-align: center;
-    padding: 13px;
-    background: #f8fafc;
-}
-
-.summary-label {
-    font-size: 10px;
-    color: #64748b;
-    font-weight: 800;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-}
-
-.summary-value {
-    font-size: 22px;
-    color: #063b91;
-    font-weight: 900;
-}
-
-.report-footer {
-    margin-top: 8px;
-    padding: 22px 30px 30px;
-    border-top: 1px solid #cbd5e1;
-    display: grid;
-    grid-template-columns: 1fr 180px 1fr;
-    gap: 25px;
-    align-items: end;
-}
-
-.observations {
-    align-self: stretch;
-}
-
-.observations-title {
-    font-size: 10px;
-    text-transform: uppercase;
-    font-weight: 900;
-    color: #063b91;
-    margin-bottom: 7px;
-}
-
-.observations p {
-    font-size: 10px;
-    line-height: 1.5;
-    color: #64748b;
-}
-
-.signature {
-    text-align: center;
-}
-
-.signature-line {
-    border-top: 1px solid #334155;
-    padding-top: 7px;
-    margin-top: 42px;
-}
-
-.signature-name {
-    font-weight: 800;
-    font-size: 12px;
-}
-
-.signature-role {
-    font-size: 9px;
-    color: #64748b;
-    margin-top: 3px;
-}
-
-.qr-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-#qrcode {
-    width: 100px;
-    height: 100px;
-    padding: 5px;
-    border: 1px solid #d1d5db;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#qrcode img,
-#qrcode canvas {
-    max-width: 90px;
-    max-height: 90px;
-}
-
-.qr-label {
-    margin-top: 6px;
-    text-align: center;
-    font-size: 8px;
-    color: #64748b;
-    line-height: 1.3;
-}
-
-.watermark::after {
-    content: "EVOLVA ACADEMY";
-    position: absolute;
-    left: 50%;
-    top: 55%;
-    transform: translate(-50%, -50%) rotate(-25deg);
-    font-size: 65px;
-    font-weight: 900;
-    color: rgba(6, 59, 145, .035);
-    pointer-events: none;
-    white-space: nowrap;
-    z-index: 0;
-}
-
-.report-card > * {
-    position: relative;
-    z-index: 1;
-}
-
-/* BOTONES */
-
-.actions {
-    display: none;
-    margin-top: 20px;
-    gap: 10px;
-    justify-content: flex-end;
-}
-
-.actions button {
-    border: 0;
-    border-radius: 10px;
-    padding: 13px 20px;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 13px;
-}
-
-.actions button:disabled {
-    opacity: .65;
-    cursor: not-allowed;
-}
-
-.btn-pdf {
-    background: #063b91;
-    color: white;
-}
-
-.btn-print {
-    background: #e2e8f0;
-    color: #172033;
-}
-
-.btn-pdf:hover {
-    background: #086cff;
-}
-
-.btn-print:hover {
-    background: #cbd5e1;
-}
-
-.portal-footer {
-    max-width: 1160px;
-    margin: 0 auto 30px;
-    padding: 24px 0 0;
-    border-top: 1px solid var(--line);
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    color: #8091a8;
-    font-size: 11px;
-}
-
-.portal-footer strong {
-    color: #5c789b;
-    font-size: 11px;
-    letter-spacing: 1.4px;
-}
-
-a:focus-visible,
-button:focus-visible {
-    outline: 3px solid #8bb7f2;
-    outline-offset: 4px;
-}
-
-/* CELULAR */
-
-@media screen and (max-width: 800px) {
-    .topbar {
-        padding: 14px 18px;
-        height: 74px;
-    }
-
-    .brand .evolva-image {
-        width: 105px;
-        height: 36px;
-    }
-
-    .header-nav {
-        gap: 12px;
-    }
-
-    .payment-link {
-        font-size: 10px;
-    }
-
-    .back-link {
-        font-size: 10px;
-        padding: 9px 12px;
-    }
-
-    .web-hero {
-        padding: 38px 20px;
-    }
-
-    .hero-layout {
-        grid-template-columns: 1fr;
-        gap: 28px;
-    }
-
-    .hero-content h1 {
-        font-size: 36px;
-        letter-spacing: -1px;
-    }
-
-    .hero-content p {
-        font-size: 13px;
-    }
-
-    .hero-badge {
-        font-size: 9px;
-        margin-bottom: 20px;
-    }
-
-    .search-box {
-        padding: 24px;
-        border-radius: 18px;
-    }
-
-    .search-title {
-        font-size: 20px;
-    }
-
-    .container {
-        width: calc(100% - 32px);
-        margin-top: 22px;
-    }
-
-    .features {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-
-    .feature-card {
-        padding: 20px;
-    }
-
-    .portal-footer {
-        margin: 0 18px 24px;
-        flex-direction: column;
-        line-height: 1.7;
-    }
-
-    .report-header {
-        padding: 18px 15px;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .logo-area,
-    .header-code {
-        width: auto;
-    }
-
-    .header-code {
-        text-align: center;
-    }
-
-    .institution h1 {
-        font-size: 20px;
-    }
-
-    .institution h2 {
-        font-size: 12px;
-    }
-
-    .student-section,
-    .academic-section,
-    .summary-section {
-        padding-left: 12px;
-        padding-right: 12px;
-    }
-
-    .student-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .data-cell,
-    .data-cell:nth-child(3n) {
-        border-right: 0;
-    }
-
-    .grades-table {
-        min-width: 850px;
-    }
-
-    .summary-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .report-footer {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .qr-area {
-        order: -1;
-    }
-
-    .observations {
-        text-align: left;
-    }
-
-    .actions {
-        flex-direction: column;
-    }
-
-    .actions button {
-        width: 100%;
-    }
-}
-
-@media screen and (max-width: 420px) {
-    .header-nav {
-        gap: 10px;
-    }
-}
-
-/* IMPRESIÓN */
-
-@media print {
-    @page {
-        size: letter;
-        margin: 10mm;
-    }
-
-    body {
-        background: white;
-    }
-
-    .topbar,
-    .web-hero,
-    .features,
-    .message,
-    .loading,
-    .actions,
-    .portal-footer {
-        display: none !important;
-    }
-
-    .container {
-        width: 100%;
-        margin: 0;
-    }
-
-    #boleta {
-        display: block !important;
-    }
-
-    .report-card {
-        width: 100%;
-        margin: 0;
-        box-shadow: none;
-        border: 1px solid #777;
-    }
-
-    .table-wrapper {
-        overflow: visible !important;
-    }
-}
-
-/* PDF */
-
-.pdf-export {
-    background: white !important;
-    box-shadow: none !important;
-}
-
-.pdf-export .table-wrapper {
-    overflow: visible !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation: none !important;
-        transition: none !important;
-        scroll-behavior: auto !important;
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#183353;--blue:#1e6bd9;--line:#e2eaf5}
+html{scroll-behavior:smooth}
+body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#f5f8fd;color:var(--ink);min-height:100vh}
+a{text-decoration:none;color:inherit}
+button,input{font:inherit}
+
+.topbar{
+    height:82px;
+    background:white;
+    padding:0 max(24px,calc((100vw - 1160px)/2));
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+.brand{display:flex;align-items:center}
+.evolva-image{display:block;width:130px;height:44px;object-fit:contain}
+.header-nav{display:flex;align-items:center;gap:24px}
+.payment-link{font-size:12px;color:#5b6f88;font-weight:700}
+.back-link{font-size:12px;font-weight:700;background:#edf4ff;border:1px solid #dce9fc;border-radius:10px;color:#2564ba;padding:12px 17px;transition:.2s}
+.back-link:hover{background:#dfeeff}
+
+.web-hero{
+    position:relative;
+    padding:72px 24px;
+    background:radial-gradient(ellipse at 8% 0%,rgba(36,104,187,.38),transparent 50%),linear-gradient(120deg,#0d2f60,#105abb);
+    color:white;
+    overflow:hidden;
+}
+.web-hero::before,.web-hero::after{content:"";position:absolute;border:1px solid rgba(255,255,255,.08);border-radius:50%;pointer-events:none}
+.web-hero::before{width:520px;height:520px;right:-100px;top:-260px}
+.web-hero::after{width:370px;height:370px;left:23%;bottom:-290px}
+.hero-layout{max-width:1160px;margin:auto;display:grid;grid-template-columns:1.05fr 1fr;gap:65px;align-items:center;position:relative;z-index:2}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:800;letter-spacing:1.2px;padding:10px 13px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.16);border-radius:30px;margin-bottom:24px;color:#dbeaff}
+.hero-badge::before{content:"";width:7px;height:7px;border-radius:50%;background:#90c3ff}
+.hero-content h1{font-size:clamp(34px,4vw,52px);line-height:1.13;letter-spacing:-1.8px;font-weight:800;margin-bottom:22px}
+.hero-content h1 span{color:#9ccaff}
+.hero-content p{color:#d3e2f7;font-size:15px;line-height:1.9;max-width:440px}
+
+.search-box{width:100%;background:white;border:1px solid #e6eef9;border-radius:22px;box-shadow:0 24px 50px rgba(0,28,75,.15);padding:30px;color:var(--ink);animation:rise .5s ease both}
+.search-top{margin-bottom:24px}
+.search-title{font-size:21px;font-weight:900;letter-spacing:-.5px;margin-bottom:8px}
+.search-description{font-size:12px;color:#72839b;line-height:1.7}
+.search-label{display:block;font-size:10px;font-weight:800;text-transform:uppercase;color:#5f7797;letter-spacing:1px;margin-bottom:10px}
+.search-form{display:flex;flex-direction:column;gap:13px}
+.search-input-wrapper{position:relative}
+.search-input-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#6585af;display:flex;pointer-events:none}
+.search-form input{width:100%;height:55px;border:1px solid #d8e4f4;border-radius:11px;background:#f7faff;font-size:15px;font-weight:600;letter-spacing:1px;color:var(--ink);padding:0 15px 0 42px;outline:none;transition:.2s}
+.search-form input::placeholder{font-size:12px;font-weight:400;letter-spacing:0;color:#94a3b8}
+.search-form input:focus{background:white;border-color:#367dde;box-shadow:0 0 0 4px rgba(53,124,233,.08)}
+.search-form button{width:100%;height:51px;border:0;border-radius:11px;background:#1d6cda;color:white;font-size:13px;font-weight:800;cursor:pointer;transition:.2s}
+.search-form button:hover{background:#155ec6;transform:translateY(-2px)}
+.search-form button:disabled{opacity:.65;cursor:wait;transform:none}
+.search-note{display:flex;gap:8px;color:#7a8ca4;font-size:10px;line-height:1.6;margin-top:20px;padding-top:17px;border-top:1px solid #edf1f5}
+.search-note strong{color:#526f92}
+
+.container{width:min(1160px,calc(100% - 48px));margin:32px auto 55px}
+.features{display:grid;gap:18px;grid-template-columns:repeat(3,1fr)}
+.feature-card{display:flex;align-items:flex-start;gap:13px;background:white;border:1px solid #e3ebf6;padding:25px;border-radius:16px;transition:.2s}
+.feature-card:hover{transform:translateY(-4px);box-shadow:0 12px 25px rgba(38,70,111,.04)}
+.feature-icon{display:flex;align-items:center;justify-content:center;width:43px;height:43px;flex:0 0 43px;border-radius:12px;background:#eaf2ff;color:#2168cc;font-size:14px;font-weight:900}
+.feature-title{font-size:13px;font-weight:900;color:#254569;margin-bottom:7px}
+.feature-text{font-size:11px;line-height:1.7;color:#74869d}
+
+.message{display:none;margin:20px auto;padding:14px 17px;border-radius:13px;font-size:13px;line-height:1.6}
+.message.error{background:#fff1f2;border:1px solid #fecdd3;color:#be123c}
+.message.success{background:#f0fdf4;border:1px solid #bbf7d0;color:#166534}
+.loading{display:none;margin:20px auto;padding:30px;background:white;border:1px solid #e2e8f0;border-radius:13px;text-align:center;color:#64748b;font-size:13px}
+.spinner{width:28px;height:28px;border:3px solid #dbe4ef;border-top-color:#063b91;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+#boleta{display:none}
+.report-card{position:relative;background:white;border:1px solid #bfc9d6;box-shadow:0 5px 22px rgba(15,40,75,.10);overflow:hidden;margin-top:28px}
+.report-header{border-bottom:4px solid #063b91;padding:25px 30px 18px;display:flex;align-items:center;gap:25px}
+.logo-area{width:150px;display:flex;align-items:center;justify-content:center}
+.logo-area .evolva-image{width:145px;height:70px}
+.institution{flex:1;text-align:center}
+.institution h1{font-size:25px;color:#063b91;font-weight:900;letter-spacing:.5px;margin-bottom:5px}
+.institution h2{font-size:15px;font-weight:700;color:#334155;text-transform:uppercase;margin-bottom:8px}
+.institution p{font-size:12px;color:#64748b}
+.header-code{width:150px;text-align:right;font-size:11px;color:#475569}
+.header-code strong{display:block;font-size:13px;color:#063b91;margin-bottom:4px}
+.student-section{padding:18px 30px;border-bottom:1px solid #cbd5e1}
+.section-title{font-size:12px;font-weight:900;color:#063b91;text-transform:uppercase;border-bottom:1px solid #d8e0e9;padding-bottom:6px;margin-bottom:12px}
+.student-grid{display:grid;grid-template-columns:2fr 1fr 1fr;border:1px solid #cbd5e1}
+.data-cell{min-height:54px;padding:8px 11px;border-right:1px solid #cbd5e1;border-bottom:1px solid #cbd5e1}
+.data-cell:nth-child(3n){border-right:0}
+.data-label{font-size:9px;color:#64748b;text-transform:uppercase;font-weight:800;margin-bottom:5px}
+.data-value{font-size:13px;font-weight:700;color:#172033;overflow-wrap:anywhere}
+.academic-section{padding:18px 30px 10px}
+.table-wrapper{overflow-x:auto}
+.grades-table{width:100%;border-collapse:collapse;font-size:11px}
+.grades-table th{background:#063b91;color:white;border:1px solid #063b91;padding:9px 7px;text-align:center;font-size:10px;text-transform:uppercase}
+.grades-table td{border:1px solid #cbd5e1;padding:8px 7px;vertical-align:middle}
+.grades-table tbody tr:nth-child(even){background:#f8fafc}
+.col-module{width:22%;font-weight:700;color:#334155}
+.col-key{width:9%;text-align:center;font-weight:700;color:#063b91}
+.col-evaluation{width:48%}
+.col-grade{width:9%;text-align:center;font-weight:900;font-size:13px}
+.col-status{width:12%;text-align:center}
+.module-name{font-weight:800;color:#334155}
+.grade-approved{color:#166534}
+.grade-pending{color:#92400e}
+.grade-failed{color:#991b1b}
+.status{display:inline-block;padding:3px 7px;border-radius:4px;font-size:9px;font-weight:800}
+.status-approved{background:#dcfce7;color:#166534}
+.status-pending{background:#fef3c7;color:#92400e}
+.status-failed{background:#fee2e2;color:#991b1b}
+.summary-section{padding:18px 30px}
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.summary-box{border:1px solid #cbd5e1;text-align:center;padding:13px;background:#f8fafc}
+.summary-label{font-size:10px;color:#64748b;font-weight:800;text-transform:uppercase;margin-bottom:5px}
+.summary-value{font-size:22px;color:#063b91;font-weight:900}
+.report-footer{margin-top:8px;padding:22px 30px 30px;border-top:1px solid #cbd5e1;display:grid;grid-template-columns:1fr 180px 1fr;gap:25px;align-items:end}
+.observations{align-self:stretch}
+.observations-title{font-size:10px;text-transform:uppercase;font-weight:900;color:#063b91;margin-bottom:7px}
+.observations p{font-size:10px;line-height:1.5;color:#64748b}
+.signature{text-align:center}
+.signature-line{border-top:1px solid #334155;padding-top:7px;margin-top:42px}
+.signature-name{font-weight:800;font-size:12px}
+.signature-role{font-size:9px;color:#64748b;margin-top:3px}
+.qr-area{display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
+#qrcode{width:100px;height:100px;padding:5px;border:1px solid #d1d5db;background:white;display:flex;align-items:center;justify-content:center}
+#qrcode img,#qrcode canvas{max-width:90px;max-height:90px}
+.qr-label{margin-top:6px;text-align:center;font-size:8px;color:#64748b;line-height:1.3}
+.watermark::after{content:"EVOLVA ACADEMY";position:absolute;left:50%;top:55%;transform:translate(-50%,-50%) rotate(-25deg);font-size:65px;font-weight:900;color:rgba(6,59,145,.035);pointer-events:none;white-space:nowrap;z-index:0}
+.report-card>*{position:relative;z-index:1}
+
+.actions{display:none;margin-top:20px;gap:10px;justify-content:flex-end}
+.actions button{border:0;border-radius:10px;padding:13px 20px;cursor:pointer;font-weight:700;font-size:13px}
+.actions button:disabled{opacity:.65;cursor:not-allowed}
+.btn-pdf{background:#063b91;color:white}
+.btn-print{background:#e2e8f0;color:#172033}
+.btn-pdf:hover{background:#086cff}
+.btn-print:hover{background:#cbd5e1}
+.portal-footer{max-width:1160px;margin:0 auto 30px;padding:24px 0 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;color:#8091a8;font-size:11px}
+.portal-footer strong{color:#5c789b;font-size:11px;letter-spacing:1.4px}
+a:focus-visible,button:focus-visible{outline:3px solid #8bb7f2;outline-offset:4px}
+
+@media screen and (max-width:800px){
+    .topbar{padding:14px 18px;height:74px}
+    .brand .evolva-image{width:105px;height:36px}
+    .header-nav{gap:12px}
+    .payment-link{font-size:10px}
+    .back-link{font-size:10px;padding:9px 12px}
+    .web-hero{padding:38px 20px}
+    .hero-layout{grid-template-columns:1fr;gap:28px}
+    .hero-content h1{font-size:36px;letter-spacing:-1px}
+    .hero-content p{font-size:13px}
+    .hero-badge{font-size:9px;margin-bottom:20px}
+    .search-box{padding:24px;border-radius:18px}
+    .search-title{font-size:20px}
+    .container{width:calc(100% - 32px);margin-top:22px}
+    .features{grid-template-columns:1fr;gap:12px}
+    .feature-card{padding:20px}
+    .portal-footer{margin:0 18px 24px;flex-direction:column;line-height:1.7}
+    .report-header{padding:18px 15px;flex-direction:column;gap:10px}
+    .logo-area,.header-code{width:auto}
+    .header-code{text-align:center}
+    .institution h1{font-size:20px}
+    .institution h2{font-size:12px}
+    .student-section,.academic-section,.summary-section{padding-left:12px;padding-right:12px}
+    .student-grid{grid-template-columns:1fr}
+    .data-cell,.data-cell:nth-child(3n){border-right:0}
+    .grades-table{min-width:850px}
+    .summary-grid{grid-template-columns:1fr}
+    .report-footer{grid-template-columns:1fr;text-align:center}
+    .qr-area{order:-1}
+    .observations{text-align:left}
+    .actions{flex-direction:column}
+    .actions button{width:100%}
+}
+
+@media print{
+    @page{size:letter;margin:10mm}
+    body{background:white}
+    .topbar,.web-hero,.features,.message,.loading,.actions,.portal-footer{display:none!important}
+    .container{width:100%;margin:0}
+    #boleta{display:block!important}
+    .report-card{width:100%;margin:0;box-shadow:none;border:1px solid #777}
+    .table-wrapper{overflow:visible!important}
+}
+
+.pdf-export{background:white!important;box-shadow:none!important}
+.pdf-export .table-wrapper{overflow:visible!important}
+
+@media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+        animation:none!important;
+        transition:none!important;
+        scroll-behavior:auto!important;
     }
 }
 </style>
@@ -1073,31 +212,20 @@ button:focus-visible {
 <body>
 
 <header class="topbar">
-    <div class="brand">
-        <img
-            src="logo-evolva.png"
-            class="evolva-image"
-            alt="Evolva Academy"
-        >
-    </div>
+    <a href="index.html" class="brand">
+        <img src="logo-evolva.png" class="evolva-image" alt="Evolva Academy">
+    </a>
 
     <nav class="header-nav" aria-label="Navegación principal">
-        <a class="payment-link" href="pagos.html">
-            Pagos
-        </a>
-
-        <a href="alumnos.html" class="back-link">
-            ← Portal del alumno
-        </a>
+        <a class="payment-link" href="pagos.html">Pagos</a>
+        <a href="alumnos.html" class="back-link">← Portal del alumno</a>
     </nav>
 </header>
 
 <section class="web-hero">
     <div class="hero-layout">
         <div class="hero-content">
-            <div class="hero-badge">
-                EVOLVA · SERVICIOS ACADÉMICOS
-            </div>
+            <div class="hero-badge">EVOLVA · SERVICIOS ACADÉMICOS</div>
 
             <h1>
                 Cada logro cuenta.<br>
@@ -1107,7 +235,7 @@ button:focus-visible {
             <p>
                 Tu historial académico, claro y siempre a tu alcance.
                 Revisa tus evaluaciones y descarga tu boleta
-                con la CURP de tu registro.
+                con el folio de tu registro.
             </p>
         </div>
 
@@ -1118,15 +246,15 @@ button:focus-visible {
                 </h2>
 
                 <p class="search-description">
-                    Introduce la CURP que utilizaste al registrarte
+                    Introduce el folio que recibiste al registrarte
                     en Evolva Academy.
                 </p>
             </div>
 
             <form class="search-form" id="searchForm">
                 <div>
-                    <label class="search-label" for="curp">
-                        CURP del alumno
+                    <label class="search-label" for="folio">
+                        Folio del alumno
                     </label>
 
                     <div class="search-input-wrapper">
@@ -1147,16 +275,16 @@ button:focus-visible {
 
                         <input
                             type="text"
-                            id="curp"
-                            name="curp"
+                            id="folio"
+                            name="folio"
                             autocapitalize="characters"
                             spellcheck="false"
-                            placeholder="Ingresa tu CURP de 18 caracteres"
-                            minlength="18"
-                            maxlength="18"
-                            pattern="[A-Za-z0-9]{18}"
+                            placeholder="Ejemplo: EVOLVA-123456"
+                            minlength="13"
+                            maxlength="13"
+                            pattern="[Ee][Vv][Oo][Ll][Vv][Aa]-[0-9]{6}"
                             autocomplete="off"
-                            aria-describedby="curpHelp"
+                            aria-describedby="folioHelp"
                             required
                         >
                     </div>
@@ -1167,13 +295,12 @@ button:focus-visible {
                 </button>
             </form>
 
-            <div class="search-note" id="curpHelp">
+            <div class="search-note" id="folioHelp">
                 <span aria-hidden="true">ⓘ</span>
-
                 <span>
-                    <strong>Consulta mediante CURP.</strong>
-                    Tu información académica se obtiene directamente
-                    del sistema de Evolva Academy.
+                    <strong>Consulta mediante folio.</strong>
+                    Escribe el folio completo que recibiste
+                    al realizar tu inscripción.
                 </span>
             </div>
         </section>
@@ -1184,7 +311,6 @@ button:focus-visible {
     <section class="features" aria-label="Servicios disponibles">
         <div class="feature-card">
             <div class="feature-icon" aria-hidden="true">✓</div>
-
             <div>
                 <h3 class="feature-title">Historial académico</h3>
                 <p class="feature-text">
@@ -1195,41 +321,28 @@ button:focus-visible {
 
         <div class="feature-card">
             <div class="feature-icon" aria-hidden="true">%</div>
-
             <div>
                 <h3 class="feature-title">Promedio y avance</h3>
                 <p class="feature-text">
-                    Visualiza tu promedio general y porcentaje
-                    de avance académico.
+                    Visualiza tu promedio y avance académico.
                 </p>
             </div>
         </div>
 
         <div class="feature-card">
             <div class="feature-icon" aria-hidden="true">PDF</div>
-
             <div>
                 <h3 class="feature-title">Boleta académica</h3>
                 <p class="feature-text">
-                    Genera e imprime tu documento académico en formato PDF.
+                    Descarga o imprime tu reporte de calificaciones.
                 </p>
             </div>
         </div>
     </section>
 
-    <div
-        id="message"
-        class="message"
-        role="status"
-        aria-live="polite"
-    ></div>
+    <div id="message" class="message" role="status" aria-live="polite"></div>
 
-    <div
-        id="loading"
-        class="loading"
-        role="status"
-        aria-live="polite"
-    >
+    <div id="loading" class="loading" role="status" aria-live="polite">
         <div class="spinner" aria-hidden="true"></div>
         Consultando información académica...
     </div>
@@ -1319,23 +432,17 @@ button:focus-visible {
                 <div class="summary-grid">
                     <div class="summary-box">
                         <div class="summary-label">Evaluaciones</div>
-                        <div class="summary-value" id="totalEvaluations">
-                            0
-                        </div>
+                        <div class="summary-value" id="totalEvaluations">0</div>
                     </div>
 
                     <div class="summary-box">
                         <div class="summary-label">Promedio general</div>
-                        <div class="summary-value" id="generalAverage">
-                            —
-                        </div>
+                        <div class="summary-value" id="generalAverage">—</div>
                     </div>
 
                     <div class="summary-box">
                         <div class="summary-label">Avance académico</div>
-                        <div class="summary-value" id="academicProgress">
-                            0%
-                        </div>
+                        <div class="summary-value" id="academicProgress">0%</div>
                     </div>
                 </div>
             </div>
@@ -1346,15 +453,13 @@ button:focus-visible {
 
                     <p id="observations">
                         Documento generado desde el sistema académico
-                        de Evolva Academy. Las calificaciones corresponden
-                        al historial registrado en el sistema.
+                        de Evolva Academy.
                     </p>
                 </div>
 
                 <div class="signature">
                     <div class="signature-line">
                         <div class="signature-name">Alexis Soto</div>
-
                         <div class="signature-role">
                             Director General<br>
                             Evolva Academy
@@ -1395,14 +500,10 @@ button:focus-visible {
 
 <footer class="portal-footer">
     <strong>EVOLVA ACADEMY</strong>
-    <span>
-        Formación Digital Profesional · Portal de calificaciones
-    </span>
+    <span>Formación Digital Profesional · Portal de calificaciones</span>
 </footer>
 
 <script>
-/* CONFIGURACIÓN */
-
 const API_URL =
     'https://script.google.com/macros/s/AKfycbyYyR6P5VQpuSrraJ3kr3kTpE6Es2p7ae6lGefqL7Qjf7KtkwbSnqf56FymVvwbhMOH/exec';
 
@@ -1414,15 +515,13 @@ let calificacionesActuales = [];
 let consultaEnCurso = false;
 
 const searchForm = document.getElementById('searchForm');
-const curpInput = document.getElementById('curp');
+const folioInput = document.getElementById('folio');
 const searchButton = document.getElementById('searchButton');
 const message = document.getElementById('message');
 const loading = document.getElementById('loading');
 const boleta = document.getElementById('boleta');
 const actions = document.getElementById('actions');
 const reportCard = document.getElementById('reportCard');
-
-/* MENSAJES */
 
 function mostrarMensaje(texto, tipo = 'error') {
     message.textContent = texto;
@@ -1438,15 +537,12 @@ function ocultarMensaje() {
 function mostrarLoading(mostrar) {
     loading.style.display = mostrar ? 'block' : 'none';
     searchButton.disabled = mostrar;
-
     searchButton.textContent = mostrar
         ? 'Consultando…'
         : 'Consultar calificaciones';
 
     searchForm.setAttribute('aria-busy', String(mostrar));
 }
-
-/* JSONP */
 
 function jsonp(url, params = {}) {
     return new Promise(function(resolve, reject) {
@@ -1462,13 +558,11 @@ function jsonp(url, params = {}) {
         };
 
         const query = Object.keys(parametros)
-            .map(function(key) {
-                return (
-                    encodeURIComponent(key) +
-                    '=' +
-                    encodeURIComponent(parametros[key])
-                );
-            })
+            .map(key =>
+                encodeURIComponent(key) +
+                '=' +
+                encodeURIComponent(parametros[key])
+            )
             .join('&');
 
         const script = document.createElement('script');
@@ -1481,10 +575,7 @@ function jsonp(url, params = {}) {
         function cleanup() {
             clearTimeout(timeout);
             delete window[callbackName];
-
-            if (script.parentNode) {
-                script.parentNode.removeChild(script);
-            }
+            script.remove();
         }
 
         window[callbackName] = function(data) {
@@ -1494,7 +585,6 @@ function jsonp(url, params = {}) {
 
         script.onerror = function() {
             cleanup();
-
             reject(
                 new Error(
                     'No fue posible conectar con Evolva Academy.'
@@ -1519,20 +609,17 @@ function normalizarDiplomado(texto) {
         .toLowerCase();
 }
 
-/* CONSULTA POR CURP */
-
 async function consultar() {
     if (consultaEnCurso) return;
 
-    const curp = curpInput.value.trim().toUpperCase();
-    curpInput.value = curp;
+    const folio = folioInput.value.trim().toUpperCase();
+    folioInput.value = folio;
 
-    if (!/^[A-Z0-9]{18}$/.test(curp)) {
+    if (!/^EVOLVA-\d{6}$/.test(folio)) {
         mostrarMensaje(
-            'La CURP debe contener 18 caracteres: letras y números.'
+            'Ingresa tu folio completo. Ejemplo: EVOLVA-123456.'
         );
-
-        curpInput.focus();
+        folioInput.focus();
         return;
     }
 
@@ -1547,15 +634,9 @@ async function consultar() {
     mostrarLoading(true);
 
     try {
-        /*
-         * Se envía la CURP en ambos parámetros.
-         * El Apps Script debe tener la actualización
-         * que resuelve una CURP al folio del alumno.
-         */
         const alumnoResponse = await jsonp(API_URL, {
             accion: 'buscarfolio',
-            folio: curp,
-            curp: curp
+            folio: folio
         });
 
         if (
@@ -1566,25 +647,15 @@ async function consultar() {
             throw new Error(
                 alumnoResponse?.error ||
                 alumnoResponse?.mensaje ||
-                'No se encontró un alumno con esa CURP.'
+                'No se encontró un alumno con ese folio.'
             );
         }
 
         const alumno = alumnoResponse.alumno;
 
-        const folio = String(
-            alumno.FOLIO || alumno.folio || ''
-        ).trim();
-
-        if (!folio) {
-            throw new Error(
-                'El alumno no tiene un folio asignado.'
-            );
-        }
-
         const gradesResponse = await jsonp(API_URL, {
             accion: 'calificaciones',
-            folio: folio
+            folio: alumno.FOLIO || folio
         });
 
         if (!gradesResponse || !gradesResponse.ok) {
@@ -1604,20 +675,17 @@ async function consultar() {
             ? gradesResponse.calificaciones
             : [];
 
-        calificacionesActuales = evaluaciones.filter(
-            function(item) {
-                const diplomadoEvaluacion =
-                    normalizarDiplomado(item.diplomado);
+        calificacionesActuales = evaluaciones.filter(item => {
+            const diplomadoEvaluacion =
+                normalizarDiplomado(item.diplomado);
 
-                return (
-                    !diplomadoEvaluacion ||
-                    diplomadoEvaluacion === diplomadoAlumno
-                );
-            }
-        );
+            return (
+                !diplomadoEvaluacion ||
+                diplomadoEvaluacion === diplomadoAlumno
+            );
+        });
 
         alumnoActual = alumno;
-
         construirBoleta(alumno, gradesResponse);
 
         boleta.style.display = 'block';
@@ -1633,21 +701,16 @@ async function consultar() {
                     boleta.getBoundingClientRect().top +
                     window.scrollY -
                     20,
-
-                behavior: reducirMovimiento
-                    ? 'auto'
-                    : 'smooth'
+                behavior: reducirMovimiento ? 'auto' : 'smooth'
             });
         });
 
     } catch (error) {
         console.error(error);
-
         alumnoActual = null;
 
         mostrarMensaje(
-            error.message ||
-            'Ocurrió un error al consultar.'
+            error.message || 'Ocurrió un error al consultar.'
         );
 
         message.scrollIntoView({
@@ -1660,8 +723,6 @@ async function consultar() {
         mostrarLoading(false);
     }
 }
-
-/* BOLETA */
 
 function escribir(id, valor) {
     document.getElementById(id).textContent = valor;
@@ -1678,9 +739,7 @@ function construirBoleta(alumno, datos) {
 
     construirTabla(calificacionesActuales);
 
-    const promedioServidor = convertirNumero(
-        datos.promedio
-    );
+    const promedioServidor = convertirNumero(datos.promedio);
 
     const promedio = promedioServidor !== null
         ? promedioServidor
@@ -1691,10 +750,7 @@ function construirBoleta(alumno, datos) {
         promedio === null ? '—' : promedio.toFixed(2)
     );
 
-    escribir(
-        'totalEvaluations',
-        calificacionesActuales.length
-    );
+    escribir('totalEvaluations', calificacionesActuales.length);
 
     escribir(
         'academicProgress',
@@ -1713,56 +769,34 @@ function construirBoleta(alumno, datos) {
     generarQR(alumno.FOLIO);
 }
 
-/* TABLA */
-
 function construirTabla(evaluaciones) {
     const tbody = document.getElementById('gradesBody');
-
     tbody.innerHTML = '';
 
     if (!evaluaciones.length) {
-        const tr = document.createElement('tr');
-
-        tr.innerHTML = `
-            <td
-                colspan="5"
-                style="
-                    text-align:center;
-                    padding:25px;
-                    color:#64748b;
-                "
-            >
-                No existen evaluaciones registradas.
-            </td>
+        tbody.innerHTML = `
+            <tr>
+                <td
+                    colspan="5"
+                    style="text-align:center;padding:25px;color:#64748b"
+                >
+                    No existen evaluaciones registradas.
+                </td>
+            </tr>
         `;
-
-        tbody.appendChild(tr);
         return;
     }
 
     evaluaciones.forEach(function(item) {
-        const tr = document.createElement('tr');
-
-        const calificacion = convertirNumero(
-            item.calificacion
-        );
-
-        const calificacionTexto = calificacion === null
-            ? '—'
-            : calificacion.toFixed(2);
-
-        const aprobado =
-            calificacion !== null &&
-            calificacion >= 6;
+        const calificacion = convertirNumero(item.calificacion);
+        const aprobado = calificacion !== null && calificacion >= 6;
 
         let estado = String(item.estado || '').trim();
 
         if (!estado) {
             estado = calificacion === null
                 ? 'PENDIENTE'
-                : aprobado
-                    ? 'APROBADA'
-                    : 'NO APROBADA';
+                : aprobado ? 'APROBADA' : 'NO APROBADA';
         }
 
         const estadoMayus = estado.toUpperCase();
@@ -1787,40 +821,30 @@ function construirTabla(evaluaciones) {
             item.idEvaluacion ||
             '—';
 
+        if (/^M\d+$/i.test(String(modulo).trim())) {
+            clave = modulo;
+        }
+
         const evaluacion =
             item.evaluacion ||
             item.nombre ||
             'Calificación registrada';
 
-        if (/^M\d+$/i.test(String(modulo).trim())) {
-            clave = modulo;
-        }
-
         const claseCalificacion = calificacion === null
             ? 'grade-pending'
-            : aprobado
-                ? 'grade-approved'
-                : 'grade-failed';
+            : aprobado ? 'grade-approved' : 'grade-failed';
+
+        const tr = document.createElement('tr');
 
         tr.innerHTML = `
             <td class="col-module">
-                <div class="module-name">
-                    ${escapeHtml(modulo)}
-                </div>
+                <div class="module-name">${escapeHtml(modulo)}</div>
             </td>
-
-            <td class="col-key">
-                ${escapeHtml(clave)}
-            </td>
-
-            <td class="col-evaluation">
-                ${escapeHtml(evaluacion)}
-            </td>
-
+            <td class="col-key">${escapeHtml(clave)}</td>
+            <td class="col-evaluation">${escapeHtml(evaluacion)}</td>
             <td class="col-grade ${claseCalificacion}">
-                ${calificacionTexto}
+                ${calificacion === null ? '—' : calificacion.toFixed(2)}
             </td>
-
             <td class="col-status">
                 <span class="status ${estadoClase}">
                     ${escapeHtml(estado)}
@@ -1832,52 +856,38 @@ function construirTabla(evaluaciones) {
     });
 }
 
-/* PROMEDIO Y AVANCE */
-
 function calcularPromedioLocal(lista) {
     const valores = lista
-        .map(function(item) {
-            return convertirNumero(item.calificacion);
-        })
-        .filter(function(valor) {
-            return valor !== null;
-        });
+        .map(item => convertirNumero(item.calificacion))
+        .filter(valor => valor !== null);
 
     if (!valores.length) return null;
 
-    const suma = valores.reduce(function(total, valor) {
-        return total + valor;
-    }, 0);
-
-    return suma / valores.length;
+    return valores.reduce((total, valor) => total + valor, 0)
+        / valores.length;
 }
 
 function calcularAvance(lista) {
     if (!lista.length) return 0;
 
-    const completadas = lista.filter(function(item) {
-        return convertirNumero(item.calificacion) !== null;
-    }).length;
+    const completadas = lista.filter(
+        item => convertirNumero(item.calificacion) !== null
+    ).length;
 
-    return Math.round(
-        (completadas / lista.length) * 100
-    );
+    return Math.round(completadas / lista.length * 100);
 }
 
 function construirObservaciones(alumno, lista, promedio) {
-    const completadas = lista.filter(function(item) {
-        return convertirNumero(item.calificacion) !== null;
-    }).length;
+    const completadas = lista.filter(
+        item => convertirNumero(item.calificacion) !== null
+    ).length;
 
     let texto =
         'Alumno inscrito en el diplomado ' +
         (alumno.DIPLOMADO || '') +
         ', grupo ' +
         (alumno.GRUPO || 'sin grupo') +
-        '. ';
-
-    texto +=
-        'Se han registrado ' +
+        '. Se han registrado ' +
         completadas +
         ' de ' +
         lista.length +
@@ -1885,27 +895,19 @@ function construirObservaciones(alumno, lista, promedio) {
 
     texto += promedio === null
         ? 'El promedio se encuentra pendiente de integración.'
-        : 'Promedio general registrado: ' +
-          promedio.toFixed(2) +
-          '.';
+        : 'Promedio general registrado: ' + promedio.toFixed(2) + '.';
 
     return texto;
 }
 
 function obtenerPeriodo(alumno) {
-    const fecha = alumno.FECHA_REGISTRO;
+    const fecha = new Date(alumno.FECHA_REGISTRO || '');
 
-    if (!fecha) {
-        return String(new Date().getFullYear());
-    }
-
-    const fechaObj = new Date(fecha);
-
-    if (Number.isNaN(fechaObj.getTime())) {
-        return String(new Date().getFullYear());
-    }
-
-    return String(fechaObj.getFullYear());
+    return String(
+        Number.isNaN(fecha.getTime())
+            ? new Date().getFullYear()
+            : fecha.getFullYear()
+    );
 }
 
 function convertirNumero(valor) {
@@ -1924,11 +926,8 @@ function convertirNumero(valor) {
     return Number.isFinite(numero) ? numero : null;
 }
 
-/* QR */
-
 function generarQR(folio) {
     const contenedor = document.getElementById('qrcode');
-
     contenedor.innerHTML = '';
 
     if (typeof QRCode === 'undefined') {
@@ -1936,13 +935,8 @@ function generarQR(folio) {
         return;
     }
 
-    const url =
-        VALIDACION_URL +
-        '?folio=' +
-        encodeURIComponent(folio || '');
-
     new QRCode(contenedor, {
-        text: url,
+        text: VALIDACION_URL + '?folio=' + encodeURIComponent(folio || ''),
         width: 90,
         height: 90,
         colorDark: '#063b91',
@@ -1950,8 +944,6 @@ function generarQR(folio) {
         correctLevel: QRCode.CorrectLevel.M
     });
 }
-
-/* TEXTO SEGURO */
 
 function escapeHtml(texto) {
     return String(texto ?? '')
@@ -1962,33 +954,18 @@ function escapeHtml(texto) {
         .replace(/'/g, '&#039;');
 }
 
-/* IMPRESIÓN */
-
 function imprimirBoleta() {
-    if (!alumnoActual) return;
-
-    window.print();
+    if (alumnoActual) window.print();
 }
 
-/* PDF */
-
 function esperarImagenes() {
-    const imagenes = reportCard.querySelectorAll('img');
-
     return Promise.all(
-        Array.from(imagenes).map(function(img) {
-            if (img.complete) {
-                return Promise.resolve();
-            }
+        Array.from(reportCard.querySelectorAll('img')).map(img => {
+            if (img.complete) return Promise.resolve();
 
-            return new Promise(function(resolve) {
-                img.addEventListener('load', resolve, {
-                    once: true
-                });
-
-                img.addEventListener('error', resolve, {
-                    once: true
-                });
+            return new Promise(resolve => {
+                img.addEventListener('load', resolve, {once:true});
+                img.addEventListener('error', resolve, {once:true});
             });
         })
     );
@@ -1997,7 +974,7 @@ function esperarImagenes() {
 async function generarPDF() {
     if (!alumnoActual) {
         mostrarMensaje(
-            'Primero consulta tus calificaciones con tu CURP.'
+            'Primero consulta tus calificaciones con tu folio.'
         );
         return;
     }
@@ -2018,24 +995,19 @@ async function generarPDF() {
     try {
         await esperarImagenes();
 
-        if (document.fonts && document.fonts.ready) {
+        if (document.fonts?.ready) {
             await document.fonts.ready;
         }
 
         reportCard.classList.add('pdf-export');
 
-        const folio = String(
-            alumnoActual.FOLIO || 'Evolva'
-        ).trim();
-
         const opciones = {
-            margin: [8, 8, 8, 8],
-
-            filename: 'Boleta_' + folio + '.pdf',
+            margin: [8,8,8,8],
+            filename: 'Boleta_' + alumnoActual.FOLIO + '.pdf',
 
             image: {
                 type: 'jpeg',
-                quality: 0.98
+                quality: .98
             },
 
             html2canvas: {
@@ -2049,13 +1021,8 @@ async function generarPDF() {
                 windowWidth: 1200,
 
                 onclone: function(documento) {
-                    const tarjeta = documento.getElementById(
-                        'reportCard'
-                    );
-
-                    const contenedor = documento.querySelector(
-                        '.container'
-                    );
+                    const tarjeta = documento.getElementById('reportCard');
+                    const contenedor = documento.querySelector('.container');
 
                     if (contenedor) {
                         contenedor.style.width = '740px';
@@ -2077,8 +1044,7 @@ async function generarPDF() {
             },
 
             pagebreak: {
-                mode: ['css', 'legacy'],
-
+                mode: ['css','legacy'],
                 avoid: [
                     '.report-header',
                     '.student-section',
@@ -2095,28 +1061,24 @@ async function generarPDF() {
             .save();
 
     } catch (error) {
-        console.error('Error generando PDF:', error);
-
+        console.error(error);
         mostrarMensaje(
             'No fue posible generar el PDF. Intenta nuevamente.'
         );
 
     } finally {
         reportCard.classList.remove('pdf-export');
-
         boton.disabled = false;
         boton.textContent = textoOriginal;
     }
 }
-
-/* EVENTOS */
 
 searchForm.addEventListener('submit', function(event) {
     event.preventDefault();
     consultar();
 });
 
-curpInput.addEventListener('input', function() {
+folioInput.addEventListener('input', function() {
     const inicio = this.selectionStart;
     const fin = this.selectionEnd;
 
@@ -2127,6 +1089,5 @@ curpInput.addEventListener('input', function() {
     }
 });
 </script>
-
 </body>
 </html>
