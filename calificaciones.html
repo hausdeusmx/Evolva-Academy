@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Calificaciones | Evolva Academy</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -16,42 +15,24 @@ html{scroll-behavior:smooth}
 body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#f5f8fd;color:var(--ink);min-height:100vh}
 a{text-decoration:none;color:inherit}
 button,input{font:inherit}
-
-.topbar{
-    height:82px;
-    background:white;
-    padding:0 max(24px,calc((100vw - 1160px)/2));
-    border-bottom:1px solid var(--line);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;
-}
+.topbar{height:82px;background:#fff;padding:0 max(24px,calc((100vw - 1160px)/2));border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:20px}
 .brand{display:flex;align-items:center}
 .evolva-image{display:block;width:130px;height:44px;object-fit:contain}
 .header-nav{display:flex;align-items:center;gap:24px}
 .payment-link{font-size:12px;color:#5b6f88;font-weight:700}
-.back-link{font-size:12px;font-weight:700;background:#edf4ff;border:1px solid #dce9fc;border-radius:10px;color:#2564ba;padding:12px 17px;transition:.2s}
+.back-link{font-size:12px;font-weight:700;background:#edf4ff;border:1px solid #dce9fc;border-radius:10px;color:#2564ba;padding:12px 17px}
 .back-link:hover{background:#dfeeff}
-
-.web-hero{
-    position:relative;
-    padding:72px 24px;
-    background:radial-gradient(ellipse at 8% 0%,rgba(36,104,187,.38),transparent 50%),linear-gradient(120deg,#0d2f60,#105abb);
-    color:white;
-    overflow:hidden;
-}
-.web-hero::before,.web-hero::after{content:"";position:absolute;border:1px solid rgba(255,255,255,.08);border-radius:50%;pointer-events:none}
-.web-hero::before{width:520px;height:520px;right:-100px;top:-260px}
-.web-hero::after{width:370px;height:370px;left:23%;bottom:-290px}
+.web-hero{position:relative;padding:72px 24px;background:radial-gradient(ellipse at 8% 0%,rgba(36,104,187,.38),transparent 50%),linear-gradient(120deg,#0d2f60,#105abb);color:#fff;overflow:hidden}
+.web-hero:before,.web-hero:after{content:"";position:absolute;border:1px solid rgba(255,255,255,.08);border-radius:50%;pointer-events:none}
+.web-hero:before{width:520px;height:520px;right:-100px;top:-260px}
+.web-hero:after{width:370px;height:370px;left:23%;bottom:-290px}
 .hero-layout{max-width:1160px;margin:auto;display:grid;grid-template-columns:1.05fr 1fr;gap:65px;align-items:center;position:relative;z-index:2}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:800;letter-spacing:1.2px;padding:10px 13px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.16);border-radius:30px;margin-bottom:24px;color:#dbeaff}
-.hero-badge::before{content:"";width:7px;height:7px;border-radius:50%;background:#90c3ff}
+.hero-badge:before{content:"";width:7px;height:7px;border-radius:50%;background:#90c3ff}
 .hero-content h1{font-size:clamp(34px,4vw,52px);line-height:1.13;letter-spacing:-1.8px;font-weight:800;margin-bottom:22px}
 .hero-content h1 span{color:#9ccaff}
 .hero-content p{color:#d3e2f7;font-size:15px;line-height:1.9;max-width:440px}
-
-.search-box{width:100%;background:white;border:1px solid #e6eef9;border-radius:22px;box-shadow:0 24px 50px rgba(0,28,75,.15);padding:30px;color:var(--ink);animation:rise .5s ease both}
+.search-box{width:100%;background:#fff;border:1px solid #e6eef9;border-radius:22px;box-shadow:0 24px 50px rgba(0,28,75,.15);padding:30px;color:var(--ink);animation:rise .5s ease both}
 .search-top{margin-bottom:24px}
 .search-title{font-size:21px;font-weight:900;letter-spacing:-.5px;margin-bottom:8px}
 .search-description{font-size:12px;color:#72839b;line-height:1.7}
@@ -59,33 +40,30 @@ button,input{font:inherit}
 .search-form{display:flex;flex-direction:column;gap:13px}
 .search-input-wrapper{position:relative}
 .search-input-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#6585af;display:flex;pointer-events:none}
-.search-form input{width:100%;height:55px;border:1px solid #d8e4f4;border-radius:11px;background:#f7faff;font-size:15px;font-weight:600;letter-spacing:1px;color:var(--ink);padding:0 15px 0 42px;outline:none;transition:.2s}
+.search-form input{width:100%;height:55px;border:1px solid #d8e4f4;border-radius:11px;background:#f7faff;font-size:15px;font-weight:600;letter-spacing:1px;color:var(--ink);padding:0 15px 0 42px;outline:none}
 .search-form input::placeholder{font-size:12px;font-weight:400;letter-spacing:0;color:#94a3b8}
-.search-form input:focus{background:white;border-color:#367dde;box-shadow:0 0 0 4px rgba(53,124,233,.08)}
-.search-form button{width:100%;height:51px;border:0;border-radius:11px;background:#1d6cda;color:white;font-size:13px;font-weight:800;cursor:pointer;transition:.2s}
+.search-form input:focus{background:#fff;border-color:#367dde;box-shadow:0 0 0 4px rgba(53,124,233,.08)}
+.search-form button{width:100%;height:51px;border:0;border-radius:11px;background:#1d6cda;color:#fff;font-size:13px;font-weight:800;cursor:pointer}
 .search-form button:hover{background:#155ec6;transform:translateY(-2px)}
 .search-form button:disabled{opacity:.65;cursor:wait;transform:none}
 .search-note{display:flex;gap:8px;color:#7a8ca4;font-size:10px;line-height:1.6;margin-top:20px;padding-top:17px;border-top:1px solid #edf1f5}
 .search-note strong{color:#526f92}
-
 .container{width:min(1160px,calc(100% - 48px));margin:32px auto 55px}
 .features{display:grid;gap:18px;grid-template-columns:repeat(3,1fr)}
-.feature-card{display:flex;align-items:flex-start;gap:13px;background:white;border:1px solid #e3ebf6;padding:25px;border-radius:16px;transition:.2s}
+.feature-card{display:flex;align-items:flex-start;gap:13px;background:#fff;border:1px solid #e3ebf6;padding:25px;border-radius:16px;transition:.2s}
 .feature-card:hover{transform:translateY(-4px);box-shadow:0 12px 25px rgba(38,70,111,.04)}
 .feature-icon{display:flex;align-items:center;justify-content:center;width:43px;height:43px;flex:0 0 43px;border-radius:12px;background:#eaf2ff;color:#2168cc;font-size:14px;font-weight:900}
 .feature-title{font-size:13px;font-weight:900;color:#254569;margin-bottom:7px}
 .feature-text{font-size:11px;line-height:1.7;color:#74869d}
-
 .message{display:none;margin:20px auto;padding:14px 17px;border-radius:13px;font-size:13px;line-height:1.6}
 .message.error{background:#fff1f2;border:1px solid #fecdd3;color:#be123c}
 .message.success{background:#f0fdf4;border:1px solid #bbf7d0;color:#166534}
-.loading{display:none;margin:20px auto;padding:30px;background:white;border:1px solid #e2e8f0;border-radius:13px;text-align:center;color:#64748b;font-size:13px}
+.loading{display:none;margin:20px auto;padding:30px;background:#fff;border:1px solid #e2e8f0;border-radius:13px;text-align:center;color:#64748b;font-size:13px}
 .spinner{width:28px;height:28px;border:3px solid #dbe4ef;border-top-color:#063b91;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
 #boleta{display:none}
-.report-card{position:relative;background:white;border:1px solid #bfc9d6;box-shadow:0 5px 22px rgba(15,40,75,.10);overflow:hidden;margin-top:28px}
+.report-card{position:relative;background:#fff;border:1px solid #bfc9d6;box-shadow:0 5px 22px rgba(15,40,75,.10);overflow:hidden;margin-top:28px}
 .report-header{border-bottom:4px solid #063b91;padding:25px 30px 18px;display:flex;align-items:center;gap:25px}
 .logo-area{width:150px;display:flex;align-items:center;justify-content:center}
 .logo-area .evolva-image{width:145px;height:70px}
@@ -105,7 +83,7 @@ button,input{font:inherit}
 .academic-section{padding:18px 30px 10px}
 .table-wrapper{overflow-x:auto}
 .grades-table{width:100%;border-collapse:collapse;font-size:11px}
-.grades-table th{background:#063b91;color:white;border:1px solid #063b91;padding:9px 7px;text-align:center;font-size:10px;text-transform:uppercase}
+.grades-table th{background:#063b91;color:#fff;border:1px solid #063b91;padding:9px 7px;text-align:center;font-size:10px;text-transform:uppercase}
 .grades-table td{border:1px solid #cbd5e1;padding:8px 7px;vertical-align:middle}
 .grades-table tbody tr:nth-child(even){background:#f8fafc}
 .col-module{width:22%;font-weight:700;color:#334155}
@@ -135,87 +113,61 @@ button,input{font:inherit}
 .signature-name{font-weight:800;font-size:12px}
 .signature-role{font-size:9px;color:#64748b;margin-top:3px}
 .qr-area{display:flex;flex-direction:column;align-items:center;justify-content:flex-end}
-#qrcode{width:100px;height:100px;padding:5px;border:1px solid #d1d5db;background:white;display:flex;align-items:center;justify-content:center}
+#qrcode{width:100px;height:100px;padding:5px;border:1px solid #d1d5db;background:#fff;display:flex;align-items:center;justify-content:center}
 #qrcode img,#qrcode canvas{max-width:90px;max-height:90px}
 .qr-label{margin-top:6px;text-align:center;font-size:8px;color:#64748b;line-height:1.3}
-.watermark::after{content:"EVOLVA ACADEMY";position:absolute;left:50%;top:55%;transform:translate(-50%,-50%) rotate(-25deg);font-size:65px;font-weight:900;color:rgba(6,59,145,.035);pointer-events:none;white-space:nowrap;z-index:0}
+.watermark:after{content:"EVOLVA ACADEMY";position:absolute;left:50%;top:55%;transform:translate(-50%,-50%) rotate(-25deg);font-size:65px;font-weight:900;color:rgba(6,59,145,.035);pointer-events:none;white-space:nowrap;z-index:0}
 .report-card>*{position:relative;z-index:1}
-
 .actions{display:none;margin-top:20px;gap:10px;justify-content:flex-end}
 .actions button{border:0;border-radius:10px;padding:13px 20px;cursor:pointer;font-weight:700;font-size:13px}
 .actions button:disabled{opacity:.65;cursor:not-allowed}
-.btn-pdf{background:#063b91;color:white}
+.btn-pdf{background:#063b91;color:#fff}
 .btn-print{background:#e2e8f0;color:#172033}
 .btn-pdf:hover{background:#086cff}
 .btn-print:hover{background:#cbd5e1}
 .portal-footer{max-width:1160px;margin:0 auto 30px;padding:24px 0 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;color:#8091a8;font-size:11px}
 .portal-footer strong{color:#5c789b;font-size:11px;letter-spacing:1.4px}
 a:focus-visible,button:focus-visible{outline:3px solid #8bb7f2;outline-offset:4px}
-
-@media screen and (max-width:800px){
-    .topbar{padding:14px 18px;height:74px}
-    .brand .evolva-image{width:105px;height:36px}
-    .header-nav{gap:12px}
-    .payment-link{font-size:10px}
-    .back-link{font-size:10px;padding:9px 12px}
-    .web-hero{padding:38px 20px}
-    .hero-layout{grid-template-columns:1fr;gap:28px}
-    .hero-content h1{font-size:36px;letter-spacing:-1px}
-    .hero-content p{font-size:13px}
-    .hero-badge{font-size:9px;margin-bottom:20px}
-    .search-box{padding:24px;border-radius:18px}
-    .search-title{font-size:20px}
-    .container{width:calc(100% - 32px);margin-top:22px}
-    .features{grid-template-columns:1fr;gap:12px}
-    .feature-card{padding:20px}
-    .portal-footer{margin:0 18px 24px;flex-direction:column;line-height:1.7}
-    .report-header{padding:18px 15px;flex-direction:column;gap:10px}
-    .logo-area,.header-code{width:auto}
-    .header-code{text-align:center}
-    .institution h1{font-size:20px}
-    .institution h2{font-size:12px}
-    .student-section,.academic-section,.summary-section{padding-left:12px;padding-right:12px}
-    .student-grid{grid-template-columns:1fr}
-    .data-cell,.data-cell:nth-child(3n){border-right:0}
-    .grades-table{min-width:850px}
-    .summary-grid{grid-template-columns:1fr}
-    .report-footer{grid-template-columns:1fr;text-align:center}
-    .qr-area{order:-1}
-    .observations{text-align:left}
-    .actions{flex-direction:column}
-    .actions button{width:100%}
+@media(max-width:800px){
+.topbar{padding:14px 18px;height:74px}.brand .evolva-image{width:105px;height:36px}
+.header-nav{gap:12px}.payment-link,.back-link{font-size:10px}.back-link{padding:9px 12px}
+.web-hero{padding:38px 20px}.hero-layout{grid-template-columns:1fr;gap:28px}
+.hero-content h1{font-size:36px;letter-spacing:-1px}.hero-content p{font-size:13px}
+.hero-badge{font-size:9px;margin-bottom:20px}.search-box{padding:24px;border-radius:18px}
+.search-title{font-size:20px}.container{width:calc(100% - 32px);margin-top:22px}
+.features{grid-template-columns:1fr;gap:12px}.feature-card{padding:20px}
+.portal-footer{margin:0 18px 24px;flex-direction:column;line-height:1.7}
+.report-header{padding:18px 15px;flex-direction:column;gap:10px}
+.logo-area,.header-code{width:auto}.header-code{text-align:center}
+.institution h1{font-size:20px}.institution h2{font-size:12px}
+.student-section,.academic-section,.summary-section{padding-left:12px;padding-right:12px}
+.student-grid{grid-template-columns:1fr}.data-cell,.data-cell:nth-child(3n){border-right:0}
+.grades-table{min-width:850px}.summary-grid{grid-template-columns:1fr}
+.report-footer{grid-template-columns:1fr;text-align:center}.qr-area{order:-1}
+.observations{text-align:left}.actions{flex-direction:column}.actions button{width:100%}
 }
-
 @media print{
-    @page{size:letter;margin:10mm}
-    body{background:white}
-    .topbar,.web-hero,.features,.message,.loading,.actions,.portal-footer{display:none!important}
-    .container{width:100%;margin:0}
-    #boleta{display:block!important}
-    .report-card{width:100%;margin:0;box-shadow:none;border:1px solid #777}
-    .table-wrapper{overflow:visible!important}
+@page{size:letter;margin:10mm}
+body{background:#fff}
+.topbar,.web-hero,.features,.message,.loading,.actions,.portal-footer{display:none!important}
+.container{width:100%;margin:0}
+#boleta{display:block!important}
+.report-card{width:100%;margin:0;box-shadow:none;border:1px solid #777}
+.table-wrapper{overflow:visible!important}
 }
-
-.pdf-export{background:white!important;box-shadow:none!important}
+.pdf-export{background:#fff!important;box-shadow:none!important}
 .pdf-export .table-wrapper{overflow:visible!important}
-
 @media(prefers-reduced-motion:reduce){
-    *,*::before,*::after{
-        animation:none!important;
-        transition:none!important;
-        scroll-behavior:auto!important;
-    }
+*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 </style>
 </head>
 
 <body>
-
 <header class="topbar">
     <a href="index.html" class="brand">
         <img src="logo-evolva.png" class="evolva-image" alt="Evolva Academy">
     </a>
-
     <nav class="header-nav" aria-label="Navegación principal">
         <a class="payment-link" href="pagos.html">Pagos</a>
         <a href="alumnos.html" class="back-link">← Portal del alumno</a>
@@ -226,82 +178,36 @@ a:focus-visible,button:focus-visible{outline:3px solid #8bb7f2;outline-offset:4p
     <div class="hero-layout">
         <div class="hero-content">
             <div class="hero-badge">EVOLVA · SERVICIOS ACADÉMICOS</div>
-
-            <h1>
-                Cada logro cuenta.<br>
-                <span>Consulta tu progreso.</span>
-            </h1>
-
-            <p>
-                Tu historial académico, claro y siempre a tu alcance.
-                Revisa tus evaluaciones y descarga tu boleta
-                con el folio de tu registro.
-            </p>
+            <h1>Cada logro cuenta.<br><span>Consulta tu progreso.</span></h1>
+            <p>Tu historial académico, claro y siempre a tu alcance. Revisa tus evaluaciones y descarga tu boleta con el folio de tu registro.</p>
         </div>
-
         <section class="search-box" aria-labelledby="searchTitle">
             <div class="search-top">
-                <h2 class="search-title" id="searchTitle">
-                    Consulta de calificaciones
-                </h2>
-
-                <p class="search-description">
-                    Introduce el folio que recibiste al registrarte
-                    en Evolva Academy.
-                </p>
+                <h2 class="search-title" id="searchTitle">Consulta de calificaciones</h2>
+                <p class="search-description">Introduce el folio que recibiste al registrarte en Evolva Academy.</p>
             </div>
-
             <form class="search-form" id="searchForm">
                 <div>
-                    <label class="search-label" for="folio">
-                        Folio del alumno
-                    </label>
-
+                    <label class="search-label" for="folio">Folio del alumno</label>
                     <div class="search-input-wrapper">
-                        <span class="search-input-icon">
-                            <svg
-                                width="19"
-                                height="19"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="1.8"
-                                aria-hidden="true"
-                            >
+                        <span class="search-input-icon" aria-hidden="true">
+                            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                                 <circle cx="10.5" cy="10.5" r="6.5"/>
                                 <path d="m16 16 5 5"/>
                             </svg>
                         </span>
-
-                        <input
-                            type="text"
-                            id="folio"
-                            name="folio"
-                            autocapitalize="characters"
-                            spellcheck="false"
-                            placeholder="Ejemplo: EVOLVA-123456"
-                            minlength="13"
-                            maxlength="13"
+                        <input type="text" id="folio" name="folio" autocapitalize="characters"
+                            spellcheck="false" placeholder="Ejemplo: EVOLVA-123456"
+                            minlength="13" maxlength="13"
                             pattern="[Ee][Vv][Oo][Ll][Vv][Aa]-[0-9]{6}"
-                            autocomplete="off"
-                            aria-describedby="folioHelp"
-                            required
-                        >
+                            autocomplete="off" aria-describedby="folioHelp" required>
                     </div>
                 </div>
-
-                <button type="submit" id="searchButton">
-                    Consultar calificaciones
-                </button>
+                <button type="submit" id="searchButton">Consultar calificaciones</button>
             </form>
-
             <div class="search-note" id="folioHelp">
                 <span aria-hidden="true">ⓘ</span>
-                <span>
-                    <strong>Consulta mediante folio.</strong>
-                    Escribe el folio completo que recibiste
-                    al realizar tu inscripción.
-                </span>
+                <span><strong>Consulta mediante folio.</strong> Escribe el folio completo que recibiste al realizar tu inscripción.</span>
             </div>
         </section>
     </div>
@@ -309,206 +215,68 @@ a:focus-visible,button:focus-visible{outline:3px solid #8bb7f2;outline-offset:4p
 
 <main class="container">
     <section class="features" aria-label="Servicios disponibles">
-        <div class="feature-card">
-            <div class="feature-icon" aria-hidden="true">✓</div>
-            <div>
-                <h3 class="feature-title">Historial académico</h3>
-                <p class="feature-text">
-                    Consulta las evaluaciones registradas de tu diplomado.
-                </p>
-            </div>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-icon" aria-hidden="true">%</div>
-            <div>
-                <h3 class="feature-title">Promedio y avance</h3>
-                <p class="feature-text">
-                    Visualiza tu promedio y avance académico.
-                </p>
-            </div>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-icon" aria-hidden="true">PDF</div>
-            <div>
-                <h3 class="feature-title">Boleta académica</h3>
-                <p class="feature-text">
-                    Descarga o imprime tu reporte de calificaciones.
-                </p>
-            </div>
-        </div>
+        <div class="feature-card"><div class="feature-icon" aria-hidden="true">✓</div><div><h3 class="feature-title">Historial académico</h3><p class="feature-text">Consulta las evaluaciones registradas de tu diplomado.</p></div></div>
+        <div class="feature-card"><div class="feature-icon" aria-hidden="true">%</div><div><h3 class="feature-title">Promedio y avance</h3><p class="feature-text">Visualiza tu promedio y avance académico.</p></div></div>
+        <div class="feature-card"><div class="feature-icon" aria-hidden="true">PDF</div><div><h3 class="feature-title">Boleta académica</h3><p class="feature-text">Descarga o imprime tu reporte de calificaciones.</p></div></div>
     </section>
 
     <div id="message" class="message" role="status" aria-live="polite"></div>
-
-    <div id="loading" class="loading" role="status" aria-live="polite">
-        <div class="spinner" aria-hidden="true"></div>
-        Consultando información académica...
-    </div>
+    <div id="loading" class="loading" role="status" aria-live="polite"><div class="spinner" aria-hidden="true"></div>Consultando información académica...</div>
 
     <section id="boleta" aria-label="Boleta académica">
         <div class="report-card watermark" id="reportCard">
             <div class="report-header">
-                <div class="logo-area">
-                    <img
-                        src="logo-evolva.png"
-                        class="evolva-image"
-                        alt="Evolva Academy"
-                    >
-                </div>
-
-                <div class="institution">
-                    <h1>EVOLVA ACADEMY</h1>
-                    <h2>Reporte Académico de Calificaciones</h2>
-                    <p>Formación Digital Profesional</p>
-                </div>
-
-                <div class="header-code">
-                    <strong id="headerFolio">—</strong>
-                    Documento académico
-                </div>
+                <div class="logo-area"><img src="logo-evolva.png" class="evolva-image" alt="Evolva Academy"></div>
+                <div class="institution"><h1>EVOLVA ACADEMY</h1><h2>Reporte Académico de Calificaciones</h2><p>Formación Digital Profesional</p></div>
+                <div class="header-code"><strong id="headerFolio">—</strong>Documento académico</div>
             </div>
-
             <div class="student-section">
                 <div class="section-title">Datos del alumno</div>
-
                 <div class="student-grid">
-                    <div class="data-cell">
-                        <div class="data-label">Nombre del alumno</div>
-                        <div class="data-value" id="studentName">—</div>
-                    </div>
-
-                    <div class="data-cell">
-                        <div class="data-label">Matrícula / Folio</div>
-                        <div class="data-value" id="studentFolio">—</div>
-                    </div>
-
-                    <div class="data-cell">
-                        <div class="data-label">Grupo</div>
-                        <div class="data-value" id="studentGroup">—</div>
-                    </div>
-
-                    <div class="data-cell">
-                        <div class="data-label">CURP</div>
-                        <div class="data-value" id="studentCurp">—</div>
-                    </div>
-
-                    <div class="data-cell">
-                        <div class="data-label">Diplomado</div>
-                        <div class="data-value" id="studentDiploma">—</div>
-                    </div>
-
-                    <div class="data-cell">
-                        <div class="data-label">Periodo</div>
-                        <div class="data-value" id="studentPeriod">—</div>
-                    </div>
+                    <div class="data-cell"><div class="data-label">Nombre del alumno</div><div class="data-value" id="studentName">—</div></div>
+                    <div class="data-cell"><div class="data-label">Matrícula / Folio</div><div class="data-value" id="studentFolio">—</div></div>
+                    <div class="data-cell"><div class="data-label">Grupo</div><div class="data-value" id="studentGroup">—</div></div>
+                    <div class="data-cell"><div class="data-label">CURP</div><div class="data-value" id="studentCurp">—</div></div>
+                    <div class="data-cell"><div class="data-label">Diplomado</div><div class="data-value" id="studentDiploma">—</div></div>
+                    <div class="data-cell"><div class="data-label">Periodo</div><div class="data-value" id="studentPeriod">—</div></div>
                 </div>
             </div>
-
             <div class="academic-section">
                 <div class="section-title">Historial académico</div>
-
                 <div class="table-wrapper">
                     <table class="grades-table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Módulo</th>
-                                <th scope="col">Clave</th>
-                                <th scope="col">Evaluación</th>
-                                <th scope="col">Calificación</th>
-                                <th scope="col">Estado</th>
-                            </tr>
-                        </thead>
-
+                        <thead><tr><th scope="col">Módulo</th><th scope="col">Clave</th><th scope="col">Evaluación</th><th scope="col">Calificación</th><th scope="col">Estado</th></tr></thead>
                         <tbody id="gradesBody"></tbody>
                     </table>
                 </div>
             </div>
-
             <div class="summary-section">
                 <div class="section-title">Resumen académico</div>
-
                 <div class="summary-grid">
-                    <div class="summary-box">
-                        <div class="summary-label">Evaluaciones</div>
-                        <div class="summary-value" id="totalEvaluations">0</div>
-                    </div>
-
-                    <div class="summary-box">
-                        <div class="summary-label">Promedio general</div>
-                        <div class="summary-value" id="generalAverage">—</div>
-                    </div>
-
-                    <div class="summary-box">
-                        <div class="summary-label">Avance académico</div>
-                        <div class="summary-value" id="academicProgress">0%</div>
-                    </div>
+                    <div class="summary-box"><div class="summary-label">Evaluaciones</div><div class="summary-value" id="totalEvaluations">0</div></div>
+                    <div class="summary-box"><div class="summary-label">Promedio general</div><div class="summary-value" id="generalAverage">—</div></div>
+                    <div class="summary-box"><div class="summary-label">Avance académico</div><div class="summary-value" id="academicProgress">0%</div></div>
                 </div>
             </div>
-
             <div class="report-footer">
-                <div class="observations">
-                    <div class="observations-title">Observaciones</div>
-
-                    <p id="observations">
-                        Documento generado desde el sistema académico
-                        de Evolva Academy.
-                    </p>
-                </div>
-
-                <div class="signature">
-                    <div class="signature-line">
-                        <div class="signature-name">Alexis Soto</div>
-                        <div class="signature-role">
-                            Director General<br>
-                            Evolva Academy
-                        </div>
-                    </div>
-                </div>
-
-                <div class="qr-area">
-                    <div id="qrcode"></div>
-
-                    <div class="qr-label">
-                        Escanea para validar<br>
-                        este documento
-                    </div>
-                </div>
+                <div class="observations"><div class="observations-title">Observaciones</div><p id="observations">Documento generado desde el sistema académico de Evolva Academy.</p></div>
+                <div class="signature"><div class="signature-line"><div class="signature-name">Alexis Soto</div><div class="signature-role">Director General<br>Evolva Academy</div></div></div>
+                <div class="qr-area"><div id="qrcode"></div><div class="qr-label">Escanea para validar<br>este documento</div></div>
             </div>
         </div>
     </section>
 
     <div class="actions" id="actions">
-        <button
-            type="button"
-            class="btn-print"
-            onclick="imprimirBoleta()"
-        >
-            Imprimir
-        </button>
-
-        <button
-            type="button"
-            class="btn-pdf"
-            onclick="generarPDF()"
-        >
-            Descargar PDF
-        </button>
+        <button type="button" class="btn-print" onclick="imprimirBoleta()">Imprimir</button>
+        <button type="button" class="btn-pdf" onclick="generarPDF()">Descargar PDF</button>
     </div>
 </main>
 
-<footer class="portal-footer">
-    <strong>EVOLVA ACADEMY</strong>
-    <span>Formación Digital Profesional · Portal de calificaciones</span>
-</footer>
+<footer class="portal-footer"><strong>EVOLVA ACADEMY</strong><span>Formación Digital Profesional · Portal de calificaciones</span></footer>
 
 <script>
-const API_URL =
-    'https://script.google.com/macros/s/AKfycbyYyR6P5VQpuSrraJ3kr3kTpE6Es2p7ae6lGefqL7Qjf7KtkwbSnqf56FymVvwbhMOH/exec';
-
-const VALIDACION_URL =
-    'https://evolvacademy.mx/validar.html';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyYyR6P5VQpuSrraJ3kr3kTpE6Es2p7ae6lGefqL7Qjf7KtkwbSnqf56FymVvwbhMOH/exec';
+const VALIDACION_URL = 'https://evolvacademy.mx/validar.html';
 
 let alumnoActual = null;
 let calificacionesActuales = [];
@@ -537,34 +305,17 @@ function ocultarMensaje() {
 function mostrarLoading(mostrar) {
     loading.style.display = mostrar ? 'block' : 'none';
     searchButton.disabled = mostrar;
-    searchButton.textContent = mostrar
-        ? 'Consultando…'
-        : 'Consultar calificaciones';
-
+    searchButton.textContent = mostrar ? 'Consultando…' : 'Consultar calificaciones';
     searchForm.setAttribute('aria-busy', String(mostrar));
 }
 
 function jsonp(url, params = {}) {
     return new Promise(function(resolve, reject) {
-        const callbackName =
-            'evolvaCallback_' +
-            Date.now() +
-            '_' +
-            Math.floor(Math.random() * 100000);
-
-        const parametros = {
-            ...params,
-            callback: callbackName
-        };
-
+        const callbackName = 'evolvaCallback_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+        const parametros = {...params, callback: callbackName};
         const query = Object.keys(parametros)
-            .map(key =>
-                encodeURIComponent(key) +
-                '=' +
-                encodeURIComponent(parametros[key])
-            )
+            .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(parametros[key]))
             .join('&');
-
         const script = document.createElement('script');
 
         const timeout = setTimeout(function() {
@@ -585,28 +336,17 @@ function jsonp(url, params = {}) {
 
         script.onerror = function() {
             cleanup();
-            reject(
-                new Error(
-                    'No fue posible conectar con Evolva Academy.'
-                )
-            );
+            reject(new Error('No fue posible conectar con Evolva Academy.'));
         };
 
-        script.src =
-            url +
-            (url.includes('?') ? '&' : '?') +
-            query;
-
+        script.src = url + (url.includes('?') ? '&' : '?') + query;
         document.body.appendChild(script);
     });
 }
 
 function normalizarDiplomado(texto) {
-    return String(texto || '')
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .trim()
-        .toLowerCase();
+    return String(texto || '').normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '').trim().toLowerCase();
 }
 
 async function consultar() {
@@ -616,9 +356,7 @@ async function consultar() {
     folioInput.value = folio;
 
     if (!/^EVOLVA-\d{6}$/.test(folio)) {
-        mostrarMensaje(
-            'Ingresa tu folio completo. Ejemplo: EVOLVA-123456.'
-        );
+        mostrarMensaje('Ingresa tu folio completo. Ejemplo: EVOLVA-123456.');
         folioInput.focus();
         return;
     }
@@ -626,98 +364,54 @@ async function consultar() {
     consultaEnCurso = true;
     alumnoActual = null;
     calificacionesActuales = [];
-
     boleta.style.display = 'none';
     actions.style.display = 'none';
-
     ocultarMensaje();
     mostrarLoading(true);
 
     try {
-        const alumnoResponse = await jsonp(API_URL, {
-            accion: 'buscarfolio',
-            folio: folio
-        });
+        const alumnoResponse = await jsonp(API_URL, {accion:'buscarfolio', folio:folio});
 
-        if (
-            !alumnoResponse ||
-            !alumnoResponse.ok ||
-            !alumnoResponse.alumno
-        ) {
-            throw new Error(
-                alumnoResponse?.error ||
-                alumnoResponse?.mensaje ||
-                'No se encontró un alumno con ese folio.'
-            );
+        if (!alumnoResponse || !alumnoResponse.ok || !alumnoResponse.alumno) {
+            throw new Error(alumnoResponse?.error || alumnoResponse?.mensaje || 'No se encontró un alumno con ese folio.');
         }
 
         const alumno = alumnoResponse.alumno;
-
         const gradesResponse = await jsonp(API_URL, {
-            accion: 'calificaciones',
-            folio: alumno.FOLIO || folio
+            accion:'calificaciones',
+            folio:alumno.FOLIO || folio
         });
 
         if (!gradesResponse || !gradesResponse.ok) {
-            throw new Error(
-                gradesResponse?.error ||
-                gradesResponse?.mensaje ||
-                'No fue posible obtener las calificaciones.'
-            );
+            throw new Error(gradesResponse?.error || gradesResponse?.mensaje || 'No fue posible obtener las calificaciones.');
         }
 
-        const diplomadoAlumno =
-            normalizarDiplomado(alumno.DIPLOMADO);
+        const diplomadoAlumno = normalizarDiplomado(alumno.DIPLOMADO);
+        const evaluaciones = Array.isArray(gradesResponse.calificaciones)
+            ? gradesResponse.calificaciones : [];
 
-        const evaluaciones = Array.isArray(
-            gradesResponse.calificaciones
-        )
-            ? gradesResponse.calificaciones
-            : [];
-
-        calificacionesActuales = evaluaciones.filter(item => {
-            const diplomadoEvaluacion =
-                normalizarDiplomado(item.diplomado);
-
-            return (
-                !diplomadoEvaluacion ||
-                diplomadoEvaluacion === diplomadoAlumno
-            );
+        calificacionesActuales = evaluaciones.filter(function(item) {
+            const diplomadoEvaluacion = normalizarDiplomado(item.diplomado);
+            return !diplomadoEvaluacion || diplomadoEvaluacion === diplomadoAlumno;
         });
 
         alumnoActual = alumno;
         construirBoleta(alumno, gradesResponse);
-
         boleta.style.display = 'block';
         actions.style.display = 'flex';
 
         requestAnimationFrame(function() {
-            const reducirMovimiento = window.matchMedia(
-                '(prefers-reduced-motion: reduce)'
-            ).matches;
-
+            const reducirMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             window.scrollTo({
-                top:
-                    boleta.getBoundingClientRect().top +
-                    window.scrollY -
-                    20,
-                behavior: reducirMovimiento ? 'auto' : 'smooth'
+                top:boleta.getBoundingClientRect().top + window.scrollY - 20,
+                behavior:reducirMovimiento ? 'auto' : 'smooth'
             });
         });
-
     } catch (error) {
         console.error(error);
         alumnoActual = null;
-
-        mostrarMensaje(
-            error.message || 'Ocurrió un error al consultar.'
-        );
-
-        message.scrollIntoView({
-            block: 'nearest',
-            behavior: 'auto'
-        });
-
+        mostrarMensaje(error.message || 'Ocurrió un error al consultar.');
+        message.scrollIntoView({block:'nearest', behavior:'auto'});
     } finally {
         consultaEnCurso = false;
         mostrarLoading(false);
@@ -740,32 +434,21 @@ function construirBoleta(alumno, datos) {
     construirTabla(calificacionesActuales);
 
     const promedioServidor = convertirNumero(datos.promedio);
-
     const promedio = promedioServidor !== null
         ? promedioServidor
         : calcularPromedioLocal(calificacionesActuales);
 
-    escribir(
-        'generalAverage',
-        promedio === null ? '—' : promedio.toFixed(2)
-    );
-
+    escribir('generalAverage', promedio === null ? '—' : promedio.toFixed(2));
     escribir('totalEvaluations', calificacionesActuales.length);
 
-    escribir(
-        'academicProgress',
-        calcularAvance(calificacionesActuales) + '%'
-    );
+    // Toma el avance de la API; si no está disponible, lo calcula con las calificaciones.
+    const avanceServidor = convertirNumero(datos.avance);
+    const avance = avanceServidor !== null
+        ? Math.max(0, Math.min(100, avanceServidor <= 1 ? avanceServidor * 100 : avanceServidor))
+        : calcularAvance(calificacionesActuales);
 
-    escribir(
-        'observations',
-        construirObservaciones(
-            alumno,
-            calificacionesActuales,
-            promedio
-        )
-    );
-
+    escribir('academicProgress', avance + '%');
+    escribir('observations', construirObservaciones(alumno, calificacionesActuales, promedio));
     generarQR(alumno.FOLIO);
 }
 
@@ -774,155 +457,82 @@ function construirTabla(evaluaciones) {
     tbody.innerHTML = '';
 
     if (!evaluaciones.length) {
-        tbody.innerHTML = `
-            <tr>
-                <td
-                    colspan="5"
-                    style="text-align:center;padding:25px;color:#64748b"
-                >
-                    No existen evaluaciones registradas.
-                </td>
-            </tr>
-        `;
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:25px;color:#64748b">No existen evaluaciones registradas.</td></tr>';
         return;
     }
 
     evaluaciones.forEach(function(item) {
         const calificacion = convertirNumero(item.calificacion);
         const aprobado = calificacion !== null && calificacion >= 6;
-
         let estado = String(item.estado || '').trim();
 
         if (!estado) {
-            estado = calificacion === null
-                ? 'PENDIENTE'
-                : aprobado ? 'APROBADA' : 'NO APROBADA';
+            estado = calificacion === null ? 'PENDIENTE' : aprobado ? 'APROBADA' : 'NO APROBADA';
         }
 
         const estadoMayus = estado.toUpperCase();
-
         let estadoClase = 'status-approved';
 
         if (estadoMayus.includes('PENDIENTE')) {
             estadoClase = 'status-pending';
-
-        } else if (
-            estadoMayus.includes('NO APROBAD') ||
-            estadoMayus.includes('REPROBAD')
-        ) {
+        } else if (estadoMayus.includes('NO APROBAD') || estadoMayus.includes('REPROBAD')) {
             estadoClase = 'status-failed';
         }
 
         const modulo = item.modulo || '—';
+        let clave = item.clave || item.codigo || item.idEvaluacion || '—';
+        if (/^M\d+$/i.test(String(modulo).trim())) clave = modulo;
 
-        let clave =
-            item.clave ||
-            item.codigo ||
-            item.idEvaluacion ||
-            '—';
-
-        if (/^M\d+$/i.test(String(modulo).trim())) {
-            clave = modulo;
-        }
-
-        const evaluacion =
-            item.evaluacion ||
-            item.nombre ||
-            'Calificación registrada';
-
+        const evaluacion = item.evaluacion || item.nombre || 'Calificación registrada';
         const claseCalificacion = calificacion === null
             ? 'grade-pending'
             : aprobado ? 'grade-approved' : 'grade-failed';
 
         const tr = document.createElement('tr');
-
         tr.innerHTML = `
-            <td class="col-module">
-                <div class="module-name">${escapeHtml(modulo)}</div>
-            </td>
+            <td class="col-module"><div class="module-name">${escapeHtml(modulo)}</div></td>
             <td class="col-key">${escapeHtml(clave)}</td>
             <td class="col-evaluation">${escapeHtml(evaluacion)}</td>
-            <td class="col-grade ${claseCalificacion}">
-                ${calificacion === null ? '—' : calificacion.toFixed(2)}
-            </td>
-            <td class="col-status">
-                <span class="status ${estadoClase}">
-                    ${escapeHtml(estado)}
-                </span>
-            </td>
+            <td class="col-grade ${claseCalificacion}">${calificacion === null ? '—' : calificacion.toFixed(2)}</td>
+            <td class="col-status"><span class="status ${estadoClase}">${escapeHtml(estado)}</span></td>
         `;
-
         tbody.appendChild(tr);
     });
 }
 
 function calcularPromedioLocal(lista) {
-    const valores = lista
-        .map(item => convertirNumero(item.calificacion))
+    const valores = lista.map(item => convertirNumero(item.calificacion))
         .filter(valor => valor !== null);
-
     if (!valores.length) return null;
-
-    return valores.reduce((total, valor) => total + valor, 0)
-        / valores.length;
+    return valores.reduce((total, valor) => total + valor, 0) / valores.length;
 }
 
 function calcularAvance(lista) {
     if (!lista.length) return 0;
-
-    const completadas = lista.filter(
-        item => convertirNumero(item.calificacion) !== null
-    ).length;
-
+    const completadas = lista.filter(item => convertirNumero(item.calificacion) !== null).length;
     return Math.round(completadas / lista.length * 100);
 }
 
 function construirObservaciones(alumno, lista, promedio) {
-    const completadas = lista.filter(
-        item => convertirNumero(item.calificacion) !== null
-    ).length;
-
-    let texto =
-        'Alumno inscrito en el diplomado ' +
-        (alumno.DIPLOMADO || '') +
-        ', grupo ' +
-        (alumno.GRUPO || 'sin grupo') +
-        '. Se han registrado ' +
-        completadas +
-        ' de ' +
-        lista.length +
-        ' evaluaciones. ';
+    const completadas = lista.filter(item => convertirNumero(item.calificacion) !== null).length;
+    let texto = 'Alumno inscrito en el diplomado ' + (alumno.DIPLOMADO || '') +
+        ', grupo ' + (alumno.GRUPO || 'sin grupo') + '. Se han registrado ' +
+        completadas + ' de ' + lista.length + ' evaluaciones. ';
 
     texto += promedio === null
         ? 'El promedio se encuentra pendiente de integración.'
         : 'Promedio general registrado: ' + promedio.toFixed(2) + '.';
-
     return texto;
 }
 
 function obtenerPeriodo(alumno) {
     const fecha = new Date(alumno.FECHA_REGISTRO || '');
-
-    return String(
-        Number.isNaN(fecha.getTime())
-            ? new Date().getFullYear()
-            : fecha.getFullYear()
-    );
+    return String(Number.isNaN(fecha.getTime()) ? new Date().getFullYear() : fecha.getFullYear());
 }
 
 function convertirNumero(valor) {
-    if (
-        valor === null ||
-        valor === undefined ||
-        String(valor).trim() === ''
-    ) {
-        return null;
-    }
-
-    const numero = Number(
-        String(valor).replace(',', '.').trim()
-    );
-
+    if (valor === null || valor === undefined || String(valor).trim() === '') return null;
+    const numero = Number(String(valor).replace(',', '.').trim());
     return Number.isFinite(numero) ? numero : null;
 }
 
@@ -936,12 +546,12 @@ function generarQR(folio) {
     }
 
     new QRCode(contenedor, {
-        text: VALIDACION_URL + '?folio=' + encodeURIComponent(folio || ''),
-        width: 90,
-        height: 90,
-        colorDark: '#063b91',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.M
+        text:VALIDACION_URL + '?folio=' + encodeURIComponent(folio || ''),
+        width:90,
+        height:90,
+        colorDark:'#063b91',
+        colorLight:'#ffffff',
+        correctLevel:QRCode.CorrectLevel.M
     });
 }
 
@@ -959,113 +569,73 @@ function imprimirBoleta() {
 }
 
 function esperarImagenes() {
-    return Promise.all(
-        Array.from(reportCard.querySelectorAll('img')).map(img => {
-            if (img.complete) return Promise.resolve();
-
-            return new Promise(resolve => {
-                img.addEventListener('load', resolve, {once:true});
-                img.addEventListener('error', resolve, {once:true});
-            });
-        })
-    );
+    return Promise.all(Array.from(reportCard.querySelectorAll('img')).map(function(img) {
+        if (img.complete) return Promise.resolve();
+        return new Promise(resolve => {
+            img.addEventListener('load', resolve, {once:true});
+            img.addEventListener('error', resolve, {once:true});
+        });
+    }));
 }
 
 async function generarPDF() {
     if (!alumnoActual) {
-        mostrarMensaje(
-            'Primero consulta tus calificaciones con tu folio.'
-        );
+        mostrarMensaje('Primero consulta tus calificaciones con tu folio.');
         return;
     }
 
     if (typeof html2pdf === 'undefined') {
-        mostrarMensaje(
-            'No se pudo cargar el generador de PDF. Recarga la página.'
-        );
+        mostrarMensaje('No se pudo cargar el generador de PDF. Recarga la página.');
         return;
     }
 
     const boton = document.querySelector('.btn-pdf');
     const textoOriginal = boton.textContent;
-
     boton.disabled = true;
     boton.textContent = 'Generando PDF...';
 
     try {
         await esperarImagenes();
-
-        if (document.fonts?.ready) {
-            await document.fonts.ready;
-        }
-
+        if (document.fonts?.ready) await document.fonts.ready;
         reportCard.classList.add('pdf-export');
 
         const opciones = {
-            margin: [8,8,8,8],
-            filename: 'Boleta_' + alumnoActual.FOLIO + '.pdf',
-
-            image: {
-                type: 'jpeg',
-                quality: .98
-            },
-
-            html2canvas: {
-                scale: 2,
-                useCORS: true,
-                allowTaint: false,
-                backgroundColor: '#ffffff',
-                scrollX: 0,
-                scrollY: 0,
-                logging: false,
-                windowWidth: 1200,
-
-                onclone: function(documento) {
+            margin:[8,8,8,8],
+            filename:'Boleta_' + alumnoActual.FOLIO + '.pdf',
+            image:{type:'jpeg', quality:.98},
+            html2canvas:{
+                scale:2,
+                useCORS:true,
+                allowTaint:false,
+                backgroundColor:'#ffffff',
+                scrollX:0,
+                scrollY:0,
+                logging:false,
+                windowWidth:1200,
+                onclone:function(documento) {
                     const tarjeta = documento.getElementById('reportCard');
                     const contenedor = documento.querySelector('.container');
-
                     if (contenedor) {
                         contenedor.style.width = '740px';
                         contenedor.style.margin = '0';
                     }
-
                     if (tarjeta) {
                         tarjeta.style.width = '740px';
                         tarjeta.style.margin = '0';
                     }
                 }
             },
-
-            jsPDF: {
-                unit: 'mm',
-                format: 'letter',
-                orientation: 'portrait',
-                compress: true
-            },
-
-            pagebreak: {
-                mode: ['css','legacy'],
-                avoid: [
-                    '.report-header',
-                    '.student-section',
-                    '.summary-section',
-                    '.report-footer',
-                    'tr'
-                ]
+            jsPDF:{unit:'mm', format:'letter', orientation:'portrait', compress:true},
+            pagebreak:{
+                mode:['css','legacy'],
+                avoid:['.report-header','.student-section','.summary-section','.report-footer','tr']
             }
         };
 
-        await html2pdf()
-            .set(opciones)
-            .from(reportCard)
-            .save();
-
+        await html2pdf().set(opciones).from(reportCard).save();
     } catch (error) {
         console.error(error);
-        mostrarMensaje(
-            'No fue posible generar el PDF. Intenta nuevamente.'
-        );
-
+        mostrarMensaje('No fue posible generar el PDF. Intenta nuevamente.');
     } finally {
         reportCard.classList.remove('pdf-export');
         boton.disabled = false;
@@ -1081,12 +651,8 @@ searchForm.addEventListener('submit', function(event) {
 folioInput.addEventListener('input', function() {
     const inicio = this.selectionStart;
     const fin = this.selectionEnd;
-
     this.value = this.value.toUpperCase();
-
-    if (inicio !== null && fin !== null) {
-        this.setSelectionRange(inicio, fin);
-    }
+    if (inicio !== null && fin !== null) this.setSelectionRange(inicio, fin);
 });
 </script>
 </body>
