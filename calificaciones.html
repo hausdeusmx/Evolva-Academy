@@ -613,29 +613,41 @@ async function generarPDF() {
 
     const boton = document.querySelector('.btn-pdf');
     const textoOriginal = boton.textContent;
+
     boton.disabled = true;
     boton.textContent = 'Generando PDF...';
 
     try {
         await esperarImagenes();
-        if (document.fonts?.ready) await document.fonts.ready;
+
+        if (document.fonts?.ready) {
+            await document.fonts.ready;
+        }
 
         reportCard.classList.add('pdf-export');
 
         const opciones = {
-            margin:[8,8,8,8],
-            filename:'Boleta_' + alumnoActual.FOLIO + '.pdf',
-            image:{type:'jpeg', quality:.98},
-            html2canvas:{
-                scale:2,
-                useCORS:true,
-                allowTaint:false,
-                backgroundColor:'#ffffff',
-                scrollX:0,
-                scrollY:0,
-                logging:false,
-                windowWidth:800,
-                onclone:function(documento) {
+            margin: [8, 8, 8, 8],
+            filename: 'Boleta_' + alumnoActual.FOLIO + '.pdf',
+
+            image: {
+                type: 'jpeg',
+                quality: 0.98
+            },
+
+            html2canvas: {
+                scale: 2,
+                useCORS: true,
+                allowTaint: false,
+                backgroundColor: '#ffffff',
+                scrollX: 0,
+                scrollY: 0,
+                logging: false,
+
+                // Mantiene el diseño de escritorio durante la exportación.
+                windowWidth: 1200,
+
+                onclone: function(documento) {
                     const tarjeta = documento.getElementById('reportCard');
                     const contenedor = documento.querySelector('.container');
 
@@ -656,17 +668,35 @@ async function generarPDF() {
                     }
                 }
             },
-            jsPDF:{unit:'mm', format:'letter', orientation:'portrait', compress:true},
-            pagebreak:{
-                mode:['css','legacy'],
-                avoid:['.report-header','.student-section','.summary-section','.report-footer','tr']
+
+            jsPDF: {
+                unit: 'mm',
+                format: 'letter',
+                orientation: 'portrait',
+                compress: true
+            },
+
+            pagebreak: {
+                mode: ['css', 'legacy'],
+                avoid: [
+                    '.report-header',
+                    '.student-section',
+                    '.summary-section',
+                    '.report-footer',
+                    'tr'
+                ]
             }
         };
 
-        await html2pdf().set(opciones).from(reportCard).save();
+        await html2pdf()
+            .set(opciones)
+            .from(reportCard)
+            .save();
+
     } catch (error) {
         console.error(error);
         mostrarMensaje('No fue posible generar el PDF. Intenta nuevamente.');
+
     } finally {
         reportCard.classList.remove('pdf-export');
         boton.disabled = false;
