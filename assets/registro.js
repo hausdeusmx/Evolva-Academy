@@ -16,6 +16,9 @@ form.addEventListener('submit',async event=>{
   event.preventDefault();
   if(busy)return;
   errorBox.textContent='';captchaError.textContent='';
+  let documentRequirements=false;
+  try{documentRequirements=window.EvolvaDocuments?await window.EvolvaDocuments.requirements(true):false;}catch{errorBox.textContent='No pudimos comprobar la conexión del registro. Vuelve a intentarlo.';return;}
+  if(busy)return;
   if(!form.reportValidity())return;
   const selected=document.querySelector('input[name="diplomado"]:checked');
   if(!selected){errorBox.textContent='Selecciona el diplomado que quieres cursar.';return;}
@@ -27,10 +30,11 @@ form.addEventListener('submit',async event=>{
   busy=true;button.disabled=true;form.setAttribute('aria-busy','true');button.textContent='Registrando tu inscripción…';
   try{
     let data;
+    const documents=documentRequirements?await window.EvolvaDocuments.payload():{};
     const endpoint=String(window.EVOLVA_CONFIG?.API_URL||'').trim();
     if(endpoint){
       if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(endpoint))throw new Error('La conexión del registro requiere revisión de administración.');
-      const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},credentials:'omit',redirect:'follow',body:JSON.stringify({...params,action:'register'})});
+      const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},credentials:'omit',redirect:'follow',body:JSON.stringify({...params,...documents,action:'register'}),signal:AbortSignal.timeout(60000)});
       if(!response.ok)throw new Error('No fue posible conectar con Evolva Academy.');
       try{data=await response.json();}catch{throw new Error('El servidor no devolvió una respuesta válida.');}
     }else{

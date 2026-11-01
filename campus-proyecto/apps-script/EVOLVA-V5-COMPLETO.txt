@@ -1,0 +1,431 @@
+/** EVOLVA ACADEMY V5 · ARCHIVO COMPLETO
+ * Sustituye Código.gs por este contenido y retira los .gs individuales duplicados.
+ * Conserva appsscript.json y las propiedades privadas del proyecto.
+ * Ejecuta configurarDesdeHojaActiva y actualiza la implementación existente.
+ */
+
+
+// ===== PortalPages.gs =====
+/** Evolva Academy · Backend para GitHub Pages · v5
+ * Instalar también RegistroPages.gs, AdminPages.gs y ExpedienteTareas.gs. Configurar Script Properties:
+ * SPREADSHEET_ID: ID de las hojas existentes.
+ * PORTAL_PUBLIC_URL: URL HTTPS de la carpeta del portal (incluye /repositorio/).
+ * PORTAL_ADMIN_EMAILS: opcional, correos de administradores registrados en ALUMNOS,
+ * separados por comas. No habilita acceso anónimo a expedientes.
+ * Ejecutar configurarPortalPages() una vez. Implementar Web App como propietario,
+ * accesible a solicitudes externas. Toda operación académica exige sesión de alumno.
+ * No pegar PORTAL_SECRET ni contraseñas maestras en config.js.
+ */
+var PORTAL_TABLES={_PORTAL_ADMINISTRADORES:['EMAIL','NOMBRE','HASH','ESTADO','CREADO','ACTUALIZADO'],_PORTAL_AUDITORIA:['ID','EMAIL','ACCION','FOLIO','REFERENCIA','ANTES','DESPUES','FECHA'],_PORTAL_SESIONES:['ID','FOLIO','EMAIL','EXPIRA','CREADO'],_PORTAL_REPORTES:['CODIGO','FOLIO','FECHA','ESTADO','SNAPSHOT','HUELLA'],_PORTAL_LECTURAS:['FOLIO','AVISO','FECHA']};
+function configurarPortalPages(){
+ var props=PropertiesService.getScriptProperties(),id=props.getProperty('SPREADSHEET_ID');if(!id)throw Error('Configura SPREADSHEET_ID en Propiedades del script.');var ss=SpreadsheetApp.openById(id);
+ var required={EVALUACIONES:['ID','FOLIO','DIPLOMADO','MODULO','CLAVE','EVALUACION','ESTADO','FECHA'],ALUMNOS:['FOLIO','NOMBRE','CORREO_PERSONAL','CONTRASEÑA','DIPLOMADO','CURP','EDAD','ESTADO_RESIDENCIA','FECHA_NACIMIENTO','FECHA_REGISTRO'],EXAMENES:['ID','FOLIO','DIPLOMADO','EXAMEN','CALIFICACION','ESTADO','URL','MODULO','DURACION'],AVISOS:['TITULO','MENSAJE','FECHA'],PAGOS:['ID','FOLIO','MONTO','COMPROBANTE','ESTADO','FECHA','OBSERVACIONES','ARCHIVO'],CONSTANCIAS:['FOLIO','ESTADO']};
+ Object.keys(required).forEach(function(name){var sh=ss.getSheetByName(name);if(!sh)throw Error('Falta la hoja '+name+'.');var h=portalHeaders_(sh);required[name].forEach(function(c){if(h.indexOf(c)<0)throw Error('Falta la columna '+c+' en '+name+'.');});});
+ Object.keys(PORTAL_TABLES).forEach(function(name){var sh=ss.getSheetByName(name);if(!sh){sh=ss.insertSheet(name);sh.appendRow(PORTAL_TABLES[name]);}else if(portalHeaders_(sh).join('|')!==PORTAL_TABLES[name].join('|'))throw Error('Revisa las columnas de '+name+'. No se modificaron.');});
+ portalPrepareRegistration_();if(typeof portalPrepareAcademics_!=='function')throw Error('Añade ExpedienteTareas.gs antes de configurar.');portalPrepareAcademics_(ss);return {ok:true,message:'Preparado. Se conservaron las hojas y los folios existentes.'};
+}
+function doGet(){return portalJSON_({ok:false,status:405,error:'Usa POST. No se admite JSONP para datos de alumnos.'});}
+function doPost(e){try{
+ var raw=String(e&&e.postData&&e.postData.contents||'');if(raw.length>7000000)throw Error('Solicitud demasiado grande.');var b=JSON.parse(raw||'{}'),action=String(b.action||'');
+ if(action==='health')return portalJSON_({ok:true,version:5,features:typeof portalAcademicReady_==='function'&&portalAcademicReady_()?['documents','credential','tasks']:[]});
+ var ss=SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID'));
+ if(action==='register')return portalJSON_(portalRegister_(ss,b));
+ if(action==='login')return portalJSON_(portalLogin_(ss,b));
+ if(action==='admin_login')return portalJSON_(portalAdminLogin_(ss,b));
+ var auth=portalSession_(ss,b.session);
+ if(action==='session')return portalJSON_(auth.role==='admin'?{ok:true,role:'admin',admin:portalAdminProfile_(auth.record)}:{ok:true,student:portalStudent_(auth.alumno)});
+ if(['documents','upload_document','document_file','credential','tasks','submit_task','task_file','submission_file','admin_documents','admin_document_file','admin_tasks','admin_task','admin_task_preview','admin_publish_task','admin_review_task','admin_task_file','admin_submission_file'].indexOf(action)>=0)return portalJSON_(portalAcademicAction_(ss,auth,b));
+ if(action.indexOf('admin_')===0)return portalJSON_(portalAdminAction_(ss,auth,b));
+ if(action==='logout'){var sh=ss.getSheetByName('_PORTAL_SESIONES'),lock=LockService.getScriptLock();lock.waitLock(10000);try{var row=portalRows_(ss,'_PORTAL_SESIONES').filter(function(r){return r.ID===auth.id;})[0];if(row)sh.deleteRow(row._row);}finally{lock.releaseLock();}return portalJSON_({ok:true});}
+ if(!auth.alumno)portalFail_('Usa una cuenta de alumno para consultar este espacio.',403);var a=auth.alumno,folio=String(a.FOLIO).trim().toUpperCase();
+ if(action==='dashboard'){var d=portalDashboard_(ss,a),reads=portalRows_(ss,'_PORTAL_LECTURAS').filter(function(r){return r.FOLIO===folio;});d.demo=false;d.modules=[];d.notices.forEach(function(n){n.read=reads.some(function(r){return String(r.AVISO)===n.id;});});return portalJSON_(d);}
+ if(action==='folio'){if(String(b.folio||'').trim().toUpperCase()!==folio)return portalJSON_({ok:false,status:404,error:'El folio no corresponde a tu cuenta.'});var d=portalDashboard_(ss,a);return portalJSON_({ok:true,student:d.student,progress:d.progress,average:d.average});}
+ if(action==='read'){var d=portalDashboard_(ss,a),id=String(b.id||'');if(!d.notices.some(function(n){return n.id===id;}))throw Error('Aviso no disponible.');var lock=LockService.getScriptLock();lock.waitLock(10000);try{if(!portalRows_(ss,'_PORTAL_LECTURAS').some(function(r){return r.FOLIO===folio&&String(r.AVISO)===id;}))ss.getSheetByName('_PORTAL_LECTURAS').appendRow([folio,id,new Date()]);}finally{lock.releaseLock();}return portalJSON_({ok:true});}
+ if(action==='payment'){portalValidatePayment_(b);return portalJSON_(portalPayment_(ss,a,b));}
+ if(action==='proof'){var p=portalRows_(ss,'PAGOS').filter(function(r){return String(r.FOLIO||'').trim().toUpperCase()===folio&&String(r.ID)===String(b.id);})[0];if(!p)throw Error('Comprobante no encontrado.');return portalJSON_(portalFile_(p.ARCHIVO||p.COMPROBANTE,false));}
+ if(action==='certificate'){var row=portalCertificate_(ss,folio);if(!row||!portalAuthorized_(row.ESTADO))throw Error('Constancia no autorizada.');if(portalDriveId_(row.ARCHIVO))return portalJSON_(portalFile_(row.ARCHIVO,true));var d=portalDashboard_(ss,a);d.demo=false;return portalJSON_({ok:true,data:d});}
+ if(action==='issue_report')return portalJSON_(portalIssueReport_(ss,a));
+ if(action==='validate'){var code=String(b.code||'').trim().toUpperCase();if(!/^EVR-[A-F0-9]{32}$/.test(code))throw Error('Código de documento inválido.');var row=portalRows_(ss,'_PORTAL_REPORTES').filter(function(r){return r.CODIGO===code;})[0];if(!row||(!auth.admin&&row.FOLIO!==folio))return portalJSON_({ok:false,status:404,error:'No se encontró un documento accesible con este código.'});if(portalHash_(String(row.SNAPSHOT))!==row.HUELLA)throw Error('No se pudo verificar la integridad del registro.');var data=JSON.parse(row.SNAPSHOT);data.ok=true;data.code=row.CODIGO;data.status=String(row.ESTADO);data.issuedAt=new Date(row.FECHA).toISOString();data.fingerprint=row.HUELLA;return portalJSON_(data);}
+ throw Error('Acción no disponible.');
+ }catch(err){return portalJSON_({ok:false,status:err.portalStatus||400,error:String(err.message||'No se pudo completar la solicitud.')});}}
+function portalFail_(message,status){var e=Error(message);e.portalStatus=status;throw e;}
+function portalHash_(s){return Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256,String(s)).map(function(b){return ('0'+((b+256)%256).toString(16)).slice(-2);}).join('');}
+function portalFindAlumno_(ss,folio){var rows=portalRows_(ss,'ALUMNOS').filter(function(r){return String(r.FOLIO||'').trim().toUpperCase()===folio;});if(rows.length!==1)portalFail_('La cuenta requiere revisión de administración.',401);var a=rows[0];if(['BAJA','INACTIVO','SUSPENDIDO','CANCELADO'].indexOf(portalText_(a.ESTADO))>=0)portalFail_('La cuenta requiere revisión de administración.',401);return a;}
+function portalLogin_(ss,b){var email=String(b.email||'').trim().toLowerCase(),password=String(b.password||'');if(!email||email.length>254||!password||password.length>200)portalFail_('Correo o contraseña incorrectos.',401);
+ var cache=CacheService.getScriptCache(),key='login:'+portalHash_(email),lock=LockService.getScriptLock();lock.waitLock(10000);try{var n=Number(cache.get(key)||0)+1;cache.put(key,String(n),900);if(n>8)portalFail_('Demasiados intentos. Intenta de nuevo en 15 minutos.',429);}finally{lock.releaseLock();}
+ var rows=portalRows_(ss,'ALUMNOS').filter(function(r){return [r.CORREO_PERSONAL,r.CORREO_INSTITUCIONAL].some(function(v){return String(v||'').trim().toLowerCase()===email;});});
+ if(rows.length!==1||!portalCheckPassword_(password,String(rows[0]['CONTRASEÑA']||'')))portalFail_('Correo o contraseña incorrectos.',401);
+ var folio=String(rows[0].FOLIO||'').trim().toUpperCase();if(!/^EVOLVA-\d{6}$/.test(folio))throw Error('El folio debe revisarse con administración.');var a=portalFindAlumno_(ss,folio),value=Utilities.getUuid().replace(/-/g,'')+Utilities.getUuid().replace(/-/g,''),now=Date.now();
+ lock=LockService.getScriptLock();lock.waitLock(10000);try{var sh=ss.getSheetByName('_PORTAL_SESIONES');if(!sh)throw Error('La administración debe ejecutar configurarPortalPages.');var old=portalRows_(ss,'_PORTAL_SESIONES');for(var i=old.length-1;i>=0;i--)if(new Date(old[i].EXPIRA).getTime()<now)sh.deleteRow(old[i]._row);sh.appendRow([portalHash_(value),folio,email,new Date(now+8*60*60*1000),new Date(now)]);}finally{lock.releaseLock();}cache.remove(key);return {ok:true,session:value,student:portalStudent_(a)};
+}
+function portalSession_(ss,value){if(!/^[A-Fa-f0-9]{64}$/.test(String(value||'')))portalFail_('Inicia sesión para continuar.',401);var id=portalHash_(value),row=portalRows_(ss,'_PORTAL_SESIONES').filter(function(r){return r.ID===id;})[0];if(!row||!(new Date(row.EXPIRA).getTime()>Date.now()))portalFail_('Tu sesión venció. Inicia sesión de nuevo.',401);if(row.FOLIO==='@ADMIN'){var admin=portalAdminRecord_(ss,String(row.EMAIL).toLowerCase());return {id:id,role:'admin',admin:true,email:String(row.EMAIL).toLowerCase(),record:admin,alumno:null};}var a=portalFindAlumno_(ss,row.FOLIO),admins=String(PropertiesService.getScriptProperties().getProperty('PORTAL_ADMIN_EMAILS')||'').toLowerCase().split(',').map(function(x){return x.trim();});return {id:id,alumno:a,admin:admins.indexOf(String(row.EMAIL).toLowerCase())>=0};}
+function portalValidatePayment_(b){if(!Number.isFinite(Number(b.amount))||Number(b.amount)<=0||Number(b.amount)>100000||String(b.reference||'').length<3||String(b.reference).length>80||String(b.period||'').length<1||String(b.period).length>60||/[\r\n]/.test(String(b.reference)+String(b.period)))throw Error('Revisa los datos del pago.');var bytes=Utilities.base64Decode(String(b.base64||''));if(!bytes.length||bytes.length>2*1024*1024)throw Error('Comprobante de hasta 2 MB.');var v=bytes.map(function(b){return (b+256)%256;}),pdf=v.slice(0,5).map(function(x){return String.fromCharCode(x);}).join('')==='%PDF-',png=v[0]===137&&v[1]===80&&v[2]===78&&v[3]===71,jpg=v[0]===255&&v[1]===216&&v[2]===255;var mime=pdf?'application/pdf':png?'image/png':jpg?'image/jpeg':'';if(!mime||mime!==b.mime)throw Error('El contenido del archivo no coincide con PDF, PNG o JPG.');}
+function portalIssueReport_(ss,a){var d=portalDashboard_(ss,a),origin=String(PropertiesService.getScriptProperties().getProperty('PORTAL_PUBLIC_URL')||'').replace(/\/+$/,'');if(!/^https:\/\/[A-Za-z0-9.-]+(?:\/[^?#]*)?$/.test(origin))throw Error('La administración debe configurar PORTAL_PUBLIC_URL con la URL HTTPS del portal.');var code='EVR-'+Utilities.getUuid().replace(/-/g,'').toUpperCase(),now=new Date().toISOString(),signer={name:'Alexis Soto',role:'Director General'},snapshot={title:'Reporte académico de calificaciones',demo:false,student:{name:d.student.name,folio:d.student.folio,course:d.student.course,group:d.student.group||'Sin asignar'},progress:d.progress,average:d.average,grades:d.grades,signer:signer},serialized=JSON.stringify(snapshot),fingerprint=portalHash_(serialized);var lock=LockService.getScriptLock();lock.waitLock(10000);try{ss.getSheetByName('_PORTAL_REPORTES').appendRow([code,d.student.folio,now,'vigente',serialized,fingerprint]);}finally{lock.releaseLock();}return {ok:true,snapshot:snapshot,meta:{code:code,issuedAt:now,validationUrl:origin+'/validar.html?codigo='+code,signer:signer}};}
+
+function portalJSON_(x){return ContentService.createTextOutput(JSON.stringify(x)).setMimeType(ContentService.MimeType.JSON);}
+function portalText_(x){return String(x||'').trim().toUpperCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');}
+function portalEqual_(a,b){var x=Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256,a),y=Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256,b),n=0;for(var i=0;i<x.length;i++)n|=x[i]^y[i];return n===0;}
+function portalHeaders_(sh){if(sh.getLastRow()<1)return [];return sh.getRange(1,1,1,sh.getLastColumn()).getDisplayValues()[0].map(function(x){return String(x).trim().toUpperCase();});}
+function portalRows_(ss,name){var sh=ss.getSheetByName(name);if(!sh||sh.getLastRow()<2)return [];var h=portalHeaders_(sh);return sh.getRange(2,1,sh.getLastRow()-1,h.length).getValues().map(function(row,i){var o={_row:i+2};h.forEach(function(k,j){o[k]=row[j];});return o;});}
+function portalNumber_(v){if(v===null||v===undefined||String(v).trim()==='')return null;var n=Number(String(v).replace('%','').replace(',','.'));return isFinite(n)?n:null;}
+function portalDate_(v){if(v instanceof Date)return Utilities.formatDate(v,'America/Ciudad_Juarez','yyyy-MM-dd');return String(v||'').slice(0,10)||Utilities.formatDate(new Date(),'America/Ciudad_Juarez','yyyy-MM-dd');}
+function portalStudent_(a){return {name:String(a.NOMBRE||''),email:String(a.CORREO_PERSONAL||''),institutional:String(a.CORREO_INSTITUCIONAL||''),folio:String(a.FOLIO).trim().toUpperCase(),course:String(a.DIPLOMADO||''),group:String(a.GRUPO||''),status:String(a.ESTADO||'Activo'),registered:portalDate_(a.FECHA_REGISTRO)};}
+function portalOwn_(r,a){return String(r.FOLIO||'').trim().toUpperCase()===String(a.FOLIO).trim().toUpperCase()&&(!r.DIPLOMADO||portalText_(r.DIPLOMADO)===portalText_(a.DIPLOMADO));}
+function portalAuthorized_(v){return ['DISPONIBLE','EMITIDA','EMITIDO','APROBADA','APROBADO','AUTORIZADA','AUTORIZADO','LISTA','LISTO','GENERADA','GENERADO'].indexOf(portalText_(v))>=0;}
+function portalCertificate_(ss,folio){var rows=portalRows_(ss,'CONSTANCIAS').filter(function(r){return String(r.FOLIO||'').trim().toUpperCase()===folio;});return rows.filter(function(r){return portalAuthorized_(r.ESTADO);})[0]||rows[0]||null;}
+function portalUrl_(v){var s=String(v||'').trim();return /^https:\/\//i.test(s)?s:'';}
+function portalDashboard_(ss,a){
+ var student=portalStudent_(a),evals=portalRows_(ss,'EVALUACIONES').filter(function(r){return portalOwn_(r,a);}),ex=portalRows_(ss,'EXAMENES').filter(function(r){return portalOwn_(r,a);});
+ var grades=evals.length?evals.map(function(r,i){return {id:portalGradeId_(r),module:String(r.MODULO||r.CLAVE||'Evaluación'),title:String(r.EVALUACION||r.EXAMEN||'Evaluación'),score:portalNumber_(r.CALIFICACION!==undefined?r.CALIFICACION:r.CALIFICACIONES),status:String(r.ESTADO||'Pendiente')};}):['M1','M2','M3','M4'].map(function(k){return {id:k,module:k,title:'Módulo '+k.slice(1),score:portalNumber_(a[k]),status:portalNumber_(a[k])===null?'Pendiente':'Evaluado'};});
+ var done=grades.filter(function(g){return g.score!==null;}),average=evals.length?null:portalNumber_(a.PROMEDIO),progress=evals.length?null:portalNumber_(a.AVANCE);if(average===null)average=done.length?Math.round(done.reduce(function(s,g){return s+g.score;},0)/done.length*10)/10:null;if(progress===null)progress=Math.round(done.length/Math.max(grades.length,1)*100);progress=Math.max(0,Math.min(100,progress));
+ var notices=portalRows_(ss,'AVISOS').filter(function(r){return (!r.FOLIO||String(r.FOLIO).trim().toUpperCase()===student.folio)&&(!r.DIPLOMADO||portalText_(r.DIPLOMADO)===portalText_(a.DIPLOMADO));}).map(function(r){return {id:String(r.ID||r._row),title:String(r.TITULO||'Aviso'),body:String(r.MENSAJE||''),date:portalDate_(r.FECHA),type:'Campus',read:false};}).sort(function(x,y){return y.date.localeCompare(x.date);});
+ var payments=portalRows_(ss,'PAGOS').filter(function(r){return String(r.FOLIO||'').trim().toUpperCase()===student.folio;}).map(function(r){var obs=String(r.OBSERVACIONES||''),match=obs.match(/Periodo: ([^\n]+)/);return {id:String(r.ID||r._row),amount:portalNumber_(r.MONTO)||0,period:match?match[1]:'Pago registrado',reference:String(r.COMPROBANTE||''),created:portalDate_(r.FECHA),status:String(r.ESTADO||'En revisión'),proof:!!portalDriveId_(r.ARCHIVO),url:portalDriveId_(r.ARCHIVO)?'':portalUrl_(r.ARCHIVO)};}).sort(function(x,y){return y.created.localeCompare(x.created);});
+ var cert=portalCertificate_(ss,student.folio),isPA=portalText_(a.DIPLOMADO).indexOf('AUXILIOS')>=0;
+ return {ok:true,student:student,grades:grades,average:average,progress:progress,exams:ex.map(function(r,i){return {id:String(r.ID||i),module:String(r.MODULO||'Evaluación'),title:String(r.EXAMEN||'Examen'),score:(function(){var g=grades.filter(function(g){return g.id===String(r.ID);})[0];return g?g.score:portalNumber_(r.CALIFICACION!==undefined?r.CALIFICACION:r.CALIFICACIONES);})(),duration:portalNumber_(r.DURACION)||10,locked:portalText_(r.ESTADO)==='BLOQUEADO',url:portalUrl_(r.URL||r.ENLACE||r.LINK)};}),notices:notices,payments:payments,certificate:{eligible:!!cert&&portalAuthorized_(cert.ESTADO),status:cert?String(cert.ESTADO):'Pendiente',hasFile:!!cert&&!!portalDriveId_(cert.ARCHIVO)},plan:{monthly:isPA?500:400,weekly:isPA?150:100,months:isPA?8:6}};
+}
+function portalDriveId_(value){var s=String(value||'');if(/^[A-Za-z0-9_-]{20,}$/.test(s))return s;var m=s.match(/^https:\/\/(?:drive|docs)\.google\.com\/(?:file\/d\/|document\/d\/|open\?id=|uc\?(?:export=download&)?id=)([A-Za-z0-9_-]{20,})/);return m?m[1]:'';}
+function portalFile_(url,pdfOnly){var id=portalDriveId_(url);if(!id)throw Error('Archivo de Drive no disponible.');var f=DriveApp.getFileById(id);if(f.getSize()>5*1024*1024)throw Error('El archivo excede 5 MB. Solicítalo a administración.');var blob=f.getBlob(),mime=blob.getContentType();if(pdfOnly&&mime!=='application/pdf')throw Error('La constancia registrada no es PDF.');if(['application/pdf','image/png','image/jpeg'].indexOf(mime)<0)throw Error('Tipo de archivo no admitido.');return {ok:true,base64:Utilities.base64Encode(blob.getBytes()),mime:mime};}
+function portalPayment_(ss,a,b){
+ if(!isFinite(Number(b.amount))||Number(b.amount)<=0||Number(b.amount)>100000||!String(b.reference||'').trim()||!String(b.period||'').trim()||!/^[a-f0-9-]{36}$/.test(String(b.requestId||'')))throw Error('Datos de pago inválidos.');
+ if(['application/pdf','image/png','image/jpeg'].indexOf(b.mime)<0)throw Error('Archivo inválido.');var bytes=Utilities.base64Decode(String(b.base64||''));if(!bytes.length||bytes.length>2*1024*1024)throw Error('Comprobante de hasta 2 MB.');
+ var lock=LockService.getScriptLock();lock.waitLock(30000);var file;
+ try {var folio=String(a.FOLIO).trim().toUpperCase(),old=portalRows_(ss,'PAGOS').filter(function(r){return String(r.FOLIO||'').trim().toUpperCase()===folio;});if(old.some(function(r){return String(r.OBSERVACIONES||'').indexOf('Solicitud: '+b.requestId)>=0;}))return {ok:true};if(old.some(function(r){return String(r.COMPROBANTE||'')===String(b.reference)&&String(r.OBSERVACIONES||'').indexOf('Periodo: '+b.period+'\n')>=0;}))throw Error('La referencia ya se registró para este periodo.');
+  var props=PropertiesService.getScriptProperties(),folderId=props.getProperty('PORTAL_PROOFS_FOLDER_ID'),folder;if(folderId)folder=DriveApp.getFolderById(folderId);else{folder=DriveApp.createFolder('Evolva Campus - Comprobantes privados');props.setProperty('PORTAL_PROOFS_FOLDER_ID',folder.getId());}
+  file=folder.createFile(Utilities.newBlob(bytes,b.mime,folio+'-'+b.requestId+'.'+(b.mime==='application/pdf'?'pdf':b.mime==='image/png'?'png':'jpg')));
+  // No se habilita el uso compartido del archivo ni de la carpeta.
+  var safe=function(v){var s=String(v);return /^[=+@-]/.test(s)?"'"+s:s;};
+  var obj={ID:Utilities.getUuid(),FOLIO:folio,MONTO:Number(b.amount),COMPROBANTE:safe(b.reference),ESTADO:'En revisión',FECHA:new Date(),OBSERVACIONES:'Periodo: '+safe(b.period)+'\nSolicitud: '+b.requestId+'\nRegistrado desde Campus privado',ARCHIVO:file.getUrl()};var sh=ss.getSheetByName('PAGOS'),headers=portalHeaders_(sh);['ID','FOLIO','MONTO','COMPROBANTE','ESTADO','FECHA','OBSERVACIONES','ARCHIVO'].forEach(function(k){if(headers.indexOf(k)<0)throw Error('Falta columna '+k+' en PAGOS.');});sh.appendRow(headers.map(function(k){return obj[k]===undefined?'':obj[k];}));return {ok:true};
+ }catch(err){if(file)file.setTrashed(true);throw err;}finally{lock.releaseLock();}
+}
+
+
+// ===== RegistroPages.gs =====
+/** Evolva Academy · Registro POST y configuración, versión 5.
+ * Instalar este archivo junto con PortalPages.gs, AdminPages.gs y ExpedienteTareas.gs.
+ * Las propiedades y los datos de la hoja permanecen en la cuenta de Google.
+ */
+function configurarDesdeHojaActiva(){
+ var ss=SpreadsheetApp.getActiveSpreadsheet();
+ if(!ss)throw Error('Abre este proyecto desde Extensiones > Apps Script de la hoja de Evolva.');
+ PropertiesService.getScriptProperties().setProperty('SPREADSHEET_ID',ss.getId());
+ return configurarPortalPages();
+}
+function portalPrepareRegistration_(){
+ var p=PropertiesService.getScriptProperties();
+ if(!p.getProperty('PORTAL_SETUP_OWNER_EMAIL')){var owner=Session.getEffectiveUser().getEmail();if(owner)p.setProperty('PORTAL_SETUP_OWNER_EMAIL',String(owner).toLowerCase());}
+ if(!p.getProperty('PORTAL_PUBLIC_URL'))p.setProperty('PORTAL_PUBLIC_URL','https://evolvacademy.mx/campus');
+ if(!p.getProperty('PORTAL_PASSWORD_PEPPER'))p.setProperty('PORTAL_PASSWORD_PEPPER',Utilities.getUuid()+Utilities.getUuid());
+}
+function diagnosticarConexion(){
+ var p=PropertiesService.getScriptProperties(),id=p.getProperty('SPREADSHEET_ID');
+ if(!id)throw Error('Ejecuta configurarDesdeHojaActiva o configura SPREADSHEET_ID.');
+ var ss=SpreadsheetApp.openById(id),names=['ALUMNOS','EVALUACIONES','EXAMENES','AVISOS','PAGOS','CONSTANCIAS','_PORTAL_SESIONES','_PORTAL_REPORTES','_PORTAL_LECTURAS','_PORTAL_ADMINISTRADORES','_PORTAL_AUDITORIA','_PORTAL_DOCUMENTOS','_PORTAL_TAREAS','_PORTAL_TAREA_ALUMNOS','_PORTAL_ENTREGAS'];
+ return {ok:true,version:5,academicConfigured:portalAcademicReady_(),registrationConfigured:!!(p.getProperty('PORTAL_TURNSTILE_SECRET')||p.getProperty('TURNSTILE_SECRET')),sheets:names.map(function(n){var sh=ss.getSheetByName(n);return {name:n,exists:!!sh,columns:sh?portalHeaders_(sh):[],records:sh?Math.max(0,sh.getLastRow()-1):0};})};
+}
+function portalPassword_(password,salt){
+ var pepper=PropertiesService.getScriptProperties().getProperty('PORTAL_PASSWORD_PEPPER');
+ if(!pepper)throw Error('La administración debe ejecutar configurarPortalPages.');
+ var bytes=Utilities.computeHmacSha256Signature(String(salt)+'\n'+String(password),pepper);
+ return bytes.map(function(b){return ('0'+((b+256)%256).toString(16)).slice(-2);}).join('');
+}
+function portalNewPassword_(password){var salt=Utilities.getUuid().replace(/-/g,'');return 'EAP3$'+salt+'$'+portalPassword_(password,salt);}
+function portalCheckPassword_(password,stored){
+ var s=String(stored||'');
+ if(s.indexOf('EAP3$')!==0)return portalEqual_(String(password),s);
+ var parts=s.split('$');if(parts.length!==3||!/^[a-f0-9]{32}$/.test(parts[1])||!/^[a-f0-9]{64}$/.test(parts[2]))return false;
+ return portalEqual_(portalPassword_(password,parts[1]),parts[2]);
+}
+function portalTurnstile_(token){
+ var p=PropertiesService.getScriptProperties(),secret=p.getProperty('PORTAL_TURNSTILE_SECRET')||p.getProperty('TURNSTILE_SECRET');
+ if(!secret)throw Error('El registro está pendiente de activación por administración.');
+ if(!token||String(token).length>2048)throw Error('Completa la verificación de seguridad.');
+ var result=UrlFetchApp.fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify',{method:'post',payload:{secret:secret,response:String(token)},muteHttpExceptions:true});
+ var data;try{data=JSON.parse(result.getContentText());}catch(e){throw Error('No fue posible verificar la solicitud. Intenta nuevamente.');}
+ var origin=String(p.getProperty('PORTAL_PUBLIC_URL')||''),match=origin.match(/^https:\/\/([^/:?#]+)/i);
+ if(result.getResponseCode()!==200||!data.success||!match||String(data.hostname||'').toLowerCase()!==match[1].toLowerCase())throw Error('La verificación de seguridad no es válida o expiró. Complétala nuevamente.');
+}
+function portalRegister_(ss,b){
+ var name=String(b.nombre||'').trim(),email=String(b.email||'').trim().toLowerCase(),curp=String(b.curp||'').trim().toUpperCase(),age=Number(b.edad),state=String(b.estado||'').trim(),birth=String(b.fecha||''),course=String(b.diplomado||'').trim();
+ if(name.length<2||name.length>160||!/^\S+@\S+\.\S+$/.test(email)||email.length>160||!/^[A-Z0-9]{18}$/.test(curp)||!Number.isInteger(age)||age<15||age>100||!state||state.length>80||!/^\d{4}-\d{2}-\d{2}$/.test(birth)||['Finanzas Personales','Primeros Auxilios'].indexOf(course)<0)throw Error('Revisa los datos del formulario.');
+ var born=new Date(birth+'T12:00:00Z');if(!isFinite(born.getTime())||born.toISOString().slice(0,10)!==birth||born.getTime()>Date.now())throw Error('Revisa la fecha de nacimiento.');
+ var admins=String(PropertiesService.getScriptProperties().getProperty('PORTAL_ADMIN_EMAILS')||'').toLowerCase().split(',').map(function(x){return x.trim();});
+ if(admins.indexOf(email)>=0||portalRows_(ss,'_PORTAL_ADMINISTRADORES').some(function(r){return String(r.EMAIL||'').trim().toLowerCase()===email;}))throw Error('Solicita a administración el alta de esta cuenta.');
+ var cache=CacheService.getScriptCache(),key='register:'+portalHash_(email),count=Number(cache.get(key)||0)+1;cache.put(key,String(count),3600);if(count>6)portalFail_('Demasiados intentos. Intenta nuevamente más tarde.',429);
+ portalTurnstile_(b.turnstileToken);
+ if(!portalAcademicReady_())throw Error('La inscripción con documentos está pendiente de activación.');
+ var requestId=portalRequestId_(b.requestId),curpDocument=portalUpload_(b.curpFile,'curp'),photoDocument=portalUpload_(b.photoFile,'photo');
+ var lock=LockService.getScriptLock();lock.waitLock(30000);
+ try{
+  var existing=portalRows_(ss,'ALUMNOS');
+  if(existing.some(function(a){return [a.CORREO_PERSONAL,a.CORREO_INSTITUCIONAL].some(function(v){return String(v||'').trim().toLowerCase()===email;})||String(a.CURP||'').trim().toUpperCase()===curp;}))throw Error('Ya existe un registro con esos datos. Solicita ayuda a administración; no vuelvas a inscribirte.');
+  var used={};['ALUMNOS','EVALUACIONES','EXAMENES','PAGOS','CONSTANCIAS','_PORTAL_SESIONES','_PORTAL_REPORTES'].forEach(function(n){portalRows_(ss,n).forEach(function(r){used[String(r.FOLIO||'').trim().toUpperCase()]=true;});});
+  var folio='';for(var i=0;i<20;i++){var number=parseInt(Utilities.getUuid().replace(/-/g,'').slice(0,8),16)%999999+1,candidate='EVOLVA-'+('000000'+number).slice(-6);if(!used[candidate]){folio=candidate;break;}}
+  if(!folio)throw Error('No fue posible asignar un folio. Contacta a administración.');
+  var password=Utilities.getUuid().replace(/-/g,'').slice(0,16),now=new Date(),safe=function(v){var s=String(v);return /^[=+@-]/.test(s)?"'"+s:s;};
+  var obj={ID:Utilities.getUuid(),FOLIO:folio,NOMBRE:safe(name),CORREO_PERSONAL:email,CORREO_INSTITUCIONAL:'',CURP:curp,DIPLOMADO:course,'CONTRASEÑA':portalNewPassword_(password),ESTADO:'REGISTRADO',PAGO:'PENDIENTE',AVANCE:0,PROMEDIO:'',M1:'',M2:'',M3:'',M4:'',GRUPO:'',EDAD:age,ESTADO_RESIDENCIA:safe(state),FECHA_NACIMIENTO:birth,FECHA_REGISTRO:now};
+  var sh=ss.getSheetByName('ALUMNOS'),headers=portalHeaders_(sh),documents;
+  try{documents=portalRegistrationDocuments_(ss,folio,requestId,curpDocument,photoDocument);sh.appendRow(headers.map(function(h){return obj[h]===undefined?'':obj[h];}));}
+  catch(err){if(documents){portalDeleteNewRows_(ss,'_PORTAL_DOCUMENTOS',documents.ids);portalDeleteNewRows_(ss,'ALUMNOS',[obj.ID]);documents.files.forEach(function(file){file.setTrashed(true);});}throw err;}
+  cache.remove(key);return {ok:true,folio:folio,password:password,alumno:{CORREO_PERSONAL:email}};
+ }finally{lock.releaseLock();}
+}
+
+
+// ===== AdminPages.gs =====
+/** Evolva Academy · Administración académica. Nunca enviar hashes al navegador. */
+function portalRequireAdmin_(auth){if(!auth||auth.role!=='admin')portalFail_('Esta operación requiere una cuenta administrativa.',403);}
+function portalAdminRecord_(ss,email){var rows=portalRows_(ss,'_PORTAL_ADMINISTRADORES').filter(function(r){return String(r.EMAIL||'').trim().toLowerCase()===email;});if(rows.length!==1||portalText_(rows[0].ESTADO)!=='ACTIVO'||!rows[0].HASH)portalFail_('Correo o contraseña incorrectos.',401);return rows[0];}
+function portalAdminLogin_(ss,b){
+ var email=String(b.email||'').trim().toLowerCase(),password=String(b.password||'');
+ if(!email||email.length>254||!password||password.length>200)portalFail_('Correo o contraseña incorrectos.',401);
+ var cache=CacheService.getScriptCache(),key='admin-login:'+portalHash_(email),lock=LockService.getScriptLock();lock.waitLock(10000);
+ try{var count=Number(cache.get(key)||0)+1;cache.put(key,String(count),900);if(count>8)portalFail_('Demasiados intentos. Intenta nuevamente en 15 minutos.',429);}finally{lock.releaseLock();}
+ var admin=portalAdminRecord_(ss,email);if(!portalCheckPassword_(password,admin.HASH))portalFail_('Correo o contraseña incorrectos.',401);
+ var token=Utilities.getUuid().replace(/-/g,'')+Utilities.getUuid().replace(/-/g,''),now=Date.now();
+ lock.waitLock(10000);try{ss.getSheetByName('_PORTAL_SESIONES').appendRow([portalHash_(token),'@ADMIN',email,new Date(now+8*60*60*1000),new Date(now)]);}finally{lock.releaseLock();}
+ cache.remove(key);return {ok:true,session:token,admin:{name:String(admin.NOMBRE||'Administración'),email:email}};
+}
+function portalAdminProfile_(a){return {name:String(a.NOMBRE||'Administración'),email:String(a.EMAIL||'')};}
+function portalAdminStudent_(ss,folio){var a=portalFindAlumno_(ss,folio),d=portalDashboard_(ss,a),rows=portalRows_(ss,'EVALUACIONES').filter(function(r){return portalOwn_(r,a);});return {ok:true,student:d.student,average:d.average,progress:d.progress,grades:d.grades.map(function(g){var r=rows.filter(function(r){return portalGradeId_(r)===g.id;})[0];g.revision=r?portalGradeRevision_(r):portalLegacyGradeRevision_(a);return g;}),exams:d.exams};}
+function portalLegacyGradeRevision_(a){return 'LEGACY-'+portalHash_(JSON.stringify([a.FOLIO,a.DIPLOMADO,a.M1,a.M2,a.M3,a.M4]));}
+function portalPreserveLegacyGrades_(ss,a){
+ if(portalRows_(ss,'EVALUACIONES').some(function(r){return portalOwn_(r,a);}))return;
+ // Keep the four previously visible modules when this student first uses detailed evaluations.
+ var headers=portalHeaders_(ss.getSheetByName('EVALUACIONES')),folio=String(a.FOLIO).trim().toUpperCase(),rows=['M1','M2','M3','M4'].map(function(k){var score=portalNumber_(a[k]),obj={ID:k,FOLIO:folio,DIPLOMADO:a.DIPLOMADO,MODULO:k,CLAVE:k,EVALUACION:'Módulo '+k.slice(1),CALIFICACION:score===null?'':score,CALIFICACIONES:score===null?'':score,ESTADO:score===null?'Pendiente':'Evaluado',FECHA:new Date()};return headers.map(function(h){return obj[h]===undefined?'':obj[h];});}),sh=ss.getSheetByName('EVALUACIONES');
+ sh.getRange(sh.getLastRow()+1,1,rows.length,headers.length).setValues(rows);
+}
+function portalGradeId_(r){return String(r.ID||r.CLAVE||'ROW-'+r._row);}
+function portalGradeRevision_(r){return portalHash_(JSON.stringify([r.FOLIO,r.DIPLOMADO,r.MODULO,r.CLAVE,r.EVALUACION,r.CALIFICACION,r.CALIFICACIONES,r.ESTADO]));}
+function portalSafeCell_(v){var s=String(v);return /^\s*[=+@-]/.test(s)?"'"+s:s;}
+function portalPutRow_(ss,name,row,obj){
+ var sh=ss.getSheetByName(name);if(!sh)throw Error('Ejecuta configurarPortalPages antes de continuar.');var headers=portalHeaders_(sh),values=headers.map(function(){return '';});
+ if(row){var range=sh.getRange(row,1,1,headers.length),old=range.getValues()[0],formulas=range.getFormulas()[0];values=old.map(function(v,i){return formulas[i]||v;});}
+ headers.forEach(function(h,i){if(Object.prototype.hasOwnProperty.call(obj,h))values[i]=obj[h];});
+ if(row)sh.getRange(row,1,1,headers.length).setValues([values]);else sh.appendRow(values);
+}
+function portalAudit_(ss,auth,action,folio,reference,before,after){ss.getSheetByName('_PORTAL_AUDITORIA').appendRow([Utilities.getUuid(),auth.email,action,folio,reference,JSON.stringify(before||{}),JSON.stringify(after||{}),new Date()]);}
+function portalAdminAction_(ss,auth,b){
+ portalRequireAdmin_(auth);var action=String(b.action||'');
+ if(action==='admin_session')return {ok:true,admin:portalAdminProfile_(auth.record)};
+ if(action==='admin_students'){
+  var q=String(b.query||'').trim().toLowerCase().slice(0,120),offset=Math.max(0,Math.floor(Number(b.offset)||0)),all=portalRows_(ss,'ALUMNOS').filter(function(a){return /^EVOLVA-\d{6}$/.test(String(a.FOLIO||'').trim().toUpperCase());});
+  var filtered=all.filter(function(a){return !q||[a.FOLIO,a.NOMBRE,a.CORREO_PERSONAL,a.DIPLOMADO,a.GRUPO].some(function(v){return String(v||'').toLowerCase().indexOf(q)>=0;});});
+  return {ok:true,total:filtered.length,students:filtered.slice(offset,offset+40).map(portalStudent_),courses:all.map(function(a){return String(a.DIPLOMADO||'');}).filter(function(v,i,a){return v&&a.indexOf(v)===i;}),groups:all.map(function(a){return {course:String(a.DIPLOMADO||''),group:String(a.GRUPO||'')};}).filter(function(v,i,a){return v.group&&a.findIndex(function(x){return x.course===v.course&&x.group===v.group;})===i;})};
+ }
+ if(action==='admin_student')return portalAdminStudent_(ss,String(b.folio||'').trim().toUpperCase());
+ if(action==='admin_save_grade')return portalAdminSaveGrade_(ss,auth,b);
+ if(action==='admin_exam_preview'){var targets=portalExamRecipients_(ss,b);return {ok:true,count:targets.length,fingerprint:portalRecipientsHash_(targets)};}
+ if(action==='admin_publish_exam')return portalAdminPublishExam_(ss,auth,b);
+ throw Error('Acción administrativa no disponible.');
+}
+function portalAdminSaveGrade_(ss,auth,b){
+ var folio=String(b.folio||'').trim().toUpperCase(),id=String(b.id||''),title=String(b.title||'').trim(),module=String(b.module||'').trim(),score=b.score===null||b.score===''?null:Number(b.score),status=String(b.status||(score===null?'Pendiente':'Calificado')).trim();
+ if(!/^EVOLVA-\d{6}$/.test(folio)||id.length>100||!title||title.length>180||!module||module.length>40||status.length>40||(score!==null&&(!Number.isFinite(score)||score<0||score>10)))throw Error('Revisa la evaluación y usa una calificación de 0 a 10.');
+ var lock=LockService.getScriptLock();lock.waitLock(30000);
+ try{
+  var a=portalFindAlumno_(ss,folio),rows=portalRows_(ss,'EVALUACIONES').filter(function(r){return portalOwn_(r,a);}),legacy=rows.length===0&&/^M[1-4]$/.test(id);
+  if(legacy&&String(b.revision||'')!==portalLegacyGradeRevision_(a))portalFail_('La evaluación cambió desde que la abriste. Actualiza antes de guardar.',409);
+  if(!rows.length){portalPreserveLegacyGrades_(ss,a);rows=portalRows_(ss,'EVALUACIONES').filter(function(r){return portalOwn_(r,a);});}
+  var matches=rows.filter(function(r){return portalGradeId_(r)===id;});
+  if(matches.length>1)throw Error('La evaluación tiene identificadores duplicados. Revisa la hoja.');var old=matches[0];
+  if(old&&!legacy&&String(b.revision||'')!==portalGradeRevision_(old))portalFail_('La evaluación cambió desde que la abriste. Actualiza antes de guardar.',409);
+  var key=old?String(old.ID||old.CLAVE||''):id;if(!key||/^ROW-/.test(key))key=Utilities.getUuid();
+  var update={ID:key,FOLIO:folio,DIPLOMADO:a.DIPLOMADO,MODULO:portalSafeCell_(module),EVALUACION:portalSafeCell_(title),CALIFICACION:score===null?'':score,CALIFICACIONES:score===null?'':score,ESTADO:portalSafeCell_(status),FECHA:new Date()};
+  portalPutRow_(ss,'EVALUACIONES',old?old._row:0,update);
+  portalAudit_(ss,auth,'CALIFICACION',folio,key,old?{title:old.EVALUACION,score:old.CALIFICACION!==undefined?old.CALIFICACION:old.CALIFICACIONES}:null,{title:title,module:module,score:score,status:status});
+  return portalAdminStudent_(ss,folio);
+ }finally{lock.releaseLock();}
+}
+function portalExamRecipients_(ss,b){
+ var scope=String(b.scope||''),folio=String(b.folio||'').trim().toUpperCase(),course=String(b.course||''),group=String(b.group||'');
+ if(['student','course','group'].indexOf(scope)<0||(scope==='student'&&!/^EVOLVA-\d{6}$/.test(folio))||(scope!=='student'&&!course)||(scope==='group'&&!group))throw Error('Selecciona los destinatarios del examen.');
+ var targets=portalRows_(ss,'ALUMNOS').filter(function(a){return /^EVOLVA-\d{6}$/.test(String(a.FOLIO||'').trim().toUpperCase())&&['BAJA','INACTIVO','SUSPENDIDO','CANCELADO'].indexOf(portalText_(a.ESTADO))<0&&(scope==='student'?String(a.FOLIO).trim().toUpperCase()===folio:portalText_(a.DIPLOMADO)===portalText_(course)&&(scope!=='group'||String(a.GRUPO||'')===group));});
+ if(!targets.length)throw Error('No hay alumnos activos en esa selección.');if(targets.length>200)throw Error('Publica por grupos de hasta 200 alumnos.');
+ var seen={};targets.forEach(function(a){var f=String(a.FOLIO).trim().toUpperCase();if(seen[f])throw Error('Hay folios duplicados en la selección. Revisa la base.');seen[f]=true;});return targets;
+}
+function portalRecipientsHash_(targets){return portalHash_(targets.map(function(a){return String(a.FOLIO).trim().toUpperCase();}).sort().join('|'));}
+function portalAdminPublishExam_(ss,auth,b){
+ var title=String(b.title||'').trim(),module=String(b.module||'').trim(),url=String(b.url||'').trim(),duration=Number(b.duration)||10,requestId=String(b.requestId||'');
+ if(!title||title.length>180||!module||module.length>40||!/^https:\/\/[A-Za-z0-9.-]+(?::\d+)?(?:[\/?#][^\s]*)?$/.test(url)||url.length>1500||!Number.isInteger(duration)||duration<1||duration>600||!/^[a-f0-9-]{36}$/.test(requestId))throw Error('Revisa el título, módulo, duración y enlace HTTPS del examen.');
+ var lock=LockService.getScriptLock();lock.waitLock(30000);
+ try{
+  var targets=portalExamRecipients_(ss,b);if(String(b.fingerprint||'')!==portalRecipientsHash_(targets))portalFail_('La selección de alumnos cambió. Revisa los destinatarios otra vez.',409);
+  var ex=portalRows_(ss,'EXAMENES'),grades=portalRows_(ss,'EVALUACIONES'),created=0;
+  targets.forEach(function(a){portalPreserveLegacyGrades_(ss,a);var folio=String(a.FOLIO).trim().toUpperCase(),id='EX-'+requestId+'-'+folio;
+   if(!ex.some(function(r){return String(r.ID)===id&&String(r.FOLIO).trim().toUpperCase()===folio;})){portalPutRow_(ss,'EXAMENES',0,{ID:id,FOLIO:folio,DIPLOMADO:a.DIPLOMADO,EXAMEN:portalSafeCell_(title),MODULO:portalSafeCell_(module),URL:url,DURACION:duration,CALIFICACION:'',ESTADO:'Disponible'});created++;}
+   if(!grades.some(function(r){return String(r.ID)===id&&String(r.FOLIO).trim().toUpperCase()===folio;}))portalPutRow_(ss,'EVALUACIONES',0,{ID:id,FOLIO:folio,DIPLOMADO:a.DIPLOMADO,MODULO:portalSafeCell_(module),CLAVE:id,EVALUACION:portalSafeCell_(title),CALIFICACIONES:'',CALIFICACION:'',ESTADO:'Pendiente',FECHA:new Date()});
+  });
+  portalAudit_(ss,auth,'PUBLICAR_EXAMEN','',requestId,null,{title:title,module:module,recipients:targets.length,created:created});return {ok:true,count:targets.length,created:created};
+ }finally{lock.releaseLock();}
+}
+function portalSetupOwner_(){var p=PropertiesService.getScriptProperties(),expected=String(p.getProperty('PORTAL_SETUP_OWNER_EMAIL')||'').toLowerCase(),actor=String(Session.getActiveUser().getEmail()||'').toLowerCase();if(!expected||actor!==expected)throw Error('Esta activación debe realizarla el propietario desde la hoja de Evolva.');return actor;}
+function configurarAdministradorEvolva(){
+ portalSetupOwner_();var html='<!doctype html><html lang="es"><meta charset="utf-8"><style>body{font:14px Arial;padding:24px;color:#36242a}input,button{box-sizing:border-box;width:100%;padding:12px;margin:10px 0}button{background:#500c17;color:white;border:0;border-radius:5px}#error{color:#8d2943}</style><h2>Activar administración de Evolva</h2><p>Crea una contraseña de al menos 12 caracteres para tu cuenta propietaria. Se guardará como hash privado.</p><form id="form"><label>Contraseña nueva<input id="password" type="password" autocomplete="new-password" minlength="12" maxlength="128" required></label><label>Confirmar contraseña<input id="confirm" type="password" autocomplete="new-password" minlength="12" required></label><button id="save">Activar mi cuenta</button><p id="error" role="alert"></p></form><script>document.getElementById("form").onsubmit=function(e){e.preventDefault();var a=document.getElementById("password"),b=document.getElementById("confirm"),error=document.getElementById("error");if(a.value!==b.value){error.textContent="Las contraseñas no coinciden.";return;}document.getElementById("save").disabled=true;google.script.run.withSuccessHandler(function(){a.value="";b.value="";document.getElementById("form").textContent="Cuenta activada. Ya puedes entrar en el acceso administrativo del campus.";}).withFailureHandler(function(err){error.textContent=err.message;document.getElementById("save").disabled=false;}).activarAdministradorEvolva(a.value);};</script></html>';
+ SpreadsheetApp.getUi().showModalDialog(HtmlService.createHtmlOutput(html).setWidth(470).setHeight(490),'Administración de Evolva');
+}
+function activarAdministradorEvolva(password){
+ var email=portalSetupOwner_();if(String(password||'').length<12||String(password).length>128)throw Error('Usa una contraseña de 12 a 128 caracteres.');
+ var ss=SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID')),lock=LockService.getScriptLock();lock.waitLock(10000);
+ try{var rows=portalRows_(ss,'_PORTAL_ADMINISTRADORES').filter(function(r){return String(r.EMAIL||'').toLowerCase()===email;});if(rows.length>1||rows.some(function(r){return !!r.HASH;}))throw Error('La cuenta ya está activada o requiere revisión. No se cambió su contraseña.');portalPutRow_(ss,'_PORTAL_ADMINISTRADORES',rows[0]?rows[0]._row:0,{EMAIL:email,NOMBRE:rows[0]?rows[0].NOMBRE:'Administración de Evolva',HASH:portalNewPassword_(String(password)),ESTADO:'ACTIVO',CREADO:rows[0]?rows[0].CREADO:new Date(),ACTUALIZADO:new Date()});return {ok:true};}finally{lock.releaseLock();}
+}
+
+
+// ===== ExpedienteTareas.gs =====
+/** Evolva Academy v5 · Expedientes privados, credenciales y tareas. */
+var PORTAL_ACADEMIC_TABLES={
+ _PORTAL_DOCUMENTOS:['ID','FOLIO','TIPO','NOMBRE','MIME','TAMANO','ARCHIVO','FECHA','SOLICITUD'],
+ _PORTAL_TAREAS:['ID','TITULO','DESCRIPCION','MODULO','FECHA_LIMITE','CREADO','CREADO_POR','ESTADO','ARCHIVO','NOMBRE','MIME','TAMANO'],
+ _PORTAL_TAREA_ALUMNOS:['TAREA_ID','FOLIO','FECHA'],
+ _PORTAL_ENTREGAS:['ID','TAREA_ID','FOLIO','COMENTARIO','ARCHIVO','NOMBRE','MIME','TAMANO','FECHA','ESTADO','CALIFICACION','RETROALIMENTACION','REVISADO','REVISADO_POR','SOLICITUD']
+};
+function portalPrepareAcademics_(ss){
+ Object.keys(PORTAL_ACADEMIC_TABLES).forEach(function(name){
+  var sh=ss.getSheetByName(name);if(!sh){sh=ss.insertSheet(name);sh.appendRow(PORTAL_ACADEMIC_TABLES[name]);}
+  else if(portalHeaders_(sh).join('|')!==PORTAL_ACADEMIC_TABLES[name].join('|'))throw Error('Revisa las columnas de '+name+'. Se conservaron sus registros.');
+  if(sh.setFrozenRows)sh.setFrozenRows(1);if(sh.hideSheet)sh.hideSheet();
+ });
+ PropertiesService.getScriptProperties().setProperty('PORTAL_ACADEMICS_READY','5');
+}
+function portalAcademicReady_(){return PropertiesService.getScriptProperties().getProperty('PORTAL_ACADEMICS_READY')==='5';}
+function portalISO_(value){var date=new Date(value);return isFinite(date.getTime())?date.toISOString():'';}
+function portalRequestId_(value){var id=String(value||'');if(!/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(id))throw Error('Actualiza la página antes de enviar el archivo.');return id.toLowerCase();}
+function portalStudentAuth_(auth){if(!auth||!auth.alumno||auth.role==='admin')portalFail_('Esta operación requiere una cuenta de alumno.',403);return auth.alumno;}
+function portalUpload_(input,kind){
+ if(!input||!input.base64)throw Error(kind==='curp'?'Adjunta tu CURP en PDF.':kind==='photo'?'Adjunta tu fotografía con fondo blanco.':'Selecciona un archivo para enviar.');
+ var bytes;try{bytes=Utilities.base64Decode(String(input.base64));}catch(e){throw Error('No se pudo leer el archivo.');}
+ var limit=kind==='photo'?1024*1024:2*1024*1024;
+ if(!bytes.length||bytes.length>limit)throw Error(kind==='photo'?'La fotografía debe pesar hasta 1 MB.':'El archivo debe pesar hasta 2 MB.');
+ var v=bytes.slice(0,8).map(function(b){return (b+256)%256;}),mime=String(input.mime||''),name=String(input.name||'archivo').replace(/[\\/\x00-\x1f]/g,'_').slice(0,160),extension=name.split('.').pop().toLowerCase();
+ var pdf=v.slice(0,5).map(function(x){return String.fromCharCode(x);}).join('')==='%PDF-',png=v.join(',')==='137,80,78,71,13,10,26,10',jpg=v[0]===255&&v[1]===216&&v[2]===255,zip=v[0]===80&&v[1]===75&&v[2]===3&&v[3]===4;
+ var allowed=pdf&&mime==='application/pdf'&&extension==='pdf'||png&&mime==='image/png'&&extension==='png'||jpg&&mime==='image/jpeg'&&['jpg','jpeg'].indexOf(extension)>=0;
+ if(kind==='curp')allowed=pdf&&mime==='application/pdf'&&extension==='pdf';
+ if(kind==='photo')allowed=png&&mime==='image/png'&&extension==='png'||jpg&&mime==='image/jpeg'&&['jpg','jpeg'].indexOf(extension)>=0;
+ if(kind==='work')allowed=allowed||zip&&((extension==='docx'&&mime==='application/vnd.openxmlformats-officedocument.wordprocessingml.document')||(extension==='pptx'&&mime==='application/vnd.openxmlformats-officedocument.presentationml.presentation'));
+ if(!allowed)throw Error(kind==='curp'?'El documento CURP debe ser un PDF válido.':kind==='photo'?'La fotografía debe ser JPG o PNG.':'Usa PDF, DOCX, PPTX, JPG o PNG; el contenido debe coincidir con el tipo de archivo.');
+ return {bytes:bytes,mime:mime,name:name,size:bytes.length};
+}
+function portalPrivateFolder_(purpose){
+ var p=PropertiesService.getScriptProperties(),key=purpose==='documents'?'PORTAL_DOCUMENTS_FOLDER_ID':'PORTAL_ASSIGNMENTS_FOLDER_ID',id=p.getProperty(key);
+ if(id)return DriveApp.getFolderById(id);
+ var folder=DriveApp.createFolder(purpose==='documents'?'Evolva Campus - Expedientes privados':'Evolva Campus - Tareas privadas');p.setProperty(key,folder.getId());return folder;
+}
+function portalStoreFile_(file,purpose,prefix){return portalPrivateFolder_(purpose).createFile(Utilities.newBlob(file.bytes,file.mime,prefix+'-'+file.name));}
+function portalPrivateFile_(id){
+ var file=DriveApp.getFileById(String(id));if(file.getSize()>2*1024*1024)throw Error('El archivo excede el límite de descarga.');
+ var blob=file.getBlob();return {ok:true,name:file.getName(),mime:blob.getContentType(),base64:Utilities.base64Encode(blob.getBytes())};
+}
+function portalDeleteNewRows_(ss,name,ids){var sh=ss.getSheetByName(name),rows=portalRows_(ss,name);for(var i=rows.length-1;i>=0;i--)if(ids.indexOf(String(rows[i].ID))>=0)sh.deleteRow(rows[i]._row);}
+function portalDocumentDTO_(r){return {id:String(r.ID),type:String(r.TIPO),name:String(r.NOMBRE),mime:String(r.MIME),size:Number(r.TAMANO)||0,created:portalISO_(r.FECHA)};}
+function portalDocuments_(ss,folio){return portalRows_(ss,'_PORTAL_DOCUMENTOS').filter(function(r){return String(r.FOLIO)===folio;}).sort(function(a,b){return new Date(b.FECHA)-new Date(a.FECHA)||b._row-a._row;});}
+function portalRegistrationDocuments_(ss,folio,requestId,curp,photo){
+ var files=[],ids=['DOC-'+requestId+'-CURP','DOC-'+requestId+'-FOTO'];
+ try{
+  [{kind:'CURP',data:curp},{kind:'FOTOGRAFIA',data:photo}].forEach(function(item,index){var file=portalStoreFile_(item.data,'documents',folio+'-'+item.kind);files.push(file);portalPutRow_(ss,'_PORTAL_DOCUMENTOS',0,{ID:ids[index],FOLIO:folio,TIPO:item.kind,NOMBRE:portalSafeCell_(item.data.name),MIME:item.data.mime,TAMANO:item.data.size,ARCHIVO:file.getId(),FECHA:new Date(),SOLICITUD:requestId});});
+  return {files:files,ids:ids};
+ }catch(e){portalDeleteNewRows_(ss,'_PORTAL_DOCUMENTOS',ids);files.forEach(function(f){f.setTrashed(true);});throw e;}
+}
+function portalDocumentArchive_(ss,folio){
+ var tasks=portalRows_(ss,'_PORTAL_TAREAS');return {ok:true,documents:portalDocuments_(ss,folio).map(portalDocumentDTO_),deliveries:portalRows_(ss,'_PORTAL_ENTREGAS').filter(function(r){return String(r.FOLIO)===folio;}).sort(function(a,b){return new Date(b.FECHA)-new Date(a.FECHA)||b._row-a._row;}).map(function(r){var t=tasks.filter(function(t){return String(t.ID)===String(r.TAREA_ID);})[0],d=portalSubmissionDTO_(r);d.taskTitle=t?String(t.TITULO):'Trabajo entregado';return d;})};
+}
+function portalUploadDocument_(ss,a,b){
+ var type=String(b.type||''),requestId=portalRequestId_(b.requestId);if(['CURP','FOTOGRAFIA','OTRO'].indexOf(type)<0)throw Error('Selecciona el tipo de documento.');
+ var input=portalUpload_(b.file,type==='CURP'?'curp':type==='FOTOGRAFIA'?'photo':'work'),folio=String(a.FOLIO).trim().toUpperCase(),id='DOC-'+requestId,lock=LockService.getScriptLock();lock.waitLock(30000);
+ try{
+  var previous=portalDocuments_(ss,folio).filter(function(r){return r.ID===id;})[0];if(previous)return {ok:true,documents:portalDocuments_(ss,folio).map(portalDocumentDTO_)};
+  var file=portalStoreFile_(input,'documents',folio+'-'+type);
+  try{portalPutRow_(ss,'_PORTAL_DOCUMENTOS',0,{ID:id,FOLIO:folio,TIPO:type,NOMBRE:portalSafeCell_(input.name),MIME:input.mime,TAMANO:input.size,ARCHIVO:file.getId(),FECHA:new Date(),SOLICITUD:requestId});}catch(e){file.setTrashed(true);throw e;}
+  return {ok:true,documents:portalDocuments_(ss,folio).map(portalDocumentDTO_)};
+ }finally{lock.releaseLock();}
+}
+function portalTask_(ss,id){var rows=portalRows_(ss,'_PORTAL_TAREAS').filter(function(r){return String(r.ID)===String(id);});if(rows.length!==1)portalFail_('La tarea no está disponible.',404);return rows[0];}
+function portalTaskAssigned_(ss,id,folio){return portalRows_(ss,'_PORTAL_TAREA_ALUMNOS').some(function(r){return String(r.TAREA_ID)===String(id)&&String(r.FOLIO)===folio;});}
+function portalRequireTask_(ss,id,folio){var task=portalTask_(ss,id);if(!portalTaskAssigned_(ss,id,folio))portalFail_('La tarea no está disponible para tu cuenta.',404);return task;}
+function portalTaskGradeId_(id){return 'TAR-'+id;}
+function portalLatestSubmission_(ss,id,folio){return portalRows_(ss,'_PORTAL_ENTREGAS').filter(function(r){return String(r.TAREA_ID)===String(id)&&String(r.FOLIO)===folio;}).sort(function(a,b){return new Date(b.FECHA)-new Date(a.FECHA)||b._row-a._row;})[0]||null;}
+function portalSubmissionRevision_(r){return portalHash_(JSON.stringify([r.ID,r.ESTADO,r.CALIFICACION,r.RETROALIMENTACION,r.REVISADO]));}
+function portalSubmissionDTO_(r){return r?{id:String(r.ID),name:String(r.NOMBRE),mime:String(r.MIME),size:Number(r.TAMANO)||0,comment:String(r.COMENTARIO||''),created:portalISO_(r.FECHA),status:String(r.ESTADO),score:portalNumber_(r.CALIFICACION),feedback:String(r.RETROALIMENTACION||''),reviewedAt:portalISO_(r.REVISADO),revision:portalSubmissionRevision_(r)}:null;}
+function portalTaskDTO_(ss,r,folio){
+ var latest=folio?portalLatestSubmission_(ss,r.ID,folio):null;
+ return {id:String(r.ID),title:String(r.TITULO),description:String(r.DESCRIPCION||''),module:String(r.MODULO||''),dueAt:r.FECHA_LIMITE?portalISO_(r.FECHA_LIMITE):'',created:portalISO_(r.CREADO),status:String(r.ESTADO),attachment:r.ARCHIVO?{name:String(r.NOMBRE),mime:String(r.MIME),size:Number(r.TAMANO)||0}:null,submission:portalSubmissionDTO_(latest),late:!!latest&&!!r.FECHA_LIMITE&&new Date(latest.FECHA)>new Date(r.FECHA_LIMITE)};
+}
+function portalStudentTasks_(ss,a){var folio=String(a.FOLIO).trim().toUpperCase(),ids=portalRows_(ss,'_PORTAL_TAREA_ALUMNOS').filter(function(r){return String(r.FOLIO)===folio;}).map(function(r){return String(r.TAREA_ID);});return {ok:true,tasks:portalRows_(ss,'_PORTAL_TAREAS').filter(function(r){return ids.indexOf(String(r.ID))>=0;}).sort(function(a,b){return new Date(b.CREADO)-new Date(a.CREADO)||b._row-a._row;}).map(function(r){return portalTaskDTO_(ss,r,folio);})};}
+function portalTaskPublish_(ss,auth,b){
+ portalRequireAdmin_(auth);var requestId=portalRequestId_(b.requestId),id='TA-'+requestId,title=String(b.title||'').trim(),description=String(b.description||'').trim(),module=String(b.module||'').trim(),due=b.dueAt?new Date(b.dueAt):null,input=b.file?portalUpload_(b.file,'work'):null;
+ if(!title||title.length>180||!description||description.length>6000||!module||module.length>40||(due&&!isFinite(due.getTime())))throw Error('Completa el título, las instrucciones y el módulo de la tarea.');
+ var lock=LockService.getScriptLock();lock.waitLock(30000);
+ try{
+  var existing=portalRows_(ss,'_PORTAL_TAREAS').filter(function(r){return String(r.ID)===id;})[0];
+  var targets=portalExamRecipients_(ss,b);if(String(b.fingerprint||'')!==portalRecipientsHash_(targets))portalFail_('Los destinatarios cambiaron. Revisa la selección otra vez.',409);
+  if(existing&&(String(existing.TITULO)!==portalSafeCell_(title)||String(existing.MODULO)!==portalSafeCell_(module)))portalFail_('Esta publicación ya tiene otros datos. Actualiza la lista de tareas.',409);
+  var material;
+  if(!existing){
+   if(input)material=portalStoreFile_(input,'tasks',id);
+   try{portalPutRow_(ss,'_PORTAL_TAREAS',0,{ID:id,TITULO:portalSafeCell_(title),DESCRIPCION:portalSafeCell_(description),MODULO:portalSafeCell_(module),FECHA_LIMITE:due||'',CREADO:new Date(),CREADO_POR:auth.email,ESTADO:'PUBLICADA',ARCHIVO:material?material.getId():'',NOMBRE:input?portalSafeCell_(input.name):'',MIME:input?input.mime:'',TAMANO:input?input.size:''});}catch(e){if(material)material.setTrashed(true);throw e;}
+  }
+  var assignments=portalRows_(ss,'_PORTAL_TAREA_ALUMNOS'),grades=portalRows_(ss,'EVALUACIONES');
+  targets.forEach(function(a){var folio=String(a.FOLIO).trim().toUpperCase();portalPreserveLegacyGrades_(ss,a);
+   if(!assignments.some(function(r){return String(r.TAREA_ID)===id&&String(r.FOLIO)===folio;}))ss.getSheetByName('_PORTAL_TAREA_ALUMNOS').appendRow([id,folio,new Date()]);
+   if(!grades.some(function(r){return String(r.ID)===portalTaskGradeId_(id)&&String(r.FOLIO)===folio;}))portalPutRow_(ss,'EVALUACIONES',0,{ID:portalTaskGradeId_(id),FOLIO:folio,DIPLOMADO:a.DIPLOMADO,MODULO:portalSafeCell_(module),CLAVE:portalTaskGradeId_(id),EVALUACION:portalSafeCell_(title),CALIFICACION:'',CALIFICACIONES:'',ESTADO:'Pendiente',FECHA:new Date()});
+  });
+  portalAudit_(ss,auth,'PUBLICAR_TAREA','',id,null,{title:title,recipients:targets.length});return {ok:true,id:id,count:targets.length};
+ }finally{lock.releaseLock();}
+}
+function portalSubmitTask_(ss,a,b){
+ var requestId=portalRequestId_(b.requestId),id='EN-'+requestId,folio=String(a.FOLIO).trim().toUpperCase(),comment=String(b.comment||'').trim();if(comment.length>3000)throw Error('El comentario debe tener hasta 3000 caracteres.');
+ var fileInput=portalUpload_(b.file,'work'),lock=LockService.getScriptLock();lock.waitLock(30000);
+ try{
+  var task=portalRequireTask_(ss,b.taskId,folio);if(task.ESTADO!=='PUBLICADA')throw Error('Esta tarea ya no recibe entregas.');
+  var all=portalRows_(ss,'_PORTAL_ENTREGAS'),duplicate=all.filter(function(r){return r.ID===id;})[0];
+  if(duplicate){if(String(duplicate.FOLIO)!==folio||String(duplicate.TAREA_ID)!==String(task.ID))portalFail_('La entrega no está disponible.',404);return {ok:true,submission:portalSubmissionDTO_(duplicate)};}
+  var latest=portalLatestSubmission_(ss,task.ID,folio);if(latest&&['REVISADA','CALIFICADA'].indexOf(portalText_(latest.ESTADO))>=0)throw Error('La entrega ya fue revisada. Solicita a administración una nueva corrección.');
+  var file=portalStoreFile_(fileInput,'tasks',folio+'-'+id);
+  try{portalPutRow_(ss,'_PORTAL_ENTREGAS',0,{ID:id,TAREA_ID:task.ID,FOLIO:folio,COMENTARIO:portalSafeCell_(comment),ARCHIVO:file.getId(),NOMBRE:portalSafeCell_(fileInput.name),MIME:fileInput.mime,TAMANO:fileInput.size,FECHA:new Date(),ESTADO:'Entregada',CALIFICACION:'',RETROALIMENTACION:'',REVISADO:'',REVISADO_POR:'',SOLICITUD:requestId});}catch(e){file.setTrashed(true);throw e;}
+  return {ok:true,submission:portalSubmissionDTO_(portalLatestSubmission_(ss,task.ID,folio))};
+ }finally{lock.releaseLock();}
+}
+function portalAdminTasks_(ss){return {ok:true,tasks:portalRows_(ss,'_PORTAL_TAREAS').sort(function(a,b){return new Date(b.CREADO)-new Date(a.CREADO)||b._row-a._row;}).map(function(r){var d=portalTaskDTO_(ss,r),audience=portalRows_(ss,'_PORTAL_TAREA_ALUMNOS').filter(function(a){return String(a.TAREA_ID)===String(r.ID);});d.assigned=audience.length;d.delivered=audience.filter(function(a){return !!portalLatestSubmission_(ss,r.ID,String(a.FOLIO));}).length;d.pendingReview=audience.filter(function(a){var s=portalLatestSubmission_(ss,r.ID,String(a.FOLIO));return s&&portalText_(s.ESTADO)==='ENTREGADA';}).length;return d;})};}
+function portalAdminTask_(ss,id){
+ var task=portalTask_(ss,id),grades=portalRows_(ss,'EVALUACIONES'),students=portalRows_(ss,'ALUMNOS');
+ var recipients=portalRows_(ss,'_PORTAL_TAREA_ALUMNOS').filter(function(r){return String(r.TAREA_ID)===String(id);}).map(function(r){var folio=String(r.FOLIO),a=students.filter(function(a){return String(a.FOLIO).trim().toUpperCase()===folio;})[0],submission=portalLatestSubmission_(ss,id,folio),grade=grades.filter(function(g){return String(g.FOLIO).trim().toUpperCase()===folio&&String(g.ID)===portalTaskGradeId_(id);})[0];return {student:{folio:folio,name:a?String(a.NOMBRE):'Registro de alumno',course:a?String(a.DIPLOMADO):''},submission:portalSubmissionDTO_(submission),gradeRevision:grade?portalGradeRevision_(grade):'',grade:grade?portalNumber_(grade.CALIFICACION!==undefined?grade.CALIFICACION:grade.CALIFICACIONES):null};});
+ return {ok:true,task:portalTaskDTO_(ss,task),recipients:recipients};
+}
+function portalReviewTask_(ss,auth,b){
+ portalRequireAdmin_(auth);var score=b.score===null||b.score===''?null:Number(b.score),feedback=String(b.feedback||'').trim(),status=String(b.status||'Revisada');
+ if((score!==null&&(!Number.isFinite(score)||score<0||score>10))||feedback.length>4000||['Revisada','Requiere corrección'].indexOf(status)<0)throw Error('Revisa la calificación y los comentarios.');
+ var lock=LockService.getScriptLock();lock.waitLock(30000);
+ try{
+  var row=portalRows_(ss,'_PORTAL_ENTREGAS').filter(function(r){return String(r.ID)===String(b.id);})[0];if(!row)portalFail_('La entrega no está disponible.',404);
+  var latest=portalLatestSubmission_(ss,row.TAREA_ID,String(row.FOLIO));if(!latest||latest.ID!==row.ID||String(b.revision||'')!==portalSubmissionRevision_(row))portalFail_('La entrega cambió. Actualiza antes de revisar.',409);
+  var task=portalTask_(ss,row.TAREA_ID),grade=portalRows_(ss,'EVALUACIONES').filter(function(g){return String(g.FOLIO).trim().toUpperCase()===String(row.FOLIO)&&String(g.ID)===portalTaskGradeId_(task.ID);})[0];
+  if(score!==null){if(!grade||String(b.gradeRevision||'')!==portalGradeRevision_(grade))portalFail_('La calificación cambió. Actualiza antes de guardar.',409);portalPutRow_(ss,'EVALUACIONES',grade._row,{CALIFICACION:score,CALIFICACIONES:score,ESTADO:score>=7?'Aprobado':'Reprobado',FECHA:new Date()});}
+  portalPutRow_(ss,'_PORTAL_ENTREGAS',row._row,{ESTADO:status==='Requiere corrección'?status:score===null?'Revisada':'Calificada',CALIFICACION:score===null?'':score,RETROALIMENTACION:portalSafeCell_(feedback),REVISADO:new Date(),REVISADO_POR:auth.email});
+  portalAudit_(ss,auth,'REVISAR_TAREA',String(row.FOLIO),String(row.ID),{status:row.ESTADO,score:row.CALIFICACION},{status:status,score:score});return portalAdminTask_(ss,task.ID);
+ }finally{lock.releaseLock();}
+}
+function portalAcademicAction_(ss,auth,b){
+ if(!portalAcademicReady_())portalFail_('Estas funciones están pendientes de activación por administración.',503);
+ var action=String(b.action||''),admin=action.indexOf('admin_')===0;
+ if(admin){portalRequireAdmin_(auth);
+  if(action==='admin_documents'){var folio=String(b.folio||'').trim().toUpperCase(),matches=portalRows_(ss,'ALUMNOS').filter(function(a){return String(a.FOLIO).trim().toUpperCase()===folio;});if(matches.length!==1)portalFail_('El registro del alumno requiere revisión.',404);var result=portalDocumentArchive_(ss,folio);result.student=portalStudent_(matches[0]);return result;}
+  if(action==='admin_document_file'){var r=portalRows_(ss,'_PORTAL_DOCUMENTOS').filter(function(r){return String(r.ID)===String(b.id);})[0];if(!r)portalFail_('Documento no disponible.',404);return portalPrivateFile_(r.ARCHIVO);}
+  if(action==='admin_tasks')return portalAdminTasks_(ss);
+  if(action==='admin_task')return portalAdminTask_(ss,String(b.id||''));
+  if(action==='admin_task_preview'){var targets=portalExamRecipients_(ss,b);return {ok:true,count:targets.length,fingerprint:portalRecipientsHash_(targets)};}
+  if(action==='admin_publish_task')return portalTaskPublish_(ss,auth,b);
+  if(action==='admin_review_task')return portalReviewTask_(ss,auth,b);
+  if(action==='admin_task_file')return portalPrivateFile_(portalTask_(ss,b.id).ARCHIVO);
+  if(action==='admin_submission_file'){var r=portalRows_(ss,'_PORTAL_ENTREGAS').filter(function(r){return String(r.ID)===String(b.id);})[0];if(!r)portalFail_('Entrega no disponible.',404);return portalPrivateFile_(r.ARCHIVO);}
+ }else{
+  var a=portalStudentAuth_(auth),folio=String(a.FOLIO).trim().toUpperCase();
+  if(action==='documents')return portalDocumentArchive_(ss,folio);
+  if(action==='upload_document')return portalUploadDocument_(ss,a,b);
+  if(action==='document_file'){var r=portalDocuments_(ss,folio).filter(function(r){return String(r.ID)===String(b.id);})[0];if(!r)portalFail_('Documento no disponible para tu cuenta.',404);return portalPrivateFile_(r.ARCHIVO);}
+  if(action==='credential'){var photo=portalDocuments_(ss,folio).filter(function(r){return r.TIPO==='FOTOGRAFIA';})[0];if(!photo)throw Error('Sube tu fotografía en Expediente del alumno para generar tu credencial.');return {ok:true,student:portalStudent_(a),photo:portalPrivateFile_(photo.ARCHIVO),issuedAt:new Date().toISOString(),signer:{name:'Alexis Soto',role:'Director General'}};}
+  if(action==='tasks')return portalStudentTasks_(ss,a);
+  if(action==='submit_task')return portalSubmitTask_(ss,a,b);
+  if(action==='task_file')return portalPrivateFile_(portalRequireTask_(ss,b.id,folio).ARCHIVO);
+  if(action==='submission_file'){var r=portalRows_(ss,'_PORTAL_ENTREGAS').filter(function(r){return String(r.ID)===String(b.id)&&String(r.FOLIO)===folio;})[0];if(!r)portalFail_('Entrega no disponible para tu cuenta.',404);portalRequireTask_(ss,r.TAREA_ID,folio);return portalPrivateFile_(r.ARCHIVO);}
+ }
+ throw Error('Acción académica no disponible.');
+}
+

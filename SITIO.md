@@ -27,3 +27,7 @@ Confirma cambios en main para publicar. Conserva la fuente de Pages en la raíz;
 ## Conexión del registro
 
 El formulario carga campus/config.js. Cuando API_URL contiene el endpoint verificado de Apps Script, envía el registro por POST a esa misma API. Mientras no se active, mantiene el servicio anterior de inscripción. Nunca se interpreta DEMO_MODE como permiso para crear alumnos reales. La guía actual de despliegue es campus-proyecto/apps-script/CONECTAR.md.
+
+## Expedientes y tareas v5
+
+La actualización de documentos de inscripción, expediente privado, credencial PDF y tareas se habilita cuando el endpoint confirma las nuevas capacidades. La guía para actualizar el proyecto existente está en campus-proyecto/apps-script/ACTUALIZAR-V5.md y el backend completo en EVOLVA-V5-COMPLETO.txt. El formulario conserva su comportamiento actual hasta la activación de v5; después exige CURP PDF y fotografía.

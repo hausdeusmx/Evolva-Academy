@@ -32,3 +32,9 @@ Las pestañas internas de sesiones, reportes, lecturas, administradores y audito
 ## Compilar y comprobar
 
 Desde campus-proyecto ejecuta `npm install`, `npm run check`, `npm test` y `npm run build`. El resultado se escribe en `../campus`. Confirma fuente y compilación en el mismo cambio. La página institucional existente permanece en la raíz.
+
+## Actualización v5: documentos, credenciales y tareas
+
+La web incluye Expediente del alumno, Mi credencial y Trabajos y tareas; administración incluye consulta de expedientes, publicación y revisión de trabajos. La activación del backend sigue apps-script/ACTUALIZAR-V5.md. Hay una versión completa en un solo archivo para simplificar la actualización del proyecto existente. Hasta que el endpoint confirme las nuevas capacidades, el campus conserva las funciones v4 y los apartados nuevos muestran su estado de activación. Las inscripciones solicitan los archivos obligatorios al detectar v5.
+
+Los documentos CURP y las fotografías se guardan en Drive privado. Los estudiantes consultan solamente sus propios archivos y entregas. La credencial PDF utiliza la fotografía del expediente; su QR abre el acceso al campus. Los archivos y datos reales no se incluyen en este repositorio.

@@ -1,5 +1,5 @@
-/** Evolva Academy · Backend para GitHub Pages · v4
- * Instalar también RegistroPages.gs y AdminPages.gs. Configurar Script Properties:
+/** Evolva Academy · Backend para GitHub Pages · v5
+ * Instalar también RegistroPages.gs, AdminPages.gs y ExpedienteTareas.gs. Configurar Script Properties:
  * SPREADSHEET_ID: ID de las hojas existentes.
  * PORTAL_PUBLIC_URL: URL HTTPS de la carpeta del portal (incluye /repositorio/).
  * PORTAL_ADMIN_EMAILS: opcional, correos de administradores registrados en ALUMNOS,
@@ -14,18 +14,19 @@ function configurarPortalPages(){
  var required={EVALUACIONES:['ID','FOLIO','DIPLOMADO','MODULO','CLAVE','EVALUACION','ESTADO','FECHA'],ALUMNOS:['FOLIO','NOMBRE','CORREO_PERSONAL','CONTRASEÑA','DIPLOMADO','CURP','EDAD','ESTADO_RESIDENCIA','FECHA_NACIMIENTO','FECHA_REGISTRO'],EXAMENES:['ID','FOLIO','DIPLOMADO','EXAMEN','CALIFICACION','ESTADO','URL','MODULO','DURACION'],AVISOS:['TITULO','MENSAJE','FECHA'],PAGOS:['ID','FOLIO','MONTO','COMPROBANTE','ESTADO','FECHA','OBSERVACIONES','ARCHIVO'],CONSTANCIAS:['FOLIO','ESTADO']};
  Object.keys(required).forEach(function(name){var sh=ss.getSheetByName(name);if(!sh)throw Error('Falta la hoja '+name+'.');var h=portalHeaders_(sh);required[name].forEach(function(c){if(h.indexOf(c)<0)throw Error('Falta la columna '+c+' en '+name+'.');});});
  Object.keys(PORTAL_TABLES).forEach(function(name){var sh=ss.getSheetByName(name);if(!sh){sh=ss.insertSheet(name);sh.appendRow(PORTAL_TABLES[name]);}else if(portalHeaders_(sh).join('|')!==PORTAL_TABLES[name].join('|'))throw Error('Revisa las columnas de '+name+'. No se modificaron.');});
- portalPrepareRegistration_();return {ok:true,message:'Preparado. Se conservaron las hojas y los folios existentes.'};
+ portalPrepareRegistration_();if(typeof portalPrepareAcademics_!=='function')throw Error('Añade ExpedienteTareas.gs antes de configurar.');portalPrepareAcademics_(ss);return {ok:true,message:'Preparado. Se conservaron las hojas y los folios existentes.'};
 }
 function doGet(){return portalJSON_({ok:false,status:405,error:'Usa POST. No se admite JSONP para datos de alumnos.'});}
 function doPost(e){try{
- var raw=String(e&&e.postData&&e.postData.contents||'');if(raw.length>3000000)throw Error('Solicitud demasiado grande.');var b=JSON.parse(raw||'{}'),action=String(b.action||'');
- if(action==='health')return portalJSON_({ok:true,version:4});
+ var raw=String(e&&e.postData&&e.postData.contents||'');if(raw.length>7000000)throw Error('Solicitud demasiado grande.');var b=JSON.parse(raw||'{}'),action=String(b.action||'');
+ if(action==='health')return portalJSON_({ok:true,version:5,features:typeof portalAcademicReady_==='function'&&portalAcademicReady_()?['documents','credential','tasks']:[]});
  var ss=SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID'));
  if(action==='register')return portalJSON_(portalRegister_(ss,b));
  if(action==='login')return portalJSON_(portalLogin_(ss,b));
  if(action==='admin_login')return portalJSON_(portalAdminLogin_(ss,b));
  var auth=portalSession_(ss,b.session);
  if(action==='session')return portalJSON_(auth.role==='admin'?{ok:true,role:'admin',admin:portalAdminProfile_(auth.record)}:{ok:true,student:portalStudent_(auth.alumno)});
+ if(['documents','upload_document','document_file','credential','tasks','submit_task','task_file','submission_file','admin_documents','admin_document_file','admin_tasks','admin_task','admin_task_preview','admin_publish_task','admin_review_task','admin_task_file','admin_submission_file'].indexOf(action)>=0)return portalJSON_(portalAcademicAction_(ss,auth,b));
  if(action.indexOf('admin_')===0)return portalJSON_(portalAdminAction_(ss,auth,b));
  if(action==='logout'){var sh=ss.getSheetByName('_PORTAL_SESIONES'),lock=LockService.getScriptLock();lock.waitLock(10000);try{var row=portalRows_(ss,'_PORTAL_SESIONES').filter(function(r){return r.ID===auth.id;})[0];if(row)sh.deleteRow(row._row);}finally{lock.releaseLock();}return portalJSON_({ok:true});}
  if(!auth.alumno)portalFail_('Usa una cuenta de alumno para consultar este espacio.',403);var a=auth.alumno,folio=String(a.FOLIO).trim().toUpperCase();

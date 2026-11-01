@@ -1,0 +1,10 @@
+import fs from 'node:fs';import path from 'node:path';import os from 'node:os';import assert from 'node:assert/strict';import {pathToFileURL} from 'node:url';import ts from 'typescript';import {PDFDocument} from 'pdf-lib';
+const [photoPath,outputPath]=process.argv.slice(2);if(!photoPath||!outputPath)throw Error('Usage: node tests/check-credential.mjs <synthetic-photo.png> <output.pdf>');
+const dir=fs.mkdtempSync(path.join(os.tmpdir(),'evolva-credential-'));
+try{
+ fs.symlinkSync(fs.realpathSync('node_modules'),path.join(dir,'node_modules'),'dir');
+ for(const name of ['credential-pdf','brand','report-fonts']){const source=fs.readFileSync('src/'+name+'.ts','utf8').replace(/from '\.\/([^']+)'/g,(_,n)=>"from './"+n.replace(/\.ts$/,'')+".mjs'");fs.writeFileSync(path.join(dir,name+'.mjs'),ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText);}
+ const {createCredentialPDF}=await import(pathToFileURL(path.join(dir,'credential-pdf.mjs')));
+ const data={demo:true,student:{name:'Sofía Martínez López',folio:'EVOLVA-000001',course:'Finanzas Personales',group:'FIN-01',status:'Activo'},photo:{mime:'image/png',base64:fs.readFileSync(photoPath).toString('base64')},issuedAt:'2026-11-01T18:00:00Z',signer:{name:'Alexis Soto',role:'Director General'}};
+ const bytes=await createCredentialPDF(data),document=await PDFDocument.load(bytes);assert.equal(document.getPageCount(),2);for(const page of document.getPages()){assert.ok(Math.abs(page.getWidth()-243.78)<.1);assert.ok(Math.abs(page.getHeight()-153.07)<.1);}assert.equal(document.getTitle(),'Credencial de alumno - EVOLVA-000001');fs.writeFileSync(outputPath,bytes);console.log('PASS: credential PDF has front/back, exact school-card dimensions, embedded student photograph and metadata.');
+}finally{fs.rmSync(dir,{recursive:true,force:true});}

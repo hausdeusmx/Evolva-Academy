@@ -1,6 +1,6 @@
 import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import assert from 'node:assert/strict';import {pathToFileURL} from 'node:url';import ts from 'typescript';
 const dir=fs.mkdtempSync(path.join(os.tmpdir(),'evolva-pages-test-')),memory=new Map();globalThis.window={EVOLVA_CONFIG:{API_URL:'',DEMO_MODE:true},location:{href:'https://example.github.io/portal/index.html'}};const localMemory=new Map();globalThis.localStorage={getItem:k=>localMemory.get(k)||null,setItem:(k,v)=>localMemory.set(k,v),removeItem:k=>localMemory.delete(k)};globalThis.sessionStorage={getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v),removeItem:k=>memory.delete(k)};
-try{for(const file of ['portal-api','domain','report-record','demo-academics','admin-api']){const source=fs.readFileSync('src/'+file+'.ts','utf8').replaceAll("'./domain'","'./domain.mjs'").replaceAll("'./report-record'","'./report-record.mjs'").replaceAll("'./demo-academics'","'./demo-academics.mjs'");fs.writeFileSync(dir+'/'+file+'.mjs',ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText);}
+try{for(const file of ['portal-api','domain','report-record','demo-academics','admin-api','academic-demo','client-id','file-tools']){const source=fs.readFileSync('src/'+file+'.ts','utf8').replaceAll("'./domain'","'./domain.mjs'").replaceAll("'./report-record'","'./report-record.mjs'").replaceAll("'./demo-academics'","'./demo-academics.mjs'").replaceAll("'./academic-demo'","'./academic-demo.mjs'").replaceAll("'./client-id'","'./client-id.mjs'");fs.writeFileSync(dir+'/'+file+'.mjs',ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText);}
 const api=(await import(pathToFileURL(dir+'/portal-api.mjs'))).portalAPI;
 assert.equal((await api('status')).authenticated,false);await assert.rejects(api('login',{email:'alumna@demo.evolva.test',password:'wrong'}),/incorrectos/);
 await api('login',{email:'alumna@demo.evolva.test',password:'EvolvaPrueba2026!'});assert.equal((await api('dashboard')).progress,50);await assert.rejects(api('folio',undefined,'&folio=EVOLVA-000002'),/corresponde/);
@@ -23,6 +23,28 @@ detail=await admin('admin_student',{folio:'EVOLVA-000001'});g=detail.grades.find
 await admin('admin_save_grade',{folio:'EVOLVA-000001',...g,score:9,status:'Calificado'});
 assert.equal((await api('dashboard')).exams.find(e=>e.id===assigned.id).score,9);
 assert.equal((await api('dashboard')).progress,80);
+const {fileData}=await import(pathToFileURL(dir+'/file-tools.mjs'));
+const pdfFile=new File(['%PDF-1.4\nSynthetic work'],'trabajo-prueba.pdf',{type:'application/pdf'}),pdfUpload=await fileData(pdfFile);
+const pngUpload={name:'foto.png',mime:'image/png',base64:'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jqE4AAAAASUVORK5CYII='};
+await assert.rejects(fileData(new File(['plain text'],'falso.pdf',{type:'application/pdf'})),/Usa PDF/);
+await assert.rejects(fileData(new File([new Uint8Array(1024*1024+1)],'foto.png',{type:'image/png'}),'photo'),/hasta 1 MB/);
+const docRequest={type:'CURP',file:pdfUpload,requestId:crypto.randomUUID()};
+assert.equal((await api('upload_document',docRequest)).documents.length,1);assert.equal((await api('upload_document',docRequest)).documents.length,1);
+await api('upload_document',{type:'FOTOGRAFIA',file:pngUpload,requestId:crypto.randomUUID()});
+assert.equal((await api('credential')).student.folio,'EVOLVA-000001');assert.equal((await admin('admin_documents',{folio:'EVOLVA-000001'})).documents.length,2);
+const privateDoc=(await api('documents')).documents[0];
+const taskDraft={scope:'student',folio:'EVOLVA-000001',title:'Presupuesto mensual',module:'M8',description:'Prepara un presupuesto y entrega un PDF.',dueAt:'2030-01-01T12:00:00Z',file:pdfUpload,requestId:crypto.randomUUID()};
+const homeworkPreview=await admin('admin_task_preview',taskDraft),homework=await admin('admin_publish_task',{...taskDraft,fingerprint:homeworkPreview.fingerprint});
+assert.equal((await api('tasks')).tasks.length,1);
+const sent=await api('submit_task',{taskId:homework.id,requestId:crypto.randomUUID(),file:pdfUpload,comment:'Mi propuesta'});
+let homeworkDetail=await admin('admin_task',{id:homework.id}),learner=homeworkDetail.recipients[0];
+await admin('admin_review_task',{id:learner.submission.id,revision:learner.submission.revision,gradeRevision:learner.gradeRevision,score:0,feedback:'Revisa la suma de los gastos.',status:'Revisada'});
+assert.equal((await api('tasks')).tasks[0].submission.score,0);assert.equal((await api('dashboard')).grades.find(g=>g.id==='TAR-'+homework.id).score,0);
+assert.equal((await api('documents')).deliveries.length,1,'All homework uploads appear in the student document archive');
+assert.equal((await admin('admin_documents',{folio:'EVOLVA-000001'})).deliveries.length,1);
+await assert.rejects(api('admin_submission_file',{id:sent.submission.id}),/exclusivo/);
+await api('logout');await api('login',{email:'egresado@demo.evolva.test',password:'EvolvaPrueba2026!'});
+assert.equal((await api('tasks')).tasks.length,0);await assert.rejects(api('document_file',{id:privateDoc.id}),/no disponible/);await assert.rejects(api('submission_file',{id:sent.submission.id}),/no disponible/);
 await admin('logout');await assert.rejects(admin('admin_students'),/sesión/);await api('logout');
 window.EVOLVA_CONFIG={API_URL:'https://script.google.com/macros/s/TEST/exec',DEMO_MODE:true};let requests=[];globalThis.fetch=async(url,options)=>{requests.push({url,options});const body=JSON.parse(options.body);return Response.json(body.action==='admin_login'?{ok:true,session:'server-admin-session-test',admin:{name:'Admin de prueba'}}:body.action==='login'?{ok:true,session:'server-session-test'}:body.action==='session'?{ok:true}:{ok:false,status:401,error:'sesión vencida'});};
 const real=(await import(pathToFileURL(dir+'/portal-api.mjs')+'?real=1')).portalAPI;assert.equal((await real('status')).demoAccounts,null);await real('login',{email:'a@example.test',password:'test-private'});assert.equal(requests[0].options.credentials,'omit');assert.equal(requests[0].options.headers['Content-Type'],'text/plain;charset=utf-8');assert.ok(!requests[0].url.includes('password'));assert.equal(JSON.parse(requests[0].options.body).password,'test-private');await assert.rejects(real('dashboard'),/vencida/);assert.equal((await real('status')).authenticated,false);assert.equal((await real('status')).demoAccounts,null);
@@ -32,5 +54,5 @@ await assert.rejects(realAdmin('demo_login'),/desactivada/);
 await realAdmin('admin_login',{email:'admin@example.test',password:'synthetic-private-password'});
 const posted=JSON.parse(requests.at(-1).options.body);assert.equal(posted.action,'admin_login');assert.equal(requests.at(-1).options.credentials,'omit');
 await assert.rejects(realAdmin('admin_students'),/vencida/);assert.equal((await realAdmin('status')).authenticated,false);
-console.log('Frontend checks passed: admin-to-student grade/exam propagation, recipient isolation, conflict handling, independent admin sessions, demo flow, folio isolation, exam progress, repository-relative QR, validation login, HTTPS POST payload and no demo fallback in real mode.');
+console.log('Frontend and V5 checks passed: private document uploads, credential ownership, homework delivery/review, document archives,  admin-to-student grade/exam propagation, recipient isolation, conflict handling, independent admin sessions, demo flow, folio isolation, exam progress, repository-relative QR, validation login, HTTPS POST payload and no demo fallback in real mode.');
 }finally{fs.rmSync(dir,{recursive:true,force:true});}

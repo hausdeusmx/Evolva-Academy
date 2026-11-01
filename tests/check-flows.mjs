@@ -22,9 +22,9 @@ async function setup(page,script,search=''){
   const selected=new Element();selected.value='Finanzas Personales';
   const scripts=[];
   const timers=new Map();let counter=0;
-  const context={URLSearchParams,Date,Math,Number,String,Error,location:{search},setTimeout:fn=>{timers.set(++counter,fn);return counter;},clearTimeout:id=>timers.delete(id),document:{getElementById:id=>{assert(elements.has(id),'Missing element '+id);return elements.get(id);},querySelector:()=>selected,createElement:()=>new Element(),head:{appendChild:el=>scripts.push(el)}}};
+  const context={URLSearchParams,Date,Math,Number,String,Error,AbortSignal,Uint8Array,crypto,File,btoa,location:{search},setTimeout:fn=>{timers.set(++counter,fn);return counter;},clearTimeout:id=>timers.delete(id),document:{getElementById:id=>{assert(elements.has(id),'Missing element '+id);return elements.get(id);},querySelector:()=>selected,createElement:()=>new Element(),head:{appendChild:el=>scripts.push(el)}}};
   context.window=context;
-  vm.createContext(context);vm.runInContext(await source('legacy-api.js'),context);
+  vm.createContext(context);vm.runInContext(await source('legacy-api.js'),context);vm.runInContext(await source('registro-documentos.js'),context);
   const calls=[];
   let response={};let failure;
   context.EvolvaLegacy.call=async(url,params)=>{calls.push({url,params});if(failure)throw failure;return response;};
@@ -66,6 +66,15 @@ assert.equal(posted.options.method,'POST');assert.equal(posted.options.credentia
 assert.equal(JSON.parse(posted.options.body).action,'register');
 assert(!posted.url.includes('curp='),'Personal fields are not sent in a URL');
 assert.equal(connected.elements.get('codigoFolio').textContent,'EVOLVA-000456');
+
+const docs=await setup('inscripcion.html','registro.js');
+for(const [id,value] of Object.entries({reg_nombre:'Alumno de prueba',reg_edad:'25',reg_estado:'Chihuahua',reg_curp:'XXXXXXXXXXXXXXXXXX',reg_fecha:'2001-01-01',reg_email:'expediente@example.invalid'}))docs.elements.get(id).value=value;
+docs.context.EVOLVA_CONFIG={API_URL:'https://script.google.com/macros/s/SYNTHETIC_TEST_ENDPOINT/exec'};
+const docPosts=[];docs.context.fetch=async(url,options)=>{const body=JSON.parse(options.body);docPosts.push(body);return {ok:true,json:async()=>body.action==='health'?{ok:true,version:5,features:['documents','credential','tasks']}:{ok:true,folio:'EVOLVA-000789',password:'synthetic-password'}};};
+docs.elements.get('reg_curp_pdf').files=[new File(['%PDF-1.4\nSynthetic CURP'],'curp.pdf',{type:'application/pdf'})];
+docs.elements.get('reg_photo').files=[new File([Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+jqE4AAAAASUVORK5CYII=','base64')],'foto.png',{type:'image/png'})];
+await docs.submit('registroForm');const docPost=docPosts.find(p=>p.action==='register');assert.ok(docPost);assert.equal(docPost.curpFile.mime,'application/pdf');assert.equal(docPost.photoFile.mime,'image/png');assert.match(docPost.requestId,/^[a-f0-9-]{36}$/);assert.equal(docs.elements.get('reg_photo').required,true);assert.equal(docs.elements.get('registroDocumentos').hidden,false);assert.equal(docs.calls.length,0,'Enrollment documents never use JSONP');
+const missingPhoto=await setup('inscripcion.html','registro.js');missingPhoto.context.EVOLVA_CONFIG=docs.context.EVOLVA_CONFIG;let registrationsWithoutPhoto=0;missingPhoto.context.fetch=async(url,options)=>{const p=JSON.parse(options.body);if(p.action==='register')registrationsWithoutPhoto++;return {ok:true,json:async()=>({ok:true,version:5,features:['documents']})};};missingPhoto.elements.get('reg_curp_pdf').files=docs.elements.get('reg_curp_pdf').files;missingPhoto.elements.get('reg_photo').files=[];await missingPhoto.submit('registroForm');assert.equal(registrationsWithoutPhoto,0,'V5 enrollment cannot be sent without a photograph');assert.match(missingPhoto.elements.get('registroError').textContent,/fotografía/);
 
 for(const name of ['alumnos.html','calificaciones.html','certificado.html','correos.html','validar.html','pagos.html']){
  const html=await readFile(path.join(root,name),'utf8');

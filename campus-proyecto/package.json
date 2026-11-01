@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node scripts/bundle-backend.mjs && vite build",
     "check": "tsc --noEmit",
     "test": "node tests/check-backend.mjs && node tests/check-frontend.mjs",
     "preview": "vite preview"

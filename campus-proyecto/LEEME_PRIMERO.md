@@ -14,3 +14,5 @@ En este repositorio GitHub Pages publica desde main y la raíz. La compilación 
 El panel permite buscar un alumno y capturar notas. Para exámenes registra un enlace HTTPS, el módulo, la duración y los destinatarios; revisa la cantidad antes de confirmar. Las respuestas se resuelven en la herramienta enlazada y la nota se captura en administración. El campus actualiza las evaluaciones, el promedio y el avance.
 
 Conserva privados los permisos de las hojas y de la carpeta de comprobantes, así como los secretos del script. La cuenta administrativa es independiente de las cuentas de alumnos. El programa no confirma transferencias ni autoriza constancias al guardar calificaciones.
+
+Para activar los documentos de inscripción, expedientes, credenciales y tareas, sigue **apps-script/ACTUALIZAR-V5.md**. Conserva la URL y las propiedades privadas del servicio ya conectado.

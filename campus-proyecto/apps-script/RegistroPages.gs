@@ -1,5 +1,5 @@
-/** Evolva Academy · Registro POST y configuración, versión 3.
- * Instalar este archivo junto con PortalPages.gs en el mismo proyecto.
+/** Evolva Academy · Registro POST y configuración, versión 5.
+ * Instalar este archivo junto con PortalPages.gs, AdminPages.gs y ExpedienteTareas.gs.
  * Las propiedades y los datos de la hoja permanecen en la cuenta de Google.
  */
 function configurarDesdeHojaActiva(){
@@ -17,8 +17,8 @@ function portalPrepareRegistration_(){
 function diagnosticarConexion(){
  var p=PropertiesService.getScriptProperties(),id=p.getProperty('SPREADSHEET_ID');
  if(!id)throw Error('Ejecuta configurarDesdeHojaActiva o configura SPREADSHEET_ID.');
- var ss=SpreadsheetApp.openById(id),names=['ALUMNOS','EVALUACIONES','EXAMENES','AVISOS','PAGOS','CONSTANCIAS','_PORTAL_SESIONES','_PORTAL_REPORTES','_PORTAL_LECTURAS'];
- return {ok:true,version:3,registrationConfigured:!!(p.getProperty('PORTAL_TURNSTILE_SECRET')||p.getProperty('TURNSTILE_SECRET')),sheets:names.map(function(n){var sh=ss.getSheetByName(n);return {name:n,exists:!!sh,columns:sh?portalHeaders_(sh):[],records:sh?Math.max(0,sh.getLastRow()-1):0};})};
+ var ss=SpreadsheetApp.openById(id),names=['ALUMNOS','EVALUACIONES','EXAMENES','AVISOS','PAGOS','CONSTANCIAS','_PORTAL_SESIONES','_PORTAL_REPORTES','_PORTAL_LECTURAS','_PORTAL_ADMINISTRADORES','_PORTAL_AUDITORIA','_PORTAL_DOCUMENTOS','_PORTAL_TAREAS','_PORTAL_TAREA_ALUMNOS','_PORTAL_ENTREGAS'];
+ return {ok:true,version:5,academicConfigured:portalAcademicReady_(),registrationConfigured:!!(p.getProperty('PORTAL_TURNSTILE_SECRET')||p.getProperty('TURNSTILE_SECRET')),sheets:names.map(function(n){var sh=ss.getSheetByName(n);return {name:n,exists:!!sh,columns:sh?portalHeaders_(sh):[],records:sh?Math.max(0,sh.getLastRow()-1):0};})};
 }
 function portalPassword_(password,salt){
  var pepper=PropertiesService.getScriptProperties().getProperty('PORTAL_PASSWORD_PEPPER');
@@ -50,6 +50,8 @@ function portalRegister_(ss,b){
  if(admins.indexOf(email)>=0||portalRows_(ss,'_PORTAL_ADMINISTRADORES').some(function(r){return String(r.EMAIL||'').trim().toLowerCase()===email;}))throw Error('Solicita a administración el alta de esta cuenta.');
  var cache=CacheService.getScriptCache(),key='register:'+portalHash_(email),count=Number(cache.get(key)||0)+1;cache.put(key,String(count),3600);if(count>6)portalFail_('Demasiados intentos. Intenta nuevamente más tarde.',429);
  portalTurnstile_(b.turnstileToken);
+ if(!portalAcademicReady_())throw Error('La inscripción con documentos está pendiente de activación.');
+ var requestId=portalRequestId_(b.requestId),curpDocument=portalUpload_(b.curpFile,'curp'),photoDocument=portalUpload_(b.photoFile,'photo');
  var lock=LockService.getScriptLock();lock.waitLock(30000);
  try{
   var existing=portalRows_(ss,'ALUMNOS');
@@ -59,7 +61,9 @@ function portalRegister_(ss,b){
   if(!folio)throw Error('No fue posible asignar un folio. Contacta a administración.');
   var password=Utilities.getUuid().replace(/-/g,'').slice(0,16),now=new Date(),safe=function(v){var s=String(v);return /^[=+@-]/.test(s)?"'"+s:s;};
   var obj={ID:Utilities.getUuid(),FOLIO:folio,NOMBRE:safe(name),CORREO_PERSONAL:email,CORREO_INSTITUCIONAL:'',CURP:curp,DIPLOMADO:course,'CONTRASEÑA':portalNewPassword_(password),ESTADO:'REGISTRADO',PAGO:'PENDIENTE',AVANCE:0,PROMEDIO:'',M1:'',M2:'',M3:'',M4:'',GRUPO:'',EDAD:age,ESTADO_RESIDENCIA:safe(state),FECHA_NACIMIENTO:birth,FECHA_REGISTRO:now};
-  var sh=ss.getSheetByName('ALUMNOS'),headers=portalHeaders_(sh);sh.appendRow(headers.map(function(h){return obj[h]===undefined?'':obj[h];}));
+  var sh=ss.getSheetByName('ALUMNOS'),headers=portalHeaders_(sh),documents;
+  try{documents=portalRegistrationDocuments_(ss,folio,requestId,curpDocument,photoDocument);sh.appendRow(headers.map(function(h){return obj[h]===undefined?'':obj[h];}));}
+  catch(err){if(documents){portalDeleteNewRows_(ss,'_PORTAL_DOCUMENTOS',documents.ids);portalDeleteNewRows_(ss,'ALUMNOS',[obj.ID]);documents.files.forEach(function(file){file.setTrashed(true);});}throw err;}
   cache.remove(key);return {ok:true,folio:folio,password:password,alumno:{CORREO_PERSONAL:email}};
  }finally{lock.releaseLock();}
 }

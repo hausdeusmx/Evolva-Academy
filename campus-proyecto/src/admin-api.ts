@@ -1,3 +1,4 @@
+import {academicActions,academicDemo} from './academic-demo';
 import {demoLearners,demoAcademic,demoRevision,demoRecords,saveDemoRecords} from './demo-academics';
 const endpoint=String(window.EVOLVA_CONFIG?.API_URL||'').trim();
 export const adminDemo=!endpoint&&window.EVOLVA_CONFIG?.DEMO_MODE===true;
@@ -9,7 +10,7 @@ function details(folio:string){const student=demoLearners().find(s=>s.folio===fo
 function recipients(b:any){let list=demoLearners();if(b.scope==='student')list=list.filter(s=>s.folio===b.folio);else if(['course','group'].includes(b.scope))list=list.filter(s=>s.course===b.course&&(b.scope!=='group'||s.group===b.group));else throw failure('Selecciona los destinatarios.');if(!list.length)throw failure('No hay alumnos en esa selección.');return list;}
 async function remote(action:string,body:any){
  if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(endpoint))throw failure('La administración de alumnos reales requiere activar la conexión con Google Sheets.');
- let response:Response;try{response=await fetch(endpoint,{method:'POST',credentials:'omit',redirect:'follow',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...body,action,session:token}),signal:AbortSignal.timeout(45000)});}catch{throw failure('No se pudo conectar. Actualiza los datos antes de volver a guardar.');}
+ let response:Response;try{response=await fetch(endpoint,{method:'POST',credentials:'omit',redirect:'follow',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...body,action,session:token}),signal:AbortSignal.timeout(action==='admin_publish_task'?60000:45000)});}catch{throw failure('No se pudo conectar. Actualiza los datos antes de volver a guardar.');}
  let data:any;try{data=await response.json();}catch{throw failure('El servidor no devolvió una respuesta válida.');}
  if(!data.ok){if(data.status===401){token='';sessionStorage.removeItem(tokenKey);}throw failure(data.error||'No se pudo completar la solicitud.',data.status||400);}return data;
 }
@@ -20,6 +21,7 @@ export async function adminAPI(action:string,b:any={}):Promise<any>{
  if(!adminDemo){const data=await remote(action,b);if(action==='admin_login'){token=data.session;sessionStorage.setItem(tokenKey,token);}return data;}
  if(action==='admin_login')throw failure('Las cuentas reales aún requieren activación. Usa la administración de prueba para revisar el panel.');
  requireDemo();
+ if(academicActions.includes(action))return academicDemo('admin',action,b);
  if(action==='admin_session')return {ok:true,admin:{name:'Administración de prueba',email:'admin@demo.evolva.test'}};
  if(action==='admin_students'){const q=String(b.query||'').toLowerCase(),students=demoLearners().filter(s=>[s.folio,s.name,s.course,s.email,s.group].some(v=>v.toLowerCase().includes(q)));return {ok:true,students,total:students.length,courses:['Finanzas Personales'],groups:[{course:'Finanzas Personales',group:'FIN-01'}]};}
  if(action==='admin_student')return details(b.folio);

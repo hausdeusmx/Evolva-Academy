@@ -22,7 +22,7 @@ function portalPreserveLegacyGrades_(ss,a){
 }
 function portalGradeId_(r){return String(r.ID||r.CLAVE||'ROW-'+r._row);}
 function portalGradeRevision_(r){return portalHash_(JSON.stringify([r.FOLIO,r.DIPLOMADO,r.MODULO,r.CLAVE,r.EVALUACION,r.CALIFICACION,r.CALIFICACIONES,r.ESTADO]));}
-function portalSafeCell_(v){var s=String(v);return /^[=+@-]/.test(s)?"'"+s:s;}
+function portalSafeCell_(v){var s=String(v);return /^\s*[=+@-]/.test(s)?"'"+s:s;}
 function portalPutRow_(ss,name,row,obj){
  var sh=ss.getSheetByName(name);if(!sh)throw Error('Ejecuta configurarPortalPages antes de continuar.');var headers=portalHeaders_(sh),values=headers.map(function(){return '';});
  if(row){var range=sh.getRange(row,1,1,headers.length),old=range.getValues()[0],formulas=range.getFormulas()[0];values=old.map(function(v,i){return formulas[i]||v;});}
