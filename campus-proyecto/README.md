@@ -1,27 +1,34 @@
 # Campus de Evolva Academy
 
-Portal alojado en https://evolvacademy.mx/campus/ desde la rama main y la raíz del repositorio. La página institucional y los servicios anteriores se conservan.
+Campus publicado en https://evolvacademy.mx/campus/ y administración en https://evolvacademy.mx/campus/admin.html. GitHub Pages sirve los archivos de la raíz del repositorio desde main; no cambies la configuración de Pages ni la visibilidad del repositorio para esta actualización.
 
 ## Estado
 
-La publicación inicial es un entorno de prueba con datos ficticios. Para consultar alumnos reales hay que instalar el backend de apps-script/PortalPages.gs y apps-script/RegistroPages.gs en el mismo proyecto de Google Apps Script. La API anterior usa otro protocolo y no debe colocarse en la nueva configuración sin actualizarla.
+La web utiliza datos ficticios mientras `API_URL` esté vacío. El backend de Google Apps Script v4 está implementado y probado con datos sintéticos. La base existente tiene preparada la estructura administrativa, pero la cuenta propietaria necesita activación privada y la nueva implementación de Apps Script antes de utilizar alumnos reales.
 
-## Activar las hojas existentes
+## Activar la integración
 
-1. Abre Extensiones > Apps Script desde la base y coloca juntos apps-script/PortalPages.gs y apps-script/RegistroPages.gs. Sigue apps-script/CONECTAR.md.
-2. Configura SPREADSHEET_ID con el ID de tu archivo existente y PORTAL_PUBLIC_URL con https://evolvacademy.mx/campus.
-3. Ejecuta configurarDesdeHojaActiva si el proyecto está vinculado a la base, o configurarPortalPages si ya configuraste SPREADSHEET_ID. Conserva ALUMNOS, EXAMENES, AVISOS, PAGOS, CONSTANCIAS y EVALUACIONES opcional; crea únicamente las pestañas internas _PORTAL_SESIONES, _PORTAL_REPORTES y _PORTAL_LECTURAS.
-4. Implementa como aplicación web ejecutada con tu cuenta y accesible para solicitudes externas. Todas las operaciones académicas exigen una sesión de alumno válida.
-5. Copia la URL /exec de esa implementación a campus/config.js, campo API_URL. Pon DEMO_MODE en false. Cambia también public/config.js si vas a recompilar. Nunca pegues claves maestras o contraseñas en estos archivos.
+Sigue **apps-script/CONECTAR.md**. Instala juntos PortalPages.gs, RegistroPages.gs y AdminPages.gs, con el manifiesto incluido, en el proyecto vinculado a la hoja. Ejecuta configurarDesdeHojaActiva, diagnosticarConexion y configurarAdministradorEvolva como propietario. Define tu contraseña en la ventana privada de la hoja; no se publica ninguna contraseña real en este repositorio.
 
-El acceso, expedientes, pagos y validación se protegen con correo y contraseña. El QR de los reportes reales apuntará a https://evolvacademy.mx/campus/validar.html. El detalle de instalación está en LEEME_PRIMERO.md; sus instrucciones de publicar /docs corresponden al ZIP independiente. En este repositorio se mantiene la publicación existente desde la raíz.
+Después de desplegar y verificar el endpoint v4 coloca su URL /exec en `campus/config.js` y `campus-proyecto/public/config.js`, y cambia DEMO_MODE a false. El endpoint anterior no es compatible con el protocolo nuevo y no debe conectarse sin actualizarlo. Una API configurada nunca usa datos ficticios como respaldo.
 
-## Actualizar el portal
+## Administración académica
 
-Desde campus-proyecto: npm install, npm run check, npm test y npm run build. La compilación actualiza ../campus. Revisa y confirma los cambios en GitHub. No hace falta cambiar la configuración de Pages.
+- Búsqueda de alumnos por nombre, folio, correo, diplomado o grupo.
+- Captura de evaluaciones y notas de 0 a 10; promedio y avance calculados a partir de las evaluaciones disponibles, incluidos ceros y pendientes.
+- Publicación de enlaces HTTPS de examen para un alumno, grupo o diplomado con revisión de destinatarios.
+- Cada publicación crea una evaluación pendiente para capturar su calificación después. Las respuestas se reciben en el formulario o herramienta institucional enlazada.
+- Protección administrativa por rol en el servidor, revisión de conflictos y registro de cambios en una pestaña privada.
+- Actualización del campus del alumno al volver a la pestaña o en hasta 30 segundos.
 
-Las calificaciones reales se capturan en las hojas o el sistema de evaluación institucional. El portal no confirma transferencias ni aprueba constancias de forma automática. Los reportes llevan firma tipográfica de Alexis Soto, Director General.
+Los pagos y las constancias requieren su propia revisión y autorización institucional. Capturar una nota no confirma pagos ni autoriza constancias.
 
-## API unificada v3
+## Portal de alumnos
 
-El registro admite POST en el mismo endpoint del campus. La clave privada de Turnstile se guarda solo en las propiedades del script. Las nuevas contraseñas se almacenan como hash; las contraseñas anteriores se conservan. La lectura de evaluaciones admite el encabezado existente CALIFICACIONES. Antes de activar datos reales, sigue apps-script/CONECTAR.md y restringe las implementaciones anteriores que consultaban expedientes por folio.
+Acceso por correo y contraseña, consulta del folio de su sesión, aprendizaje, promedio, calificaciones, exámenes, avisos, comprobantes de pago, constancias y reporte académico PDF. El reporte conserva el título Reporte académico de calificaciones, QR de validación autenticada y firma tipográfica de Alexis Soto, Director General. Los folios existentes EVOLVA-###### no se renumeran.
+
+Las pestañas internas de sesiones, reportes, lecturas, administradores y auditoría deben mantenerse privadas. No subas SPREADSHEET_ID, secretos, credenciales reales ni registros de alumnos a GitHub.
+
+## Compilar y comprobar
+
+Desde campus-proyecto ejecuta `npm install`, `npm run check`, `npm test` y `npm run build`. El resultado se escribe en `../campus`. Confirma fuente y compilación en el mismo cambio. La página institucional existente permanece en la raíz.

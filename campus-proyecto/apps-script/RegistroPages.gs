@@ -10,6 +10,7 @@ function configurarDesdeHojaActiva(){
 }
 function portalPrepareRegistration_(){
  var p=PropertiesService.getScriptProperties();
+ if(!p.getProperty('PORTAL_SETUP_OWNER_EMAIL')){var owner=Session.getEffectiveUser().getEmail();if(owner)p.setProperty('PORTAL_SETUP_OWNER_EMAIL',String(owner).toLowerCase());}
  if(!p.getProperty('PORTAL_PUBLIC_URL'))p.setProperty('PORTAL_PUBLIC_URL','https://evolvacademy.mx/campus');
  if(!p.getProperty('PORTAL_PASSWORD_PEPPER'))p.setProperty('PORTAL_PASSWORD_PEPPER',Utilities.getUuid()+Utilities.getUuid());
 }
@@ -46,7 +47,7 @@ function portalRegister_(ss,b){
  if(name.length<2||name.length>160||!/^\S+@\S+\.\S+$/.test(email)||email.length>160||!/^[A-Z0-9]{18}$/.test(curp)||!Number.isInteger(age)||age<15||age>100||!state||state.length>80||!/^\d{4}-\d{2}-\d{2}$/.test(birth)||['Finanzas Personales','Primeros Auxilios'].indexOf(course)<0)throw Error('Revisa los datos del formulario.');
  var born=new Date(birth+'T12:00:00Z');if(!isFinite(born.getTime())||born.toISOString().slice(0,10)!==birth||born.getTime()>Date.now())throw Error('Revisa la fecha de nacimiento.');
  var admins=String(PropertiesService.getScriptProperties().getProperty('PORTAL_ADMIN_EMAILS')||'').toLowerCase().split(',').map(function(x){return x.trim();});
- if(admins.indexOf(email)>=0)throw Error('Solicita a administración el alta de esta cuenta.');
+ if(admins.indexOf(email)>=0||portalRows_(ss,'_PORTAL_ADMINISTRADORES').some(function(r){return String(r.EMAIL||'').trim().toLowerCase()===email;}))throw Error('Solicita a administración el alta de esta cuenta.');
  var cache=CacheService.getScriptCache(),key='register:'+portalHash_(email),count=Number(cache.get(key)||0)+1;cache.put(key,String(count),3600);if(count>6)portalFail_('Demasiados intentos. Intenta nuevamente más tarde.',429);
  portalTurnstile_(b.turnstileToken);
  var lock=LockService.getScriptLock();lock.waitLock(30000);
