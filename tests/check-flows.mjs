@@ -55,6 +55,17 @@ assert.equal(bad.elements.get('registroError').textContent,'Registro rechazado')
 assert.notEqual(bad.elements.get('registroForm').style.display,'none');
 const noFolio=await setup('inscripcion.html','registro.js');noFolio.setResponse({ok:true});await noFolio.submit('registroForm');
 assert.match(noFolio.elements.get('registroError').textContent,/folio válido/);
+const connected=await setup('inscripcion.html','registro.js');
+for(const [id,value] of Object.entries({reg_nombre:'Alumno de prueba',reg_edad:'25',reg_estado:'Chihuahua',reg_curp:'XXXXXXXXXXXXXXXXXX',reg_fecha:'2001-01-01',reg_email:'nuevo@example.invalid'}))connected.elements.get(id).value=value;
+connected.context.EVOLVA_CONFIG={API_URL:'https://script.google.com/macros/s/SYNTHETIC_TEST_ENDPOINT/exec'};
+let posted;
+connected.context.fetch=async(url,options)=>{posted={url,options};return {ok:true,json:async()=>({ok:true,folio:'EVOLVA-000456',password:'synthetic-test-only'})};};
+await connected.submit('registroForm');
+assert.equal(connected.calls.length,0,'Configured registration must not fall back to JSONP');
+assert.equal(posted.options.method,'POST');assert.equal(posted.options.credentials,'omit');
+assert.equal(JSON.parse(posted.options.body).action,'register');
+assert(!posted.url.includes('curp='),'Personal fields are not sent in a URL');
+assert.equal(connected.elements.get('codigoFolio').textContent,'EVOLVA-000456');
 
 for(const name of ['alumnos.html','calificaciones.html','certificado.html','correos.html','validar.html','pagos.html']){
  const html=await readFile(path.join(root,name),'utf8');

@@ -1,5 +1,5 @@
-/** Evolva Academy · Backend para GitHub Pages · v2
- * Proyecto separado de la API anterior. Configurar Script Properties:
+/** Evolva Academy · Backend para GitHub Pages · v3
+ * Instalar también RegistroPages.gs. Configurar Script Properties:
  * SPREADSHEET_ID: ID de las hojas existentes.
  * PORTAL_PUBLIC_URL: URL HTTPS de la carpeta del portal (incluye /repositorio/).
  * PORTAL_ADMIN_EMAILS: opcional, correos de administradores registrados en ALUMNOS,
@@ -11,16 +11,17 @@
 var PORTAL_TABLES={_PORTAL_SESIONES:['ID','FOLIO','EMAIL','EXPIRA','CREADO'],_PORTAL_REPORTES:['CODIGO','FOLIO','FECHA','ESTADO','SNAPSHOT','HUELLA'],_PORTAL_LECTURAS:['FOLIO','AVISO','FECHA']};
 function configurarPortalPages(){
  var props=PropertiesService.getScriptProperties(),id=props.getProperty('SPREADSHEET_ID');if(!id)throw Error('Configura SPREADSHEET_ID en Propiedades del script.');var ss=SpreadsheetApp.openById(id);
- var required={ALUMNOS:['FOLIO','NOMBRE','CORREO_PERSONAL','CONTRASEÑA','DIPLOMADO'],EXAMENES:['FOLIO','EXAMEN','CALIFICACION'],AVISOS:['TITULO','MENSAJE','FECHA'],PAGOS:['ID','FOLIO','MONTO','COMPROBANTE','ESTADO','FECHA','OBSERVACIONES','ARCHIVO'],CONSTANCIAS:['FOLIO','ESTADO']};
+ var required={ALUMNOS:['FOLIO','NOMBRE','CORREO_PERSONAL','CONTRASEÑA','DIPLOMADO','CURP','EDAD','ESTADO_RESIDENCIA','FECHA_NACIMIENTO','FECHA_REGISTRO'],EXAMENES:['FOLIO','EXAMEN','CALIFICACION'],AVISOS:['TITULO','MENSAJE','FECHA'],PAGOS:['ID','FOLIO','MONTO','COMPROBANTE','ESTADO','FECHA','OBSERVACIONES','ARCHIVO'],CONSTANCIAS:['FOLIO','ESTADO']};
  Object.keys(required).forEach(function(name){var sh=ss.getSheetByName(name);if(!sh)throw Error('Falta la hoja '+name+'.');var h=portalHeaders_(sh);required[name].forEach(function(c){if(h.indexOf(c)<0)throw Error('Falta la columna '+c+' en '+name+'.');});});
  Object.keys(PORTAL_TABLES).forEach(function(name){var sh=ss.getSheetByName(name);if(!sh){sh=ss.insertSheet(name);sh.appendRow(PORTAL_TABLES[name]);}else if(portalHeaders_(sh).join('|')!==PORTAL_TABLES[name].join('|'))throw Error('Revisa las columnas de '+name+'. No se modificaron.');});
- return {ok:true,message:'Preparado. Se conservaron las hojas y los folios existentes.'};
+ portalPrepareRegistration_();return {ok:true,message:'Preparado. Se conservaron las hojas y los folios existentes.'};
 }
 function doGet(){return portalJSON_({ok:false,status:405,error:'Usa POST. No se admite JSONP para datos de alumnos.'});}
 function doPost(e){try{
  var raw=String(e&&e.postData&&e.postData.contents||'');if(raw.length>3000000)throw Error('Solicitud demasiado grande.');var b=JSON.parse(raw||'{}'),action=String(b.action||'');
- if(action==='health')return portalJSON_({ok:true,version:2});
+ if(action==='health')return portalJSON_({ok:true,version:3});
  var ss=SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('SPREADSHEET_ID'));
+ if(action==='register')return portalJSON_(portalRegister_(ss,b));
  if(action==='login')return portalJSON_(portalLogin_(ss,b));
  var auth=portalSession_(ss,b.session),a=auth.alumno,folio=String(a.FOLIO).trim().toUpperCase();
  if(action==='session')return portalJSON_({ok:true,student:portalStudent_(a)});
@@ -41,7 +42,7 @@ function portalFindAlumno_(ss,folio){var rows=portalRows_(ss,'ALUMNOS').filter(f
 function portalLogin_(ss,b){var email=String(b.email||'').trim().toLowerCase(),password=String(b.password||'');if(!email||email.length>254||!password||password.length>200)portalFail_('Correo o contraseña incorrectos.',401);
  var cache=CacheService.getScriptCache(),key='login:'+portalHash_(email),lock=LockService.getScriptLock();lock.waitLock(10000);try{var n=Number(cache.get(key)||0)+1;cache.put(key,String(n),900);if(n>8)portalFail_('Demasiados intentos. Intenta de nuevo en 15 minutos.',429);}finally{lock.releaseLock();}
  var rows=portalRows_(ss,'ALUMNOS').filter(function(r){return [r.CORREO_PERSONAL,r.CORREO_INSTITUCIONAL].some(function(v){return String(v||'').trim().toLowerCase()===email;});});
- if(rows.length!==1||!portalEqual_(password,String(rows[0]['CONTRASEÑA']||'')))portalFail_('Correo o contraseña incorrectos.',401);
+ if(rows.length!==1||!portalCheckPassword_(password,String(rows[0]['CONTRASEÑA']||'')))portalFail_('Correo o contraseña incorrectos.',401);
  var folio=String(rows[0].FOLIO||'').trim().toUpperCase();if(!/^EVOLVA-\d{6}$/.test(folio))throw Error('El folio debe revisarse con administración.');var a=portalFindAlumno_(ss,folio),value=Utilities.getUuid().replace(/-/g,'')+Utilities.getUuid().replace(/-/g,''),now=Date.now();
  lock=LockService.getScriptLock();lock.waitLock(10000);try{var sh=ss.getSheetByName('_PORTAL_SESIONES');if(!sh)throw Error('La administración debe ejecutar configurarPortalPages.');var old=portalRows_(ss,'_PORTAL_SESIONES');for(var i=old.length-1;i>=0;i--)if(new Date(old[i].EXPIRA).getTime()<now)sh.deleteRow(old[i]._row);sh.appendRow([portalHash_(value),folio,email,new Date(now+8*60*60*1000),new Date(now)]);}finally{lock.releaseLock();}cache.remove(key);return {ok:true,session:value,student:portalStudent_(a)};
 }
@@ -63,12 +64,12 @@ function portalCertificate_(ss,folio){var rows=portalRows_(ss,'CONSTANCIAS').fil
 function portalUrl_(v){var s=String(v||'').trim();return /^https:\/\//i.test(s)?s:'';}
 function portalDashboard_(ss,a){
  var student=portalStudent_(a),evals=portalRows_(ss,'EVALUACIONES').filter(function(r){return portalOwn_(r,a);}),ex=portalRows_(ss,'EXAMENES').filter(function(r){return portalOwn_(r,a);});
- var grades=evals.length?evals.map(function(r,i){return {id:String(r.ID||r.CLAVE||i),module:String(r.MODULO||r.CLAVE||'Evaluación'),title:String(r.EVALUACION||r.EXAMEN||'Evaluación'),score:portalNumber_(r.CALIFICACION),status:String(r.ESTADO||'Pendiente')};}):['M1','M2','M3','M4'].map(function(k){return {id:k,module:k,title:'Módulo '+k.slice(1),score:portalNumber_(a[k]),status:portalNumber_(a[k])===null?'Pendiente':'Evaluado'};});
+ var grades=evals.length?evals.map(function(r,i){return {id:String(r.ID||r.CLAVE||i),module:String(r.MODULO||r.CLAVE||'Evaluación'),title:String(r.EVALUACION||r.EXAMEN||'Evaluación'),score:portalNumber_(r.CALIFICACION!==undefined?r.CALIFICACION:r.CALIFICACIONES),status:String(r.ESTADO||'Pendiente')};}):['M1','M2','M3','M4'].map(function(k){return {id:k,module:k,title:'Módulo '+k.slice(1),score:portalNumber_(a[k]),status:portalNumber_(a[k])===null?'Pendiente':'Evaluado'};});
  var done=grades.filter(function(g){return g.score!==null;}),average=portalNumber_(a.PROMEDIO),progress=portalNumber_(a.AVANCE);if(average===null)average=done.length?Math.round(done.reduce(function(s,g){return s+g.score;},0)/done.length*10)/10:null;if(progress===null)progress=Math.round(done.length/Math.max(grades.length,1)*100);progress=Math.max(0,Math.min(100,progress));
  var notices=portalRows_(ss,'AVISOS').filter(function(r){return (!r.FOLIO||String(r.FOLIO).trim().toUpperCase()===student.folio)&&(!r.DIPLOMADO||portalText_(r.DIPLOMADO)===portalText_(a.DIPLOMADO));}).map(function(r){return {id:String(r.ID||r._row),title:String(r.TITULO||'Aviso'),body:String(r.MENSAJE||''),date:portalDate_(r.FECHA),type:'Campus',read:false};}).sort(function(x,y){return y.date.localeCompare(x.date);});
  var payments=portalRows_(ss,'PAGOS').filter(function(r){return String(r.FOLIO||'').trim().toUpperCase()===student.folio;}).map(function(r){var obs=String(r.OBSERVACIONES||''),match=obs.match(/Periodo: ([^\n]+)/);return {id:String(r.ID||r._row),amount:portalNumber_(r.MONTO)||0,period:match?match[1]:'Pago registrado',reference:String(r.COMPROBANTE||''),created:portalDate_(r.FECHA),status:String(r.ESTADO||'En revisión'),proof:!!portalDriveId_(r.ARCHIVO),url:portalDriveId_(r.ARCHIVO)?'':portalUrl_(r.ARCHIVO)};}).sort(function(x,y){return y.created.localeCompare(x.created);});
  var cert=portalCertificate_(ss,student.folio),isPA=portalText_(a.DIPLOMADO).indexOf('AUXILIOS')>=0;
- return {ok:true,student:student,grades:grades,average:average,progress:progress,exams:ex.map(function(r,i){return {id:String(r.ID||i),module:String(r.MODULO||'Evaluación'),title:String(r.EXAMEN||'Examen'),score:portalNumber_(r.CALIFICACION),duration:portalNumber_(r.DURACION)||null,locked:portalText_(r.ESTADO)==='BLOQUEADO',url:portalUrl_(r.URL||r.ENLACE||r.LINK)};}),notices:notices,payments:payments,certificate:{eligible:!!cert&&portalAuthorized_(cert.ESTADO),status:cert?String(cert.ESTADO):'Pendiente',hasFile:!!cert&&!!portalDriveId_(cert.ARCHIVO)},plan:{monthly:isPA?500:400,weekly:isPA?150:100,months:isPA?8:6}};
+ return {ok:true,student:student,grades:grades,average:average,progress:progress,exams:ex.map(function(r,i){return {id:String(r.ID||i),module:String(r.MODULO||'Evaluación'),title:String(r.EXAMEN||'Examen'),score:portalNumber_(r.CALIFICACION!==undefined?r.CALIFICACION:r.CALIFICACIONES),duration:portalNumber_(r.DURACION)||null,locked:portalText_(r.ESTADO)==='BLOQUEADO',url:portalUrl_(r.URL||r.ENLACE||r.LINK)};}),notices:notices,payments:payments,certificate:{eligible:!!cert&&portalAuthorized_(cert.ESTADO),status:cert?String(cert.ESTADO):'Pendiente',hasFile:!!cert&&!!portalDriveId_(cert.ARCHIVO)},plan:{monthly:isPA?500:400,weekly:isPA?150:100,months:isPA?8:6}};
 }
 function portalDriveId_(value){var s=String(value||'');if(/^[A-Za-z0-9_-]{20,}$/.test(s))return s;var m=s.match(/^https:\/\/(?:drive|docs)\.google\.com\/(?:file\/d\/|document\/d\/|open\?id=|uc\?(?:export=download&)?id=)([A-Za-z0-9_-]{20,})/);return m?m[1]:'';}
 function portalFile_(url,pdfOnly){var id=portalDriveId_(url);if(!id)throw Error('Archivo de Drive no disponible.');var f=DriveApp.getFileById(id);if(f.getSize()>5*1024*1024)throw Error('El archivo excede 5 MB. Solicítalo a administración.');var blob=f.getBlob(),mime=blob.getContentType();if(pdfOnly&&mime!=='application/pdf')throw Error('La constancia registrada no es PDF.');if(['application/pdf','image/png','image/jpeg'].indexOf(mime)<0)throw Error('Tipo de archivo no admitido.');return {ok:true,base64:Utilities.base64Encode(blob.getBytes()),mime:mime};}

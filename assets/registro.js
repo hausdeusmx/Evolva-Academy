@@ -26,7 +26,16 @@ form.addEventListener('submit',async event=>{
   const params={accion:'registrar',diplomado:selected.value,nombre:read('reg_nombre'),edad:read('reg_edad'),estado:read('reg_estado'),curp:read('reg_curp').toUpperCase(),fecha:read('reg_fecha'),email:read('reg_email'),turnstileToken:token};
   busy=true;button.disabled=true;form.setAttribute('aria-busy','true');button.textContent='Registrando tu inscripción…';
   try{
-    const data=await window.EvolvaLegacy.call(API_URL,params);
+    let data;
+    const endpoint=String(window.EVOLVA_CONFIG?.API_URL||'').trim();
+    if(endpoint){
+      if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(endpoint))throw new Error('La conexión del registro requiere revisión de administración.');
+      const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},credentials:'omit',redirect:'follow',body:JSON.stringify({...params,action:'register'})});
+      if(!response.ok)throw new Error('No fue posible conectar con Evolva Academy.');
+      try{data=await response.json();}catch{throw new Error('El servidor no devolvió una respuesta válida.');}
+    }else{
+      data=await window.EvolvaLegacy.call(API_URL,params);
+    }
     if(!data?.ok)throw new Error(data?.error||data?.mensaje||'No fue posible completar la inscripción.');
     let folio=String(data.folio||'').trim().toUpperCase();
     if(/^\d{6}$/.test(folio))folio='EVOLVA-'+folio;

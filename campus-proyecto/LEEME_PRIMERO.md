@@ -1,3 +1,5 @@
+> **Versión 3:** instala juntos `apps-script/PortalPages.gs` y `apps-script/RegistroPages.gs`. La guía de conexión vigente es `apps-script/CONECTAR.md`; contiene los pasos de validación, registro POST y activación del endpoint. No conectes la API antigua al nuevo campus.
+
 # Evolva Academy · GitHub Pages
 
 Este paquete contiene el portal adaptado para GitHub Pages. La página de acceso será pública. Cada alumno necesita su correo y contraseña para consultar sus expedientes. Los datos académicos se consultan en Google Sheets mediante el backend incluido de Google Apps Script.

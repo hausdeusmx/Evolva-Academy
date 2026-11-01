@@ -23,3 +23,7 @@ El diseño compartido está en assets/site.css; assets/site.js controla el menú
 Ejecuta node tests/check-flows.mjs desde la raíz. Las pruebas usan respuestas simuladas, verifican el registro y los enlaces de acceso, y comprueban que las páginas públicas no consultan expedientes. No envían inscripciones ni pagos reales.
 
 Confirma cambios en main para publicar. Conserva la fuente de Pages en la raíz; no la cambies a /docs.
+
+## Conexión del registro
+
+El formulario carga campus/config.js. Cuando API_URL contiene el endpoint verificado de Apps Script, envía el registro por POST a esa misma API. Mientras no se active, mantiene el servicio anterior de inscripción. Nunca se interpreta DEMO_MODE como permiso para crear alumnos reales. La guía actual de despliegue es campus-proyecto/apps-script/CONECTAR.md.
