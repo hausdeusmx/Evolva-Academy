@@ -1,3 +1,5 @@
-/* Solo configuración pública. No escribas aquí contraseñas, claves ni IDs de hojas.
-   Al agregar la URL /exec, el entorno de prueba se desactiva automáticamente. */
-window.EVOLVA_CONFIG = { API_URL: "", DEMO_MODE: true };
+/* Solo configuración pública. No escribas aquí contraseñas, claves ni IDs de hojas. */
+window.EVOLVA_CONFIG = {
+  "API_URL": "https://script.google.com/macros/s/AKfycbyVrdPZIeKUXMscUZuFErro6Vf-CzdWmVK71UYYERssPmL4EZoZy1AMr16Fvbz-M0FtFw/exec",
+  "DEMO_MODE": false
+};

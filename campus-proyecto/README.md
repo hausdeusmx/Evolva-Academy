@@ -4,7 +4,7 @@ Campus publicado en https://evolvacademy.mx/campus/ y administración en https:/
 
 ## Estado
 
-La web utiliza datos ficticios mientras `API_URL` esté vacío. El backend de Google Apps Script v4 está implementado y probado con datos sintéticos. La base existente tiene preparada la estructura administrativa, pero la cuenta propietaria necesita activación privada y la nueva implementación de Apps Script antes de utilizar alumnos reales.
+El campus y administración están configurados con el endpoint de Google Apps Script v4. La comprobación del endpoint confirmó la versión y el rechazo de consultas académicas sin sesión. La cuenta propietaria está activa y las cuentas ficticias están deshabilitadas en la configuración publicada. Las pruebas de edición de notas y asignación de exámenes utilizan datos sintéticos; no se modificaron calificaciones reales para validar el despliegue.
 
 ## Activar la integración
 

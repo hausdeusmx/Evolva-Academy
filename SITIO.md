@@ -14,7 +14,7 @@ Se retiraron las consultas de expedientes por matrícula de estas páginas públ
 
 ## Estado del campus
 
-campus/ permanece en modo de prueba con datos ficticios. Sus sesiones y permisos se implementan en el nuevo backend preparado; falta desplegarlo y conectar las hojas reales. No utilices un endpoint del protocolo anterior en la configuración del nuevo campus.
+campus/ y campus/admin.html utilizan el endpoint verificado de Google Apps Script v4 con DEMO_MODE=false. Las consultas académicas y las operaciones administrativas requieren una sesión válida; la cuenta propietaria está activa. La configuración del endpoint se conserva también en campus-proyecto/public/config.js para futuras compilaciones.
 
 ## Mantenimiento
 

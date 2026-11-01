@@ -7,7 +7,7 @@ La guía vigente para conectar Google Sheets y activar la cuenta propietaria es 
 - Código del backend: apps-script/PortalPages.gs, apps-script/RegistroPages.gs y apps-script/AdminPages.gs, juntos en el proyecto vinculado a la hoja.
 - Configuración pública: campus/config.js y campus-proyecto/public/config.js. Solo necesitan la URL /exec verificada y DEMO_MODE=false; nunca secretos ni contraseñas.
 
-El acceso administrativo real debe activarlo el propietario con `configurarAdministradorEvolva`. La contraseña se define en un cuadro privado de Google Sheets. Hasta que se despliegue Apps Script v4 y se configure la URL de la API, las cuentas visibles son ficticias y los cambios de prueba se guardan solo en el navegador.
+El acceso administrativo real está activado para el propietario. La contraseña se definió en el cuadro privado de Google Sheets. La configuración publicada utiliza el endpoint verificado de Apps Script v4 y DEMO_MODE=false; las cuentas ficticias están deshabilitadas. Una futura reinstalación debe seguir apps-script/CONECTAR.md y volver a verificar su endpoint.
 
 En este repositorio GitHub Pages publica desde main y la raíz. La compilación de campus-proyecto genera ../campus. No crees una segunda configuración /docs ni cambies el dominio para actualizar el panel.
 
