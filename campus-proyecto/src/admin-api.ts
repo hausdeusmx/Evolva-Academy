@@ -1,3 +1,4 @@
+import {academicAccess,paymentNeedsReview} from './academic-access';
 import {academicActions,academicDemo} from './academic-demo';
 import {demoLearners,demoAcademic,demoRevision,demoRecords,saveDemoRecords} from './demo-academics';
 const endpoint=String(window.EVOLVA_CONFIG?.API_URL||'').trim();
@@ -21,6 +22,15 @@ export async function adminAPI(action:string,b:any={}):Promise<any>{
  if(!adminDemo){const data=await remote(action,b);if(action==='admin_login'){token=data.session;sessionStorage.setItem(tokenKey,token);}return data;}
  if(action==='admin_login')throw failure('Las cuentas reales aún requieren activación. Usa la administración de prueba para revisar el panel.');
  requireDemo();
+ if(action==='health')return {ok:true,version:7,features:['payment_access','payment_review','documents','credential','tasks']};
+ if(['admin_payments','admin_confirm_payment','admin_payment_file'].includes(action)){
+  const records=demoRecords(),all=demoLearners().flatMap(student=>(records[student.folio]?.payments||[]).map((p:any)=>({...p,folio:student.folio,name:student.name,pending:paymentNeedsReview(p.status),revision:JSON.stringify([p.id,p.status,p.amount,p.period,p.reference])})));
+  if(action==='admin_payments'){const q=String(b.query||'').toLowerCase(),filtered=all.filter(p=>(b.filter==='all'||p.pending)&&(!q||[p.name,p.folio,p.reference,p.period].some(v=>String(v||'').toLowerCase().includes(q))));const offset=Number(b.offset)||0;return {ok:true,payments:filtered.slice(offset,offset+40).map(({base64,...p}:any)=>p),total:filtered.length,pending:all.filter(p=>p.pending).length};}
+  const payment=all.find(p=>p.id===b.id);if(!payment)throw failure('Comprobante no disponible.',404);
+  if(action==='admin_payment_file')return {ok:true,name:'comprobante.pdf',mime:payment.mime,base64:payment.base64};
+  if(!payment.pending||payment.revision!==b.revision)throw failure('El comprobante cambió. Actualiza antes de confirmar.',409);
+  const row=records[payment.folio].payments.find((p:any)=>p.id===b.id);row.status='Confirmado';saveDemoRecords(records);return {ok:true,academicAccess:academicAccess({payments:records[payment.folio].payments})};
+ }
  if(academicActions.includes(action))return academicDemo('admin',action,b);
  if(action==='admin_session')return {ok:true,admin:{name:'Administración de prueba',email:'admin@demo.evolva.test'}};
  if(action==='admin_students'){const q=String(b.query||'').toLowerCase(),students=demoLearners().filter(s=>[s.folio,s.name,s.course,s.email,s.group].some(v=>v.toLowerCase().includes(q)));return {ok:true,students,total:students.length,courses:['Finanzas Personales'],groups:[{course:'Finanzas Personales',group:'FIN-01'}]};}

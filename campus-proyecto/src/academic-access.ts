@@ -1,0 +1,4 @@
+export const protectedAcademicActions=['tasks','submit_task','task_file','submission_file','exam','exam_link'];
+export function paymentNeedsReview(status:unknown){const s=String(status||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toUpperCase();return !s||s==='EN REVISION'||s==='POR REVISAR'||s.startsWith('PENDIENTE');}
+export function academicAccess(d:any){const pendingCount=(Array.isArray(d.payments)?d.payments:[]).filter((p:any)=>paymentNeedsReview(p.status)).length;return {blocked:pendingCount>0||d.academicAccess?.blocked===true,pendingCount:Math.max(pendingCount,Number(d.academicAccess?.pendingCount)||0),enforced:d.academicAccess?.enforced===true,reason:'payment_review'};}
+export function requireAcademicAccess(d:any){if(academicAccess(d).blocked)throw Object.assign(Error('Tu pago está en revisión. Trabajos y tareas y Exámenes se habilitarán cuando administración confirme tus comprobantes pendientes.'),{status:403,code:'PAYMENT_REVIEW'});}

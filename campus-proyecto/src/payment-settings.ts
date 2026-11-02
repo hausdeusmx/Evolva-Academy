@@ -1,3 +1,4 @@
+import {academicAccess} from './academic-access';
 // The active account comes from the authenticated dashboard, never public config.
 // AVISOS is the existing private, campus-wide data channel supported by API v6.
 export const PAYMENT_ACCOUNT_ID='EVOLVA-PAGOS-CUENTA';
@@ -24,5 +25,5 @@ export function paymentDashboard(d:any){
     const account=fields.get('cuenta')||'',bank=fields.get('banco receptor')||'',beneficiary=fields.get('beneficiario')||'',clabe=(fields.get('clabe')||'').replace(/\s/g,'');
     if(!duplicate&&account&&bank&&beneficiary&&validClabe(clabe))paymentAccount={account,bank,beneficiary,clabe};
   }
-  return {...d,paymentAccount,notices:notices.filter((n:any)=>n.id!==PAYMENT_ACCOUNT_ID)};
+  return {...d,paymentAccount,academicAccess:academicAccess(d),exams:academicAccess(d).blocked?[]:d.exams,notices:notices.filter((n:any)=>n.id!==PAYMENT_ACCOUNT_ID)};
 }
