@@ -10,7 +10,7 @@ function details(folio:string){const student=demoLearners().find(s=>s.folio===fo
 function recipients(b:any){let list=demoLearners();if(b.scope==='student')list=list.filter(s=>s.folio===b.folio);else if(['course','group'].includes(b.scope))list=list.filter(s=>s.course===b.course&&(b.scope!=='group'||s.group===b.group));else throw failure('Selecciona los destinatarios.');if(!list.length)throw failure('No hay alumnos en esa selección.');return list;}
 async function remote(action:string,body:any){
  if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(endpoint))throw failure('La administración de alumnos reales requiere activar la conexión con Google Sheets.');
- let response:Response;try{response=await fetch(endpoint,{method:'POST',credentials:'omit',redirect:'follow',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...body,action,session:token}),signal:AbortSignal.timeout(action==='admin_publish_task'?60000:45000)});}catch{throw failure('No se pudo conectar. Actualiza los datos antes de volver a guardar.');}
+ let response:Response;try{response=await fetch(endpoint,{method:'POST',credentials:'omit',redirect:'follow',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...body,action,session:token}),signal:AbortSignal.timeout(['admin_publish_task','admin_push_publish'].includes(action)?90000:45000)});}catch{throw failure('No se pudo conectar. Actualiza los datos antes de volver a guardar.');}
  let data:any;try{data=await response.json();}catch{throw failure('El servidor no devolvió una respuesta válida.');}
  if(!data.ok){if(data.status===401){token='';sessionStorage.removeItem(tokenKey);}throw failure(data.error||'No se pudo completar la solicitud.',data.status||400);}return data;
 }
