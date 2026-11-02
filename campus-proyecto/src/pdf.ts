@@ -11,9 +11,9 @@ export function makePDF(data:any,kind:string){
  text(kind==='constancia'?'CONSTANCIA DE FINALIZACIÓN':'BOLETA DE CALIFICACIONES',44,610,21,true);
  if(data.demo)text('DOCUMENTO DE PRUEBA - SIN VALIDEZ ACADÉMICA',44,581,10,true,'0.6 0.3 0.1');
  let start=555;
- if(page===0){text('Se hace constar que',44,530);text(data.student.name,44,495,Math.max(14,Math.min(25,900/Math.max(data.student.name.length,1))),true);text(`Folio: ${data.student.folio}`,44,465);text(`Diplomado: ${data.student.course}`,44,439);text(`Grupo: ${data.student.group||'Sin asignar'}`,44,413);start=365;}
+ if(page===0){text('Se hace constar que',44,530);text(data.student.name,44,495,Math.max(14,Math.min(25,900/Math.max(data.student.name.length,1))),true);text(`Folio: ${data.student.folio}`,44,465);text(`Curso: ${data.student.course}`,44,439);text(`Grupo: ${data.student.group||'Sin asignar'}`,44,413);start=365;}
  else {text(`${data.student.name} / ${data.student.folio}`,44,553,11,true);start=520;}
- if(kind==='constancia'){text('ha concluido las actividades registradas del diplomado.',44,368);text(`Avance: ${data.progress}%     Promedio: ${data.average??'--'} / 10`,44,339,14,true);text('Certificado final gratuito.',44,307,11);}
+ if(kind==='constancia'){text('ha concluido las actividades registradas del curso.',44,368);text(`Avance: ${data.progress}%     Promedio: ${data.average??'--'} / 10`,44,339,14,true);text('Certificado final gratuito.',44,307,11);}
  else {let y=start;for(const g of grades){const title=`${g.module}  ${g.title}`;text(title.slice(0,69),44,y,9);text(g.score===null?'Pendiente':`${g.score} / 10`,465,y,10,true);if(title.length>69)text(title.slice(69,138),44,y-11,8);y-=25;}if(page===batches.length-1)text(`Promedio: ${data.average??'--'} / 10`,44,y-17,13,true);}
  if(kind==='constancia'){text('Alexis Soto',44,164,14,true);text('Director General',44,145,10);text('Evolva Academy',44,127,10);}
  text(data.demo?'Datos ficticios para validar el portal. No acredita estudios reales.':'Documento generado desde el registro autorizado de la institución.',44,93,9);

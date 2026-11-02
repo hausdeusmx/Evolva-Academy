@@ -17,7 +17,7 @@ export async function createCredentialPDF(data:any):Promise<Uint8Array>{
  front.drawRectangle({x:12,y:31,width:53,height:70,color:white,borderColor:rgb(.87,.82,.84),borderWidth:.6});const fit=photo.scaleToFit(49,66);front.drawImage(photo,{x:14+(49-fit.width)/2,y:33+(66-fit.height)/2,width:fit.width,height:fit.height});
  write(front,'ALUMNO/A',76,98,5,regular,muted);let fontSize=10.3;while(lines(data.student.name,bold,fontSize,154).length>3&&fontSize>5.5)fontSize-=.3;
  const nameLines=lines(data.student.name,bold,fontSize,154).slice(0,3);nameLines.forEach((line,i)=>write(front,line,76,85-i*(fontSize+1),fontSize,bold));
- write(front,'DIPLOMADO',76,57,5,regular,muted);lines(data.student.course,regular,7,154).slice(0,2).forEach((line,i)=>write(front,line,76,47-i*8,7));
+ write(front,'CURSO',76,57,5,regular,muted);lines(data.student.course,regular,7,154).slice(0,2).forEach((line,i)=>write(front,line,76,47-i*8,7));
  write(front,'GRUPO',150,25,5,regular,muted);write(front,data.student.group||'Por asignar',150,15.8,7,bold);
  write(front,'FOLIO',12,25,5,regular,muted);write(front,data.student.folio,12,15.8,7.2,bold,wine);front.drawRectangle({x:0,y:0,width,height:11,color:rose});write(front,data.demo?'MUESTRA DE PRUEBA - SIN VALIDEZ':'EVOLVA ACADEMY · USO PERSONAL Y ACADÉMICO',12,3.3,5.2,bold,wine);
  back.drawRectangle({x:0,y:0,width,height,color:rose});back.drawRectangle({x:0,y:117,width,height:37,color:wine});write(back,'EVOLVA ACADEMY',13,136,11,bold,white);write(back,'APRENDER. EVOLUCIONAR. AVANZAR.',13,124,5.3,regular,white);
