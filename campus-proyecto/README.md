@@ -66,3 +66,11 @@ La activación requiere el archivo completo privado de API v8 entregado al propi
 La recuperación utiliza el correo personal de inscripción, verificación Turnstile, límites de solicitudes y un enlace de un solo uso válido durante 20 minutos. El token solo se conserva como hash en el servidor y viaja en el fragmento del enlace; cambiar la contraseña cierra las sesiones anteriores del alumno. Las cuentas administrativas conservan su flujo existente. No publicar el backend privado, la hoja, expedientes ni secretos en este repositorio.
 
 La compilación sigue generando únicamente la interfaz. Las pruebas públicas usan datos sintéticos y no envían correos; la API privada se verifica con un arnés local separado de la referencia histórica de backend.
+
+## Entrega manual de correo institucional · V9
+
+Admin incluye Correo institucional: búsqueda de alumno, dirección fija `EVOLVA-######@evolvacademy.mx`, asignación de contraseña inicial, estado y cancelación de entrega pendiente. La página `/correos.html` valida CURP, folio y Turnstile antes de entregar el acceso una sola vez. El correo y la clave no se envían por URL ni se conservan en almacenamiento del navegador. El acceso del campus mantiene su propia contraseña.
+
+No hay integración con Google Workspace: el propietario prepara las cuentas por su cuenta y registra aquí el acceso inicial. La conexión requiere el archivo completo privado V9, ejecutar `prepararPortalV9` como propietario y actualizar la implementación existente conservando URL y acceso. Sin esta activación, ambos formularios muestran disponibilidad pendiente y no aceptan asignaciones ni consultas. El backend nunca se publica en este repositorio.
+
+Validación de la página: `node tests/check-mail-delivery.mjs` desde la raíz del repositorio. Las pruebas del backend privado se ejecutan separadamente con datos ficticios.

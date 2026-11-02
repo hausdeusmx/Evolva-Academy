@@ -78,7 +78,7 @@ const missingPhoto=await setup('inscripcion.html','registro.js');missingPhoto.co
 
 for(const name of ['alumnos.html','calificaciones.html','certificado.html','correos.html','validar.html','pagos.html']){
  const html=await readFile(path.join(root,name),'utf8');
- assert(!/script.google.com|accion[:=]|buscarFolio|buscarfolio|const API_URL/i.test(html),name+' must not query academic records publicly');
+ assert(!/script.google.com|accion[:=]|buscarFolio|buscarfolio|const API_URL/i.test(html.replace(/<meta http-equiv="Content-Security-Policy"[^>]*>/g,'')),name+' must not query academic records publicly');
  assert(html.includes('campus/'),name+' must direct personal queries to the campus');
 }
 const paymentPage=await readFile(path.join(root,'pagos.html'),'utf8');

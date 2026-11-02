@@ -1,3 +1,4 @@
+import {mailDemo} from './mail-demo';
 import {learningActions,learningDemo} from './learning-demo';
 import {academicAccess,paymentNeedsReview} from './academic-access';
 import {academicActions,academicDemo} from './academic-demo';
@@ -23,7 +24,8 @@ export async function adminAPI(action:string,b:any={}):Promise<any>{
  if(!adminDemo){const data=await remote(action,b);if(action==='admin_login'){token=data.session;sessionStorage.setItem(tokenKey,token);}return data;}
  if(action==='admin_login')throw failure('Las cuentas reales aún requieren activación. Usa la administración de prueba para revisar el panel.');
  requireDemo();
- if(action==='health')return {ok:true,version:8,features:['payment_access','payment_review','documents','credential','tasks','lessons','calendar','password_recovery']};
+ if(action==='health')return {ok:true,version:9,features:['institutional_delivery','payment_access','payment_review','documents','credential','tasks','lessons','calendar','password_recovery']};
+ if(['admin_mail_students','admin_mail_status','admin_mail_assign','admin_mail_cancel'].includes(action))return mailDemo(demoLearners(),action,b);
  if(learningActions.includes(action))return learningDemo('admin',action,b);
  if(['admin_payments','admin_confirm_payment','admin_payment_file'].includes(action)){
   const records=demoRecords(),all=demoLearners().flatMap(student=>(records[student.folio]?.payments||[]).map((p:any)=>({...p,folio:student.folio,name:student.name,pending:paymentNeedsReview(p.status),revision:JSON.stringify([p.id,p.status,p.amount,p.period,p.reference])})));
