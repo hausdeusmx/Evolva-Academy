@@ -38,3 +38,8 @@ Desde campus-proyecto ejecuta `npm install`, `npm run check`, `npm test` y `npm 
 La web incluye Expediente del alumno, Mi credencial y Trabajos y tareas; administración incluye consulta de expedientes, publicación y revisión de trabajos. La activación del backend sigue apps-script/ACTUALIZAR-V5.md. Hay una versión completa en un solo archivo para simplificar la actualización del proyecto existente. Hasta que el endpoint confirme las nuevas capacidades, el campus conserva las funciones v4 y los apartados nuevos muestran su estado de activación. Las inscripciones solicitan los archivos obligatorios al detectar v5.
 
 Los documentos CURP y las fotografías se guardan en Drive privado. Los estudiantes consultan solamente sus propios archivos y entregas. La credencial PDF utiliza la fotografía del expediente; su QR abre el acceso al campus. Los archivos y datos reales no se incluyen en este repositorio.
+
+
+## Notificaciones web y API privada
+
+La interfaz web incluye preferencias de notificaciones y envío de avisos desde administración. Su activación requiere la actualización privada de Apps Script versión 6, entregada por separado al propietario. Los archivos de Apps Script de este repositorio son una referencia histórica; no deben sustituir una implementación privada más reciente. El comando de compilación genera únicamente el frontend y no regenera el backend privado.
