@@ -1,3 +1,4 @@
+import {paymentDashboard} from './payment-settings';
 import {academicActions,academicDemo} from './academic-demo';
 import {demoAcademic,demoRecords,saveDemoRecords} from './demo-academics';
 import {DEMO_EMAIL,DEMO_GRADUATE,DEMO_PASSWORD,demoStudent,baseGrades,summary,exams,gradeExam,demoNotices} from './domain';
@@ -30,7 +31,7 @@ async function request(action:string,body:any={},params=''):Promise<any>{const q
  if(action==='certificate'){if(!d.certificate.eligible)throw Error('La constancia todavía no está autorizada.');return {ok:true,data:d};}
  throw Error('Esta acción no está disponible.');
 }
-export async function portalAPI(action:string,body?:any,params=''){return request(action,body,params);}
+export async function portalAPI(action:string,body?:any,params=''){const d=await request(action,body,params);return action==='dashboard'?paymentDashboard(d):d;}
 export async function portalTransport(action:string,body?:any,params=''){try{return Response.json(await request(action,body,params));}catch(e:any){return Response.json({error:e.message},{status:e.status||400});}}
 async function base64File(file:File){const bytes=new Uint8Array(await file.arrayBuffer());let s='';for(let i=0;i<bytes.length;i+=16384)s+=String.fromCharCode(...bytes.subarray(i,i+16384));return btoa(s);}
 export async function downloadFile(action:string,options:any){let bytes:Uint8Array,mime='application/pdf',name='documento.pdf';if(action==='proof'){const d=await request('proof',options);bytes=Uint8Array.from(atob(d.base64),c=>c.charCodeAt(0));mime=d.mime;name='comprobante.'+(mime==='application/pdf'?'pdf':mime==='image/png'?'png':'jpg');}else if(options.kind==='boleta'){const d=await request('issue_report'),{createAcademicReportPDF}=await import('./report-pdf');bytes=await createAcademicReportPDF(d.snapshot,d.meta);name='reporte-academico-'+d.snapshot.student.folio+'.pdf';}else{const d=await request('certificate');if(d.base64)bytes=Uint8Array.from(atob(d.base64),c=>c.charCodeAt(0));else{const{makePDF}=await import('./pdf');bytes=makePDF(d.data,'constancia');}name='constancia.pdf';}const url=URL.createObjectURL(new Blob([new Uint8Array(bytes)],{type:mime})),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);}

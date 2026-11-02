@@ -43,3 +43,9 @@ Los documentos CURP y las fotografías se guardan en Drive privado. Los estudian
 ## Notificaciones web y API privada
 
 La interfaz web incluye preferencias de notificaciones y envío de avisos desde administración. Su activación requiere la actualización privada de Apps Script versión 6, entregada por separado al propietario. Los archivos de Apps Script de este repositorio son una referencia histórica; no deben sustituir una implementación privada más reciente. El comando de compilación genera únicamente el frontend y no regenera el backend privado.
+
+## Datos privados para transferencias
+
+La API v6 entrega los avisos de Sheets después de autenticar al alumno. La fila reservada de `AVISOS` con ID `EVOLVA-PAGOS-CUENTA` contiene la cuenta activa en texto: `Cuenta: …`, `Banco receptor: …`, `Beneficiario: …` y `CLABE: …`, cada campo en su propia línea. No duplicar esa fila ni limitarla a un folio/diplomado. El campus la presenta en Pagos y la excluye de los avisos y su indicador de no leídos. Una configuración incompleta, duplicada o con CLABE inválida muestra una indicación para consultar a administración. Los valores bancarios no se incluyen en el código público, config.js ni en ejemplos del repositorio. Editar solo el mensaje de esa fila para cambiar la cuenta; conservar el ID. No se envían notificaciones push al modificarla.
+
+`campus/?seccion=pagos` abre Pagos después de iniciar sesión. El concepto sugerido es el folio del alumno; los comprobantes siguen pendientes de revisión administrativa.
