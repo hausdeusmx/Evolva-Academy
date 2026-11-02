@@ -76,6 +76,19 @@ docs.elements.get('reg_photo').files=[new File([Buffer.from('iVBORw0KGgoAAAANSUh
 await docs.submit('registroForm');const docPost=docPosts.find(p=>p.action==='register');assert.ok(docPost);assert.equal(docPost.curpFile.mime,'application/pdf');assert.equal(docPost.photoFile.mime,'image/png');assert.match(docPost.requestId,/^[a-f0-9-]{36}$/);assert.equal(docs.elements.get('reg_photo').required,true);assert.equal(docs.elements.get('registroDocumentos').hidden,false);assert.equal(docs.calls.length,0,'Enrollment documents never use JSONP');
 const missingPhoto=await setup('inscripcion.html','registro.js');missingPhoto.context.EVOLVA_CONFIG=docs.context.EVOLVA_CONFIG;let registrationsWithoutPhoto=0;missingPhoto.context.fetch=async(url,options)=>{const p=JSON.parse(options.body);if(p.action==='register')registrationsWithoutPhoto++;return {ok:true,json:async()=>({ok:true,version:5,features:['documents']})};};missingPhoto.elements.get('reg_curp_pdf').files=docs.elements.get('reg_curp_pdf').files;missingPhoto.elements.get('reg_photo').files=[];await missingPhoto.submit('registroForm');assert.equal(registrationsWithoutPhoto,0,'V5 enrollment cannot be sent without a photograph');assert.match(missingPhoto.elements.get('registroError').textContent,/fotografía/);
 
+// New courses cannot enroll against an older API and never use the legacy payment link.
+const newCourses=JSON.parse(await readFile(path.join(root,'assets/course-catalog.json'),'utf8')).filter(c=>!c.legacy);
+for(const [index,c] of newCourses.entries()){
+ const entry=await setup('inscripcion.html','registro.js');entry.selected.value=c.name;
+ for(const [id,value] of Object.entries({reg_nombre:'Alumno de prueba',reg_edad:'25',reg_estado:'Chihuahua',reg_curp:'CURSO0000000000000',reg_fecha:'2001-01-01',reg_email:'catalogo@example.invalid'}))entry.elements.get(id).value=value;
+ entry.context.EVOLVA_CONFIG={API_URL:'https://script.google.com/macros/s/SYNTHETIC_CATALOG_TEST/exec'};vm.runInContext(await source('course-catalog.js'),entry.context);
+ entry.elements.get('reg_curp_pdf').files=docs.elements.get('reg_curp_pdf').files;entry.elements.get('reg_photo').files=docs.elements.get('reg_photo').files;
+ let active=false,registrations=0;entry.context.fetch=async(url,options)=>{const body=JSON.parse(options.body);if(body.action==='health')return {ok:true,json:async()=>({ok:true,version:active?11:10,features:['documents',...(active?['course_catalog']:[])]})};registrations++;assert.equal(body.diplomado,c.name);assert.equal(body.curpFile.mime,'application/pdf');return {ok:true,json:async()=>({ok:true,folio:'EVOLVA-'+String(700+index).padStart(6,'0'),password:'synthetic-catalog-test'})};};
+ await entry.submit('registroForm');assert.equal(registrations,0);assert.match(entry.elements.get('registroError').textContent,/preparación/);
+ active=true;await entry.submit('registroForm');assert.equal(registrations,1);assert.equal(entry.elements.get('registroPago').href,'campus/?seccion=pagos');assert.equal(entry.calls.length,0);
+}
+console.log('V11 enrollment checks passed: five course contracts, activation pending, private documents and campus payment handoff.');
+
 for(const name of ['alumnos.html','calificaciones.html','certificado.html','correos.html','validar.html','pagos.html']){
  const html=await readFile(path.join(root,name),'utf8');
  assert(!/script.google.com|accion[:=]|buscarFolio|buscarfolio|const API_URL/i.test(html.replace(/<meta http-equiv="Content-Security-Policy"[^>]*>/g,'')),name+' must not query academic records publicly');

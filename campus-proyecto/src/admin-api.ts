@@ -25,7 +25,7 @@ export async function adminAPI(action:string,b:any={}):Promise<any>{
  if(!adminDemo){const data=await remote(action,b);if(action==='admin_login'){token=data.session;sessionStorage.setItem(tokenKey,token);}return data;}
  if(action==='admin_login')throw failure('Las cuentas reales aún requieren activación. Usa la administración de prueba para revisar el panel.');
  requireDemo();
- if(action==='health')return {ok:true,version:10,features:['followup','support','rubrics','receipts','reports','surveys','institutional_delivery','payment_access','payment_review','documents','credential','tasks','lessons','calendar','password_recovery']};
+ if(action==='health')return {ok:true,version:11,features:['course_catalog','followup','support','rubrics','receipts','reports','surveys','institutional_delivery','payment_access','payment_review','documents','credential','tasks','lessons','calendar','password_recovery']};
  if(['admin_mail_students','admin_mail_status','admin_mail_assign','admin_mail_cancel'].includes(action))return mailDemo(demoLearners(),action,b);
  if(action.startsWith('admin_suite_'))return suiteDemo(true,action,b);
  if(learningActions.includes(action))return learningDemo('admin',action,b);

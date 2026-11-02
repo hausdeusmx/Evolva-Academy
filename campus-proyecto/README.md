@@ -87,3 +87,13 @@ Validación de la página: `node tests/check-mail-delivery.mjs` desde la raíz d
 Requiere el archivo completo privado V10. Sustituir TODO Código.gs, ejecutar `prepararPortalV10` como propietario y actualizar la implementación existente conservando URL y acceso. No añadir este backend al repositorio público. Las activaciones V8/V9, folios, contraseñas, pagos y calificaciones previos se conservan. Sin la preparación V10, las interfaces nuevas muestran activación pendiente.
 
 Checks adicionales: `node tests/check-frontend.mjs` y `node tests/check-suite-files.mjs`. Este último usa archivos ficticios y una carpeta temporal; se puede establecer `EVOLVA_QA_OUTPUT` para conservar los PDF/XLSX de revisión. Las pruebas del backend privado se ejecutan por separado.
+
+## Catálogo V11 · siete cursos
+
+El catálogo público y la inscripción añaden Excel básico para el trabajo (8 semanas, $100 semanal, $800 total), Canva para redes y negocios (6 semanas, $100 semanal, $600 total), Atención al cliente y ventas (6 semanas, $100 semanal, $600 total), Administración de pequeños negocios (8 semanas, $125 semanal, $1,000 total) y Marketing digital básico (8 semanas, $150 semanal, $1,200 total). Incluyen dos actividades semanales, revisión, proyecto final y constancia, sin cuota adicional de inscripción. Las licencias de software no están incluidas. Se conservan las cuotas y duración de los dos cursos existentes.
+
+La inscripción de los cinco cursos nuevos requiere la API privada V11 y la preparación `prepararPortalV11` ejecutada por el propietario. Actualizar la implementación existente conservando URL y acceso. Hasta recibir `course_catalog` en health V11, las cinco opciones muestran preparación pendiente. Los datos y la API privada no se publican en GitHub. La preparación no crea alumnos ni cambia folios, contraseñas, calificaciones o pagos existentes. Las clases, tareas y exámenes se publican por separado desde Admin.
+
+`assets/course-catalog.json` es la referencia pública de nombres, duración y cuotas; mantener sincronizadas las páginas y el catálogo privado al modificarla. El contrato histórico `diplomado`/`DIPLOMADO` se conserva. Los cursos cortos muestran cuota semanal y total en el campus, sin mensualidad calculada. Sus pagos se registran por transferencia en el campus; el enlace Stripe anterior se conserva para los flujos existentes.
+
+Comprobaciones desde la raíz: `node tests/check-course-catalog.mjs` y `node tests/check-flows.mjs`. El backend completo se comprueba separadamente con datos ficticios.

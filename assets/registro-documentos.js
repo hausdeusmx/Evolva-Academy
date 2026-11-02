@@ -3,11 +3,12 @@
   let pending=null;
   async function requirements(force){
     const endpoint=String(window.EVOLVA_CONFIG?.API_URL||'').trim();
-    if(!endpoint)return false;
+    if(!endpoint){window.EvolvaCourses?.setEnrollmentReady(false);return false;}
     if(pending&&!force)return pending;
     pending=(async()=>{
       const response=await fetch(endpoint,{method:'POST',credentials:'omit',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'health'}),signal:AbortSignal.timeout(25000)});
       const data=await response.json();if(!data.ok)throw Error('No se pudo comprobar la disponibilidad del registro.');
+      window.EvolvaCourses?.setEnrollmentReady(data.version>=11&&data.features?.includes('course_catalog'));
       const ready=data.version>=5&&data.features?.includes('documents');
       section.hidden=!ready;photo.disabled=!ready;curp.disabled=!ready;photo.required=!!ready;curp.required=!!ready;return !!ready;
     })();
@@ -25,5 +26,5 @@
   function requestId(){if(crypto.randomUUID)return crypto.randomUUID();const b=crypto.getRandomValues(new Uint8Array(16));b[6]=(b[6]&15)|64;b[8]=(b[8]&63)|128;const h=Array.from(b,x=>x.toString(16).padStart(2,'0')).join('');return h.slice(0,8)+'-'+h.slice(8,12)+'-'+h.slice(12,16)+'-'+h.slice(16,20)+'-'+h.slice(20);}
   let id='';
   window.EvolvaDocuments={requirements,async payload(){if(!id)id=requestId();return {requestId:id,curpFile:await read(curp.files?.[0],'curp'),photoFile:await read(photo.files?.[0],'photo')};}};
-  requirements(false).catch(()=>{});
+  requirements(false).catch(()=>{window.EvolvaCourses?.setEnrollmentReady(false);});
 })();

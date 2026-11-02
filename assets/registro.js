@@ -8,6 +8,7 @@ let busy=false;
 const course=new URLSearchParams(location.search).get('diplomado');
 if(course==='Finanzas Personales')document.getElementById('cursoFinanzas').checked=true;
 if(course==='Primeros Auxilios')document.getElementById('cursoAuxilios').checked=true;
+window.EvolvaCourses?.preselect();
 curp.addEventListener('input',()=>{curp.value=curp.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,18);});
 const date=new Date();
 document.getElementById('reg_fecha').max=date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0');
@@ -21,7 +22,8 @@ form.addEventListener('submit',async event=>{
   if(busy)return;
   if(!form.reportValidity())return;
   const selected=document.querySelector('input[name="diplomado"]:checked');
-  if(!selected){errorBox.textContent='Selecciona el diplomado que quieres cursar.';return;}
+  if(!selected){errorBox.textContent='Selecciona el curso que quieres cursar.';return;}
+  if(window.EvolvaCourses?.isNew(selected.value)&&!window.EvolvaCourses.available(selected.value)){errorBox.textContent='Las inscripciones de este curso todavía están en preparación. Intenta cuando administración confirme su apertura.';return;}
   let token='';
   try{token=window.turnstile?.getResponse()||'';}catch{}
   if(!token){captchaError.textContent='Completa la verificación de seguridad antes de enviar tu registro.';captchaError.scrollIntoView({behavior:'smooth',block:'center'});return;}
@@ -47,7 +49,7 @@ form.addEventListener('submit',async event=>{
     document.getElementById('codigoFolio').textContent=folio;
     document.getElementById('datoCorreo').textContent=data.alumno?.CORREO_PERSONAL||params.email;
     document.getElementById('datoPassword').textContent=data.password||'Solicita tu acceso a la administración de Evolva Academy.';
-    document.getElementById('registroPago').href='pagos.html?folio='+encodeURIComponent(folio);
+    document.getElementById('registroPago').href=window.EvolvaCourses?.isNew(params.diplomado)?'campus/?seccion=pagos':'pagos.html?folio='+encodeURIComponent(folio);
     const result=document.getElementById('folioResultado');
     form.style.display='none';result.style.display='block';
     result.setAttribute('tabindex','-1');result.focus();result.scrollIntoView({behavior:'smooth',block:'center'});
