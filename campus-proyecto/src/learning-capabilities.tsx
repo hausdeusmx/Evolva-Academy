@@ -1,0 +1,5 @@
+import {useEffect,useState} from 'react';
+import {BookOpen,RefreshCw} from 'lucide-react';
+import {portalAPI} from './portal-api';
+export function useLearning(feature:string){const[state,setState]=useState({ready:false,loading:true,error:''});async function refresh(){try{const d=await portalAPI('health');setState({ready:!!d.features?.includes(feature),loading:false,error:''});}catch(e:any){setState({ready:false,loading:false,error:e.message});}}useEffect(()=>{refresh();},[feature]);return {...state,refresh};}
+export function LearningPending({state,admin=false}:{state:ReturnType<typeof useLearning>;admin?:boolean}){return <section className="panel learn-empty"><BookOpen size={34}/><h2>{state.loading?'Preparando este espacio…':admin?'Actualización lista para activar':'Este espacio está en preparación.'}</h2><p>{state.error||(admin?'Activa la actualización de la conexión del campus para publicar clases y eventos.':'La administración está preparando las clases y el calendario de tu diplomado.')}</p><button className="btn secondary" onClick={state.refresh}><RefreshCw size={16}/> Revisar disponibilidad</button></section>;}

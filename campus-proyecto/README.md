@@ -4,11 +4,11 @@ Campus publicado en https://evolvacademy.mx/campus/ y administración en https:/
 
 ## Estado
 
-El campus y administración están configurados con el endpoint de Google Apps Script v4. La comprobación del endpoint confirmó la versión y el rechazo de consultas académicas sin sesión. La cuenta propietaria está activa y las cuentas ficticias están deshabilitadas en la configuración publicada. Las pruebas de edición de notas y asignación de exámenes utilizan datos sintéticos; no se modificaron calificaciones reales para validar el despliegue.
+El campus y administración usan una API privada de Google Apps Script. La última comprobación confirmó v7 y el rechazo de consultas académicas sin sesión; la interfaz v8 detecta las capacidades activas antes de habilitar los módulos nuevos. La cuenta propietaria está activa y las cuentas ficticias están deshabilitadas en la configuración publicada. Las pruebas de edición de notas y asignación de exámenes utilizan datos sintéticos; no se modificaron calificaciones reales para validar el despliegue.
 
-## Activar la integración
+## Referencia de la integración inicial
 
-Sigue **apps-script/CONECTAR.md**. Instala juntos PortalPages.gs, RegistroPages.gs y AdminPages.gs, con el manifiesto incluido, en el proyecto vinculado a la hoja. Ejecuta configurarDesdeHojaActiva, diagnosticarConexion y configurarAdministradorEvolva como propietario. Define tu contraseña en la ventana privada de la hoja; no se publica ninguna contraseña real en este repositorio.
+Los archivos **apps-script/CONECTAR.md** y sus módulos describen la instalación histórica. No sustituyen una API privada más reciente. Para una instalación inicial desde esa referencia: Instala juntos PortalPages.gs, RegistroPages.gs y AdminPages.gs, con el manifiesto incluido, en el proyecto vinculado a la hoja. Ejecuta configurarDesdeHojaActiva, diagnosticarConexion y configurarAdministradorEvolva como propietario. Define tu contraseña en la ventana privada de la hoja; no se publica ninguna contraseña real en este repositorio.
 
 Después de desplegar y verificar el endpoint v4 coloca su URL /exec en `campus/config.js` y `campus-proyecto/public/config.js`, y cambia DEMO_MODE a false. El endpoint anterior no es compatible con el protocolo nuevo y no debe conectarse sin actualizarlo. Una API configurada nunca usa datos ficticios como respaldo.
 
@@ -52,6 +52,17 @@ La API v6 entrega los avisos de Sheets después de autenticar al alumno. La fila
 
 ## Acceso académico durante la revisión de pagos
 
-Trabajos y tareas y Exámenes muestran un aviso de espera mientras el alumno tenga algún comprobante En revisión, Por revisar o Pendiente. Se conserva el acceso a pagos, avisos, calificaciones y documentos de inscripción. No se aplica una regla de adeudos ni se bloquea por no tener pagos. Cada consulta de tareas, entrega o apertura de examen revisa el estado vigente; el alumno puede actualizarlo desde el aviso y el campus lo actualiza periódicamente.
+Mis clases, Trabajos y tareas y Exámenes muestran un aviso de espera mientras el alumno tenga algún comprobante En revisión, Por revisar o Pendiente. Se conserva el acceso a pagos, avisos, calificaciones y documentos de inscripción. No se aplica una regla de adeudos ni se bloquea por no tener pagos. Cada consulta de tareas, entrega o apertura de examen revisa el estado vigente; el alumno puede actualizarlo desde el aviso y el campus lo actualiza periódicamente.
 
 La protección del servidor y la nueva pestaña Admin → Pagos requieren la actualización privada API v7, con las capacidades payment_access y payment_review. Las funciones no se agregan al backend histórico público. La interfaz de alumno mantiene un bloqueo compatible con API v6; Admin muestra una activación pendiente hasta que la nueva API esté desplegada. Confirmar un comprobante requiere verificar el abono y usa una revisión para rechazar cambios concurrentes. Solo confirmar el último pendiente restablece el acceso. Los exámenes externos se abren con una consulta autenticada en v7; los enlaces ya compartidos requieren los permisos del formulario externo.
+
+
+## Actualización v8: Mis clases, Calendario y recuperación
+
+La interfaz añade clases con lecturas, enlaces y archivos privados por módulo y semana; cada alumno puede marcar su lectura sin modificar sus notas. Administración publica para un alumno, grupo o diplomado, revisa destinatarios y puede archivar materiales. El calendario reúne clases programadas, fechas límite de tareas y eventos creados por administración, con hora de Ciudad Juárez.
+
+La activación requiere el archivo completo privado de API v8 entregado al propietario. Sustituir el contenido completo de Código.gs, conservar las propiedades del proyecto y ejecutar `prepararPortalV8` como propietario antes de implementar una nueva versión en la implementación existente. La preparación crea pestañas internas privadas y solicita autorización de envío de correo para recuperación; no envía mensajes ni modifica contraseñas, pagos o calificaciones. Mantener el mismo endpoint y acceso de la implementación. Hasta activar v8, las secciones nuevas indican que su activación está pendiente.
+
+La recuperación utiliza el correo personal de inscripción, verificación Turnstile, límites de solicitudes y un enlace de un solo uso válido durante 20 minutos. El token solo se conserva como hash en el servidor y viaja en el fragmento del enlace; cambiar la contraseña cierra las sesiones anteriores del alumno. Las cuentas administrativas conservan su flujo existente. No publicar el backend privado, la hoja, expedientes ni secretos en este repositorio.
+
+La compilación sigue generando únicamente la interfaz. Las pruebas públicas usan datos sintéticos y no envían correos; la API privada se verifica con un arnés local separado de la referencia histórica de backend.

@@ -1,3 +1,4 @@
+import {learningActions,learningDemo} from './learning-demo';
 import {academicAccess,paymentNeedsReview} from './academic-access';
 import {academicActions,academicDemo} from './academic-demo';
 import {demoLearners,demoAcademic,demoRevision,demoRecords,saveDemoRecords} from './demo-academics';
@@ -22,7 +23,8 @@ export async function adminAPI(action:string,b:any={}):Promise<any>{
  if(!adminDemo){const data=await remote(action,b);if(action==='admin_login'){token=data.session;sessionStorage.setItem(tokenKey,token);}return data;}
  if(action==='admin_login')throw failure('Las cuentas reales aún requieren activación. Usa la administración de prueba para revisar el panel.');
  requireDemo();
- if(action==='health')return {ok:true,version:7,features:['payment_access','payment_review','documents','credential','tasks']};
+ if(action==='health')return {ok:true,version:8,features:['payment_access','payment_review','documents','credential','tasks','lessons','calendar','password_recovery']};
+ if(learningActions.includes(action))return learningDemo('admin',action,b);
  if(['admin_payments','admin_confirm_payment','admin_payment_file'].includes(action)){
   const records=demoRecords(),all=demoLearners().flatMap(student=>(records[student.folio]?.payments||[]).map((p:any)=>({...p,folio:student.folio,name:student.name,pending:paymentNeedsReview(p.status),revision:JSON.stringify([p.id,p.status,p.amount,p.period,p.reference])})));
   if(action==='admin_payments'){const q=String(b.query||'').toLowerCase(),filtered=all.filter(p=>(b.filter==='all'||p.pending)&&(!q||[p.name,p.folio,p.reference,p.period].some(v=>String(v||'').toLowerCase().includes(q))));const offset=Number(b.offset)||0;return {ok:true,payments:filtered.slice(offset,offset+40).map(({base64,...p}:any)=>p),total:filtered.length,pending:all.filter(p=>p.pending).length};}
