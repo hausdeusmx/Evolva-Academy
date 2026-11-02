@@ -74,3 +74,16 @@ Admin incluye Correo institucional: búsqueda de alumno, dirección fija `EVOLVA
 No hay integración con Google Workspace: el propietario prepara las cuentas por su cuenta y registra aquí el acceso inicial. La conexión requiere el archivo completo privado V9, ejecutar `prepararPortalV9` como propietario y actualizar la implementación existente conservando URL y acceso. Sin esta activación, ambos formularios muestran disponibilidad pendiente y no aceptan asignaciones ni consultas. El backend nunca se publica en este repositorio.
 
 Validación de la página: `node tests/check-mail-delivery.mjs` desde la raíz del repositorio. Las pruebas del backend privado se ejecutan separadamente con datos ficticios.
+
+## Servicios escolares V10 · seis módulos
+
+- Seguimiento en Admin: comprobantes pendientes, entregas por revisar, trabajos atrasados y solicitudes abiertas; filtros por curso/grupo y hasta 50 elementos por sección.
+- Centro de ayuda en cuentas de alumnos y Admin: solicitudes privadas, categoría, conversación, estados y paginación. No envía correos ni mensajes fuera del portal.
+- Rúbricas: de 1 a 8 criterios que suman 10 puntos; se configuran antes de calificar, se muestran en la tarea y calculan la nota al revisar. Sus criterios se conservan cuando ya existen notas o revisiones.
+- Recibos PDF: emisión con identificador estable y datos del pago confirmado, disponibles para el alumno propietario y Admin. El recibo es un registro interno de pago.
+- Reportes Excel `.xlsx`: alumnos, calificaciones y pagos; filtros por curso/grupo, encabezado congelado y hoja de información. Los textos se exportan como valores literales, no como fórmulas. Límite de 2000 alumnos y 10000 filas por exportación.
+- Encuestas: publicación con revisión de destinatarios, hasta 8 preguntas de valoración o texto; opción de habilitar al completar el curso, una respuesta por alumno, promedios/comentarios y cierre conservando resultados. Las respuestas son identificadas y visibles solo para administración.
+
+Requiere el archivo completo privado V10. Sustituir TODO Código.gs, ejecutar `prepararPortalV10` como propietario y actualizar la implementación existente conservando URL y acceso. No añadir este backend al repositorio público. Las activaciones V8/V9, folios, contraseñas, pagos y calificaciones previos se conservan. Sin la preparación V10, las interfaces nuevas muestran activación pendiente.
+
+Checks adicionales: `node tests/check-frontend.mjs` y `node tests/check-suite-files.mjs`. Este último usa archivos ficticios y una carpeta temporal; se puede establecer `EVOLVA_QA_OUTPUT` para conservar los PDF/XLSX de revisión. Las pruebas del backend privado se ejecutan por separado.

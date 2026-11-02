@@ -1,3 +1,4 @@
+import {suiteDemo,suiteAcademicDemo} from './suite-demo';
 import {learningActions,learningDemo} from './learning-demo';
 import {academicAccess,requireAcademicAccess,protectedAcademicActions} from './academic-access';
 import {paymentDashboard} from './payment-settings';
@@ -21,10 +22,11 @@ async function request(action:string,body:any={},params=''):Promise<any>{const q
  if(action==='logout'){try{if(!demo&&session)await real('logout');}finally{session='';sessionStorage.removeItem(namespace+':session');sessionStorage.removeItem(namespace+':demo-student');}return {ok:true};}
  if(!demo){if(action==='payment'){const form=body as FormData,file=form.get('file') as File;if(!file||file.size>2*1024*1024)throw Error('Adjunta un PDF, JPG o PNG de hasta 2 MB.');return real('payment',{amount:Number(form.get('amount')),reference:form.get('reference'),period:form.get('period'),requestId:form.get('requestId'),mime:file.type,name:file.name,base64:await base64File(file)});}if(action==='exam')throw Error('Abre la evaluación desde su enlace institucional.');return real(action,{...body,...Object.fromEntries(q)});}
  if(action==='validate'){if(!selected())throw Object.assign(Error('Inicia sesión en el campus para validar este reporte.'),{status:401});const code=String(q.get('code')||'').toUpperCase(),r=read('reports',{})[code];if(!validReportCode(code)||!r||r.snapshot.student.folio!==selected().folio)throw Object.assign(Error('No se encontró un reporte accesible con este código.'),{status:404});return {ok:true,status:'vigente',...r.snapshot,...r.meta,fingerprint:r.fingerprint};}
- if(action==='health')return {ok:true,version:8,features:['documents','credential','tasks','payment_access','payment_review','lessons','calendar','password_recovery']};
+ if(action==='health')return {ok:true,version:10,features:['followup','support','rubrics','receipts','reports','surveys','documents','credential','tasks','payment_access','payment_review','lessons','calendar','password_recovery']};
  if(action==='request_password_reset'||action==='reset_password')throw Error('Esta demostración no envía correos ni cambia contraseñas reales.');
+ if(action.startsWith('suite_'))return suiteDemo(false,action,body||{},selected());
  if(learningActions.includes(action))return learningDemo('student',action,body||{},selected());
- if(academicActions.includes(action))return academicDemo('student',action,body||{},selected());
+ if(academicActions.includes(action))return suiteAcademicDemo('student',action,body||{},selected());
  const d=demoDashboard();if(action==='dashboard')return d;
  if(action==='folio'){if(q.get('folio')?.trim().toUpperCase()!==d.student.folio)throw Error('El folio no corresponde a tu cuenta.');return {student:d.student,progress:d.progress,average:d.average};}
  if(action==='read'){updateDemo(s=>{if(!s.read.includes(body.id))s.read.push(body.id);});return {ok:true};}
