@@ -23,7 +23,7 @@ async function setup(page,script,search=''){
   const scripts=[];
   const timers=new Map();let counter=0;
   const context={URLSearchParams,Date,Math,Number,String,Error,AbortSignal,Uint8Array,crypto,File,btoa,location:{search},setTimeout:fn=>{timers.set(++counter,fn);return counter;},clearTimeout:id=>timers.delete(id),document:{getElementById:id=>{assert(elements.has(id),'Missing element '+id);return elements.get(id);},querySelector:()=>selected,createElement:()=>new Element(),head:{appendChild:el=>scripts.push(el)}}};
-  context.window=context;
+  context.window=context;if(elements.has('reg_phone'))elements.get('reg_phone').disabled=true;
   vm.createContext(context);vm.runInContext(await source('legacy-api.js'),context);vm.runInContext(await source('registro-documentos.js'),context);
   const calls=[];
   let response={};let failure;
@@ -108,3 +108,11 @@ api.context[callback]({ok:true});assert.equal((await pending).ok,true);assert(in
 const timedOut=api.context.EvolvaLegacy.call('https://example.invalid/exec',{});
 [...api.timers.values()][0]();await assert.rejects(timedOut,/tardó demasiado/);assert.equal(api.timers.size,0);
 console.log('PASS: registration contract, verification required, course selection, folio handoff, rejected responses, timeout cleanup, existing checkout and no public academic record queries. No live requests were sent.');
+
+// V12 phone field is enabled only after private persistence is ready.
+const phoneEntry12=await setup('inscripcion.html','registro.js');
+for(const [id,value] of Object.entries({reg_nombre:'Alumno teléfono prueba',reg_edad:'25',reg_estado:'Chihuahua',reg_curp:'PPPPPPPPPPPPPPPPPP',reg_fecha:'2001-01-01',reg_email:'phone@example.test'}))phoneEntry12.elements.get(id).value=value;
+phoneEntry12.elements.get('reg_curp_pdf').files=docs.elements.get('reg_curp_pdf').files;phoneEntry12.elements.get('reg_photo').files=docs.elements.get('reg_photo').files;
+phoneEntry12.context.EVOLVA_CONFIG={API_URL:'https://script.google.com/macros/s/SYNTHETIC_TEST_ENDPOINT/exec'};let phonePost12;phoneEntry12.context.fetch=async(_url,options)=>{const b=JSON.parse(options.body);if(b.action==='health')return {ok:true,json:async()=>({ok:true,version:12,features:['documents','course_catalog','student_contact']})};phonePost12=b;return {ok:true,json:async()=>({ok:true,folio:'EVOLVA-000888',password:'synthetic'})};};
+phoneEntry12.elements.get('reg_phone').value='12';await phoneEntry12.submit('registroForm');assert.equal(phonePost12,undefined);assert.match(phoneEntry12.elements.get('registroError').textContent,/teléfono/);
+phoneEntry12.elements.get('reg_phone').value='+52 (656) 000-0001';await phoneEntry12.submit('registroForm');assert.equal(phonePost12.telefono,'+526560000001');assert.equal(phoneEntry12.calls.length,0);assert.equal(phoneEntry12.elements.get('reg_phone').required,true);console.log('V12 phone enrollment passed: capability gating, invalid number rejection and private POST persistence contract.');

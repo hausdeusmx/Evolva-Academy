@@ -2,7 +2,7 @@ import {baseGrades,exams,summary,demoStudent} from './domain';
 const key='evolva-pages::demo-records';
 export function demoRecords():Record<string,any>{try{return JSON.parse(localStorage.getItem(key)||sessionStorage.getItem(key)||'{}');}catch{return {};}}
 export function saveDemoRecords(value:Record<string,any>){localStorage.setItem(key,JSON.stringify(value));}
-export function demoLearners(){return [demoStudent(false),demoStudent(true)];}
+export function demoLearners(){const records=demoRecords();return [demoStudent(false),demoStudent(true)].map(s=>({...s,phone:records[s.folio]?.phone??s.phone}));}
 export function demoAcademic(student:any){
  const record=demoRecords()[student.folio]||{attempts:{},payments:[],read:[]};
  const overrides=record.gradeOverrides||{},grades:any[]=baseGrades(student.graduate).map(g=>({...g}));
