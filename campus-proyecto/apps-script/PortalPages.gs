@@ -77,7 +77,7 @@ function portalPaymentPlan_(a,payments){
   var approved=related.some(function(p){return ['APROBADO','APROBADA','CONFIRMADO','CONFIRMADA','PAGADO','PAGADA','ACEPTADO','ACEPTADA','COMPLETADO','COMPLETADA'].indexOf(portalText_(p.status))>=0;});
   var review=related.some(function(p){return /revisi|pendiente/i.test(p.status);});
   var status=approved?'Pagado':review?'En revisión':dueDate<today?'Vencido':'Pendiente';
-  items.push({number:i+1,period:period,amount:amount,dueDate:dueDate,status:status,paymentId:related.length?related[0].id:''});
+  var dueAmount=mode==='monthly'?Math.max(0,Math.min(amount,total-amount*i)):mode==='weekly'?Math.max(0,Math.min(amount,total-amount*i)):total;items.push({number:i+1,period:period,amount:dueAmount,dueDate:dueDate,status:status,paymentId:related.length?related[0].id:''});
  }
  return {configured:true,mode:mode,total:total,installmentAmount:amount,count:count,weeks:weeks,installments:items};
 }
