@@ -4,7 +4,7 @@ import qrcode from 'qrcode-generator';
 import {reportFonts} from './report-fonts';
 import {logoJpegBase64} from './brand';
 import {credentialContact,campusAddress} from './credential-contact';
-const wine=rgb(.314,.047,.09),ink=rgb(.20,.13,.15),muted=rgb(.43,.34,.37),rose=rgb(.965,.925,.935),border=rgb(.87,.79,.82),cream=rgb(.995,.99,.985),accent=rgb(.72,.48,.53);
+const wine=rgb(.314,.047,.09),ink=rgb(.20,.13,.15),muted=rgb(.43,.34,.37),rose=rgb(.965,.925,.935),border=rgb(.87,.79,.82),cream=rgb(.995,.99,.985),white=rgb(1,1,1),accent=rgb(.72,.48,.53);
 const bytes=(s:string)=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 function lines(value:string,font:PDFFont,size:number,width:number){const out:string[]=[];let line='';for(const word of String(value).trim().split(/\\s+/)){const next=line?line+' '+word:word;if(font.widthOfTextAtSize(next,size)<=width){line=next;continue;}if(line)out.push(line);line=word;}if(line)out.push(line);return out.length?out:[''];}
 export async function createCredentialPDF(data:any):Promise<Uint8Array>{
