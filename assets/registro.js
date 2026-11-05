@@ -58,5 +58,5 @@ form.addEventListener('submit',async event=>{
   }catch(error){
     errorBox.textContent=error.message||'No fue posible completar el registro.';
     errorBox.scrollIntoView({behavior:'smooth',block:'center'});resetCaptcha();
-  }finally{busy=false;button.disabled=false;form.removeAttribute('aria-busy');button.textContent='Generar mi folio →';}
+  }finally{busy=false;button.disabled=false;form.removeAttribute('aria-busy');button.textContent='Generar mi matrícula →';}
 });
