@@ -20,7 +20,7 @@ export async function createCredentialPDF(data:any):Promise<Uint8Array>{
  write(front,'ALUMNO/A',76,103,4.8,bold,muted);fitted(front,data.student.name,76,91,10.2,155,3,bold);
  write(front,'CURSO',76,60,4.8,bold,muted);fitted(front,data.student.course,76,49,7,155,2);
  front.drawLine({start:{x:12,y:33},end:{x:231,y:33},thickness:.8,color:accent});
- write(front,'FOLIO',12,25,4.4,bold,muted);write(front,data.student.folio,12,15,7.5,bold,wine);
+ write(front,'MATRÍCULA',12,25,4.4,bold,muted);write(front,data.student.folio,12,15,7.5,bold,wine);
  write(front,'GRUPO',158,25,4.4,bold,muted);fitted(front,data.student.group||'Por asignar',158,15,7.2,73,1,bold,wine);
  front.drawRectangle({x:0,y:0,width,height:10,color:wine});write(front,data.demo?'MUESTRA DE PRUEBA - SIN VALIDEZ':'EVOLVA ACADEMY · IDENTIDAD ACADÉMICA',12,3.1,4.6,bold,white);
  back.drawRectangle({x:0,y:0,width,height,color:cream});back.drawRectangle({x:0,y:122,width,height:32,color:wine});back.drawRectangle({x:0,y:0,width:5,height,color:wine});back.drawRectangle({x:12,y:117,width:219,height:1,color:accent});write(back,'EVOLVA ACADEMY',12,137,10,bold,white);write(back,'CONTACTO Y ACCESO AL CAMPUS',12,127,4.8,regular,white);
