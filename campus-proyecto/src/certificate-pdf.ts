@@ -3,8 +3,8 @@ import fontkit from '@pdf-lib/fontkit';
 import {reportFonts} from './report-fonts';
 import {logoJpegBase64} from './brand';
 
-const wine=rgb(.314,.047,.09),ink=rgb(.20,.13,.15),muted=rgb(.43,.34,.37);
-const rose=rgb(.965,.925,.935),border=rgb(.82,.70,.74),cream=rgb(.995,.99,.985),white=rgb(1,1,1),accent=rgb(.72,.48,.53);
+const wine=rgb(.055,.12,.22),ink=rgb(.10,.17,.24),muted=rgb(.36,.45,.52);
+const rose=rgb(.91,.96,.97),border=rgb(.76,.85,.88),cream=rgb(.995,.999,1),white=rgb(1,1,1),accent=rgb(.08,.62,.66);
 const bytes=(value:string)=>Uint8Array.from(atob(value),c=>c.charCodeAt(0));
 function printable(value:string){return String(value||'').replace(/[\u2013\u2014]/g,'-').replace(/[^\x20-\xFF\u20AC]/g,'');}
 function wrap(value:string,font:PDFFont,size:number,width:number){
