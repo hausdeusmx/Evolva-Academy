@@ -124,3 +124,13 @@ El campus conserva los calendarios asignados por la API. Cuando la API solo entr
 Constancias distingue actividades completadas de autorización de emisión. El botón Actualizar estado vuelve a consultar la cuenta y los errores de descarga aparecen junto al documento. La autorización continúa en el servidor y en el registro privado de CONSTANCIAS; completar las actividades por sí solo no la sustituye.
 
 La navegación agrupa aprendizaje, servicios y comunidad, conserva la matrícula visible y actualiza la sección en la URL. El diseño usa menú guinda, tarjetas de alto contraste y navegación móvil con desplazamiento independiente. Las pruebas cubren cuotas semanales, fin de mes, fechas ausentes, calendarios asignados, abonos y revisión de comprobantes.
+
+## Mis datos del alumno · V13
+
+Mis datos aparece en el menú y en el avatar del alumno. Permite guardar el teléfono con la API V12 existente. La edición de nombre y correo personal se habilita solamente cuando el servidor anuncia `student_profile` en health V13. Hasta entonces, esos campos se muestran como consulta y se indica la activación pendiente. No se guardan cambios solo en el navegador ni se simula un guardado en modo conectado.
+
+La actualización completa se entrega como backend privado V13: reemplazar TODO Código.gs, conservar manifiesto y propiedades, ejecutar `prepararPortalV13` como propietario y actualizar la implementación existente con Nueva versión, conservando URL y acceso. La preparación verifica las columnas y la auditoría existentes; no reasigna grupos ni modifica alumnos. No publicar este backend ni registros privados en GitHub.
+
+El servidor identifica al alumno por su sesión y permite únicamente nombre, correo personal y teléfono. Cambiar el correo requiere la contraseña actual, comprobación de disponibilidad, límites de intentos y confirmación del nuevo correo en la interfaz. Una revisión del perfil evita sobrescribir cambios concurrentes; las fórmulas requieren revisión administrativa. Los cambios se registran en la auditoría privada y se revierten si falla la escritura. Matrícula, curso, grupo, CURP, calificaciones y pagos conservan su gestión administrativa. Los documentos emitidos conservan sus snapshots; los datos vigentes aparecen en las nuevas emisiones.
+
+Las pruebas del frontend usan cuentas ficticias y comprueban persistencia, acceso con el nuevo correo, aislamiento, duplicados, conflictos y conservación de notas y pagos. El backend privado se prueba por separado sin registros reales.

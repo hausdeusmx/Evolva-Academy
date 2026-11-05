@@ -1,3 +1,4 @@
+import {profileValues,studentProfileChanges} from './profile-data';
 import {paymentCalendar} from './course-plan';
 import {normalizeStudentPhone} from './credential-contact';
 import {suiteDemo,suiteAcademicDemo} from './suite-demo';
@@ -5,7 +6,7 @@ import {learningActions,learningDemo} from './learning-demo';
 import {academicAccess,requireAcademicAccess,protectedAcademicActions} from './academic-access';
 import {paymentDashboard} from './payment-settings';
 import {academicActions,academicDemo} from './academic-demo';
-import {demoAcademic,demoRecords,saveDemoRecords} from './demo-academics';
+import {demoAcademic,demoLearners,demoRecords,saveDemoRecords} from './demo-academics';
 import {DEMO_EMAIL,DEMO_GRADUATE,DEMO_PASSWORD,demoStudent,baseGrades,summary,exams,gradeExam,demoNotices} from './domain';
 import {createReportMetadata,reportSnapshot,validReportCode,sha256} from './report-record';
 declare global{interface Window{EVOLVA_CONFIG?:{API_URL?:string;DEMO_MODE?:boolean}}}
@@ -14,22 +15,33 @@ const namespace='evolva-pages:'+endpoint;
 let session=sessionStorage.getItem(namespace+':session')||'';
 const read=(key:string,fallback:any)=>{try{return JSON.parse(sessionStorage.getItem(namespace+':'+key)||'null')??fallback;}catch{return fallback;}};
 const save=(key:string,v:any)=>sessionStorage.setItem(namespace+':'+key,JSON.stringify(v));
-const selected=()=>{const student=read('demo-student',null);return student?{...student,phone:demoRecords()[student.folio]?.phone??student.phone??''}:null;};
+const selected=()=>{const student=read('demo-student',null);return student?demoLearners().find(s=>s.folio===student.folio)||null:null;};
 const state=()=>demoRecords();
 async function real(action:string,body:any={}){if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(endpoint))throw Error('La administración todavía debe configurar la conexión del campus.');let r:Response;try{r=await fetch(endpoint,{method:'POST',redirect:'follow',credentials:'omit',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,session,...body}),signal:AbortSignal.timeout(['upload_document','submit_task'].includes(action)?60000:25000)});}catch{throw Error('No se pudo conectar con el campus. Revisa tu conexión y vuelve a intentar.');}let d:any;try{d=await r.json();}catch{throw Error('La conexión no devolvió una respuesta válida. Solicita apoyo a administración.');}if(!d.ok){const e:any=Error(d.error||'No se pudo completar la solicitud.');e.status=d.status||400;e.code=d.code||'';if(e.status===401){session='';sessionStorage.removeItem(namespace+':session');}throw e;}return d;}
 function demoDashboard(){const s=selected();if(!s)throw Object.assign(Error('Inicia sesión para continuar.'),{status:401});const academic=demoAcademic(s),records=academic.record;return {demo:true,student:s,grades:academic.grades,average:academic.average,progress:academic.progress,modules:academic.grades,exams:academic.exams,notices:demoNotices.map(n=>({...n,read:(records.read||[]).includes(n.id)})),payments:records.payments||[],certificate:{eligible:s.graduate||(academic.progress===100&&(academic.average??0)>=7)},plan:{monthly:400,weekly:100,months:6}};}
 function updateDemo(fn:(s:any)=>void){const who=selected();if(!who)throw Object.assign(Error('Inicia sesión para continuar.'),{status:401});const records=state();records[who.folio]??={attempts:{},payments:[],read:[]};fn(records[who.folio]);saveDemoRecords(records);}
 async function request(action:string,body:any={},params=''):Promise<any>{const q=new URLSearchParams(params);if(action==='status'){if(demo)return {authenticated:!!selected(),connected:false,admin:false,demoAccounts:{email:DEMO_EMAIL,graduate:DEMO_GRADUATE,password:DEMO_PASSWORD}};if(!endpoint)return {authenticated:false,connected:false,admin:false,demoAccounts:null};if(!session)return {authenticated:false,connected:true,admin:false,demoAccounts:null};try{await real('session');return {authenticated:true,connected:true,admin:false,demoAccounts:null};}catch(e:any){if(e.status===401)return {authenticated:false,connected:true,admin:false,demoAccounts:null};throw e;}}
- if(action==='login'){if(demo){const email=String(body.email||'').trim().toLowerCase();if(![DEMO_EMAIL,DEMO_GRADUATE].includes(email)||body.password!==DEMO_PASSWORD)throw Error('Correo o contraseña incorrectos.');save('demo-student',demoStudent(email===DEMO_GRADUATE));return {ok:true};}const d=await real('login',body);session=d.session;sessionStorage.setItem(namespace+':session',session);return d;}
+ if(action==='login'){if(demo){const email=String(body.email||'').trim().toLowerCase();const learner=demoLearners().find(s=>[s.email,s.institutional].includes(email));if(!learner||body.password!==DEMO_PASSWORD)throw Error('Correo o contraseña incorrectos.');save('demo-student',learner);return {ok:true};}const d=await real('login',body);session=d.session;sessionStorage.setItem(namespace+':session',session);return d;}
  if(action==='logout'){try{if(!demo&&session)await real('logout');}finally{session='';sessionStorage.removeItem(namespace+':session');sessionStorage.removeItem(namespace+':demo-student');}return {ok:true};}
  if(!demo){if(action==='payment'){const form=body as FormData,file=form.get('file') as File;if(!file||file.size>2*1024*1024)throw Error('Adjunta un PDF, JPG o PNG de hasta 2 MB.');return real('payment',{amount:Number(form.get('amount')),reference:form.get('reference'),period:form.get('period'),requestId:form.get('requestId'),mime:file.type,name:file.name,base64:await base64File(file)});}if(action==='exam')throw Error('Abre la evaluación desde su enlace institucional.');return real(action,{...body,...Object.fromEntries(q)});}
  if(action==='validate'){if(!selected())throw Object.assign(Error('Inicia sesión en el campus para validar este reporte.'),{status:401});const code=String(q.get('code')||'').toUpperCase(),r=read('reports',{})[code];if(!validReportCode(code)||!r||r.snapshot.student.folio!==selected().folio)throw Object.assign(Error('No se encontró un reporte accesible con este código.'),{status:404});return {ok:true,status:'vigente',...r.snapshot,...r.meta,fingerprint:r.fingerprint};}
- if(action==='health')return {ok:true,version:12,features:['automatic_groups','student_contact','course_catalog','followup','support','rubrics','receipts','reports','surveys','documents','credential','tasks','payment_access','payment_review','lessons','calendar','password_recovery']};
+ if(action==='health')return {ok:true,version:13,features:['student_profile','automatic_groups','student_contact','course_catalog','followup','support','rubrics','receipts','reports','surveys','documents','credential','tasks','payment_access','payment_review','lessons','calendar','password_recovery']};
  if(action==='request_password_reset'||action==='reset_password')throw Error('Esta demostración no envía correos ni cambia contraseñas reales.');
  if(action.startsWith('suite_'))return suiteDemo(false,action,body||{},selected());
  if(learningActions.includes(action))return learningDemo('student',action,body||{},selected());
  if(academicActions.includes(action))return suiteAcademicDemo('student',action,body||{},selected());
- const d=demoDashboard();if(action==='session')return {ok:true,student:d.student};if(action==='update_contact'){if(body.folio&&body.folio!==d.student.folio)throw Object.assign(Error('Solo puedes actualizar tu propia cuenta.'),{status:403});const phone=normalizeStudentPhone(body.phone);updateDemo(s=>{s.phone=phone;});return {ok:true,student:{...d.student,phone}};}if(action==='dashboard')return d;
+ const d=demoDashboard();
+ if(action==='student_profile')return {ok:true,student:d.student,revision:JSON.stringify(profileValues(d.student))};
+ if(action==='update_profile'){
+  if(body.folio&&body.folio!==d.student.folio)throw Object.assign(Error('Solo puedes actualizar tu propia cuenta.'),{status:403});
+  if(!body.changes||Array.isArray(body.changes)||Object.keys(body.changes).some(k=>!['name','email','phone'].includes(k)||typeof body.changes[k]!=='string'))throw Error('Revisa los datos de tu perfil.');
+  const previous=profileValues(d.student);if(body.revision!==JSON.stringify(previous))throw Object.assign(Error('Tus datos cambiaron. Recarga antes de guardar.'),{status:409});
+  const changes=studentProfileChanges(previous,{...previous,...body.changes});
+  if(changes.email&&body.currentPassword!==DEMO_PASSWORD)throw Error('La contraseña actual es incorrecta.');
+  if(changes.email&&demoLearners().some(s=>s.folio!==d.student.folio&&[s.email,s.institutional].includes(changes.email!)))throw Error('Ese correo no está disponible. Usa otro o solicita ayuda.');
+  updateDemo(s=>{s.profile={...s.profile,...(changes.name?{name:changes.name}:{}),...(changes.email?{email:changes.email}:{})};if(changes.phone!==undefined)s.phone=changes.phone;});const student=selected();return {ok:true,student,revision:JSON.stringify(profileValues(student))};
+ }
+ if(action==='session')return {ok:true,student:d.student};if(action==='update_contact'){if(body.folio&&body.folio!==d.student.folio)throw Object.assign(Error('Solo puedes actualizar tu propia cuenta.'),{status:403});const phone=normalizeStudentPhone(body.phone);updateDemo(s=>{s.phone=phone;});return {ok:true,student:{...d.student,phone}};}if(action==='dashboard')return d;
  if(action==='folio'){if(q.get('folio')?.trim().toUpperCase()!==d.student.folio)throw Error('La matrícula no corresponde a tu cuenta.');return {student:d.student,progress:d.progress,average:d.average};}
  if(action==='read'){updateDemo(s=>{if(!s.read.includes(body.id))s.read.push(body.id);});return {ok:true};}
  if(action==='exam'){const id=q.get('id')||'',e=exams.find(e=>e.id===id),x=d.exams.find(e=>e.id===id);if(!e||x?.locked)throw Error('Esta evaluación no está disponible.');if(!body?.answers)return {...e,questions:e.questions.map(({correct,...v})=>v)};if(x?.score!==null)throw Error('Esta evaluación ya fue enviada.');const score=gradeExam(id,body.answers);updateDemo(s=>s.attempts[id]=score);return {ok:true,score};}
