@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - "campus-proyecto/**"
+      - "assets/**"
+      - "*.html"
+      - "tests/**"
       - ".github/workflows/build-campus.yml"
   workflow_dispatch:
 
