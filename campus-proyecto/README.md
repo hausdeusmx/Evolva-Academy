@@ -14,7 +14,7 @@ Después de desplegar y verificar el endpoint v4 coloca su URL /exec en `campus/
 
 ## Administración académica
 
-- Búsqueda de alumnos por nombre, folio, correo, diplomado o grupo.
+- Búsqueda de alumnos por nombre, matrícula, correo, diplomado o grupo.
 - Captura de evaluaciones y notas de 0 a 10; promedio y avance calculados a partir de las evaluaciones disponibles, incluidos ceros y pendientes.
 - Publicación de enlaces HTTPS de examen para un alumno, grupo o diplomado con revisión de destinatarios.
 - Cada publicación crea una evaluación pendiente para capturar su calificación después. Las respuestas se reciben en el formulario o herramienta institucional enlazada.
@@ -25,7 +25,7 @@ Los pagos y las constancias requieren su propia revisión y autorización instit
 
 ## Portal de alumnos
 
-Acceso por correo y contraseña, consulta del folio de su sesión, aprendizaje, promedio, calificaciones, exámenes, avisos, comprobantes de pago, constancias y reporte académico PDF. El reporte conserva el título Reporte académico de calificaciones, QR de validación autenticada y firma tipográfica de Alexis Soto, Director General. Los folios existentes EVOLVA-###### no se renumeran.
+Acceso por correo y contraseña, consulta de la matrícula de su sesión, aprendizaje, promedio, calificaciones, exámenes, avisos, comprobantes de pago, constancias y reporte académico PDF. El reporte conserva el título Reporte académico de calificaciones, QR de validación autenticada y firma tipográfica de Alexis Soto, Director General. Las matrículas existentes EVOLVA-###### no se renumeran.
 
 Las pestañas internas de sesiones, reportes, lecturas, administradores y auditoría deben mantenerse privadas. No subas SPREADSHEET_ID, secretos, credenciales reales ni registros de alumnos a GitHub.
 
@@ -46,9 +46,9 @@ La interfaz web incluye preferencias de notificaciones y envío de avisos desde 
 
 ## Datos privados para transferencias
 
-La API v6 entrega los avisos de Sheets después de autenticar al alumno. La fila reservada de `AVISOS` con ID `EVOLVA-PAGOS-CUENTA` contiene la cuenta activa en texto: `Cuenta: …`, `Banco receptor: …`, `Beneficiario: …` y `CLABE: …`, cada campo en su propia línea. No duplicar esa fila ni limitarla a un folio/diplomado. El campus la presenta en Pagos y la excluye de los avisos y su indicador de no leídos. Una configuración incompleta, duplicada o con CLABE inválida muestra una indicación para consultar a administración. Los valores bancarios no se incluyen en el código público, config.js ni en ejemplos del repositorio. Editar solo el mensaje de esa fila para cambiar la cuenta; conservar el ID. No se envían notificaciones push al modificarla.
+La API v6 entrega los avisos de Sheets después de autenticar al alumno. La fila reservada de `AVISOS` con ID `EVOLVA-PAGOS-CUENTA` contiene la cuenta activa en texto: `Cuenta: …`, `Banco receptor: …`, `Beneficiario: …` y `CLABE: …`, cada campo en su propia línea. No duplicar esa fila ni limitarla a una matrícula/diplomado. El campus la presenta en Pagos y la excluye de los avisos y su indicador de no leídos. Una configuración incompleta, duplicada o con CLABE inválida muestra una indicación para consultar a administración. Los valores bancarios no se incluyen en el código público, config.js ni en ejemplos del repositorio. Editar solo el mensaje de esa fila para cambiar la cuenta; conservar el ID. No se envían notificaciones push al modificarla.
 
-`campus/?seccion=pagos` abre Pagos después de iniciar sesión. El concepto sugerido es el folio del alumno; los comprobantes siguen pendientes de revisión administrativa.
+`campus/?seccion=pagos` abre Pagos después de iniciar sesión. El concepto sugerido es la matrícula del alumno; los comprobantes siguen pendientes de revisión administrativa.
 
 ## Acceso académico durante la revisión de pagos
 
@@ -69,7 +69,7 @@ La compilación sigue generando únicamente la interfaz. Las pruebas públicas u
 
 ## Entrega manual de correo institucional · V9
 
-Admin incluye Correo institucional: búsqueda de alumno, dirección fija `EVOLVA-######@evolvacademy.mx`, asignación de contraseña inicial, estado y cancelación de entrega pendiente. La página `/correos.html` valida CURP, folio y Turnstile antes de entregar el acceso una sola vez. El correo y la clave no se envían por URL ni se conservan en almacenamiento del navegador. El acceso del campus mantiene su propia contraseña.
+Admin incluye Correo institucional: búsqueda de alumno, dirección fija `EVOLVA-######@evolvacademy.mx`, asignación de contraseña inicial, estado y cancelación de entrega pendiente. La página `/correos.html` valida CURP, matrícula y Turnstile antes de entregar el acceso una sola vez. El correo y la clave no se envían por URL ni se conservan en almacenamiento del navegador. El acceso del campus mantiene su propia contraseña.
 
 No hay integración con Google Workspace: el propietario prepara las cuentas por su cuenta y registra aquí el acceso inicial. La conexión requiere el archivo completo privado V9, ejecutar `prepararPortalV9` como propietario y actualizar la implementación existente conservando URL y acceso. Sin esta activación, ambos formularios muestran disponibilidad pendiente y no aceptan asignaciones ni consultas. El backend nunca se publica en este repositorio.
 
@@ -84,7 +84,7 @@ Validación de la página: `node tests/check-mail-delivery.mjs` desde la raíz d
 - Reportes Excel `.xlsx`: alumnos, calificaciones y pagos; filtros por curso/grupo, encabezado congelado y hoja de información. Los textos se exportan como valores literales, no como fórmulas. Límite de 2000 alumnos y 10000 filas por exportación.
 - Encuestas: publicación con revisión de destinatarios, hasta 8 preguntas de valoración o texto; opción de habilitar al completar el curso, una respuesta por alumno, promedios/comentarios y cierre conservando resultados. Las respuestas son identificadas y visibles solo para administración.
 
-Requiere el archivo completo privado V10. Sustituir TODO Código.gs, ejecutar `prepararPortalV10` como propietario y actualizar la implementación existente conservando URL y acceso. No añadir este backend al repositorio público. Las activaciones V8/V9, folios, contraseñas, pagos y calificaciones previos se conservan. Sin la preparación V10, las interfaces nuevas muestran activación pendiente.
+Requiere el archivo completo privado V10. Sustituir TODO Código.gs, ejecutar `prepararPortalV10` como propietario y actualizar la implementación existente conservando URL y acceso. No añadir este backend al repositorio público. Las activaciones V8/V9, matrículas, contraseñas, pagos y calificaciones previos se conservan. Sin la preparación V10, las interfaces nuevas muestran activación pendiente.
 
 Checks adicionales: `node tests/check-frontend.mjs` y `node tests/check-suite-files.mjs`. Este último usa archivos ficticios y una carpeta temporal; se puede establecer `EVOLVA_QA_OUTPUT` para conservar los PDF/XLSX de revisión. Las pruebas del backend privado se ejecutan por separado.
 
@@ -92,7 +92,7 @@ Checks adicionales: `node tests/check-frontend.mjs` y `node tests/check-suite-fi
 
 El catálogo público y la inscripción añaden Excel básico para el trabajo (8 semanas, $100 semanal, $800 total), Canva para redes y negocios (6 semanas, $100 semanal, $600 total), Atención al cliente y ventas (6 semanas, $100 semanal, $600 total), Administración de pequeños negocios (8 semanas, $125 semanal, $1,000 total) y Marketing digital básico (8 semanas, $150 semanal, $1,200 total). Incluyen dos actividades semanales, revisión, proyecto final y constancia, sin cuota adicional de inscripción. Las licencias de software no están incluidas. Se conservan las cuotas y duración de los dos cursos existentes.
 
-La inscripción de los cinco cursos nuevos requiere la API privada V11 y la preparación `prepararPortalV11` ejecutada por el propietario. Actualizar la implementación existente conservando URL y acceso. Hasta recibir `course_catalog` en health V11, las cinco opciones muestran preparación pendiente. Los datos y la API privada no se publican en GitHub. La preparación no crea alumnos ni cambia folios, contraseñas, calificaciones o pagos existentes. Las clases, tareas y exámenes se publican por separado desde Admin.
+La inscripción de los cinco cursos nuevos requiere la API privada V11 y la preparación `prepararPortalV11` ejecutada por el propietario. Actualizar la implementación existente conservando URL y acceso. Hasta recibir `course_catalog` en health V11, las cinco opciones muestran preparación pendiente. Los datos y la API privada no se publican en GitHub. La preparación no crea alumnos ni cambia matrículas, contraseñas, calificaciones o pagos existentes. Las clases, tareas y exámenes se publican por separado desde Admin.
 
 `assets/course-catalog.json` es la referencia pública de nombres, duración y cuotas; mantener sincronizadas las páginas y el catálogo privado al modificarla. El contrato histórico `diplomado`/`DIPLOMADO` se conserva. Los cursos cortos muestran cuota semanal y total en el campus, sin mensualidad calculada. Sus pagos se registran por transferencia en el campus; el enlace Stripe anterior se conserva para los flujos existentes.
 
@@ -100,16 +100,16 @@ Comprobaciones desde la raíz: `node tests/check-course-catalog.mjs` y `node tes
 
 ## Grupos y credencial V12
 
-La API privada V12 asigna grupos por curso con cupo máximo de 20 alumnos, bajo el mismo bloqueo que la inscripción. Los prefijos son FIN, PA, EXC, CAN, VEN, ADM y MKT. `prepararPortalV12` asigna grupos a los folios existentes que no tienen uno; en grupos excedidos conserva los primeros 20 registros y mueve el excedente a otros grupos del mismo curso. Los alumnos inactivos también ocupan lugar. No cambia destinatarios de materiales ya publicados, folios, calificaciones, pagos o contraseñas. Las asignaciones aparecen en el campus y en los filtros existentes de Admin.
+La API privada V12 asigna grupos por curso con cupo máximo de 20 alumnos, bajo el mismo bloqueo que la inscripción. Los prefijos son FIN, PA, EXC, CAN, VEN, ADM y MKT. `prepararPortalV12` asigna grupos a las matrículas existentes que no tienen uno; en grupos excedidos conserva los primeros 20 registros y mueve el excedente a otros grupos del mismo curso. Los alumnos inactivos también ocupan lugar. No cambia destinatarios de materiales ya publicados, matrículas, calificaciones, pagos o contraseñas. Las asignaciones aparecen en el campus y en los filtros existentes de Admin.
 
-La credencial PDF conserva el tamaño escolar, frente/reverso, foto, QR de acceso al campus y firma del director. Añade correo institucional, teléfono del alumno y soporte@evolvacademy.mx. Si el correo institucional aún no figura en el registro, muestra la dirección estándar formada por folio y dominio; esto no crea una cuenta de correo. El teléfono se guarda como texto en la columna TELEFONO. Cada alumno puede actualizar solo su propio teléfono desde Mi credencial; los nuevos registros lo envían por POST cuando health V12 anuncia `student_contact`. Sin la activación, se muestra Sin registrar y no se habilita el guardado.
+La credencial PDF conserva el tamaño escolar, frente/reverso, foto, QR de acceso al campus y firma del director. Añade correo institucional, teléfono del alumno y soporte@evolvacademy.mx. Si el correo institucional aún no figura en el registro, muestra la dirección estándar formada por matrícula y dominio; esto no crea una cuenta de correo. El teléfono se guarda como texto en la columna TELEFONO. Cada alumno puede actualizar solo su propio teléfono desde Mi credencial; los nuevos registros lo envían por POST cuando health V12 anuncia `student_contact`. Sin la activación, se muestra Sin registrar y no se habilita el guardado.
 
 Para activar: reemplazar TODO Código.gs con el archivo completo privado V12, ejecutar `prepararPortalV12` como propietario y actualizar la implementación existente conservando URL y acceso. Esta preparación también activa el catálogo V11 y agrega GRUPO/TELEFONO al final de ALUMNOS si faltan. Las pruebas privadas cubren cupos, aislamiento por curso, cambios parciales, fórmulas, reintentos y contacto privado. No publicar el backend, la hoja ni datos personales.
 
 
 ## Rediseño de documentos académicos
 
-La boleta conserva el folio EVOLVA-######, las calificaciones del registro emitido, el código EVR y el enlace de validación autenticado. Añade avance, número de evaluaciones registradas, estados por actividad y, cuando existen en la cuenta, inscripción y estado del alumno. Estos dos datos complementarios no modifican el snapshot académico autorizado. Cada página conserva firma tipográfica, fecha de emisión y QR con margen de lectura dentro del papel.
+La boleta conserva la matrícula EVOLVA-######, las calificaciones del registro emitido, el código EVR y el enlace de validación autenticado. Añade avance, número de evaluaciones registradas, estados por actividad y, cuando existen en la cuenta, inscripción y estado del alumno. Estos dos datos complementarios no modifican el snapshot académico autorizado. Cada página conserva firma tipográfica, fecha de emisión y QR con margen de lectura dentro del papel.
 
 La constancia generada usa formato horizontal con nombre, curso, matrícula, grupo, modalidad, duración registrada, promedio, inscripción y emisión. Si el backend entrega un PDF ya archivado, se conserva ese original. El QR de constancias y credenciales abre el campus; no se presenta como validación de un documento emitido.
 

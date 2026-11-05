@@ -37,7 +37,7 @@ export async function createAcademicReportPDF(data:any,meta:{code:string,issuedA
   write(page,'Reporte académico',40,676,24,bold,wine);write(page,'de calificaciones',40,646,24,bold,wine);if(data.demo)write(page,'MUESTRA · SIN VALIDEZ ACADÉMICA',40,625,7.5,bold,gold);
   if(first){
    let nameSize=19;while(wrapDocumentText(data.student.name,bold,nameSize,515).length>2&&nameSize>9)nameSize-=.5;const used=lines(page,data.student.name,40,592,nameSize,515,bold,wine,nameSize*1.2);y=592-used-8;
-   field(page,'Matrícula / folio',data.student.folio,40,y,245);field(page,'Grupo',data.student.group||'Por asignar',320,y,230);y-=42;
+   field(page,'Matrícula',data.student.folio,40,y,245);field(page,'Grupo',data.student.group||'Por asignar',320,y,230);y-=42;
    y-=Math.max(36,field(page,'Curso',data.student.course,40,y,515)+18);
    // Complementary data from the current account; the registered academic snapshot stays intact.
    if(data.student.registered||data.student.status){field(page,'Inscripción',documentDate(data.student.registered),40,y,245);field(page,'Estado de inscripción',data.student.status||'No registrado',320,y,230);y-=41;}
