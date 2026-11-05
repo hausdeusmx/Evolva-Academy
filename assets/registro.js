@@ -17,7 +17,7 @@ function updatePaymentPreview(){
  if(!c||!paymentSummary)return;
  const weeks=Number(c.weeks||0),months=Number(c.months||0),weekly=Number(c.weekly||0),monthly=Number(c.monthly||0),total=Number(c.total||0),weeklyTotal=Number(c.weeklyTotal||weekly*weeks),mode=paymentMode?.value||'weekly';
  const fmt=n=>new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(n);
- const monthlyOption=paymentMode?.querySelector('option[value="monthly"]');if(monthlyOption)monthlyOption.disabled=!months;
+ const monthlyOption=paymentMode?.querySelector?.('option[value="monthly"]');if(monthlyOption)monthlyOption.disabled=!months;
  if(mode==='monthly'&&!months){paymentSummary.textContent='Este curso no ofrece modalidad mensual. Selecciona pago semanal o total.';return;}
  if(mode==='monthly')paymentSummary.textContent=months+' mensualidades de '+fmt(monthly)+' · Total '+fmt(monthly*months)+'.';
  else if(mode==='total')paymentSummary.textContent='Un solo pago de '+fmt(total)+'. Vence en la fecha de inscripción.';
