@@ -71,7 +71,7 @@ function portalPaymentPlan_(a,payments){
  if(['weekly','monthly','total'].indexOf(mode)<0||!weeks||!count||!amount||!total)return {configured:false,mode:'',total:null,installments:[]};
  var start=portalDate_(a.FECHA_REGISTRO),base=new Date(start+'T12:00:00'),today=Utilities.formatDate(new Date(),'America/Ciudad_Juarez','yyyy-MM-dd'),items=[];
  for(var i=0;i<count;i++){
-  var due=new Date(base.getTime());due.setDate(due.getDate()+(mode==='weekly'?i*7:mode==='monthly'?i*28:0));
+  var due=new Date(base.getTime());if(mode==='weekly'){due.setDate(due.getDate()+i*7);}else if(mode==='monthly'){due.setMonth(due.getMonth()+i);}
   var dueDate=Utilities.formatDate(due,'America/Ciudad_Juarez','yyyy-MM-dd'),period='Cuota '+(i+1)+' de '+count;
   var related=(payments||[]).filter(function(p){return p.period===period;});
   var approved=related.some(function(p){return ['APROBADO','APROBADA','CONFIRMADO','CONFIRMADA','PAGADO','PAGADA','ACEPTADO','ACEPTADA','COMPLETADO','COMPLETADA'].indexOf(portalText_(p.status))>=0;});
