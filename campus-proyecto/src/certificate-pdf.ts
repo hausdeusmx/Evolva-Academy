@@ -4,11 +4,11 @@ import {reportFonts} from './report-fonts';
 import {logoJpegBase64} from './brand';
 
 const wine=rgb(.314,.047,.09),ink=rgb(.20,.13,.15),muted=rgb(.43,.34,.37);
-const rose=rgb(.965,.925,.935),border=rgb(.82,.70,.74),cream=rgb(.995,.99,.985),white=rgb(1,1,1);
+const rose=rgb(.965,.925,.935),border=rgb(.82,.70,.74),cream=rgb(.995,.99,.985),white=rgb(1,1,1),accent=rgb(.72,.48,.53);
 const bytes=(value:string)=>Uint8Array.from(atob(value),c=>c.charCodeAt(0));
 function printable(value:string){return String(value||'').replace(/[\u2013\u2014]/g,'-').replace(/[^\x20-\xFF\u20AC]/g,'');}
 function wrap(value:string,font:PDFFont,size:number,width:number){
- const words=printable(value).replace(/\\s+/g,' ').trim().split(' '),out:string[]=[];let line='';
+ const words=printable(value).replace(/\s+/g,' ').trim().split(' '),out:string[]=[];let line='';
  for(const word of words){const candidate=line?line+' '+word:word;if(font.widthOfTextAtSize(candidate,size)<=width){line=candidate;continue;}if(line)out.push(line);line='';for(const char of word){if(font.widthOfTextAtSize(line+char,size)>width){if(line)out.push(line);line='';}line+=char;}}
  if(line)out.push(line);return out.length?out:[''];
 }
