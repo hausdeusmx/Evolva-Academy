@@ -37,3 +37,46 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline-color:#bd7186}.
 .topbar-logout:hover{background:#f4e7eb}
 @media(max-height:760px){.sidebar .support-mini{display:none}.sidebar .campus-label{margin-top:22px;margin-bottom:14px}.sidebar .private-note{margin-top:8px}}
 @media(max-width:1000px){.topbar-logout{padding:8px}.topbar-logout span{display:none}}
+
+
+/* EVOLVA ACADEMY · Identidad visual institucional */
+:root{--bg:#f8f5f5;--paper:#fff;--ink:#2e2024;--muted:#78696d;--line:#e9dfe2;--green:#500c17;--lime:#ead5db;--orange:#a96a45;--wine:#500c17;--rose:#ead5db}
+body{background:linear-gradient(180deg,#fbf8f8 0%,#f7f2f3 100%);color:var(--ink)}
+.sidebar{background:rgba(255,255,255,.96);box-shadow:8px 0 32px rgba(80,12,23,.035);border-right-color:#eadfe2}
+.sidebar nav button{border-radius:10px;transition:background .2s,color .2s,transform .2s}
+.sidebar nav button:hover{background:#f8eef1;transform:translateX(2px)}
+.sidebar nav button.active{background:linear-gradient(100deg,#f4e4e8,#fbf5f6);color:#500c17}
+.sidebar nav button.active:before{background:#500c17;border-radius:0 5px 5px 0}
+.campus-label span,.badge.hero-badge{background:#f2e2e6;color:#500c17}
+.topbar{background:rgba(255,255,255,.9);backdrop-filter:blur(14px);border-bottom-color:#eadfe2}
+.panel,.stat,.student-card,.next-card{border-color:#eadfe2;box-shadow:0 8px 28px rgba(80,12,23,.045);border-radius:15px}
+.btn.primary,.btn.dark,.hero .btn{background:#500c17;box-shadow:0 5px 14px rgba(80,12,23,.14)}
+.btn.primary:hover,.btn.dark:hover{background:#3d0811}
+.progress>span{background:linear-gradient(90deg,#500c17,#9c5362)}
+.hero{background:linear-gradient(120deg,#f4e7ea 0%,#f8eff1 58%,#ead5db 100%);border:1px solid #ead5db;border-radius:18px}
+.hero h2{color:#500c17}
+.hero-circle{border-color:#cdaeb6}.hero-circle:before{border-color:#d8c0c6}
+.stat{background:linear-gradient(160deg,#fff,#fdfafb)}
+.avatar{background:#ead5db;color:#500c17}
+.support-mini{background:linear-gradient(145deg,#f8eef1,#fff);border-color:#ead5db}
+.sandbox{background:#f6e9ed;border-color:#ead5db;color:#643d47;border-radius:10px}
+.badge{background:#f2e2e6;color:#500c17}
+.textbtn{color:#681727}
+.cert-layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.85fr);gap:24px;align-items:stretch}
+.certificate-panel,.requirements{padding:28px}
+.certificate-preview{position:relative;isolation:isolate;overflow:hidden;min-height:430px;margin:8px 0 24px;padding:46px 36px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:linear-gradient(145deg,#fff 0%,#fcf7f8 100%);border:1px solid #d9c0c7;outline:5px solid #f4e8eb;outline-offset:-12px;border-radius:5px;box-shadow:0 14px 34px rgba(80,12,23,.07)}
+.certificate-preview:before,.certificate-preview:after{content:"";position:absolute;z-index:-1;width:190px;height:190px;border:1px solid #ead5db;border-radius:50%;opacity:.7}
+.certificate-preview:before{top:-115px;left:-95px}.certificate-preview:after{bottom:-125px;right:-95px}
+.certificate-preview .brand{margin-bottom:28px;justify-content:center}
+.certificate-preview h3{font-family:'Manrope',sans-serif;font-size:30px;line-height:1.2;letter-spacing:-1px;color:#500c17;margin:12px 0 20px;text-transform:uppercase}
+.certificate-preview p{font-size:12px;color:#8c747b;letter-spacing:1.5px;text-transform:uppercase;margin:5px 0 13px}
+.certificate-preview>b{font-family:'Manrope',sans-serif;font-size:24px;color:#35232a;border-bottom:1px solid #d9c0c7;padding:0 18px 10px;max-width:100%;overflow-wrap:anywhere}
+.certificate-preview>span{font-size:13px;color:#765d65;margin-top:13px}
+.certificate-preview>small{font-size:10px;letter-spacing:2px;color:#9a7e87;margin-top:17px}
+.certificate-preview>em{margin-top:18px;color:#925b36;font-size:9px;letter-spacing:1px;font-style:normal}
+.cert-download{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.cert-download p{font-size:12px;color:#8c777d;margin-top:5px}
+.requirements h3{color:#500c17;margin:14px 0 10px}
+.requirement{border-bottom:1px solid #f0e7e9;padding:17px 0}
+@media(max-width:900px){.cert-layout{grid-template-columns:1fr}.certificate-preview{min-height:390px}}
+@media(max-width:600px){.certificate-panel,.requirements{padding:18px}.certificate-preview{padding:35px 22px;min-height:360px}.certificate-preview h3{font-size:24px}.certificate-preview>b{font-size:19px}.cert-download{align-items:stretch;flex-direction:column}.cert-download .btn{width:100%}}
