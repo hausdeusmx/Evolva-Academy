@@ -42,27 +42,9 @@ function portalTurnstile_(token){
  var origin=String(p.getProperty('PORTAL_PUBLIC_URL')||''),match=origin.match(/^https:\/\/([^/:?#]+)/i);
  if(result.getResponseCode()!==200||!data.success||!match||String(data.hostname||'').toLowerCase()!==match[1].toLowerCase())throw Error('La verificación de seguridad no es válida o expiró. Complétala nuevamente.');
 }
-function portalEnsureRegistrationColumns_(sh){
- var required=['MODALIDAD_PAGO','TOTAL_CURSO','NUM_CUOTAS','MONTO_CUOTA','DURACION_SEMANAS','PRECIO_SEMANAL','PRECIO_MENSUAL'];
- var headers=portalHeaders_(sh);
- required.forEach(function(name){if(headers.indexOf(name)<0){var col=headers.length+1;sh.getRange(1,col).setValue(name);headers.push(name);}});
- return headers;
-}
-function portalCoursePayment_(course){
- var map={
-  'Finanzas Personales':{weeks:8,weekly:100,monthly:400,total:800},
-  'Primeros Auxilios':{weeks:8,weekly:150,monthly:600,total:1200},
-  'Excel básico para el trabajo':{weeks:8,weekly:100,monthly:400,total:800},
-  'Canva para redes y negocios':{weeks:6,weekly:100,monthly:400,total:600},
-  'Atención al cliente y ventas':{weeks:6,weekly:100,monthly:400,total:600},
-  'Administración de pequeños negocios':{weeks:8,weekly:125,monthly:500,total:1000},
-  'Marketing digital básico':{weeks:8,weekly:150,monthly:600,total:1200}
- };
- return map[course]||null;
-}
 function portalRegister_(ss,b){
- var name=String(b.nombre||'').trim(),email=String(b.email||'').trim().toLowerCase(),curp=String(b.curp||'').trim().toUpperCase(),age=Number(b.edad),state=String(b.estado||'').trim(),birth=String(b.fecha||''),course=String(b.diplomado||'').trim(),paymentMode=String(b.paymentMode||'weekly').trim().toLowerCase();
- if(name.length<2||name.length>160||!/^\S+@\S+\.\S+$/.test(email)||email.length>160||!/^[A-Z0-9]{18}$/.test(curp)||!Number.isInteger(age)||age<15||age>100||!state||state.length>80||!/^\d{4}-\d{2}-\d{2}$/.test(birth)||['Finanzas Personales','Primeros Auxilios','Excel básico para el trabajo','Canva para redes y negocios','Atención al cliente y ventas','Administración de pequeños negocios','Marketing digital básico'].indexOf(course)<0||['weekly','monthly','total'].indexOf(paymentMode)<0)throw Error('Revisa los datos del formulario.');
+ var name=String(b.nombre||'').trim(),email=String(b.email||'').trim().toLowerCase(),curp=String(b.curp||'').trim().toUpperCase(),age=Number(b.edad),state=String(b.estado||'').trim(),birth=String(b.fecha||''),course=String(b.diplomado||'').trim();
+ if(name.length<2||name.length>160||!/^\S+@\S+\.\S+$/.test(email)||email.length>160||!/^[A-Z0-9]{18}$/.test(curp)||!Number.isInteger(age)||age<15||age>100||!state||state.length>80||!/^\d{4}-\d{2}-\d{2}$/.test(birth)||['Finanzas Personales','Primeros Auxilios'].indexOf(course)<0)throw Error('Revisa los datos del formulario.');
  var born=new Date(birth+'T12:00:00Z');if(!isFinite(born.getTime())||born.toISOString().slice(0,10)!==birth||born.getTime()>Date.now())throw Error('Revisa la fecha de nacimiento.');
  var admins=String(PropertiesService.getScriptProperties().getProperty('PORTAL_ADMIN_EMAILS')||'').toLowerCase().split(',').map(function(x){return x.trim();});
  if(admins.indexOf(email)>=0||portalRows_(ss,'_PORTAL_ADMINISTRADORES').some(function(r){return String(r.EMAIL||'').trim().toLowerCase()===email;}))throw Error('Solicita a administración el alta de esta cuenta.');
@@ -76,12 +58,12 @@ function portalRegister_(ss,b){
   if(existing.some(function(a){return [a.CORREO_PERSONAL,a.CORREO_INSTITUCIONAL].some(function(v){return String(v||'').trim().toLowerCase()===email;})||String(a.CURP||'').trim().toUpperCase()===curp;}))throw Error('Ya existe un registro con esos datos. Solicita ayuda a administración; no vuelvas a inscribirte.');
   var used={};['ALUMNOS','EVALUACIONES','EXAMENES','PAGOS','CONSTANCIAS','_PORTAL_SESIONES','_PORTAL_REPORTES'].forEach(function(n){portalRows_(ss,n).forEach(function(r){used[String(r.FOLIO||'').trim().toUpperCase()]=true;});});
   var folio='';for(var i=0;i<20;i++){var number=parseInt(Utilities.getUuid().replace(/-/g,'').slice(0,8),16)%999999+1,candidate='EVOLVA-'+('000000'+number).slice(-6);if(!used[candidate]){folio=candidate;break;}}
-  if(!folio)throw Error('No fue posible asignar una matrícula. Contacta a administración.');
-  var password=Utilities.getUuid().replace(/-/g,'').slice(0,16),now=new Date(),safe=function(v){var s=String(v);return /^[=+@-]/.test(s)?"'"+s:s;},pricing=portalCoursePayment_(course);if(!pricing)throw Error('El curso no tiene un plan de pago configurado.');var installments=paymentMode==='weekly'?pricing.weeks:paymentMode==='monthly'?Math.ceil(pricing.weeks/4):1,installmentAmount=paymentMode==='weekly'?pricing.weekly:paymentMode==='monthly'?pricing.monthly:pricing.total;
-  var obj={ID:Utilities.getUuid(),FOLIO:folio,NOMBRE:safe(name),CORREO_PERSONAL:email,CORREO_INSTITUCIONAL:'',CURP:curp,DIPLOMADO:course,'CONTRASEÑA':portalNewPassword_(password),ESTADO:'REGISTRADO',PAGO:'PENDIENTE',AVANCE:0,PROMEDIO:'',M1:'',M2:'',M3:'',M4:'',GRUPO:'',EDAD:age,ESTADO_RESIDENCIA:safe(state),FECHA_NACIMIENTO:birth,FECHA_REGISTRO:now,MODALIDAD_PAGO:paymentMode,TOTAL_CURSO:pricing.total,NUM_CUOTAS:installments,MONTO_CUOTA:installmentAmount,DURACION_SEMANAS:pricing.weeks,PRECIO_SEMANAL:pricing.weekly,PRECIO_MENSUAL:pricing.monthly};
-  var sh=ss.getSheetByName('ALUMNOS'),headers=portalEnsureRegistrationColumns_(sh),documents;
+  if(!folio)throw Error('No fue posible asignar un folio. Contacta a administración.');
+  var password=Utilities.getUuid().replace(/-/g,'').slice(0,16),now=new Date(),safe=function(v){var s=String(v);return /^[=+@-]/.test(s)?"'"+s:s;};
+  var obj={ID:Utilities.getUuid(),FOLIO:folio,NOMBRE:safe(name),CORREO_PERSONAL:email,CORREO_INSTITUCIONAL:'',CURP:curp,DIPLOMADO:course,'CONTRASEÑA':portalNewPassword_(password),ESTADO:'REGISTRADO',PAGO:'PENDIENTE',AVANCE:0,PROMEDIO:'',M1:'',M2:'',M3:'',M4:'',GRUPO:'',EDAD:age,ESTADO_RESIDENCIA:safe(state),FECHA_NACIMIENTO:birth,FECHA_REGISTRO:now};
+  var sh=ss.getSheetByName('ALUMNOS'),headers=portalHeaders_(sh),documents;
   try{documents=portalRegistrationDocuments_(ss,folio,requestId,curpDocument,photoDocument);sh.appendRow(headers.map(function(h){return obj[h]===undefined?'':obj[h];}));}
   catch(err){if(documents){portalDeleteNewRows_(ss,'_PORTAL_DOCUMENTOS',documents.ids);portalDeleteNewRows_(ss,'ALUMNOS',[obj.ID]);documents.files.forEach(function(file){file.setTrashed(true);});}throw err;}
-  cache.remove(key);return {ok:true,folio:folio,matricula:folio,password:password,alumno:{CORREO_PERSONAL:email}};
+  cache.remove(key);return {ok:true,folio:folio,password:password,alumno:{CORREO_PERSONAL:email}};
  }finally{lock.releaseLock();}
 }
