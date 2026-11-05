@@ -51,13 +51,18 @@ function portalEnsureRegistrationColumns_(sh){
 function portalCoursePayment_(course){
  var map={
   'Finanzas Personales':{weeks:8,weekly:100,monthly:400,total:800},
-  'Primeros Auxilios':{weeks:8,weekly:150,monthly:600,total:1200}
+  'Primeros Auxilios':{weeks:8,weekly:150,monthly:600,total:1200},
+  'Excel básico para el trabajo':{weeks:8,weekly:100,monthly:400,total:800},
+  'Canva para redes y negocios':{weeks:6,weekly:100,monthly:400,total:600},
+  'Atención al cliente y ventas':{weeks:6,weekly:100,monthly:400,total:600},
+  'Administración de pequeños negocios':{weeks:8,weekly:125,monthly:500,total:1000},
+  'Marketing digital básico':{weeks:8,weekly:150,monthly:600,total:1200}
  };
  return map[course]||null;
 }
 function portalRegister_(ss,b){
  var name=String(b.nombre||'').trim(),email=String(b.email||'').trim().toLowerCase(),curp=String(b.curp||'').trim().toUpperCase(),age=Number(b.edad),state=String(b.estado||'').trim(),birth=String(b.fecha||''),course=String(b.diplomado||'').trim(),paymentMode=String(b.paymentMode||'weekly').trim().toLowerCase();
- if(name.length<2||name.length>160||!/^\S+@\S+\.\S+$/.test(email)||email.length>160||!/^[A-Z0-9]{18}$/.test(curp)||!Number.isInteger(age)||age<15||age>100||!state||state.length>80||!/^\d{4}-\d{2}-\d{2}$/.test(birth)||['Finanzas Personales','Primeros Auxilios'].indexOf(course)<0||['weekly','monthly','total'].indexOf(paymentMode)<0)throw Error('Revisa los datos del formulario.');
+ if(name.length<2||name.length>160||!/^\S+@\S+\.\S+$/.test(email)||email.length>160||!/^[A-Z0-9]{18}$/.test(curp)||!Number.isInteger(age)||age<15||age>100||!state||state.length>80||!/^\d{4}-\d{2}-\d{2}$/.test(birth)||['Finanzas Personales','Primeros Auxilios','Excel básico para el trabajo','Canva para redes y negocios','Atención al cliente y ventas','Administración de pequeños negocios','Marketing digital básico'].indexOf(course)<0||['weekly','monthly','total'].indexOf(paymentMode)<0)throw Error('Revisa los datos del formulario.');
  var born=new Date(birth+'T12:00:00Z');if(!isFinite(born.getTime())||born.toISOString().slice(0,10)!==birth||born.getTime()>Date.now())throw Error('Revisa la fecha de nacimiento.');
  var admins=String(PropertiesService.getScriptProperties().getProperty('PORTAL_ADMIN_EMAILS')||'').toLowerCase().split(',').map(function(x){return x.trim();});
  if(admins.indexOf(email)>=0||portalRows_(ss,'_PORTAL_ADMINISTRADORES').some(function(r){return String(r.EMAIL||'').trim().toLowerCase()===email;}))throw Error('Solicita a administración el alta de esta cuenta.');
