@@ -15,11 +15,13 @@ function updatePaymentPreview(){
  const selected=document.querySelector('input[name="diplomado"]:checked');
  const c=window.EvolvaCourses?.list?.find(x=>x.name===selected?.value);
  if(!c||!paymentSummary)return;
- const weeks=Number(c.weeks||8),weekly=Number(c.weekly||0),monthly=Number(c.monthly||weekly*4),total=Number(c.total||weekly*weeks),mode=paymentMode?.value||'weekly';
+ const weeks=Number(c.weeks||0),months=Number(c.months||0),weekly=Number(c.weekly||0),monthly=Number(c.monthly||0),total=Number(c.total||0),weeklyTotal=Number(c.weeklyTotal||weekly*weeks),mode=paymentMode?.value||'weekly';
  const fmt=n=>new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(n);
- if(mode==='monthly'){const count=Math.ceil(weeks/4),last=total-monthly*(count-1);paymentSummary.textContent=count+' mensualidades · '+fmt(monthly)+(count>1?' y última de '+fmt(last):'')+' · Total '+fmt(total);}
+ const monthlyOption=paymentMode?.querySelector('option[value="monthly"]');if(monthlyOption)monthlyOption.disabled=!months;
+ if(mode==='monthly'&&!months){paymentSummary.textContent='Este curso no ofrece modalidad mensual. Selecciona pago semanal o total.';return;}
+ if(mode==='monthly')paymentSummary.textContent=months+' mensualidades de '+fmt(monthly)+' · Total '+fmt(monthly*months)+'.';
  else if(mode==='total')paymentSummary.textContent='Un solo pago de '+fmt(total)+'. Vence en la fecha de inscripción.';
- else paymentSummary.textContent='Pago semanal '+fmt(weekly)+' · '+weeks+' semanas · Total '+fmt(total)+'.';
+ else paymentSummary.textContent='Pago semanal '+fmt(weekly)+' · '+weeks+' semanas · Total '+fmt(weeklyTotal)+'.';
 }
 document.querySelectorAll('input[name="diplomado"]').forEach(el=>el.addEventListener('change',updatePaymentPreview));
 paymentMode?.addEventListener('change',updatePaymentPreview);
