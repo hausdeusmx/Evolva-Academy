@@ -2,7 +2,7 @@ import {PDFDocument,StandardFonts,rgb,type PDFFont} from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 import {reportFonts} from './report-fonts';
 import {logoJpegBase64} from './brand';
-const wine=rgb(.314,.047,.09),ink=rgb(.20,.13,.15),muted=rgb(.43,.34,.37),rose=rgb(.965,.925,.935),border=rgb(.87,.79,.82),cream=rgb(.995,.99,.985),accent=rgb(.72,.48,.53);
+const wine=rgb(.314,.047,.09),ink=rgb(.20,.13,.15),muted=rgb(.43,.34,.37),rose=rgb(.965,.925,.935),border=rgb(.87,.79,.82),cream=rgb(.995,.99,.985),white=rgb(1,1,1),accent=rgb(.72,.48,.53);
 const bytes=(v:string)=>Uint8Array.from(atob(v),c=>c.charCodeAt(0));
 function printable(v:string){return String(v||'').replace(/[\\u2013\\u2014]/g,'-').replace(/[^\\x20-\\xFF\\u20AC]/g,'');}
 function wrap(v:string,font:PDFFont,size:number,width:number){const out:string[]=[];let line='';for(const word of printable(v).trim().split(/\\s+/)){const next=line?line+' '+word:word;if(font.widthOfTextAtSize(next,size)<=width){line=next;continue;}if(line)out.push(line);line=word;}if(line)out.push(line);return out.length?out:[''];}
