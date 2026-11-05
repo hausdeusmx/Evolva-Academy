@@ -37,7 +37,7 @@ form.addEventListener('submit',async event=>{
   try{token=window.turnstile?.getResponse()||'';}catch{}
   if(!token){captchaError.textContent='Completa la verificación de seguridad antes de enviar tu registro.';captchaError.scrollIntoView({behavior:'smooth',block:'center'});return;}
   const read=id=>document.getElementById(id).value.trim();
-  const params={accion:'registrar',diplomado:selected.value,nombre:read('reg_nombre'),edad:read('reg_edad'),estado:read('reg_estado'),curp:read('reg_curp').toUpperCase(),fecha:read('reg_fecha'),email:read('reg_email'),turnstileToken:token};
+  const params={accion:'registrar',diplomado:selected.value,nombre:read('reg_nombre'),edad:read('reg_edad'),estado:read('reg_estado'),curp:read('reg_curp').toUpperCase(),fecha:read('reg_fecha'),email:read('reg_email'),turnstileToken:token,paymentMode:paymentMode?.value||'weekly'};
   busy=true;button.disabled=true;form.setAttribute('aria-busy','true');button.textContent='Registrando tu inscripción…';
   try{
     let data;
@@ -52,9 +52,9 @@ form.addEventListener('submit',async event=>{
       data=await window.EvolvaLegacy.call(API_URL,params);
     }
     if(!data?.ok)throw new Error(data?.error||data?.mensaje||'No fue posible completar la inscripción.');
-    let folio=String(data.folio||'').trim().toUpperCase();
+    let folio=String(data.matricula||data.folio||'').trim().toUpperCase();
     if(/^\d{6}$/.test(folio))folio='EVOLVA-'+folio;
-    if(!/^EVOLVA-\d{6}$/.test(folio))throw new Error('El servidor no devolvió un folio válido. Contacta a administración antes de intentar otro registro.');
+    if(!/^EVOLVA-\d{6}$/.test(folio))throw new Error('El servidor no devolvió una matrícula válida. Contacta a administración antes de intentar otro registro.');
     document.getElementById('codigoFolio').textContent=folio;
     document.getElementById('datoCorreo').textContent=data.alumno?.CORREO_PERSONAL||params.email;
     document.getElementById('datoPassword').textContent=data.password||'Solicita tu acceso a la administración de Evolva Academy.';
