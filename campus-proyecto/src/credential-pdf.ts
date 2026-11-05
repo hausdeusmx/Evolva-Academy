@@ -15,7 +15,7 @@ export async function createCredentialPDF(data:any):Promise<Uint8Array>{
  const write=(p:any,v:string,x:number,y:number,size=7,font=regular,color=ink)=>p.drawText(printable(v),{x,y,size,font,color});
  const fit=(p:any,v:string,x:number,y:number,size:number,w:number,max:number,font=regular,color=ink)=>{let s=size;while(lines(v,font,s,w).length>max&&s>4.5)s-=.2;lines(v,font,s,w).slice(0,max).forEach((t,i)=>write(p,t,x,y-i*(s+1.7),s,font,color));};
  // FRONT: editorial split, photo window and oversized identity number.
- front.drawRectangle({x:0,y:0,width,height,color:cream});front.drawRectangle({x:0,y:0,width:82,height,color:wine});front.drawRectangle({x:82,y:0,width:3,height,height,color:accent});
+ front.drawRectangle({x:0,y:0,width,height,color:cream});front.drawRectangle({x:0,y:0,width:82,height,color:wine});front.drawRectangle({x:82,y:0,width:3,height,color:accent});
  front.drawImage(logo,{x:13,y:height-42,width:56,height:30});
  front.drawRectangle({x:12,y:35,width:58,height:70,color:white,borderColor:accent,borderWidth:.8});
  const pf=photo.scaleToFit(54,66);front.drawImage(photo,{x:14+(54-pf.width)/2,y:37+(66-pf.height)/2,width:pf.width,height:pf.height});
