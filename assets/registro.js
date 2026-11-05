@@ -16,7 +16,14 @@ function updatePaymentPreview(){
  const c=window.EvolvaCourses?.list?.find(x=>x.name===selected?.value);
  if(!c||!paymentSummary)return;
  const weeks=Number(c.weeks||8),weekly=Number(c.weekly||0),monthly=Number(c.monthly||weekly*4),total=Number(c.total||weekly*weeks),mode=paymentMode?.value||'weekly';
- const fmt=n=>'
+ const fmt=n=>new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(n);
+ if(mode==='monthly')paymentSummary.textContent='Mensualidad '+fmt(monthly)+' · '+Math.ceil(weeks/4)+' mensualidades · Total '+fmt(total);
+ else if(mode==='total')paymentSummary.textContent='Un solo pago de '+fmt(total)+'. Vence en la fecha de inscripción.';
+ else paymentSummary.textContent='Pago semanal '+fmt(weekly)+' · '+weeks+' semanas · Total '+fmt(total)+'.';
+}
+document.querySelectorAll('input[name="diplomado"]').forEach(el=>el.addEventListener('change',updatePaymentPreview));
+paymentMode?.addEventListener('change',updatePaymentPreview);
+updatePaymentPreview();
 curp.addEventListener('input',()=>{curp.value=curp.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,18);});
 const date=new Date();
 document.getElementById('reg_fecha').max=date.getFullYear()+'-'+String(date.getMonth()+1).padStart(2,'0')+'-'+String(date.getDate()).padStart(2,'0');
