@@ -8,3 +8,23 @@
 .ac-id-set .ac-id-brand img{top:-135%}
 .ac-id-contacts dt{line-height:1.2}.ac-id-backtop>b{line-height:1.15}.ac-id-backtop>span,.ac-id-sign span,.ac-id-sign b{line-height:1.2}.ac-id-ribbon{line-height:1.25}
 @media(max-width:500px){.ac-id-backbody{padding:2% 5% 1%}.ac-id-contacts{gap:3px}}
+
+
+/* EVOLVA ACADEMY · Credencial y servicios escolares */
+.ac-credential,.ac-credential-note,.ac-doc-list,.ac-upload,.ac-task-description,.ac-task-submit,.ac-roster,.ac-recipient-list,.ac-review-delivery{border-radius:16px;border-color:#eadfe2;box-shadow:0 9px 28px rgba(80,12,23,.045)}
+.ac-id-set{max-width:520px;gap:28px}
+.ac-id-set .ac-id-card{border-radius:15px;box-shadow:0 18px 42px rgba(80,12,23,.12),0 0 0 1px #e6d2d8}
+.ac-id-set .ac-id-front{background:linear-gradient(145deg,#fff 0%,#fbf5f6 100%)}
+.ac-id-set .ac-id-top,.ac-id-set .ac-id-backtop{background:linear-gradient(105deg,#500c17 0%,#702637 100%);border-bottom:3px solid #d4aeb8}
+.ac-id-set .ac-id-back{background:linear-gradient(145deg,#fff 0%,#faf4f5 100%)}
+.ac-id-set .ac-id-ribbon{background:#500c17;color:#fff;letter-spacing:1.1px}
+.ac-id-set .ac-id-qr{border:1px solid #ead5db;border-radius:8px;background:#fff}
+.ac-id-set .ac-id-qr svg{padding:4px}
+.ac-id-set .ac-id-records{border-top:1px solid #eadfe2}
+.ac-id-set .ac-id-contacts dt,.ac-id-set .ac-id-label{color:#8a6973}
+.ac-credential-note>svg,.ac-pending>svg{color:#500c17}
+.ac-upload-label{background:linear-gradient(145deg,#fff,#fbf4f6);border-color:#d9bdc5}
+.ac-upload-label>svg{color:#500c17}
+.ac-document-checks>span.complete{background:#f0f6f1;border-color:#d5e5da}
+.ac-task-card,.ac-file{border-color:#eee3e6}
+@media(max-width:650px){.ac-id-set{gap:20px}.ac-id-set .ac-id-card{border-radius:10px}}
