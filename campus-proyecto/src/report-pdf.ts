@@ -4,7 +4,7 @@ import fontkit from '@pdf-lib/fontkit';
 import {reportFonts} from './report-fonts.ts';
 import {logoJpegBase64} from './brand.ts';
 import {REPORT_TITLE} from './report-record.ts';
-const wine=rgb(.314,.047,.09),ink=rgb(.20,.13,.15),muted=rgb(.43,.34,.37),rose=rgb(.965,.925,.935),border=rgb(.87,.79,.82),cream=rgb(.995,.99,.985),accent=rgb(.72,.48,.53);
+const wine=rgb(.055,.12,.22),ink=rgb(.10,.17,.24),muted=rgb(.36,.45,.52),rose=rgb(.91,.96,.97),border=rgb(.76,.85,.88),cream=rgb(.995,.999,1),accent=rgb(.08,.62,.66);
 export function qrMatrix(url:string){const qr=qrcode(0,'M');qr.addData(url,'Byte');qr.make();const n=qr.getModuleCount();return Array.from({length:n},(_,r)=>Array.from({length:n},(_,c)=>qr.isDark(r,c)));}
 function wrap(value:string,font:PDFFont,size:number,width:number){const words=value.replace(/\s+/g,' ').trim().split(' '),lines:string[]=[];let line='';for(const word of words){if(font.widthOfTextAtSize((line?line+' ':'')+word,size)<=width){line+=(line?' ':'')+word;continue;}if(line)lines.push(line);line='';for(const char of word){if(font.widthOfTextAtSize(line+char,size)>width){lines.push(line);line='';}line+=char;}}if(line)lines.push(line);return lines.length?lines:[''];}
 function printable(value:string){return value.replace(/[\u2013\u2014]/g,'-').replace(/[^\x20-\xFF\u20AC]/g,'');}
