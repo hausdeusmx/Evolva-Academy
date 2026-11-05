@@ -1,3 +1,4 @@
+import {paymentCalendar} from './course-plan';
 import {normalizeStudentPhone} from './credential-contact';
 import {suiteDemo,suiteAcademicDemo} from './suite-demo';
 import {learningActions,learningDemo} from './learning-demo';
@@ -45,7 +46,7 @@ export async function portalAPI(action:string,body?:any,params=''){
  if(action==='exam_link'&&!latest.academicAccess?.enforced){const exam=latest.exams.find((e:any)=>e.id===body?.id);if(!exam||exam.locked||!/^https:\/\//.test(exam.url||''))throw Error('El examen no está disponible para tu cuenta.');return {ok:true,url:exam.url};}
  const d=await request(action,body,params);
  if(action==='documents'&&academicAccess(latest).blocked)return {...d,deliveries:[]};
- return action==='dashboard'?paymentDashboard(d):d;
+ return action==='dashboard'?paymentCalendar(paymentDashboard(d)):d;
 }
 export async function portalTransport(action:string,body?:any,params=''){try{return Response.json(await portalAPI(action,body,params));}catch(e:any){return Response.json({error:e.message},{status:e.status||400});}}
 async function base64File(file:File){const bytes=new Uint8Array(await file.arrayBuffer());let s='';for(let i=0;i<bytes.length;i+=16384)s+=String.fromCharCode(...bytes.subarray(i,i+16384));return btoa(s);}

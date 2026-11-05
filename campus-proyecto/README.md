@@ -116,3 +116,11 @@ La constancia generada usa formato horizontal con nombre, curso, matrícula, gru
 La credencial conserva las dos caras, fotografía privada, matrícula, grupo, correo institucional, teléfono y soporte. Incorpora estado de inscripción y fecha de emisión. Solo muestra vigencia con fecha cuando el dato existe; en otro caso indica que depende de una inscripción activa. No incluye CURP ni genera un vencimiento ficticio. Los documentos de demostración están marcados sin validez académica.
 
 Los cambios no requieren nuevas columnas, otro endpoint ni una actualización del proyecto de Apps Script. `npm test` incluye la comprobación de los tres PDF. Para producir muestras locales: `node tests/check-credential.mjs foto-sintetica.png /ruta/credencial-prueba.pdf`.
+
+## Calendario de pagos y navegación
+
+El campus conserva los calendarios asignados por la API. Cuando la API solo entrega el catálogo, muestra un calendario de referencia: semanas y cuota semanal con total coherente, o meses y cuota mensual. Las fechas parten de la inscripción registrada; sin fecha válida aparecen por confirmar. Esta referencia no cambia condiciones de cobro ni confirma pagos. Los comprobantes se relacionan únicamente con su periodo exacto; un abono parcial conserva el saldo restante y un comprobante en revisión conserva ese estado.
+
+Constancias distingue actividades completadas de autorización de emisión. El botón Actualizar estado vuelve a consultar la cuenta y los errores de descarga aparecen junto al documento. La autorización continúa en el servidor y en el registro privado de CONSTANCIAS; completar las actividades por sí solo no la sustituye.
+
+La navegación agrupa aprendizaje, servicios y comunidad, conserva la matrícula visible y actualiza la sección en la URL. El diseño usa menú guinda, tarjetas de alto contraste y navegación móvil con desplazamiento independiente. Las pruebas cubren cuotas semanales, fin de mes, fechas ausentes, calendarios asignados, abonos y revisión de comprobantes.
