@@ -6,16 +6,16 @@ export function makePDF(data:any,kind:string){
  batches.forEach((grades,page)=>{
  const c:string[]=[];const rect=(x:number,y:number,w:number,h:number,color:string)=>c.push(`${color} rg ${x} ${y} ${w} ${h} re f`);
  const text=(s:string,x:number,y:number,size=12,bold=false,color='0.21 0.14 0.16')=>c.push(`${color} rg BT /${bold?'F2':'F1'} ${size} Tf ${x} ${y} Td (${clean(String(s))}) Tj ET`);
- rect(0,0,595,842,'0.99 0.98 0.98');rect(0,687,595,155,'0.29 0.043 0.078');rect(42,656,511,3,'0.65 0.31 0.39');
- c.push('q 44 740 210 70.76 re W n 233.739 0 0 233.739 31.446 659.195 cm /Logo Do Q');text('CAMPUS / SERVICIOS ESCOLARES',44,714,9,false,'1 1 1');
- text(kind==='constancia'?'CONSTANCIA DE FINALIZACIÓN':'BOLETA DE CALIFICACIONES',44,610,21,true);
+ rect(0,0,595,842,'0.99 0.98 0.97');rect(0,687,595,155,'0.314 0.047 0.09');rect(42,656,511,2,'0.72 0.48 0.53');if(kind==='constancia'){rect(24,24,547,794,'0.72 0.48 0.53');rect(27,27,541,788,'0.99 0.98 0.97');rect(31,31,533,780,'0.314 0.047 0.09');rect(33,33,529,776,'0.99 0.98 0.97');}
+ c.push('q 44 740 210 70.76 re W n 233.739 0 0 233.739 31.446 659.195 cm /Logo Do Q');text('EVOLVA ACADEMY',44,714,10,true,'1 1 1');text('CAMPUS VIRTUAL  /  SERVICIOS ESCOLARES',44,697,8,false,'0.96 0.88 0.90');
+ text(kind==='constancia'?'CONSTANCIA DE FINALIZACIÓN':'BOLETA DE CALIFICACIONES',44,610,kind==='constancia'?24:21,true,'0.314 0.047 0.09');
  if(data.demo)text('DOCUMENTO DE PRUEBA - SIN VALIDEZ ACADÉMICA',44,581,10,true,'0.6 0.3 0.1');
  let start=555;
  if(page===0){text('Se hace constar que',44,530);text(data.student.name,44,495,Math.max(14,Math.min(25,900/Math.max(data.student.name.length,1))),true);text(`Folio: ${data.student.folio}`,44,465);text(`Curso: ${data.student.course}`,44,439);text(`Grupo: ${data.student.group||'Sin asignar'}`,44,413);start=365;}
  else {text(`${data.student.name} / ${data.student.folio}`,44,553,11,true);start=520;}
- if(kind==='constancia'){text('ha concluido las actividades registradas del curso.',44,368);text(`Avance: ${data.progress}%     Promedio: ${data.average??'--'} / 10`,44,339,14,true);text('Certificado final gratuito.',44,307,11);}
+ if(kind==='constancia'){text('ha concluido satisfactoriamente las actividades',75,368,13,false,'0.35 0.25 0.28');text('académicas correspondientes al programa:',75,346,13,false,'0.35 0.25 0.28');text(data.student.course,75,309,18,true,'0.314 0.047 0.09');text(`Avance: ${data.progress}%     Promedio: ${data.average??'--'} / 10`,75,274,12,true,'0.35 0.25 0.28');text('Se expide la presente para los fines que al interesado convengan.',75,239,10,false,'0.35 0.25 0.28');}
  else {let y=start;for(const g of grades){const title=`${g.module}  ${g.title}`;text(title.slice(0,69),44,y,9);text(g.score===null?'Pendiente':`${g.score} / 10`,465,y,10,true);if(title.length>69)text(title.slice(69,138),44,y-11,8);y-=25;}if(page===batches.length-1)text(`Promedio: ${data.average??'--'} / 10`,44,y-17,13,true);}
- if(kind==='constancia'){text('Alexis Soto',44,164,14,true);text('Director General',44,145,10);text('Evolva Academy',44,127,10);}
+ if(kind==='constancia'){text('Alexis Soto',44,164,16,true,'0.314 0.047 0.09');text('Director General',44,145,10);text('EVOLVA ACADEMY',44,127,9,true,'0.314 0.047 0.09');}
  text(data.demo?'Datos ficticios para validar el portal. No acredita estudios reales.':'Documento generado desde el registro autorizado de la institución.',44,93,9);
  text(`Emisión: ${new Date().toISOString().slice(0,10)}   |   ${data.student.folio}`,44,62,9);text(`Página ${page+1} de ${batches.length}`,469,62,8);pages.push(c.join('\n'));
  });
