@@ -1,0 +1,70 @@
+name: Build and publish Evolva Campus
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "campus-proyecto/**"
+      - ".github/workflows/build-campus.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: evolva-campus-publish
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.5
+
+      - name: Install dependencies
+        working-directory: campus-proyecto
+        run: pnpm install --frozen-lockfile
+
+      - name: Check TypeScript
+        working-directory: campus-proyecto
+        run: pnpm run check
+
+      - name: Run campus tests
+        working-directory: campus-proyecto
+        run: pnpm test
+
+      - name: Run public site tests
+        run: |
+          node tests/check-course-catalog.mjs
+          node tests/check-flows.mjs
+          node tests/check-mail-delivery.mjs
+
+      - name: Build campus
+        working-directory: campus-proyecto
+        run: pnpm run build
+
+      - name: Publish generated campus files to Pages root
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add campus/
+          if git diff --cached --quiet; then
+            echo "No generated campus changes to publish."
+            exit 0
+          fi
+          git commit -m "Publish updated Evolva campus build"
+          git push origin HEAD:main
