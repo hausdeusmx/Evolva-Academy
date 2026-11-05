@@ -105,3 +105,14 @@ La API privada V12 asigna grupos por curso con cupo máximo de 20 alumnos, bajo 
 La credencial PDF conserva el tamaño escolar, frente/reverso, foto, QR de acceso al campus y firma del director. Añade correo institucional, teléfono del alumno y soporte@evolvacademy.mx. Si el correo institucional aún no figura en el registro, muestra la dirección estándar formada por folio y dominio; esto no crea una cuenta de correo. El teléfono se guarda como texto en la columna TELEFONO. Cada alumno puede actualizar solo su propio teléfono desde Mi credencial; los nuevos registros lo envían por POST cuando health V12 anuncia `student_contact`. Sin la activación, se muestra Sin registrar y no se habilita el guardado.
 
 Para activar: reemplazar TODO Código.gs con el archivo completo privado V12, ejecutar `prepararPortalV12` como propietario y actualizar la implementación existente conservando URL y acceso. Esta preparación también activa el catálogo V11 y agrega GRUPO/TELEFONO al final de ALUMNOS si faltan. Las pruebas privadas cubren cupos, aislamiento por curso, cambios parciales, fórmulas, reintentos y contacto privado. No publicar el backend, la hoja ni datos personales.
+
+
+## Rediseño de documentos académicos
+
+La boleta conserva el folio EVOLVA-######, las calificaciones del registro emitido, el código EVR y el enlace de validación autenticado. Añade avance, número de evaluaciones registradas, estados por actividad y, cuando existen en la cuenta, inscripción y estado del alumno. Estos dos datos complementarios no modifican el snapshot académico autorizado. Cada página conserva firma tipográfica, fecha de emisión y QR con margen de lectura dentro del papel.
+
+La constancia generada usa formato horizontal con nombre, curso, matrícula, grupo, modalidad, duración registrada, promedio, inscripción y emisión. Si el backend entrega un PDF ya archivado, se conserva ese original. El QR de constancias y credenciales abre el campus; no se presenta como validación de un documento emitido.
+
+La credencial conserva las dos caras, fotografía privada, matrícula, grupo, correo institucional, teléfono y soporte. Incorpora estado de inscripción y fecha de emisión. Solo muestra vigencia con fecha cuando el dato existe; en otro caso indica que depende de una inscripción activa. No incluye CURP ni genera un vencimiento ficticio. Los documentos de demostración están marcados sin validez académica.
+
+Los cambios no requieren nuevas columnas, otro endpoint ni una actualización del proyecto de Apps Script. `npm test` incluye la comprobación de los tres PDF. Para producir muestras locales: `node tests/check-credential.mjs foto-sintetica.png /ruta/credencial-prueba.pdf`.
