@@ -12,3 +12,8 @@ export function mailDemo(students:any[],action:string,b:any){
  // Solo metadatos ficticios en memoria. Ninguna contraseña se conserva en este modo.
  return {ok:true,mail};
 }
+
+export function demoMailAvailability(folio:string){
+ const record=records.get(folio);if(!record||record.status!=='PENDIENTE')return {available:false};
+ return {available:true,folio,email:record.email,status:record.status,revision:record.revision,assignedAt:record.assignedAt};
+}

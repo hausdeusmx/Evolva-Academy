@@ -147,3 +147,13 @@ La actualización completa se entrega como backend privado V14. Reemplazar TODO 
 El servidor anuncia `institutional_login` solamente después de la preparación. Hasta entonces, el sitio conserva el acceso e inscripción anteriores para evitar presentar credenciales que aún no funcionan. Con V14 activo, el servidor acepta únicamente la dirección institucional de seis dígitos para alumnos y la deriva de la matrícula autenticada sin depender de la entrega del buzón. Los registros de entrega de correo con direcciones anteriores se señalan para reasignación; sus contraseñas no se entregan bajo una dirección diferente.
 
 Validación: `npm test`, `npm run check`, `npm run build`, `node tests/check-flows.mjs` y `node tests/check-mail-delivery.mjs`. Los datos de prueba son ficticios; los casos de migración, aislamiento y acceso de alumnos existentes y nuevos se comprueban también en el backend privado.
+
+## Aviso de contraseña de correo disponible · V15
+
+Al guardar el acceso del buzón desde Admin → Correo institucional, el campus del alumno muestra un anuncio y un banner con Consultar contraseña. El botón abre la página de entrega existente, donde se requieren CURP, matrícula y verificación. El anuncio nunca contiene la contraseña ni consume su entrega. Consultar el campus solo recibe disponibilidad, dirección y revisión del registro de su propia sesión.
+
+El anuncio aparece al entrar o en la actualización automática del campus. Más tarde permite continuar; se recuerda el cierre por asignación y sesión del navegador, mientras el banner permanece visible. Una asignación nueva genera otro aviso. No interrumpe evaluaciones ni otros diálogos abiertos. Al cancelar la entrega, consultar la contraseña o detectar una dirección incompatible, el aviso se retira en la siguiente actualización. Una inconsistencia de correo no bloquea el resto del campus. No envía correos, mensajes ni notificaciones fuera de la plataforma.
+
+Requiere el backend privado completo V15: reemplazar TODO Código.gs y actualizar la implementación con Nueva versión, conservando URL, acceso, manifiesto y propiedades. Si V14 y la entrega de correo ya están activadas, no requiere ejecutar otra preparación. V15 anuncia `institutional_notice` y conserva todas las funciones V14 y V13. La interfaz permanece compatible mientras se completa esa actualización.
+
+Las pruebas verifican asignación administrativa, aislamiento de alumnos, metadatos sin credenciales, cancelación, reasignación, consumo de una sola entrega y conservación de la contraseña durante las consultas del campus. Los casos del backend privado usan solo datos sintéticos.
