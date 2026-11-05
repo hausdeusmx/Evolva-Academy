@@ -4,7 +4,7 @@ import qrcode from 'qrcode-generator';
 import {reportFonts} from './report-fonts';
 import {logoJpegBase64} from './brand';
 import {credentialContact,campusAddress} from './credential-contact';
-const wine=rgb(.314,.047,.09),ink=rgb(.20,.13,.15),muted=rgb(.43,.34,.37),rose=rgb(.95,.90,.92),cream=rgb(.995,.99,.985),white=rgb(1,1,1),accent=rgb(.72,.48,.53);
+const wine=rgb(.055,.12,.22),ink=rgb(.10,.17,.24),muted=rgb(.36,.45,.52),rose=rgb(.91,.96,.97),cream=rgb(.995,.999,1),white=rgb(1,1,1),accent=rgb(.08,.62,.66);
 const bytes=(s:string)=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
 function lines(value:string,font:PDFFont,size:number,width:number){const out:string[]=[];let current='';for(const word of String(value).trim().split(/\s+/)){const candidate=current?current+' '+word:word;if(font.widthOfTextAtSize(candidate,size)<=width){current=candidate;continue;}if(current){out.push(current);current='';}for(const ch of word){if(font.widthOfTextAtSize(current+ch,size)>width){out.push(current);current='';}current+=ch;}}if(current)out.push(current);return out;}
 export async function createCredentialPDF(data:any):Promise<Uint8Array>{
