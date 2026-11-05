@@ -1,5 +1,7 @@
 export const DEMO_EMAIL='alumna@demo.evolva.test';
 export const DEMO_GRADUATE='egresado@demo.evolva.test';
+export const DEMO_LOGIN_EMAIL='000001@evolvacademy.mx';
+export const DEMO_GRADUATE_LOGIN='000002@evolvacademy.mx';
 export const DEMO_PASSWORD='EvolvaPrueba2026!';
 export const normalizeFolio=(v:string)=>v.trim().toUpperCase();
 export const validFolio=(v:string)=>/^EVOLVA-\d{6}$/.test(normalizeFolio(v));
@@ -28,5 +30,5 @@ export const exams=[
 export function gradeExam(id:string,answers:Record<string,number>){const e=exams.find(x=>x.id===id);if(!e)throw Error('Examen no disponible.');if(e.questions.some(q=>!Number.isInteger(answers[q.id])||answers[q.id]<0||answers[q.id]>=q.options.length))throw Error('Responde todas las preguntas.');return Math.round(e.questions.filter(q=>answers[q.id]===q.correct).length/e.questions.length*100)/10;}
 export function summary(grades:{score:number|null}[],total:number){const done=grades.filter(x=>x.score!==null&&Number.isFinite(x.score));return {progress:Math.round(done.length/Math.max(total,1)*100),average:done.length?Math.round(done.reduce((s,g)=>s+(g.score??0),0)/done.length*10)/10:null};}
 export const demoNotices=[{id:'n1',title:'Tu siguiente paso: empezar a ahorrar',body:'Ya puedes realizar la evaluación de Ahorro y fondo de emergencia. Revisa el material antes de comenzar.',date:'2026-10-30',type:'Académico'},{id:'n2',title:'Comprobantes de pago',body:'Registra tu comprobante desde Pagos. El registro pasa a revisión; no confirma automáticamente un pago.',date:'2026-10-28',type:'Administración'},{id:'n3',title:'Bienvenida a tu campus',body:'Aquí puedes consultar tu avance, evaluaciones y documentos. Este recorrido contiene datos de ejemplo para validar el portal.',date:'2026-10-25',type:'Campus'}];
-export function demoStudent(graduate=false){return {name:graduate?'Daniel Rivera':'Sofía Martínez',email:graduate?DEMO_GRADUATE:DEMO_EMAIL,folio:graduate?'EVOLVA-000002':'EVOLVA-000001',course:'Finanzas Personales',group:'FIN-01',phone:'6560000000',status:graduate?'Egresado':'Activo',registered:'2026-08-01',institutional:graduate?'evolva-000002@evolvacademy.mx':'evolva-000001@evolvacademy.mx',graduate};}
+export function demoStudent(graduate=false){return {name:graduate?'Daniel Rivera':'Sofía Martínez',email:graduate?DEMO_GRADUATE:DEMO_EMAIL,folio:graduate?'EVOLVA-000002':'EVOLVA-000001',course:'Finanzas Personales',group:'FIN-01',phone:'6560000000',status:graduate?'Egresado':'Activo',registered:'2026-08-01',institutional:graduate?DEMO_GRADUATE_LOGIN:DEMO_LOGIN_EMAIL,graduate};}
 export function baseGrades(graduate:boolean){return modules.map((m,i)=>({id:m.id,module:m.id,title:m.title,score:i<2?[9,8.5][i]:graduate?[9.5,9][i-2]:null,status:i<2||graduate?'Evaluado':'Pendiente'}));}

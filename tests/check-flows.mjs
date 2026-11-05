@@ -116,3 +116,13 @@ phoneEntry12.elements.get('reg_curp_pdf').files=docs.elements.get('reg_curp_pdf'
 phoneEntry12.context.EVOLVA_CONFIG={API_URL:'https://script.google.com/macros/s/SYNTHETIC_TEST_ENDPOINT/exec'};let phonePost12;phoneEntry12.context.fetch=async(_url,options)=>{const b=JSON.parse(options.body);if(b.action==='health')return {ok:true,json:async()=>({ok:true,version:12,features:['documents','course_catalog','student_contact']})};phonePost12=b;return {ok:true,json:async()=>({ok:true,folio:'EVOLVA-000888',password:'synthetic'})};};
 phoneEntry12.elements.get('reg_phone').value='12';await phoneEntry12.submit('registroForm');assert.equal(phonePost12,undefined);assert.match(phoneEntry12.elements.get('registroError').textContent,/teléfono/);
 phoneEntry12.elements.get('reg_phone').value='+52 (656) 000-0001';await phoneEntry12.submit('registroForm');assert.equal(phonePost12.telefono,'+526560000001');assert.equal(phoneEntry12.calls.length,0);assert.equal(phoneEntry12.elements.get('reg_phone').required,true);console.log('V12 phone enrollment passed: capability gating, invalid number rejection and private POST persistence contract.');
+
+
+for(const folio of ['EVOLVA-000123','EVOLVA-123456']){
+ const institutional=await setup('inscripcion.html','registro.js');
+ institutional.context.EVOLVA_CONFIG={API_URL:'https://script.google.com/macros/s/SYNTHETIC_V14/exec'};institutional.elements.get('reg_email').value='personal@example.invalid';
+ institutional.context.fetch=async(url,options)=>({ok:true,json:async()=>JSON.parse(options.body).action==='health'?{ok:true,version:14,features:['institutional_login']}:{ok:true,folio,institutional:folio.slice(7)+'@evolvacademy.mx',loginMode:'institutional',password:'Synthetic-Campus-Password',alumno:{CORREO_PERSONAL:'personal@example.invalid'}}});
+ await institutional.submit('registroForm');assert.equal(institutional.elements.get('datoCorreo').textContent,folio.slice(7)+'@evolvacademy.mx');assert.match(institutional.elements.get('registroAccesoNota').textContent,/buzón/);assert.equal(institutional.elements.get('datoPassword').textContent,'Synthetic-Campus-Password');
+}
+const invalidIdentity=await setup('inscripcion.html','registro.js');invalidIdentity.setResponse({ok:true,folio:'EVOLVA-000123',institutional:'999999@evolvacademy.mx',loginMode:'institutional'});await invalidIdentity.submit('registroForm');assert.match(invalidIdentity.elements.get('registroError').textContent,/matrícula fue creada/);assert.notEqual(invalidIdentity.elements.get('registroForm').style.display,'none');
+console.log('V14 enrollment identity checks passed: six-digit institutional email, leading zeros, separate personal address, campus password and mismatched identity rejection.');

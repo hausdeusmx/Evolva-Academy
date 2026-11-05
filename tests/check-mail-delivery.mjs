@@ -17,3 +17,7 @@ el['mail-show'].handlers.click();assert.equal(el['mail-password'].type,'text');a
 timer();assert.equal(el['mail-password'].value,'');assert.equal(el['mail-email'].value,'');assert.equal(el['mail-result'].hidden,true);
 el['mail-password'].value='fake secret';pageEvents.pagehide();assert.equal(el['mail-password'].value,'');assert.equal(el['mail-password'].type,'password');
 console.log('Mail page checks passed: activation guard, CAPTCHA, POST-only identity, generic denial, no browser storage, masked one-time output, user-initiated copy and automatic clearing.');
+
+
+features=['institutional_delivery','institutional_login'];await el['mail-retry'].handlers.click();captcha.callback('numeric-captcha');claimResponse={ok:true,email:'123456@evolvacademy.mx',password:'Synthetic-Mailbox-Password'};await el['mail-form'].handlers.submit({preventDefault(){}});assert.equal(el['mail-result'].hidden,false);assert.equal(el['mail-email'].value,'123456@evolvacademy.mx');el['mail-clear'].handlers.click();captcha.callback('wrong-old-identity');claimResponse.email='EVOLVA-123456@evolvacademy.mx';await el['mail-form'].handlers.submit({preventDefault(){}});assert.equal(el['mail-result'].hidden,true);assert.match(el['mail-status'].textContent,/confirmar/);
+console.log('V14 mailbox checks passed: numeric institutional identity and rejection of obsolete mailbox identities after activation.');

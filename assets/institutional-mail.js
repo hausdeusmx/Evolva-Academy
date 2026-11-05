@@ -2,7 +2,7 @@
 (()=>{
  'use strict';
  const $=id=>document.getElementById(id),form=$('mail-form'),submit=$('mail-submit'),status=$('mail-status'),retry=$('mail-retry'),result=$('mail-result'),folio=$('mail-folio'),curp=$('mail-curp'),password=$('mail-password'),email=$('mail-email');
- const endpoint=String(window.EVOLVA_CONFIG?.API_URL||'').trim();let token='',widget=null,ready=false,busy=false,scriptPromise=null,clearTimer;
+ const endpoint=String(window.EVOLVA_CONFIG?.API_URL||'').trim();let token='',widget=null,ready=false,numericMode=false,busy=false,scriptPromise=null,clearTimer;
  function announce(message,error=false){status.textContent=message;status.classList.toggle('is-error',error);}
  function enabled(){submit.disabled=!ready||!token||busy;}
  async function request(action,body={}){
@@ -18,7 +18,7 @@
  }
  async function availability(){
   if(busy)return;ready=false;enabled();retry.disabled=true;announce('Consultando disponibilidad…');
-  try{const h=await request('health');if(!h.features?.includes('institutional_delivery')){announce('La entrega de correo institucional está en preparación. Administración te avisará cuando puedas consultar tu acceso.');return;}
+  try{const h=await request('health');numericMode=h.features?.includes('institutional_login')===true;if(!h.features?.includes('institutional_delivery')){announce('La entrega de correo institucional está en preparación. Administración te avisará cuando puedas consultar tu acceso.');return;}
    await loadCaptcha();if(widget===null)widget=window.turnstile.render($('mail-captcha'),{sitekey:'0x4AAAAAAFO3iozVUJMFOZFC',theme:'light',callback:value=>{token=value;enabled();},'expired-callback':()=>{token='';enabled();},'error-callback':()=>{token='';enabled();announce('La verificación no se completó. Intenta de nuevo.',true);}});
    ready=true;announce('Completa tus datos y la verificación de seguridad.');enabled();
   }catch(e){announce(e.message,true);}finally{retry.disabled=false;}
@@ -29,7 +29,7 @@
   event.preventDefault();if(!ready||!token||busy||!form.reportValidity())return;
   busy=true;enabled();retry.disabled=true;announce('Verificando tus datos…');const submittedFolio=folio.value.trim().toUpperCase();
   try{const data=await request('institutional_claim',{folio:submittedFolio,curp:curp.value.trim().toUpperCase(),turnstileToken:token});
-   if(data.email!==submittedFolio+'@evolvacademy.mx'||typeof data.password!=='string'||data.password.length<12)throw Error('No se pudo confirmar el acceso. Solicita una nueva entrega a administración.');
+   if(data.email!==(numericMode?submittedFolio.slice(7):submittedFolio)+'@evolvacademy.mx'||typeof data.password!=='string'||data.password.length<12)throw Error('No se pudo confirmar el acceso. Solicita una nueva entrega a administración.');
    email.value=data.email;password.value=data.password;data.password='';curp.value='';form.hidden=true;result.hidden=false;announce('Acceso entregado. Guarda tus datos antes de salir.');$('mail-result-title').focus();clearTimer=setTimeout(()=>{clearSecret();announce('Por seguridad se ocultó el acceso. Si no lo guardaste, solicita una nueva contraseña inicial a administración.');},300000);
   }catch(e){announce(e.message,true);}finally{busy=false;retry.disabled=false;resetCaptcha();}
  });
@@ -39,3 +39,4 @@
  window.addEventListener('pagehide',clearSecret);window.addEventListener('pageshow',event=>{if(event.persisted)availability();});
  availability();
 })();
+

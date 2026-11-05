@@ -65,7 +65,11 @@ form.addEventListener('submit',async event=>{
     if(/^\d{6}$/.test(folio))folio='EVOLVA-'+folio;
     if(!/^EVOLVA-\d{6}$/.test(folio))throw new Error('El servidor no devolvió una matrícula válida. Contacta a administración antes de intentar otro registro.');
     document.getElementById('codigoFolio').textContent=folio;
-    document.getElementById('datoCorreo').textContent=data.alumno?.CORREO_PERSONAL||params.email;
+    const institutional=folio.slice(7)+'@evolvacademy.mx',institutionalReady=window.EvolvaDocuments?.institutionalLoginReady?.()===true||data.loginMode==='institutional';
+    if(institutionalReady&&String(data.institutional||data.alumno?.CORREO_INSTITUCIONAL||'').trim().toLowerCase()!==institutional)throw Error('Tu matrícula fue creada, pero el acceso necesita revisión. Contacta a administración antes de intentar otra inscripción.');
+    document.getElementById('datoCorreo').textContent=institutionalReady?institutional:data.alumno?.CORREO_PERSONAL||params.email;
+    const emailLabel=document.getElementById('datoCorreoLabel');if(emailLabel)emailLabel.textContent=institutionalReady?'Correo institucional para el campus':'Correo de acceso al campus';
+    const accessNote=document.getElementById('registroAccesoNota');if(accessNote)accessNote.textContent=institutionalReady?'Tu correo usa los seis dígitos de tu matrícula. Ingresa con la contraseña del campus, aunque el buzón todavía esté pendiente de entrega.':'Guarda tu matrícula y contraseña. Usa el correo de acceso que aparece arriba.';
     document.getElementById('datoPassword').textContent=data.password||'Solicita tu acceso a la administración de Evolva Academy.';
     document.getElementById('registroPago').href=window.EvolvaCourses?.isNew(params.diplomado)?'campus/?seccion=pagos':'pagos.html?folio='+encodeURIComponent(folio);
     const result=document.getElementById('folioResultado');
@@ -77,3 +81,4 @@ form.addEventListener('submit',async event=>{
     errorBox.scrollIntoView({behavior:'smooth',block:'center'});resetCaptcha();
   }finally{busy=false;button.disabled=false;form.removeAttribute('aria-busy');button.textContent='Generar mi matrícula →';}
 });
+

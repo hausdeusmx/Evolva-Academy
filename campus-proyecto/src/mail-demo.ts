@@ -1,7 +1,7 @@
 import {clientId} from './client-id';
 const records=new Map<string,any>();
 export function mailDemo(students:any[],action:string,b:any){
- const dto=(folio:string)=>records.get(folio)||{folio,email:folio+'@evolvacademy.mx',status:'SIN_ASIGNAR',assignedAt:'',deliveredAt:'',revision:'empty-'+folio};
+ const dto=(folio:string)=>records.get(folio)||{folio,email:folio.slice(7)+'@evolvacademy.mx',status:'SIN_ASIGNAR',assignedAt:'',deliveredAt:'',revision:'empty-'+folio};
  if(action==='admin_mail_students'){const query=String(b.query||'').toLowerCase(),all=students.filter(s=>[s.name,s.folio,s.course].some(x=>String(x).toLowerCase().includes(query))),offset=Number(b.offset)||0;return {ok:true,total:all.length,students:all.slice(offset,offset+40).map(s=>({...s,mail:dto(s.folio)}))};}
  if(!students.some(s=>s.folio===b.folio))throw Error('Alumno no disponible.');
  const current=dto(b.folio);if(action==='admin_mail_status')return {ok:true,mail:current};

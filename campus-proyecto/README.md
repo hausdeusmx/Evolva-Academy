@@ -69,7 +69,7 @@ La compilación sigue generando únicamente la interfaz. Las pruebas públicas u
 
 ## Entrega manual de correo institucional · V9
 
-Admin incluye Correo institucional: búsqueda de alumno, dirección fija `EVOLVA-######@evolvacademy.mx`, asignación de contraseña inicial, estado y cancelación de entrega pendiente. La página `/correos.html` valida CURP, matrícula y Turnstile antes de entregar el acceso una sola vez. El correo y la clave no se envían por URL ni se conservan en almacenamiento del navegador. El acceso del campus mantiene su propia contraseña.
+Admin incluye Correo institucional: búsqueda de alumno, dirección `######@evolvacademy.mx` al activar V14, asignación de contraseña inicial, estado y cancelación de entrega pendiente. La página `/correos.html` valida CURP, matrícula y Turnstile antes de entregar el acceso una sola vez. El correo y la clave no se envían por URL ni se conservan en almacenamiento del navegador. El acceso del campus mantiene su propia contraseña.
 
 No hay integración con Google Workspace: el propietario prepara las cuentas por su cuenta y registra aquí el acceso inicial. La conexión requiere el archivo completo privado V9, ejecutar `prepararPortalV9` como propietario y actualizar la implementación existente conservando URL y acceso. Sin esta activación, ambos formularios muestran disponibilidad pendiente y no aceptan asignaciones ni consultas. El backend nunca se publica en este repositorio.
 
@@ -102,7 +102,7 @@ Comprobaciones desde la raíz: `node tests/check-course-catalog.mjs` y `node tes
 
 La API privada V12 asigna grupos por curso con cupo máximo de 20 alumnos, bajo el mismo bloqueo que la inscripción. Los prefijos son FIN, PA, EXC, CAN, VEN, ADM y MKT. `prepararPortalV12` asigna grupos a las matrículas existentes que no tienen uno; en grupos excedidos conserva los primeros 20 registros y mueve el excedente a otros grupos del mismo curso. Los alumnos inactivos también ocupan lugar. No cambia destinatarios de materiales ya publicados, matrículas, calificaciones, pagos o contraseñas. Las asignaciones aparecen en el campus y en los filtros existentes de Admin.
 
-La credencial PDF conserva el tamaño escolar, frente/reverso, foto, QR de acceso al campus y firma del director. Añade correo institucional, teléfono del alumno y soporte@evolvacademy.mx. Si el correo institucional aún no figura en el registro, muestra la dirección estándar formada por matrícula y dominio; esto no crea una cuenta de correo. El teléfono se guarda como texto en la columna TELEFONO. Cada alumno puede actualizar solo su propio teléfono desde Mi credencial; los nuevos registros lo envían por POST cuando health V12 anuncia `student_contact`. Sin la activación, se muestra Sin registrar y no se habilita el guardado.
+La credencial PDF conserva el tamaño escolar, frente/reverso, foto, QR de acceso al campus y firma del director. Añade correo institucional, teléfono del alumno y soporte@evolvacademy.mx. Si el correo institucional aún no figura en el registro, muestra la dirección estándar formada por los seis dígitos de la matrícula y el dominio; esto no crea una cuenta de correo. El teléfono se guarda como texto en la columna TELEFONO. Cada alumno puede actualizar solo su propio teléfono desde Mi credencial; los nuevos registros lo envían por POST cuando health V12 anuncia `student_contact`. Sin la activación, se muestra Sin registrar y no se habilita el guardado.
 
 Para activar: reemplazar TODO Código.gs con el archivo completo privado V12, ejecutar `prepararPortalV12` como propietario y actualizar la implementación existente conservando URL y acceso. Esta preparación también activa el catálogo V11 y agrega GRUPO/TELEFONO al final de ALUMNOS si faltan. Las pruebas privadas cubren cupos, aislamiento por curso, cambios parciales, fórmulas, reintentos y contacto privado. No publicar el backend, la hoja ni datos personales.
 
@@ -133,4 +133,17 @@ La actualización completa se entrega como backend privado V13: reemplazar TODO 
 
 El servidor identifica al alumno por su sesión y permite únicamente nombre, correo personal y teléfono. Cambiar el correo requiere la contraseña actual, comprobación de disponibilidad, límites de intentos y confirmación del nuevo correo en la interfaz. Una revisión del perfil evita sobrescribir cambios concurrentes; las fórmulas requieren revisión administrativa. Los cambios se registran en la auditoría privada y se revierten si falla la escritura. Matrícula, curso, grupo, CURP, calificaciones y pagos conservan su gestión administrativa. Los documentos emitidos conservan sus snapshots; los datos vigentes aparecen en las nuevas emisiones.
 
-Las pruebas del frontend usan cuentas ficticias y comprueban persistencia, acceso con el nuevo correo, aislamiento, duplicados, conflictos y conservación de notas y pagos. El backend privado se prueba por separado sin registros reales.
+Las pruebas del frontend usan cuentas ficticias y comprueban persistencia, aislamiento, duplicados, conflictos y conservación de notas y pagos. El backend privado se prueba por separado sin registros reales.
+
+
+## Acceso institucional del campus · V14
+
+Con el servidor V14 activado, EVOLVA-000123 ingresa como `000123@evolvacademy.mx`, conservando los seis dígitos y los ceros iniciales. El alumno usa su contraseña del campus aunque todavía no exista o no pueda abrir el buzón. El correo personal se conserva para recuperación y comunicaciones. Cambiarlo desde Mis datos no cambia el usuario institucional de acceso. Las cuentas administrativas conservan su ingreso existente.
+
+La inscripción devuelve la matrícula, el correo institucional y la contraseña del campus. La interfaz comprueba que el correo coincida con la matrícula antes de mostrar los datos. La recuperación sigue usando el correo personal. Las contraseñas de buzón entregadas desde Correos corresponden a ese servicio y se gestionan por separado; no se crean cuentas de Google Workspace desde el campus.
+
+La actualización completa se entrega como backend privado V14. Reemplazar TODO Código.gs, conservar manifiesto y propiedades, ejecutar `prepararPortalV14` como propietario y actualizar la implementación existente con Nueva versión, conservando URL y acceso. V14 incluye la activación de Mis datos V13. La preparación valida matrículas, duplicados y fórmulas antes de actualizar únicamente CORREO_INSTITUCIONAL en los registros existentes. Conserva contraseñas, matrículas, notas, pagos y documentos. Es idempotente y revierte las escrituras si falla la activación.
+
+El servidor anuncia `institutional_login` solamente después de la preparación. Hasta entonces, el sitio conserva el acceso e inscripción anteriores para evitar presentar credenciales que aún no funcionan. Con V14 activo, el servidor acepta únicamente la dirección institucional de seis dígitos para alumnos y la deriva de la matrícula autenticada sin depender de la entrega del buzón. Los registros de entrega de correo con direcciones anteriores se señalan para reasignación; sus contraseñas no se entregan bajo una dirección diferente.
+
+Validación: `npm test`, `npm run check`, `npm run build`, `node tests/check-flows.mjs` y `node tests/check-mail-delivery.mjs`. Los datos de prueba son ficticios; los casos de migración, aislamiento y acceso de alumnos existentes y nuevos se comprueban también en el backend privado.

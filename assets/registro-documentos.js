@@ -1,6 +1,6 @@
 (function(){
   const photo=document.getElementById('reg_photo'),curp=document.getElementById('reg_curp_pdf'),section=document.getElementById('registroDocumentos');
-  let pending=null;
+  let pending=null,institutionalReady=false;
   async function requirements(force){
     const endpoint=String(window.EVOLVA_CONFIG?.API_URL||'').trim();
     if(!endpoint){window.EvolvaCourses?.setEnrollmentReady(false);return false;}
@@ -8,6 +8,7 @@
     pending=(async()=>{
       const response=await fetch(endpoint,{method:'POST',credentials:'omit',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'health'}),signal:AbortSignal.timeout(25000)});
       const data=await response.json();if(!data.ok)throw Error('No se pudo comprobar la disponibilidad del registro.');
+      institutionalReady=data.version>=14&&data.features?.includes('institutional_login')===true;const emailNote=document.getElementById('reg_email_note');if(emailNote)emailNote.textContent=institutionalReady?'Usaremos tu correo personal para recuperar el acceso. Al finalizar recibirás tu correo institucional para ingresar al campus.':'Usarás este correo para ingresar al portal hasta activar el acceso institucional.';
       window.EvolvaCourses?.setEnrollmentReady(data.version>=11&&data.features?.includes('course_catalog'));
       const phone=document.getElementById('reg_phone'),contactReady=data.version>=12&&data.features?.includes('student_contact');if(phone){phone.disabled=!contactReady;phone.required=!!contactReady;}const note=document.getElementById('reg_phone_note');if(note){note.textContent=contactReady?'De 10 a 15 dígitos. Se incluirá en tu credencial.':'El registro de teléfono estará disponible al actualizar los servicios del campus.';}
       const ready=data.version>=5&&data.features?.includes('documents');
@@ -26,6 +27,7 @@
   }
   function requestId(){if(crypto.randomUUID)return crypto.randomUUID();const b=crypto.getRandomValues(new Uint8Array(16));b[6]=(b[6]&15)|64;b[8]=(b[8]&63)|128;const h=Array.from(b,x=>x.toString(16).padStart(2,'0')).join('');return h.slice(0,8)+'-'+h.slice(8,12)+'-'+h.slice(12,16)+'-'+h.slice(16,20)+'-'+h.slice(20);}
   let id='';
-  window.EvolvaDocuments={requirements,async payload(){if(!id)id=requestId();return {requestId:id,curpFile:await read(curp.files?.[0],'curp'),photoFile:await read(photo.files?.[0],'photo')};}};
+  window.EvolvaDocuments={requirements,institutionalLoginReady:()=>institutionalReady,async payload(){if(!id)id=requestId();return {requestId:id,curpFile:await read(curp.files?.[0],'curp'),photoFile:await read(photo.files?.[0],'photo')};}};
   requirements(false).catch(()=>{window.EvolvaCourses?.setEnrollmentReady(false);});
 })();
+
