@@ -6,7 +6,7 @@ import {logoJpegBase64} from './brand';
 const wine=rgb(.314,.047,.09),ink=rgb(.20,.13,.15),muted=rgb(.43,.34,.37);
 const rose=rgb(.965,.925,.935),border=rgb(.82,.70,.74),cream=rgb(.995,.99,.985),white=rgb(1,1,1);
 const bytes=(value:string)=>Uint8Array.from(atob(value),c=>c.charCodeAt(0));
-function printable(value:string){return String(value||'').replace(/[\\u2013\\u2014]/g,'-').replace(/[^\\x20-\\xFF\\u20AC]/g,'');}
+function printable(value:string){return String(value||'').replace(/[\u2013\u2014]/g,'-').replace(/[^\x20-\xFF\u20AC]/g,'');}
 function wrap(value:string,font:PDFFont,size:number,width:number){
  const words=printable(value).replace(/\\s+/g,' ').trim().split(' '),out:string[]=[];let line='';
  for(const word of words){const candidate=line?line+' '+word:word;if(font.widthOfTextAtSize(candidate,size)<=width){line=candidate;continue;}if(line)out.push(line);line='';for(const char of word){if(font.widthOfTextAtSize(line+char,size)>width){if(line)out.push(line);line='';}line+=char;}}
@@ -22,9 +22,9 @@ export async function createCompletionCertificatePDF(data:any):Promise<Uint8Arra
  const signature=await pdf.embedFont(StandardFonts.TimesRomanItalic);
  const logo=await pdf.embedJpg(bytes(logoJpegBase64));
  const page=pdf.addPage([841.89,595.28]),{width,height}=page.getSize();
- page.drawRectangle({x:0,y:0,width,height,color:cream});
+ page.drawRectangle({x:0,y:0,width,height,color:cream});page.drawRectangle({x:0,y:height-8,width,height:8,color:accent});
  page.drawRectangle({x:20,y:20,width:width-40,height:height-40,borderColor:wine,borderWidth:2});
- page.drawRectangle({x:27,y:27,width:width-54,height:height-54,borderColor:border,borderWidth:.8});
+ page.drawRectangle({x:27,y:27,width:width-54,height:height-54,borderColor:border,borderWidth:.8});page.drawCircle({x:55,y:height-55,size:12,borderColor:accent,borderWidth:1});page.drawCircle({x:width-55,y:height-55,size:12,borderColor:accent,borderWidth:1});page.drawCircle({x:55,y:55,size:12,borderColor:accent,borderWidth:1});page.drawCircle({x:width-55,y:55,size:12,borderColor:accent,borderWidth:1});
  page.drawRectangle({x:0,y:height-104,width,height:104,color:wine});
  const logoScale=156/1840;
  page.drawImage(logo,{x:48-110*logoScale,y:height-86+(720+620)*logoScale-2048*logoScale,width:2048*logoScale,height:2048*logoScale});
@@ -51,7 +51,7 @@ export async function createCompletionCertificatePDF(data:any):Promise<Uint8Arra
   {label:'PROMEDIO',value:data.average===null||data.average===undefined?'—':String(data.average)+' / 10',x:685,w:120}
  ];
  details.forEach(item=>{write(item.label,item.x,detailY+9,6.5,bold,muted);let size=10;while(bold.widthOfTextAtSize(printable(item.value),size)>item.w&&size>7)size-=.5;write(item.value,item.x,detailY-7,size,bold,wine);});
- const date=new Date().toLocaleDateString('es-MX',{timeZone:'America/Ciudad_Juarez',day:'numeric',month:'long',year:'numeric'});
+ const date=new Date(data.issuedAt||Date.now()).toLocaleDateString('es-MX',{timeZone:'America/Ciudad_Juarez',day:'numeric',month:'long',year:'numeric'});
  centered('Se expide la presente para los fines académicos y administrativos que al interesado convengan.',height-465,8.5,regular,muted);
  page.drawLine({start:{x:125,y:91},end:{x:315,y:91},thickness:.7,color:border});
  write('Alexis Soto',155,108,20,signature,wine);
