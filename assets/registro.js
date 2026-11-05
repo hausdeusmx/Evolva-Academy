@@ -23,8 +23,8 @@ function updatePaymentPreview(){
  else if(mode==='total')paymentSummary.textContent='Un solo pago de '+fmt(total)+'. Vence en la fecha de inscripción.';
  else paymentSummary.textContent='Pago semanal '+fmt(weekly)+' · '+weeks+' semanas · Total '+fmt(weeklyTotal)+'.';
 }
-document.querySelectorAll('input[name="diplomado"]').forEach(el=>el.addEventListener('change',updatePaymentPreview));
-paymentMode?.addEventListener('change',updatePaymentPreview);
+document.querySelectorAll?.('input[name="diplomado"]')?.forEach(el=>el.addEventListener('change',updatePaymentPreview));
+paymentMode?.addEventListener?.('change',updatePaymentPreview);
 updatePaymentPreview();
 curp.addEventListener('input',()=>{curp.value=curp.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,18);});
 const date=new Date();
