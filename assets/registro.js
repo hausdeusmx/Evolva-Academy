@@ -17,7 +17,7 @@ function updatePaymentPreview(){
  if(!c||!paymentSummary)return;
  const weeks=Number(c.weeks||8),weekly=Number(c.weekly||0),monthly=Number(c.monthly||weekly*4),total=Number(c.total||weekly*weeks),mode=paymentMode?.value||'weekly';
  const fmt=n=>new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(n);
- if(mode==='monthly')paymentSummary.textContent='Mensualidad '+fmt(monthly)+' · '+Math.ceil(weeks/4)+' mensualidades · Total '+fmt(total);
+ if(mode==='monthly'){const count=Math.ceil(weeks/4),last=total-monthly*(count-1);paymentSummary.textContent=count+' mensualidades · '+fmt(monthly)+(count>1?' y última de '+fmt(last):'')+' · Total '+fmt(total);}
  else if(mode==='total')paymentSummary.textContent='Un solo pago de '+fmt(total)+'. Vence en la fecha de inscripción.';
  else paymentSummary.textContent='Pago semanal '+fmt(weekly)+' · '+weeks+' semanas · Total '+fmt(total)+'.';
 }
