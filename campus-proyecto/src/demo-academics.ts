@@ -5,7 +5,7 @@ export function saveDemoRecords(value:Record<string,any>){localStorage.setItem(k
 export function demoLearners(){const records=demoRecords();return [demoStudent(false),demoStudent(true)].map(s=>({...s,...records[s.folio]?.profile,phone:records[s.folio]?.phone??s.phone}));}
 export function demoAcademic(student:any){
  const record=demoRecords()[student.folio]||{attempts:{},payments:[],read:[]};
- const overrides=record.gradeOverrides||{},grades:any[]=baseGrades(student.graduate).map(g=>({...g}));
+ const overrides=record.gradeOverrides||{};if(student.accountFolio&&student.accountFolio!==student.folio){const grades:any[]=Object.entries(overrides).map(([id,g])=>({id,...g as any}));return {record,grades,exams:(record.assignedExams||[]).map((e:any)=>({...e,score:grades.find(g=>g.id===e.id)?.score??null,locked:false})),...summary(grades,Math.max(1,grades.length))};}const grades:any[]=baseGrades(student.graduate).map(g=>({...g}));
  for(const grade of grades){const exam=exams.find(e=>e.module===grade.module);if(exam&&record.attempts?.[exam.id]!==undefined){grade.score=record.attempts[exam.id];grade.status='Evaluado';}if(overrides[grade.id])Object.assign(grade,overrides[grade.id]);}
  for(const [id,grade] of Object.entries(overrides)){if(!grades.some(g=>g.id===id))grades.push({id,...grade as any});}
  const assigned=record.assignedExams||[];

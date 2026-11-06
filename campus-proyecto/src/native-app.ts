@@ -1,0 +1,5 @@
+import {clientId} from './client-id';
+declare global{interface Window{EvolvaApp?:{postMessage:(message:string)=>void;onmessage:((e:{data:string})=>void)|null}}}
+const pending=new Map<string,{resolve:(r:any)=>void;reject:(e:Error)=>void;timer:ReturnType<typeof setTimeout>}>();
+export const nativeAvailable=()=>!!window.EvolvaApp;
+export function nativeApp(action:string,body:any={}):Promise<any>{const bridge=window.EvolvaApp;if(!bridge)return Promise.reject(Error('Esta función requiere instalar la APK 1.2 o posterior.'));bridge.onmessage=e=>{try{const r=JSON.parse(e.data),p=pending.get(r.id);if(!p)return;clearTimeout(p.timer);pending.delete(r.id);r.ok?p.resolve(r):p.reject(Error(r.error||'No se pudo completar la operación en la app.'));}catch{/* Ignore unrelated responses. */}};const id=clientId();return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{pending.delete(id);reject(Error('No se pudo completar la solicitud. Vuelve a intentarlo.'));},60000);pending.set(id,{resolve,reject,timer});bridge.postMessage(JSON.stringify({id,action,...body}));});}

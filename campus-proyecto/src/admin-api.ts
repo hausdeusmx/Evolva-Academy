@@ -1,3 +1,4 @@
+import {academyActions,academyDemo,demoEnrollmentRoster} from './academy-demo';
 import {suiteDemo,suiteAcademicDemo} from './suite-demo';
 import {mailDemo} from './mail-demo';
 import {learningActions,learningDemo} from './learning-demo';
@@ -14,7 +15,7 @@ function details(folio:string){const student=demoLearners().find(s=>s.folio===fo
 function recipients(b:any){let list=demoLearners();if(b.scope==='student')list=list.filter(s=>s.folio===b.folio);else if(['course','group'].includes(b.scope))list=list.filter(s=>s.course===b.course&&(b.scope!=='group'||s.group===b.group));else throw failure('Selecciona los destinatarios.');if(!list.length)throw failure('No hay alumnos en esa selección.');return list;}
 async function remote(action:string,body:any){
  if(!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(endpoint))throw failure('La administración de alumnos reales requiere activar la conexión con Google Sheets.');
- let response:Response;try{response=await fetch(endpoint,{method:'POST',credentials:'omit',redirect:'follow',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...body,action,session:token}),signal:AbortSignal.timeout(['admin_publish_task','admin_push_publish'].includes(action)?90000:45000)});}catch{throw failure('No se pudo conectar. Actualiza los datos antes de volver a guardar.');}
+ let response:Response;try{response=await fetch(endpoint,{method:'POST',credentials:'omit',redirect:'follow',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...body,action,session:token}),signal:AbortSignal.timeout(['admin_publish_task','admin_push_publish','admin_email_send','admin_publish_app'].includes(action)?90000:45000)});}catch{throw failure('No se pudo conectar. Actualiza los datos antes de volver a guardar.');}
  let data:any;try{data=await response.json();}catch{throw failure('El servidor no devolvió una respuesta válida.');}
  if(!data.ok){if(data.status===401){token='';sessionStorage.removeItem(tokenKey);}throw failure(data.error||'No se pudo completar la solicitud.',data.status||400);}return data;
 }
@@ -25,7 +26,8 @@ export async function adminAPI(action:string,b:any={}):Promise<any>{
  if(!adminDemo){const data=await remote(action,b);if(action==='admin_login'){token=data.session;sessionStorage.setItem(tokenKey,token);}return data;}
  if(action==='admin_login')throw failure('Las cuentas reales aún requieren activación. Usa la administración de prueba para revisar el panel.');
  requireDemo();
- if(action==='health')return {ok:true,version:15,features:['institutional_notice','institutional_login','student_profile','automatic_groups','student_contact','course_catalog','followup','support','rubrics','receipts','reports','surveys','institutional_delivery','payment_access','payment_review','documents','credential','tasks','lessons','calendar','password_recovery']};
+ if(action==='health')return {ok:true,version:17,features:['app_updates','multi_course','group_chat','reminders','email_campaigns','institutional_notice','institutional_login','student_profile','automatic_groups','student_contact','course_catalog','followup','support','rubrics','receipts','reports','surveys','institutional_delivery','payment_access','payment_review','documents','credential','tasks','lessons','calendar','password_recovery']};
+ if(academyActions.includes(action))return academyDemo(action,b,null,true);
  if(['admin_mail_students','admin_mail_status','admin_mail_assign','admin_mail_cancel'].includes(action))return mailDemo(demoLearners(),action,b);
  if(action.startsWith('admin_suite_'))return suiteDemo(true,action,b);
  if(learningActions.includes(action))return learningDemo('admin',action,b);
@@ -39,7 +41,7 @@ export async function adminAPI(action:string,b:any={}):Promise<any>{
  }
  if(academicActions.includes(action))return suiteAcademicDemo('admin',action,b);
  if(action==='admin_session')return {ok:true,admin:{name:'Administración de prueba',email:'admin@demo.evolva.test'}};
- if(action==='admin_students'){const q=String(b.query||'').toLowerCase(),students=demoLearners().filter(s=>[s.folio,s.name,s.course,s.email,s.group].some(v=>v.toLowerCase().includes(q)));return {ok:true,students,total:students.length,courses:['Finanzas Personales'],groups:[{course:'Finanzas Personales',group:'FIN-01'}]};}
+ if(action==='admin_students'){const q=String(b.query||'').toLowerCase(),all=demoEnrollmentRoster(demoLearners()),students=all.filter(s=>[s.folio,s.name,s.course,s.email,s.group].some(v=>v.toLowerCase().includes(q)));return {ok:true,students,total:students.length,courses:[...new Set(all.map(s=>s.course))],groups:all.map(s=>({course:s.course,group:s.group})).filter((s,i,a)=>a.findIndex(x=>x.course===s.course&&x.group===s.group)===i)};}
  if(action==='admin_student')return details(b.folio);
  if(action==='admin_save_grade'){
   const d=details(b.folio),old=d.grades.find((g:any)=>g.id===b.id),score=b.score===''||b.score===null?null:Number(b.score);
