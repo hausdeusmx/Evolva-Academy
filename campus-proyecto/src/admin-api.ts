@@ -26,7 +26,7 @@ export async function adminAPI(action:string,b:any={}):Promise<any>{
  if(!adminDemo){const data=await remote(action,b);if(action==='admin_login'){token=data.session;sessionStorage.setItem(tokenKey,token);}return data;}
  if(action==='admin_login')throw failure('Las cuentas reales aún requieren activación. Usa la administración de prueba para revisar el panel.');
  requireDemo();
- if(action==='health')return {ok:true,version:17,features:['app_updates','multi_course','group_chat','reminders','email_campaigns','institutional_notice','institutional_login','student_profile','automatic_groups','student_contact','course_catalog','followup','support','rubrics','receipts','reports','surveys','institutional_delivery','payment_access','payment_review','documents','credential','tasks','lessons','calendar','password_recovery']};
+ if(action==='health')return {ok:true,version:18,features:['same_matricula','certificate_management','app_updates','multi_course','group_chat','reminders','email_campaigns','institutional_notice','institutional_login','student_profile','automatic_groups','student_contact','course_catalog','followup','support','rubrics','receipts','reports','surveys','institutional_delivery','payment_access','payment_review','documents','credential','tasks','lessons','calendar','password_recovery']};
  if(academyActions.includes(action))return academyDemo(action,b,null,true);
  if(['admin_mail_students','admin_mail_status','admin_mail_assign','admin_mail_cancel'].includes(action))return mailDemo(demoLearners(),action,b);
  if(action.startsWith('admin_suite_'))return suiteDemo(true,action,b);

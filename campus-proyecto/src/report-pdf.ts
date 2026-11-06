@@ -1,3 +1,4 @@
+import {studentMatricula} from './student-identity';
 import {PDFDocument,StandardFonts,rgb,PDFString,pushGraphicsState,popGraphicsState,rectangle,clip,endPath,type PDFFont} from 'pdf-lib';
 import qrcode from 'qrcode-generator';
 import fontkit from '@pdf-lib/fontkit';
@@ -37,12 +38,12 @@ export async function createAcademicReportPDF(data:any,meta:{code:string,issuedA
   write(page,'Reporte académico',40,676,24,bold,wine);write(page,'de calificaciones',40,646,24,bold,wine);if(data.demo)write(page,'MUESTRA · SIN VALIDEZ ACADÉMICA',40,625,7.5,bold,gold);
   if(first){
    let nameSize=19;while(wrapDocumentText(data.student.name,bold,nameSize,515).length>2&&nameSize>9)nameSize-=.5;const used=lines(page,data.student.name,40,592,nameSize,515,bold,wine,nameSize*1.2);y=592-used-8;
-   field(page,'Matrícula',data.student.folio,40,y,245);field(page,'Grupo',data.student.group||'Por asignar',320,y,230);y-=42;
+   field(page,'Matrícula',studentMatricula(data.student),40,y,245);field(page,'Grupo',data.student.group||'Por asignar',320,y,230);y-=42;
    y-=Math.max(36,field(page,'Curso',data.student.course,40,y,515)+18);
    // Complementary data from the current account; the registered academic snapshot stays intact.
    if(data.student.registered||data.student.status){field(page,'Inscripción',documentDate(data.student.registered),40,y,245);field(page,'Estado de inscripción',data.student.status||'No registrado',320,y,230);y-=41;}
    page.drawRectangle({x:40,y:y-28,width:515,height:49,color:rose});const stats=[['PROMEDIO',data.average==null?'Pendiente':data.average+' / 10'],['AVANCE',(data.progress??0)+'%'],['EVALUADAS',grades.filter((g:any)=>g.score!==null).length+' / '+grades.length]];stats.forEach(([label,value],i)=>{write(page,label,53+i*173,y+7,6.8,bold,muted);write(page,value,53+i*173,y-12,14,bold,wine);});y-=53;
-  }else{lines(page,data.student.name,40,591,11,515,bold);lines(page,data.student.folio+' · '+data.student.course,40,569,8,515,regular,muted);y=533;}
+  }else{lines(page,data.student.name,40,591,11,515,bold);lines(page,studentMatricula(data.student)+' · '+data.student.course,40,569,8,515,regular,muted);y=533;}
   page.drawRectangle({x:40,y:y-8,width:515,height:25,color:wine});write(page,'MÓDULO / EVALUACIÓN',52,y,7,bold,white);write(page,'NOTA / 10',424,y,7,bold,white);write(page,'ESTADO',489,y,7,bold,white);y-=28;
  }
  function footer(){page.drawLine({start:{x:40,y:168},end:{x:555,y:168},thickness:.7,color:border});sign(page,40,106);qr(page,meta.validationUrl,469,64,86);write(page,'VALIDAR REPORTE',466,53,6.5,bold,muted);write(page,'Escala 0 a 10 · Promedio de evaluaciones registradas.',40,65,6.8,regular,muted);write(page,'Código: '+meta.code,40,43,6.5,regular,muted);write(page,'Emisión: '+documentDate(meta.issuedAt),40,27,7,regular,muted);write(page,'Firma tipográfica institucional · El QR consulta el registro protegido.',40,14,6.2,regular,muted);}

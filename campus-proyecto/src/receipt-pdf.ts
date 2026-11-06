@@ -1,3 +1,4 @@
+import {studentMatricula} from './student-identity';
 import {PDFDocument,rgb,pushGraphicsState,popGraphicsState,rectangle,clip,endPath,type PDFFont} from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';import {reportFonts} from './report-fonts';import {logoJpegBase64} from './brand';
 const wine=rgb(.31,.047,.09),ink=rgb(.22,.15,.17),muted=rgb(.48,.40,.43),rose=rgb(.96,.92,.94);
@@ -11,7 +12,7 @@ export async function createReceiptPDF(data:any){
  text('SERVICIOS ESCOLARES / CONTROL DE PAGOS',44,718,8,regular,rgb(1,1,1));text('RECIBO DE PAGO',44,662,25,bold,wine);text(r.id,44,636,10,bold,muted);
  if(r.demo){page.drawRectangle({x:44,y:592,width:507,height:25,color:rgb(1,.94,.79)});text('DATOS FICTICIOS - RECIBO DE PRUEBA',55,600,9,bold,wine);}
  text('ALUMNO/A',44,565,8,bold,muted);let nameSize=17;while(lines(r.student.name,bold,nameSize,507).length>3&&nameSize>9)nameSize--;if(lines(r.student.name,bold,nameSize,507).length>3)throw Error('El nombre es demasiado largo para el recibo. Solicita revisión a administración.');let y=543;for(const line of lines(r.student.name,bold,nameSize,507)){text(line,44,y,nameSize,bold);y-=22;}
- text('Matrícula: '+r.student.folio,44,y-4,10);const course=lines(r.student.course,regular,10,507);course.slice(0,3).forEach((l,i)=>text(l,44,y-26-i*14,10));y-=55+(Math.min(3,course.length)-1)*14;
+ text('Matrícula: '+studentMatricula(r.student),44,y-4,10);const course=lines(r.student.course,regular,10,507);course.slice(0,3).forEach((l,i)=>text(l,44,y-26-i*14,10));y-=55+(Math.min(3,course.length)-1)*14;
  if(r.student.group){text('Grupo: '+r.student.group,44,416,9,regular,muted);y-=25;}
  page.drawRectangle({x:44,y:330,width:507,height:72,color:rose});text('IMPORTE CONFIRMADO',59,381,8,bold,muted);text(new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(r.amount),59,349,27,bold,wine);text('MXN',493,352,10,bold,wine);y=300;
  let field=0;for(const [label,value] of [['CONCEPTO / PERIODO',r.period],['REFERENCIA',r.reference||'Sin referencia'],['FECHA DE REGISTRO',r.registeredAt?new Date(/^\d{4}-\d{2}-\d{2}$/.test(r.registeredAt)?r.registeredAt+'T12:00:00Z':r.registeredAt).toLocaleDateString('es-MX',{timeZone:'America/Ciudad_Juarez',dateStyle:'long'}):'No registrada']]){y=[300,239,178][field++];text(label,44,y,8,bold,muted);y-=19;for(const line of lines(String(value),regular,11,507).slice(0,3)){text(line,44,y,11);y-=15;}y-=17;}
