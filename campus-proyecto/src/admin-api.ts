@@ -1,3 +1,4 @@
+import {schoolDemo} from './school-demo';
 import {academyActions,academyDemo,demoEnrollmentRoster} from './academy-demo';
 import {suiteDemo,suiteAcademicDemo} from './suite-demo';
 import {mailDemo} from './mail-demo';
@@ -20,13 +21,15 @@ async function remote(action:string,body:any){
  if(!data.ok){if(data.status===401){token='';sessionStorage.removeItem(tokenKey);}throw failure(data.error||'No se pudo completar la solicitud.',data.status||400);}return data;
 }
 export async function adminAPI(action:string,b:any={}):Promise<any>{
+ if(window.location.pathname?.endsWith('/docentes.html'))return (await import('./teacher-api')).teacherAPI(action,b);
  if(action==='status'){if(!token)return {authenticated:false,demo:adminDemo};try{const data=await adminAPI('admin_session');return {authenticated:true,demo:adminDemo,admin:data.admin};}catch(e:any){if(e.status===401)return {authenticated:false,demo:adminDemo};throw e;}}
  if(action==='demo_login'){if(!adminDemo)throw failure('La cuenta de prueba está desactivada.');token='demo-admin';sessionStorage.setItem(tokenKey,token);return {ok:true,admin:{name:'Administración de prueba',email:'admin@demo.evolva.test'}};}
  if(action==='logout'){try{if(!adminDemo&&token)await remote('logout',{});}finally{token='';sessionStorage.removeItem(tokenKey);}return {ok:true};}
  if(!adminDemo){const data=await remote(action,b);if(action==='admin_login'){token=data.session;sessionStorage.setItem(tokenKey,token);}return data;}
  if(action==='admin_login')throw failure('Las cuentas reales aún requieren activación. Usa la administración de prueba para revisar el panel.');
  requireDemo();
- if(action==='health')return {ok:true,version:18,features:['same_matricula','certificate_management','app_updates','multi_course','group_chat','reminders','email_campaigns','institutional_notice','institutional_login','student_profile','automatic_groups','student_contact','course_catalog','followup','support','rubrics','receipts','reports','surveys','institutional_delivery','payment_access','payment_review','documents','credential','tasks','lessons','calendar','password_recovery']};
+ if(action==='health')return {ok:true,version:19,features:['teacher_portal','campus_exams','attendance','certificate_qr','scholarships','advising','module_rules','device_management','privacy_information','same_matricula','certificate_management','app_updates','multi_course','group_chat','reminders','email_campaigns','institutional_notice','institutional_login','student_profile','automatic_groups','student_contact','course_catalog','followup','support','rubrics','receipts','reports','surveys','institutional_delivery','payment_access','payment_review','documents','credential','tasks','lessons','calendar','password_recovery']};
+ if(action.startsWith('v19_'))return schoolDemo(action,b,null,true);
  if(academyActions.includes(action))return academyDemo(action,b,null,true);
  if(['admin_mail_students','admin_mail_status','admin_mail_assign','admin_mail_cancel'].includes(action))return mailDemo(demoLearners(),action,b);
  if(action.startsWith('admin_suite_'))return suiteDemo(true,action,b);

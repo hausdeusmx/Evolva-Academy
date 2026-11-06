@@ -12,7 +12,7 @@ export async function createCompletionCertificatePDF(data:any):Promise<Uint8Arra
  let courseSize=20;while(wrapDocumentText(student.course||'Curso',bold,courseSize,650).length>1&&courseSize>13)courseSize-=.5;const courseY=introY-29;lines(page,student.course||'Curso',88,courseY,courseSize,650,bold,wine,23);
  const infoY=222;field(page,'Matrícula',studentMatricula(student)||'No registrado',90,infoY,210);field(page,'Modalidad / duración',(student.modality||'En línea')+' / '+documentDuration(data),332,infoY,230);field(page,'Promedio general',data.average==null?'No registrado':data.average+' / 10',593,infoY,180);
  field(page,'Grupo',student.group||'Por asignar',90,infoY-46,210);field(page,'Inscripción',documentDate(student.registered),332,infoY-46,230);field(page,'Emisión',documentDate(issuedAt),593,infoY-46,180);
- sign(page,90,87);qr(page,campusAddress,693,58,82);write(page,'ACCESO AL CAMPUS',684,47,6.5,bold,muted);write(page,schoolEmail,332,92,8,regular,wine);write(page,'Firma tipográfica institucional',332,77,6.5,regular,muted);
+ sign(page,90,87);qr(page,data.validationUrl||campusAddress,693,58,82);write(page,data.validationUrl?'VERIFICAR CONSTANCIA':'ACCESO AL CAMPUS',684,47,6.5,bold,muted);write(page,schoolEmail,332,92,8,regular,wine);write(page,'Firma tipográfica institucional',332,77,6.5,regular,muted);if(data.certificateCode){write(page,'CÓDIGO DE CONSTANCIA',332,60,5.5,bold,muted);write(page,data.certificateCode,332,48,6.5,regular,wine);}
  write(page,data.demo?'MUESTRA DE PRUEBA · SIN VALIDEZ ACADÉMICA':'Documento institucional emitido a partir del registro autorizado.',90,39,6.5,bold,data.demo?gold:muted);
  return pdf.save();
 }
