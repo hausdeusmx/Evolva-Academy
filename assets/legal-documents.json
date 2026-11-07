@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-06-v22",
+  "version": "2026-11-07-v23",
   "privacy": {
     "title": "Aviso de privacidad y tratamiento del expediente",
     "sections": [
@@ -15,13 +15,15 @@
         "id": "datos",
         "title": "Los datos del campus",
         "paragraphs": [
+          "La solicitud comienza con CURP, nombre, celular, correo personal y edad. Se reserva un folio y todavía no se crea una cuenta. La fecha de nacimiento se deriva de la CURP para comprobar coherencia de edad; no se afirma una validación con RENAPO. Después se solicitan los archivos de identidad y CURP y, de forma opcional, la foto de credencial.",
           "Identidad y contacto: nombre, matrícula, CURP, edad, fecha de nacimiento, estado de residencia, correo personal, correo institucional y teléfono, según los campos de tu expediente.",
-          "Documentos de inscripción: el PDF de CURP y la fotografía solicitados, además de los archivos que subas al expediente.",
+          "Documentos de inscripción: el PDF de CURP y la identificación INE o pasaporte en PDF para revisar la identidad del solicitante. La fotografía es opcional y se utiliza para la credencial escolar; no se realiza reconocimiento facial.",
           "Actividad académica: cursos, grupos, tareas, trabajos, exámenes, respuestas, calificaciones, avance, asistencia, asesorías y constancias.",
           "Pagos: importes, periodos, referencias y comprobantes. Estos archivos pueden contener información económica o patrimonial. Al compartirlos, evita incluir datos ajenos al pago que deseas acreditar.",
           "Uso y comunicación: mensajes de grupo, solicitudes de ayuda, avisos, postulaciones laborales voluntarias, códigos y solicitudes de referidos, preferencias de recordatorios y registros necesarios para identificar tus sesiones y dispositivos.",
           "El campus no necesita tus datos de tarjeta, NIP ni claves bancarias. Una fotografía de identificación no se utiliza para reconocimiento facial. La biometría opcional de la APK la verifica Android; Evolva no recibe tus huellas ni una plantilla facial.",
-          "Aceptación de inscripción: nombre escrito de quien acepta, correo al que se envía el código, condición de alumno mayor de edad o declaración de madre, padre o tutor, relación declarada con el menor, fecha del servidor, versión exacta de aviso y reglamento, curso y plan ofrecidos, identificador y huella del acuse. El código temporal se verifica mediante una huella; no se conserva en texto claro en el acuse. No se requiere dibujo de firma ni otra identificación para obtener el código."
+          "Aceptación de inscripción: nombre escrito de quien acepta, correo al que se envía el código, condición de alumno mayor de edad o declaración de madre, padre o tutor, relación declarada con el menor, fecha del servidor, versión exacta de aviso y reglamento, curso y plan ofrecidos, identificador y huella del acuse. El código temporal se verifica mediante una huella; no se conserva en texto claro en el acuse. No se requiere dibujo de firma ni otra identificación para obtener el código.",
+          "La INE puede contener domicilio, firma, fotografía y otros identificadores; el pasaporte también contiene datos de identidad. Se solicitan solo para revisión privada del expediente. En el PDF del pasaporte basta la página de datos de identidad; en INE, integra anverso y reverso en el mismo PDF. No se publican ni se envían estos archivos como adjuntos del correo de acuse."
         ]
       },
       {
@@ -36,7 +38,8 @@
           "Generar credencial y documentos académicos autorizados y comprobar la vigencia de las constancias.",
           "Atender solicitudes de soporte, proteger accesos y mantener el funcionamiento del campus.",
           "Los recordatorios por correo se activan desde tus preferencias. La lectura de esta página no autoriza publicidad, la publicación de tus fotografías ni la divulgación de tu expediente.",
-          "La confirmación electrónica sirve para documentar la inscripción y el uso del expediente conforme a la versión presentada. No autoriza publicidad, testimonios, publicación de fotografías, venta de datos ni el uso de documentos para trámites externos. Los usos opcionales se solicitan por separado y rechazarlos no limita el servicio académico contratado."
+          "La confirmación electrónica sirve para documentar la inscripción y el uso del expediente conforme a la versión presentada. No autoriza publicidad, testimonios, publicación de fotografías, venta de datos ni el uso de documentos para trámites externos. Los usos opcionales se solicitan por separado y rechazarlos no limita el servicio académico contratado.",
+          "El acuse PDF se envía al correo confirmado de quien acepta (alumno mayor de edad o su representante). El alta y los datos de acceso se entregan al alumno por correo solo después de la aprobación administrativa. El folio de solicitud se conserva como matrícula al aprobar. Se mantienen estados de envío para detectar errores y evitar reenvíos automáticos de mensajes inciertos."
         ]
       },
       {
@@ -70,7 +73,8 @@
           "La conservación debe responder a la finalidad del dato y a las obligaciones aplicables a cada registro. El expediente, los resultados académicos y los comprobantes pueden requerir tratamientos y plazos diferentes; esta página no establece un plazo único de eliminación para todos los documentos.",
           "Si deseas cancelar tu cuenta o pedir la eliminación de archivos, solicita la revisión por el canal de privacidad. Cerrar sesión o desinstalar la app no elimina por sí mismo los registros administrativos del campus.",
           "Si detectas un acceso desconocido, revoca la sesión desde Mis dispositivos y contacta a soporte. Si ocurre una vulneración con afectación significativa, debe informarse a las personas afectadas conforme a la legislación aplicable.",
-          "La evidencia de aceptación conserva la versión aceptada para aclaraciones y obligaciones aplicables; no se modifica al actualizar el sitio. No se promete eliminar inmediatamente un registro cuando exista una obligación de conservación. Al terminar su finalidad se revisa su bloqueo o eliminación. Solicita al canal de privacidad la revisión del plazo aplicable a tu expediente concreto."
+          "La evidencia de aceptación conserva la versión aceptada para aclaraciones y obligaciones aplicables; no se modifica al actualizar el sitio. No se promete eliminar inmediatamente un registro cuando exista una obligación de conservación. Al terminar su finalidad se revisa su bloqueo o eliminación. Solicita al canal de privacidad la revisión del plazo aplicable a tu expediente concreto.",
+          "Las solicitudes iniciadas, sus documentos y acuses pendientes permanecen en un registro privado separado de los alumnos aprobados. Una solicitud rechazada o incompleta no se elimina automáticamente; puedes solicitar revisión de conservación, cancelación o eliminación por el canal de privacidad. No se establece un plazo de retención arbitrario para todos los casos."
         ]
       },
       {
@@ -78,7 +82,8 @@
         "title": "Alumnos menores de edad",
         "paragraphs": [
           "Para menores de 18 años, la madre, padre o tutor debe leer y confirmar el acuerdo durante la inscripción desde su propio correo, declarar ser mayor de edad y manifestar su representación. Un código acredita acceso a ese correo; por sí solo no acredita patria potestad o tutela. Administración debe revisar la representación antes de tenerla por acreditada y coordinar privadamente los documentos estrictamente necesarios.",
-          "El menor no debe hacerse pasar por su representante. La inscripción electrónica queda identificada como declaración de tutor pendiente de revisión cuando corresponde. No se suben diagnósticos, información de salud, documentos de terceros ni datos no solicitados a los campos generales del expediente."
+          "El menor no debe hacerse pasar por su representante. La inscripción electrónica queda identificada como declaración de tutor pendiente de revisión cuando corresponde. No se suben diagnósticos, información de salud, documentos de terceros ni datos no solicitados a los campos generales del expediente.",
+          "La identificación del solicitante menor se revisa mediante pasaporte; si no cuenta con uno, debe contactar a administración antes de enviar archivos para acordar una alternativa. No se le pide presentar una INE de adulto como si fuera suya. La representación declarada debe revisarse antes de aprobar la solicitud."
         ]
       },
       {
@@ -99,6 +104,7 @@
         "id": "servicio",
         "title": "Qué incluye este acuerdo",
         "paragraphs": [
+          "El proceso tiene etapas: solicitud básica y folio; documentos y aceptación; revisión administrativa; y, solo al aprobar, alta y correo de acceso con información de pago. Reservar un folio, subir archivos o recibir el acuse no equivale a admisión ni autoriza acceso al campus.",
           "Este reglamento regula la inscripción, la convivencia académica y el uso del campus y expediente de Evolva Academy. La persona prestadora del servicio es el responsable legal identificado en el aviso vigente. El acuerdo se presenta antes del envío de los documentos.",
           "Cada inscripción indica curso, duración, modalidad, precio y forma de pago. El acuse conserva la oferta mostrada al confirmar; una actualización posterior del catálogo no modifica por sí sola ese plan. Este reglamento no incorpora cargos, penalizaciones o renuncias que no hayan sido informados."
         ]
@@ -107,7 +113,7 @@
         "id": "expediente",
         "title": "Documentos e identidad",
         "paragraphs": [
-          "El alumno o su representante declara que la información y los documentos aportados le corresponden, son legibles y no han sido alterados para engañar. Para inscripción se solicita CURP en PDF y fotografía para el expediente y credencial. Si existe un error, administración pedirá aclaración o corrección por un canal privado.",
+          "El alumno o su representante declara que la información y los documentos aportados le corresponden, son legibles y no han sido alterados para engañar. Para revisar la solicitud se piden identificación INE o pasaporte en PDF y CURP en PDF. La fotografía es opcional y se usará para la credencial escolar; puede completarse después. Si existe un error, administración pedirá aclaración o corrección por un canal privado.",
           "Subir un archivo no transfiere su propiedad ni autoriza a Evolva a utilizarlo para créditos, trámites ajenos al curso, publicidad o publicación en redes. No se solicitan originales físicos, NIP, contraseñas bancarias o códigos de terceros por esta aceptación.",
           "La academia debe limitar los accesos al personal autorizado, usar los documentos para las finalidades informadas y atender las solicitudes de privacidad. La declaración del alumno no elimina estas responsabilidades."
         ]
@@ -117,7 +123,8 @@
         "title": "Cuenta, matrícula y seguridad",
         "paragraphs": [
           "La matrícula EVOLVA-###### identifica la cuenta y se conserva al reinscribirse. Los registros académicos y pagos se distinguen por curso. El acceso institucional utiliza los seis dígitos de la matrícula y la contraseña del campus; la clave del buzón institucional es independiente.",
-          "Conserva tus credenciales, evita compartirlas y reporta accesos desconocidos. Puedes revisar y cerrar sesiones en Mis dispositivos. Evolva no solicita tu contraseña por mensajes de soporte."
+          "Conserva tus credenciales, evita compartirlas y reporta accesos desconocidos. Puedes revisar y cerrar sesiones en Mis dispositivos. Evolva no solicita tu contraseña por mensajes de soporte.",
+          "Los datos de acceso no se entregan al reservar el folio. Después de aprobar, se envían el correo institucional de acceso, un enlace privado para crear la contraseña y la información de pago. El enlace es temporal y de un solo uso; no se envía la contraseña del buzón institucional como si fuera la del campus."
         ]
       },
       {
@@ -135,7 +142,8 @@
         "paragraphs": [
           "El calendario y las condiciones de la inscripción se muestran para el curso elegido. Un comprobante enviado permanece en revisión hasta su confirmación; subirlo no equivale a pago confirmado. Si existe una discrepancia, solicita conciliación por soporte.",
           "Si los grupos están llenos, la solicitud puede quedar en espera. No se promete un lugar ni debe realizarse un pago para asegurar una asignación que administración no ha confirmado. Las becas o descuentos requieren autorización y vigencia propias.",
-          "Una solicitud de baja, cancelación o devolución se atiende según la oferta aceptada y las disposiciones aplicables; este documento no establece una regla de “sin devoluciones”, un cobro automático ni renuncia a derechos. Antes de pagar, pide aclaración de cualquier condición que no esté especificada."
+          "Una solicitud de baja, cancelación o devolución se atiende según la oferta aceptada y las disposiciones aplicables; este documento no establece una regla de “sin devoluciones”, un cobro automático ni renuncia a derechos. Antes de pagar, pide aclaración de cualquier condición que no esté especificada.",
+          "La aprobación requiere revisar identidad, documentos y representación cuando corresponde. Administración puede pedir correcciones o rechazar con explicación. El alumno no debe transferir para una solicitud aún no aprobada. La oferta de curso y plan se presenta antes de aceptar y no se modifica silenciosamente al aprobar."
         ]
       },
       {
@@ -158,9 +166,10 @@
         "id": "aceptacion",
         "title": "Cómo se confirma durante la inscripción",
         "paragraphs": [
-          "Quien acepta debe leer el aviso y este reglamento, escribir su nombre completo, confirmar por separado la lectura, el acuerdo y la declaración sobre documentos, y solicitar un código al correo correspondiente. Al escribir el código y pulsar “Firmar e inscribirme” manifiesta su aceptación de la versión mostrada.",
-          "El servidor valida el código, su vencimiento, los datos de la solicitud y la versión. Solo si la inscripción se completa se vincula el acuse a la matrícula. Cambiar la oferta, datos o versión exige revisar y obtener un código nuevo.",
-          "Se conserva el texto exacto, curso y plan, nombre y correo de quien aceptó, fecha del servidor, identificador y huella de integridad. El código y la contraseña no aparecen en la copia. Puede consultarse el acuse desde el campus y descargarse como texto. Es un mecanismo de aceptación electrónica; no se afirma una certificación de identidad o firma avanzada."
+          "Quien acepta debe leer el aviso y este reglamento, escribir su nombre completo, confirmar por separado la lectura, el acuerdo y la declaración sobre documentos, y solicitar un código al correo correspondiente. Al escribir el código y pulsar “Firmar y enviar a revisión” manifiesta su aceptación de la versión mostrada.",
+          "El servidor valida el código, su vencimiento, los datos de la solicitud y la versión. Solo si el envío documental se completa se vincula el acuse al folio. La matrícula y cuenta de alumno se activan después de aprobar. Cambiar la oferta, datos o versión exige revisar y obtener un código nuevo.",
+          "Se conserva el texto exacto, curso y plan, nombre y correo de quien aceptó, fecha del servidor, identificador y huella de integridad. El código y la contraseña no aparecen en la copia. Puede consultarse el acuse desde el campus y descargarse como texto. Es un mecanismo de aceptación electrónica; no se afirma una certificación de identidad o firma avanzada.",
+          "El acuse PDF con la aceptación y los textos se envía por correo al firmante confirmado. No incluye los PDF de identidad ni de CURP. Si el sistema indica que un correo no pudo enviarse, administración puede revisar y reintentarlo; un estado de envío no confirmado no se reenvía automáticamente."
         ]
       },
       {

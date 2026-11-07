@@ -1,7 +1,10 @@
 import {catalogSeed} from './catalog-seed';import {clientId} from './client-id';import {demoLearners} from './demo-academics';import {demoEnrollmentRoster} from './academy-demo';
 const key='evolva-v21-demo',read=()=>JSON.parse(localStorage.getItem(key)||'null')||{courses:catalogSeed,areas:[],imports:[],imported:[],capacity:[],waiting:[],study:[]},save=(s:any)=>localStorage.setItem(key,JSON.stringify(s)),fail=(m:string)=>{throw Object.assign(Error(m),{status:409});};
 export function enterpriseDemoRoster(base:any[]){return base.concat(read().imported);}
-export function enterpriseDemo(action:string,b:any,student:any,admin:boolean):any{if((action.startsWith('v21_admin_')||action.startsWith('v22_admin_'))&&!admin)throw Object.assign(Error('Acceso administrativo requerido.'),{status:403});if(!admin&&!student)throw Object.assign(Error('Inicia sesión.'),{status:401});const s=read(),roster=enterpriseDemoRoster(demoEnrollmentRoster(demoLearners()));
+export function enterpriseDemo(action:string,b:any,student:any,admin:boolean):any{if((action.startsWith('v21_admin_')||action.startsWith('v22_admin_')||action.startsWith('v23_admin_'))&&!admin)throw Object.assign(Error('Acceso administrativo requerido.'),{status:403});if(!admin&&!student)throw Object.assign(Error('Inicia sesión.'),{status:401});const s=read(),roster=enterpriseDemoRoster(demoEnrollmentRoster(demoLearners()));
+ if(action==='v23_admin_applications')return {ok:true,total:0,applications:[]};
+ if(action==='v23_admin_payment_settings')return {ok:true,settings:s.admissionPayments||null};
+ if(action==='v23_admin_payment_settings_save'){if(!b.confirm)fail('Confirma la cuenta.');s.admissionPayments={bank:b.bank,beneficiary:b.beneficiary,clabe:b.clabe,account:b.account};save(s);return {ok:true};}
  if(action==='v22_admin_legal')return {ok:true,draft:{version:'2026-11-06-v22'},publication:s.legal||null};
  if(action==='v22_admin_legal_save'){if(!b.confirm)fail('Revisa y confirma la publicación.');if((s.legal?.revision||'')!==(b.revision||''))fail('La publicación cambió.');s.legal={status:b.status,revision:clientId(),data:{version:'2026-11-06-v22',responsible:{name:b.name,address:b.address,email:'soporte@evolvacademy.mx'}}};save(s);return {ok:true};}
  if(action==='v22_receipt'||action==='v22_admin_receipt')return {ok:true,found:false};
