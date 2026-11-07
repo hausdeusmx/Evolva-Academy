@@ -1,3 +1,4 @@
+import {operationsDemo} from './operations-demo';
 import {schoolDemo} from './school-demo';
 import {academyActions,academyDemo,demoEnrollmentRoster} from './academy-demo';
 import {suiteDemo,suiteAcademicDemo} from './suite-demo';
@@ -28,7 +29,8 @@ export async function adminAPI(action:string,b:any={}):Promise<any>{
  if(!adminDemo){const data=await remote(action,b);if(action==='admin_login'){token=data.session;sessionStorage.setItem(tokenKey,token);}return data;}
  if(action==='admin_login')throw failure('Las cuentas reales aún requieren activación. Usa la administración de prueba para revisar el panel.');
  requireDemo();
- if(action==='health')return {ok:true,version:19,features:['teacher_portal','campus_exams','attendance','certificate_qr','scholarships','advising','module_rules','device_management','privacy_information','same_matricula','certificate_management','app_updates','multi_course','group_chat','reminders','email_campaigns','institutional_notice','institutional_login','student_profile','automatic_groups','student_contact','course_catalog','followup','support','rubrics','receipts','reports','surveys','institutional_delivery','payment_access','payment_review','documents','credential','tasks','lessons','calendar','password_recovery']};
+ if(action==='health')return {ok:true,version:20,features:['finance_dashboard','document_reviews','student_followup','private_backups','job_board','referrals','teacher_portal','campus_exams','attendance','certificate_qr','scholarships','advising','module_rules','device_management','privacy_information','same_matricula','certificate_management','app_updates','multi_course','group_chat','reminders','email_campaigns','institutional_notice','institutional_login','student_profile','automatic_groups','student_contact','course_catalog','followup','support','rubrics','receipts','reports','surveys','institutional_delivery','payment_access','payment_review','documents','credential','tasks','lessons','calendar','password_recovery']};
+ if(action.startsWith('v20_'))return operationsDemo(action,b,null,true);
  if(action.startsWith('v19_'))return schoolDemo(action,b,null,true);
  if(academyActions.includes(action))return academyDemo(action,b,null,true);
  if(['admin_mail_students','admin_mail_status','admin_mail_assign','admin_mail_cancel'].includes(action))return mailDemo(demoLearners(),action,b);
