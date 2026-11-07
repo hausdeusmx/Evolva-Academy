@@ -15,7 +15,8 @@ function updatePaymentPreview(){
  const selected=document.querySelector('input[name="diplomado"]:checked');
  const c=window.EvolvaCourses?.list?.find(x=>x.name===selected?.value);
  if(!c||!paymentSummary)return;
- const weeks=Number(c.weeks||0),months=Number(c.months||0),weekly=Number(c.weekly||0),monthly=Number(c.monthly||0),total=Number(c.total||0),weeklyTotal=Number(c.weeklyTotal||weekly*weeks),mode=paymentMode?.value||'weekly';
+ const weeks=Number(c.weeks||0),months=Number(c.months||0),weekly=Number(c.weekly||0),monthly=Number(c.monthly||0),total=Number(c.total||0),weeklyTotal=Number(c.weeklyTotal||weekly*weeks),initialMode=paymentMode?.value||'weekly';let mode=initialMode;
+ if(c.mode==='monthly'&&paymentMode&&paymentMode.value==='weekly'){paymentMode.value='monthly';mode='monthly';}
  const fmt=n=>new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(n);
  const monthlyOption=paymentMode?.querySelector?.('option[value="monthly"]');if(monthlyOption)monthlyOption.disabled=!months;
  if(mode==='monthly'&&!months){paymentSummary.textContent='Este curso no ofrece modalidad mensual. Selecciona pago semanal o total.';return;}
@@ -24,7 +25,7 @@ function updatePaymentPreview(){
  else paymentSummary.textContent='Pago semanal '+fmt(weekly)+' · '+weeks+' semanas · Total '+fmt(weeklyTotal)+'.';
 }
 document.querySelectorAll?.('input[name="diplomado"]')?.forEach(el=>el.addEventListener('change',updatePaymentPreview));
-paymentMode?.addEventListener?.('change',updatePaymentPreview);
+paymentMode?.addEventListener?.('change',updatePaymentPreview);form.addEventListener('change',updatePaymentPreview);document.addEventListener('evolva-catalog-updated',updatePaymentPreview);
 updatePaymentPreview();
 curp.addEventListener('input',()=>{curp.value=curp.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,18);});
 const date=new Date();
@@ -72,6 +73,7 @@ form.addEventListener('submit',async event=>{
     const accessNote=document.getElementById('registroAccesoNota');if(accessNote)accessNote.textContent=institutionalReady?'Tu correo usa los seis dígitos de tu matrícula. Ingresa con la contraseña del campus, aunque el buzón todavía esté pendiente de entrega.':'Guarda tu matrícula y contraseña. Usa el correo de acceso que aparece arriba.';
     document.getElementById('datoPassword').textContent=data.password||'Solicita tu acceso a la administración de Evolva Academy.';
     document.getElementById('registroPago').href=window.EvolvaCourses?.isNew(params.diplomado)?'campus/?seccion=pagos':'pagos.html?folio='+encodeURIComponent(folio);
+    if(data.waitlisted){if(accessNote)accessNote.textContent+=' Tu inscripción está en lista de espera; administración confirmará un grupo antes de que realices pagos.';const pay=document.getElementById('registroPago');pay.href='campus/';pay.textContent='Consultar mi inscripción en el campus';}
     const result=document.getElementById('folioResultado');
     form.style.display='none';result.style.display='block';
     result.setAttribute('tabindex','-1');result.focus();result.scrollIntoView({behavior:'smooth',block:'center'});

@@ -23,6 +23,8 @@ for(const c of courses.filter(c=>!c.legacy)){
  context.EvolvaCourses.setEnrollmentReady(false);
  assert.equal(inputs[c.inputId].disabled,true);assert.equal(context.EvolvaCourses.available(c.name),false);
  assert.equal(context.EvolvaCourses.available('Curso inventado'),false);
+ context.EvolvaCourses.replacePublished([{id:'prueba21',name:'Curso publicado V21',legacy:false,inputId:'live',months:3,monthly:150}]);assert.equal(context.EvolvaCourses.list.length,1);assert.equal(context.EvolvaCourses.available('Curso publicado V21'),true);assert.equal(context.EvolvaCourses.available(c.name),false);
+
 }
 for(const file of ['index.html','cursos.html','diplomados.html','inscripcion.html','pagos.html']){
  const html=fs.readFileSync(file,'utf8');

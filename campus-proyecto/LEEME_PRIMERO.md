@@ -1,3 +1,24 @@
+# Evolva Academy · Actualización V21
+
+El campus público usa la URL existente de Apps Script y DEMO_MODE=false. No cambies el dominio ni crees otra implementación.
+
+V21 añade editor de cursos, importación CSV/XLSX con vista previa, cuentas de control escolar y cobranza, constancias de estudios y cupos por grupo con lista de espera. Las operaciones requieren activar V21 en el mismo proyecto de Google Apps Script. El código completo se entrega por separado; no debe subirse a este repositorio público.
+
+1. Sustituye todo Código.gs por el archivo privado completo **Evolva_V21_ACTIVAR_AQUI_COMPLETO.txt**.
+2. Guarda y ejecuta **ACTIVAR_EVOLVA_V21**, la primera función del archivo, con la cuenta propietaria. Conserva appsscript.json y las Propiedades del script.
+3. Actualiza la aplicación web existente: Administrar implementaciones → lápiz → Nueva versión → Implementar. Conserva la URL /exec y el acceso actual.
+4. Recarga el campus. El diagnóstico debe mostrar versión 21 y course_editor, student_import, area_permissions, study_letters y group_capacity.
+
+Las matrículas EVOLVA-###### y los planes anteriores se conservan. Los cambios de catálogo afectan nuevas inscripciones; los borradores y archivados no aceptan altas nuevas. Configura todos los grupos que admitirán alumnos si quieres limitar cupos de un curso.
+
+No se crean cuentas de personal ni se envían correos durante la activación. Crea las cuentas desde Permisos por área; sus acciones se autorizan en el servidor. Las constancias de estudios requieren solicitud, autorización y vigencia. La constancia de finalización conserva sus requisitos anteriores.
+
+La importación admite hasta 100 alumnos por lote y 2 MB por archivo. Omite registros existentes sin modificarlos. El alumno establece su contraseña mediante Recuperar acceso con su correo personal. Para solicitar documentos debe completar su expediente.
+
+La guía antigua que sigue es referencia de instalaciones previas; no sustituye el archivo V21 completo.
+
+---
+
 # Evolva Academy · Administración y campus
 
 La guía vigente para conectar Google Sheets y activar la cuenta propietaria es **apps-script/CONECTAR.md**.

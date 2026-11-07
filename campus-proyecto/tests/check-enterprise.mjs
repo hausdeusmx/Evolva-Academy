@@ -1,0 +1,28 @@
+import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import assert from 'node:assert/strict';import {pathToFileURL} from 'node:url';import ts from 'typescript';import {zipSync,strToU8} from 'fflate';
+const dir=fs.mkdtempSync(path.join(os.tmpdir(),'evolva-enterprise-')),memory=new Map();
+globalThis.window={EVOLVA_CONFIG:{API_URL:'',DEMO_MODE:true},location:{href:'https://example.test/campus/'}};
+globalThis.localStorage=globalThis.sessionStorage={getItem:k=>memory.get(k)||null,setItem:(k,v)=>memory.set(k,v),removeItem:k=>memory.delete(k)};
+try{
+ fs.symlinkSync(fs.realpathSync('node_modules'),path.join(dir,'node_modules'),'dir');
+ for(const file of fs.readdirSync('src').filter(n=>n.endsWith('.ts'))){const source=fs.readFileSync('src/'+file,'utf8').replace(/from ['"]\.\/([^'"]+)['"]/g,(_,name)=>"from './"+name.replace(/\.ts$/,'')+".mjs'");fs.writeFileSync(path.join(dir,file.replace(/\.ts$/,'.mjs')),ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.ES2022}}).outputText);}
+ const {parseCSV,unpackWorkbook}=await import(pathToFileURL(path.join(dir,'import-parser.mjs')));
+ const csv='\uFEFFnombre;correo;curso;matrícula;grupo;teléfono;fecha\r\n"Ana; María";ana@example.test;Finanzas Personales;000021;FIN-001;6560000021;2026-11-01\r\n';
+ assert.equal(parseCSV(csv)[0].name,'Ana; María');assert.equal(parseCSV(csv)[0].matricula,'EVOLVA-000021');assert.equal(parseCSV(csv)[0].phone,'6560000021');
+ assert.equal(parseCSV('nombre,correo,curso\n"Ana ""María""",ana@example.test,"Finanzas\nPersonales"')[0].name,'Ana "María"');
+ assert.throws(()=>parseCSV('nombre,correo,curso\n"sin cerrar'),/comillas/);assert.throws(()=>parseCSV('nombre,correo,correo,curso\nA,a@x.test,a@x.test,C'),/duplicados/);assert.throws(()=>parseCSV('nombre,curso\nAna,C'),/columnas/);
+ assert.throws(()=>parseCSV('nombre,correo,curso\n'+Array(101).fill('A,a@x.test,C').join('\n')),/100/);
+ const zip=zipSync({'xl/workbook.xml':strToU8('<workbook/>'),'xl/worksheets/sheet1.xml':strToU8('<worksheet/>'),'private-secret.txt':strToU8('ignored')});assert.deepEqual(Object.keys(unpackWorkbook(zip)).sort(),['xl/workbook.xml','xl/worksheets/sheet1.xml']);
+ assert.throws(()=>unpackWorkbook(zipSync({'xl/workbook.xml':new Uint8Array(2000001)})),/descomprimido/);
+ const {adminAPI:admin}=await import(pathToFileURL(path.join(dir,'admin-api.mjs'))),{portalAPI:student}=await import(pathToFileURL(path.join(dir,'portal-api.mjs')));
+ await admin('demo_login');const courses=(await admin('v21_admin_courses')).courses,course=courses[0];
+ await assert.rejects(admin('v21_admin_course_save',{...course,status:'PUBLICADO',confirm:false}),/Confirma/);await admin('v21_admin_course_save',{...course,description:'Descripción sintética',confirm:true});await assert.rejects(admin('v21_admin_course_save',{...course,confirm:true}),/cambió/);
+ const rows=[{name:'Alta sintética',email:'alta@example.test',course:course.name,matricula:'EVOLVA-000021',group:'',phone:'',registered:''}],preview=await admin('v21_admin_import_preview',{rows});assert.equal(preview.create,1);
+ const commit={rows,requestId:crypto.randomUUID(),fingerprint:preview.fingerprint,confirm:true};await assert.rejects(admin('v21_admin_import_commit',{...commit,confirm:false}),/confirma/);assert.equal((await admin('v21_admin_import_commit',commit)).created,1);assert.equal((await admin('v21_admin_import_commit',commit)).created,1);assert.equal((await admin('v21_admin_import_preview',{rows})).skip,1);assert.equal((await admin('admin_students')).students.filter(r=>r.folio==='EVOLVA-000021').length,1);
+ await admin('demo_login',{area:'COBRANZA'});const profile=(await admin('status')).admin;assert.deepEqual(profile.views,['finance','payments','scholarships']);for(const action of ['v21_admin_courses','v21_admin_area_save','v21_admin_import_preview','admin_documents','admin_save_grade'])await assert.rejects(admin(action,{}),/permiso/);await admin('v20_admin_finance');
+ await admin('demo_login',{area:'CONTROL_ESCOLAR'});assert.ok((await admin('status')).admin.views.includes('student-import'));await admin('v21_admin_capacity');for(const action of ['v20_admin_finance','admin_payments','v21_admin_areas'])await assert.rejects(admin(action,{}),/permiso/);
+ await student('login',{email:'000001@evolvacademy.mx',password:'EvolvaPrueba2026!'});await student('v21_study_request');assert.equal((await student('v21_study_request')).duplicate,true);const pending=(await admin('v21_admin_study',{folio:'EVOLVA-000001'})).current;
+ await assert.rejects(student('v21_study_download',{code:pending.code}),/autorizada/);await assert.rejects(admin('v21_admin_study_review',{folio:'EVOLVA-000001',revision:'stale',confirm:true,status:'AUTORIZADA',expires:new Date(Date.now()+86400000).toISOString()}),/confirma/);
+ await admin('v21_admin_study_review',{folio:'EVOLVA-000001',revision:pending.revision,confirm:true,status:'AUTORIZADA',expires:new Date(Date.now()+86400000).toISOString()});const letter=await student('v21_study_download',{code:pending.code});assert.equal(letter.data.student.matricula,'EVOLVA-000001');assert.ok(letter.data.validationUrl.includes('validar-estudios.html?codigo=EVE-'));assert.equal(letter.data.average,undefined);
+ await student('logout');await assert.rejects(student('v21_study'),/sesión/);
+ console.log('Enterprise frontend passed: CSV quoted fields/leading zeros/limits, selective XLSX unpacking, import review and idempotency, course revisions, area action boundaries and separate authorized study letters. Synthetic data only.');
+}finally{fs.rmSync(dir,{recursive:true,force:true});}

@@ -22,7 +22,7 @@ async function setup(page,script,search=''){
   const selected=new Element();selected.value='Finanzas Personales';
   const scripts=[];
   const timers=new Map();let counter=0;
-  const context={URLSearchParams,Date,Math,Number,String,Error,AbortSignal,Uint8Array,crypto,File,btoa,location:{search},setTimeout:fn=>{timers.set(++counter,fn);return counter;},clearTimeout:id=>timers.delete(id),document:{getElementById:id=>{assert(elements.has(id),'Missing element '+id);return elements.get(id);},querySelector:()=>selected,createElement:()=>new Element(),head:{appendChild:el=>scripts.push(el)}}};
+  const context={URLSearchParams,Date,Math,Number,String,Error,AbortSignal,Uint8Array,crypto,File,btoa,location:{search},setTimeout:fn=>{timers.set(++counter,fn);return counter;},clearTimeout:id=>timers.delete(id),document:{addEventListener(){},getElementById:id=>{assert(elements.has(id),'Missing element '+id);return elements.get(id);},querySelector:()=>selected,createElement:()=>new Element(),head:{appendChild:el=>scripts.push(el)}}};
   context.window=context;if(elements.has('reg_phone'))elements.get('reg_phone').disabled=true;
   vm.createContext(context);vm.runInContext(await source('legacy-api.js'),context);vm.runInContext(await source('registro-documentos.js'),context);
   const calls=[];
@@ -66,6 +66,8 @@ assert.equal(posted.options.method,'POST');assert.equal(posted.options.credentia
 assert.equal(JSON.parse(posted.options.body).action,'register');
 assert(!posted.url.includes('curp='),'Personal fields are not sent in a URL');
 assert.equal(connected.elements.get('codigoFolio').textContent,'EVOLVA-000456');
+connected.context.fetch=async()=>({ok:true,json:async()=>({ok:true,folio:'EVOLVA-000457',password:'synthetic-test-only',waitlisted:true})});await connected.submit('registroForm');assert.equal(connected.elements.get('registroPago').href,'campus/');assert.match(connected.elements.get('registroAccesoNota').textContent,/lista de espera/);
+
 
 const docs=await setup('inscripcion.html','registro.js');
 for(const [id,value] of Object.entries({reg_nombre:'Alumno de prueba',reg_edad:'25',reg_estado:'Chihuahua',reg_curp:'XXXXXXXXXXXXXXXXXX',reg_fecha:'2001-01-01',reg_email:'expediente@example.invalid'}))docs.elements.get(id).value=value;

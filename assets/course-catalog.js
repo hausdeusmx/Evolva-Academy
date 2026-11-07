@@ -6,5 +6,6 @@
  function available(name){return courses.some(c=>c.name===name&&(c.legacy||ready));}
  function preselect(){const c=courses.find(c=>c.name===requested),el=c&&document.getElementById(c.inputId);if(el&&!el.disabled&&!document.querySelector('input[name="diplomado"]:checked'))el.checked=true;}
  function setEnrollmentReady(value){ready=value===true;for(const c of courses){if(c.legacy)continue;const el=document.getElementById(c.inputId);if(el)el.disabled=!ready;}const note=document.getElementById('courseCatalogStatus');if(note){note.hidden=ready;note.textContent=ready?'':'Las inscripciones de los cinco cursos nuevos están en preparación. Los dos programas actuales siguen disponibles.';}preselect();}
- window.EvolvaCourses={list:courses,isNew,available,preselect,setEnrollmentReady};setEnrollmentReady(false);
+ function replacePublished(items){courses.splice(0,courses.length,...items);ready=true;const note=document.getElementById('courseCatalogStatus');if(note)note.hidden=true;}
+ window.EvolvaCourses={replacePublished,list:courses,isNew,available,preselect,setEnrollmentReady};setEnrollmentReady(false);
 })();

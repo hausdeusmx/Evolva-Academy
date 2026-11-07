@@ -1,3 +1,5 @@
+import {enterpriseDemo,enterpriseDemoRoster} from './enterprise-demo';
+import {demoAreaProfile,requireAreaAction,areaViews} from './area-permissions';
 import {operationsDemo} from './operations-demo';
 import {schoolDemo} from './school-demo';
 import {academyActions,academyDemo,demoEnrollmentRoster} from './academy-demo';
@@ -12,7 +14,7 @@ export const adminDemo=!endpoint&&window.EVOLVA_CONFIG?.DEMO_MODE===true;
 const tokenKey='evolva-admin:'+endpoint+':session';
 let token=sessionStorage.getItem(tokenKey)||'';
 function failure(message:string,status=400){return Object.assign(Error(message),{status});}
-function requireDemo(){if(token!=='demo-admin')throw failure('Inicia sesión en administración.',401);}
+function requireDemo(){if(token!=='demo-admin'&&!/^demo-admin:(CONTROL_ESCOLAR|COBRANZA)$/.test(token))throw failure('Inicia sesión en administración.',401);}
 function details(folio:string){const student=demoLearners().find(s=>s.folio===folio);if(!student)throw failure('Alumno no encontrado.',404);const d=demoAcademic(student);return {ok:true,student,grades:d.grades.map(g=>({...g,revision:demoRevision(g)})),exams:d.exams,average:d.average,progress:d.progress};}
 function recipients(b:any){let list=demoLearners();if(b.scope==='student')list=list.filter(s=>s.folio===b.folio);else if(['course','group'].includes(b.scope))list=list.filter(s=>s.course===b.course&&(b.scope!=='group'||s.group===b.group));else throw failure('Selecciona los destinatarios.');if(!list.length)throw failure('No hay alumnos en esa selección.');return list;}
 async function remote(action:string,body:any){
@@ -24,12 +26,13 @@ async function remote(action:string,body:any){
 export async function adminAPI(action:string,b:any={}):Promise<any>{
  if(window.location.pathname?.endsWith('/docentes.html'))return (await import('./teacher-api')).teacherAPI(action,b);
  if(action==='status'){if(!token)return {authenticated:false,demo:adminDemo};try{const data=await adminAPI('admin_session');return {authenticated:true,demo:adminDemo,admin:data.admin};}catch(e:any){if(e.status===401)return {authenticated:false,demo:adminDemo};throw e;}}
- if(action==='demo_login'){if(!adminDemo)throw failure('La cuenta de prueba está desactivada.');token='demo-admin';sessionStorage.setItem(tokenKey,token);return {ok:true,admin:{name:'Administración de prueba',email:'admin@demo.evolva.test'}};}
+ if(action==='demo_login'){if(!adminDemo)throw failure('La cuenta de prueba está desactivada.');const area=String(b.area||'');if(area&&!areaViews[area])throw failure('Área no válida.');token='demo-admin'+(area?':'+area:'');sessionStorage.setItem(tokenKey,token);return {ok:true,admin:demoAreaProfile(area)};}
  if(action==='logout'){try{if(!adminDemo&&token)await remote('logout',{});}finally{token='';sessionStorage.removeItem(tokenKey);}return {ok:true};}
  if(!adminDemo){const data=await remote(action,b);if(action==='admin_login'){token=data.session;sessionStorage.setItem(tokenKey,token);}return data;}
  if(action==='admin_login')throw failure('Las cuentas reales aún requieren activación. Usa la administración de prueba para revisar el panel.');
- requireDemo();
- if(action==='health')return {ok:true,version:20,features:['finance_dashboard','document_reviews','student_followup','private_backups','job_board','referrals','teacher_portal','campus_exams','attendance','certificate_qr','scholarships','advising','module_rules','device_management','privacy_information','same_matricula','certificate_management','app_updates','multi_course','group_chat','reminders','email_campaigns','institutional_notice','institutional_login','student_profile','automatic_groups','student_contact','course_catalog','followup','support','rubrics','receipts','reports','surveys','institutional_delivery','payment_access','payment_review','documents','credential','tasks','lessons','calendar','password_recovery']};
+ requireDemo();const demoArea=token.split(':')[1]||'';requireAreaAction(demoArea,action);
+ if(action==='health')return {ok:true,version:21,features:['course_editor','student_import','area_permissions','study_letters','group_capacity','finance_dashboard','document_reviews','student_followup','private_backups','job_board','referrals','teacher_portal','campus_exams','attendance','certificate_qr','scholarships','advising','module_rules','device_management','privacy_information','same_matricula','certificate_management','app_updates','multi_course','group_chat','reminders','email_campaigns','institutional_notice','institutional_login','student_profile','automatic_groups','student_contact','course_catalog','followup','support','rubrics','receipts','reports','surveys','institutional_delivery','payment_access','payment_review','documents','credential','tasks','lessons','calendar','password_recovery']};
+ if(action.startsWith('v21_'))return enterpriseDemo(action,b,null,true);
  if(action.startsWith('v20_'))return operationsDemo(action,b,null,true);
  if(action.startsWith('v19_'))return schoolDemo(action,b,null,true);
  if(academyActions.includes(action))return academyDemo(action,b,null,true);
@@ -45,8 +48,8 @@ export async function adminAPI(action:string,b:any={}):Promise<any>{
   const row=records[payment.folio].payments.find((p:any)=>p.id===b.id);row.status='Confirmado';saveDemoRecords(records);return {ok:true,academicAccess:academicAccess({payments:records[payment.folio].payments})};
  }
  if(academicActions.includes(action))return suiteAcademicDemo('admin',action,b);
- if(action==='admin_session')return {ok:true,admin:{name:'Administración de prueba',email:'admin@demo.evolva.test'}};
- if(action==='admin_students'){const q=String(b.query||'').toLowerCase(),all=demoEnrollmentRoster(demoLearners()),students=all.filter(s=>[s.folio,s.name,s.course,s.email,s.group].some(v=>v.toLowerCase().includes(q)));return {ok:true,students,total:students.length,courses:[...new Set(all.map(s=>s.course))],groups:all.map(s=>({course:s.course,group:s.group})).filter((s,i,a)=>a.findIndex(x=>x.course===s.course&&x.group===s.group)===i)};}
+ if(action==='admin_session')return {ok:true,admin:demoAreaProfile(demoArea)};
+ if(action==='admin_students'){const q=String(b.query||'').toLowerCase(),all=enterpriseDemoRoster(demoEnrollmentRoster(demoLearners())),students=all.filter(s=>[s.folio,s.name,s.course,s.email,s.group].some(v=>v.toLowerCase().includes(q)));return {ok:true,students:demoArea==='COBRANZA'?students.map(s=>({folio:s.folio,matricula:s.matricula||s.folio,name:s.name,course:s.course,group:s.group,status:s.status})):students,total:students.length,courses:[...new Set(all.map(s=>s.course))],groups:all.map(s=>({course:s.course,group:s.group})).filter((s,i,a)=>a.findIndex(x=>x.course===s.course&&x.group===s.group)===i)};}
  if(action==='admin_student')return details(b.folio);
  if(action==='admin_save_grade'){
   const d=details(b.folio),old=d.grades.find((g:any)=>g.id===b.id),score=b.score===''||b.score===null?null:Number(b.score);
