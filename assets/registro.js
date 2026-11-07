@@ -38,6 +38,7 @@ form.addEventListener('submit',async event=>{
   let documentRequirements=false;
   try{documentRequirements=window.EvolvaDocuments?await window.EvolvaDocuments.requirements(true):false;}catch{errorBox.textContent='No pudimos comprobar la conexión del registro. Vuelve a intentarlo.';return;}
   if(busy)return;
+  try{if(window.EvolvaLegal)await window.EvolvaLegal.ready();}catch(e){errorBox.textContent=e.message;return;}
   if(!form.reportValidity())return;
   const selected=document.querySelector('input[name="diplomado"]:checked');
   if(!selected){errorBox.textContent='Selecciona el curso que quieres cursar.';return;}
@@ -45,9 +46,10 @@ form.addEventListener('submit',async event=>{
   const phoneInput=document.getElementById('reg_phone'),phoneEnabled=phoneInput&&!phoneInput.disabled;let studentPhone='';if(phoneEnabled){const raw=phoneInput.value.trim();studentPhone=raw.replace(/[ ()-]/g,'');if(raw.length>24||!/^\+?[0-9 ()-]+$/.test(raw)||!/^\+?\d{10,15}$/.test(studentPhone)){errorBox.textContent='Escribe un teléfono de 10 a 15 dígitos; puedes incluir +52.';return;}}
   let token='';
   try{token=window.turnstile?.getResponse()||'';}catch{}
-  if(!token){captchaError.textContent='Completa la verificación de seguridad antes de enviar tu registro.';captchaError.scrollIntoView({behavior:'smooth',block:'center'});return;}
+  if(!token&&!window.EvolvaLegal?.requiresCode()){captchaError.textContent='Completa la verificación de seguridad antes de enviar tu registro.';captchaError.scrollIntoView({behavior:'smooth',block:'center'});return;}
   const read=id=>document.getElementById(id).value.trim();
   const params={accion:'registrar',diplomado:selected.value,nombre:read('reg_nombre'),edad:read('reg_edad'),estado:read('reg_estado'),curp:read('reg_curp').toUpperCase(),fecha:read('reg_fecha'),email:read('reg_email'),turnstileToken:token,paymentMode:paymentMode?.value||'weekly'};
+  try{if(window.EvolvaLegal)Object.assign(params,await window.EvolvaLegal.payload());}catch(e){errorBox.textContent=e.message;return;}
   busy=true;button.disabled=true;form.setAttribute('aria-busy','true');button.textContent='Registrando tu inscripción…';
   try{
     let data;
@@ -62,6 +64,7 @@ form.addEventListener('submit',async event=>{
       data=await window.EvolvaLegacy.call(API_URL,params);
     }
     if(!data?.ok)throw new Error(data?.error||data?.mensaje||'No fue posible completar la inscripción.');
+    window.EvolvaLegal?.receipt(data.consentReceipt);
     let folio=String(data.matricula||data.folio||'').trim().toUpperCase();
     if(/^\d{6}$/.test(folio))folio='EVOLVA-'+folio;
     if(!/^EVOLVA-\d{6}$/.test(folio))throw new Error('El servidor no devolvió una matrícula válida. Contacta a administración antes de intentar otro registro.');
@@ -81,6 +84,6 @@ form.addEventListener('submit',async event=>{
   }catch(error){
     errorBox.textContent=error.message||'No fue posible completar el registro.';
     errorBox.scrollIntoView({behavior:'smooth',block:'center'});resetCaptcha();
-  }finally{busy=false;button.disabled=false;form.removeAttribute('aria-busy');button.textContent='Generar mi matrícula →';}
+  }finally{busy=false;button.disabled=false;form.removeAttribute('aria-busy');button.textContent=window.EvolvaLegal?.requiresCode()?'Firmar e inscribirme →':'Generar mi matrícula →';}
 });
 

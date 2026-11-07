@@ -27,7 +27,7 @@
   }
   function requestId(){if(crypto.randomUUID)return crypto.randomUUID();const b=crypto.getRandomValues(new Uint8Array(16));b[6]=(b[6]&15)|64;b[8]=(b[8]&63)|128;const h=Array.from(b,x=>x.toString(16).padStart(2,'0')).join('');return h.slice(0,8)+'-'+h.slice(8,12)+'-'+h.slice(12,16)+'-'+h.slice(16,20)+'-'+h.slice(20);}
   let id='';
-  window.EvolvaDocuments={requirements,institutionalLoginReady:()=>institutionalReady,async payload(){if(!id)id=requestId();return {requestId:id,curpFile:await read(curp.files?.[0],'curp'),photoFile:await read(photo.files?.[0],'photo')};}};
+  window.EvolvaDocuments={getRequestId:()=>{if(!id)id=requestId();return id;},requirements,institutionalLoginReady:()=>institutionalReady,async payload(){if(!id)id=requestId();return {requestId:id,curpFile:await read(curp.files?.[0],'curp'),photoFile:await read(photo.files?.[0],'photo')};}};
   requirements(false).catch(()=>{window.EvolvaCourses?.setEnrollmentReady(false);});
 })();
 

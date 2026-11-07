@@ -1,3 +1,21 @@
+# V22 · Aceptación durante la inscripción
+
+La versión vigente del servidor es el archivo privado completo **Evolva_V22_ACTIVAR_AQUI_COMPLETO.txt**. Reemplaza todo Código.gs, guarda y ejecuta **ACTIVAR_EVOLVA_V22** con la cuenta propietaria. Después actualiza la implementación existente con Nueva versión; conserva la URL /exec, propiedades y permisos.
+
+En Administración > Aviso y reglamento, completa el nombre legal y domicilio reales del responsable, revisa ambos documentos y confirma su publicación. No inventes estos datos. V22 rechaza nuevas inscripciones hasta estar preparada y tener una publicación completa. Prepara esos datos antes de actualizar el servicio. No se generan firmas de alumnos durante la activación.
+
+En inscripción: aviso + reglamento + declaración de documentos sin casillas premarcadas, nombre escrito de quien acepta, código de seis dígitos al correo personal y botón Firmar e inscribirme. El código dura 10 minutos, tiene hasta 5 intentos y hasta 3 envíos por destinatario cada 15 minutos. El código verifica acceso al correo, no identidad civil. El servidor requiere CAPTCHA al solicitarlo y no vuelve a exigirlo al enviar el código correcto. No se guardan firmas en el navegador ni se publica el acuse.
+
+Para menores de 18 años acepta la madre, padre o tutor desde otro correo, con declaración de mayoría y representación. Administración debe revisar la representación por un canal privado; el código no acredita parentesco. Acuses de inscripción permite registrar esa revisión. El alumno consulta su copia en Privacidad, sin volver a firmar allí. Las lecturas anteriores no se convierten en aceptaciones.
+
+El acuse conserva la versión exacta, responsable, oferta y plan elegido, matrícula, nombre y correo de quien aceptó y fecha del servidor. No incluye código temporal, contraseña, CURP ni los archivos del expediente. El plan firmado se asigna solo al alta nueva; conserva planes de alumnos anteriores. Las modalidades sin cantidad de periodos y precio completos se rechazan para no firmar condiciones ambiguas; configura esos cursos desde Editor de cursos antes de ofrecerlas.
+
+No se presenta como e.firma del SAT, firma avanzada o constancia NOM-151. Es un reglamento y acuerdo de inscripción/expediente, no una autorización general para publicidad ni una renuncia de derechos.
+
+Las guías siguientes corresponden a versiones anteriores y se conservan como referencia.
+
+---
+
 # Evolva Academy · Actualización V21
 
 El campus público usa la URL existente de Apps Script y DEMO_MODE=false. No cambies el dominio ni crees otra implementación.

@@ -55,6 +55,7 @@ jobs:
           node tests/check-course-catalog.mjs
           node tests/check-flows.mjs
           node tests/check-mail-delivery.mjs
+          node tests/check-registration-legal.mjs
 
       - name: Build campus
         working-directory: campus-proyecto
@@ -71,3 +72,4 @@ jobs:
           fi
           git commit -m "Publish updated Evolva campus build"
           git push origin HEAD:main
+

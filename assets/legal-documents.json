@@ -1,0 +1,176 @@
+{
+  "version": "2026-11-06-v22",
+  "privacy": {
+    "title": "Aviso de privacidad y tratamiento del expediente",
+    "sections": [
+      {
+        "id": "responsable",
+        "title": "Responsable y atención de privacidad",
+        "paragraphs": [
+          "Evolva Academy es el nombre comercial del servicio. La identidad legal y domicilio de atención del responsable se mostrarán en el encabezado cuando se complete y publique el aviso. Mientras esos datos falten, esta versión es un borrador y no se utiliza para solicitar firmas.",
+          "El canal de atención sobre datos y documentos es soporte@evolvacademy.mx. Para iniciar una solicitud basta con nombre, matrícula si la tienes, medio de respuesta y descripción; no adjuntes identificaciones al primer correo."
+        ]
+      },
+      {
+        "id": "datos",
+        "title": "Los datos del campus",
+        "paragraphs": [
+          "Identidad y contacto: nombre, matrícula, CURP, edad, fecha de nacimiento, estado de residencia, correo personal, correo institucional y teléfono, según los campos de tu expediente.",
+          "Documentos de inscripción: el PDF de CURP y la fotografía solicitados, además de los archivos que subas al expediente.",
+          "Actividad académica: cursos, grupos, tareas, trabajos, exámenes, respuestas, calificaciones, avance, asistencia, asesorías y constancias.",
+          "Pagos: importes, periodos, referencias y comprobantes. Estos archivos pueden contener información económica o patrimonial. Al compartirlos, evita incluir datos ajenos al pago que deseas acreditar.",
+          "Uso y comunicación: mensajes de grupo, solicitudes de ayuda, avisos, postulaciones laborales voluntarias, códigos y solicitudes de referidos, preferencias de recordatorios y registros necesarios para identificar tus sesiones y dispositivos.",
+          "El campus no necesita tus datos de tarjeta, NIP ni claves bancarias. Una fotografía de identificación no se utiliza para reconocimiento facial. La biometría opcional de la APK la verifica Android; Evolva no recibe tus huellas ni una plantilla facial.",
+          "Aceptación de inscripción: nombre escrito de quien acepta, correo al que se envía el código, condición de alumno mayor de edad o declaración de madre, padre o tutor, relación declarada con el menor, fecha del servidor, versión exacta de aviso y reglamento, curso y plan ofrecidos, identificador y huella del acuse. El código temporal se verifica mediante una huella; no se conserva en texto claro en el acuse. No se requiere dibujo de firma ni otra identificación para obtener el código."
+        ]
+      },
+      {
+        "id": "usos",
+        "title": "Para qué se utiliza tu información",
+        "paragraphs": [
+          "Crear y mantener tu cuenta, matrícula y correo institucional.",
+          "Administrar inscripción y reinscripción, reutilizando tu expediente con la misma matrícula.",
+          "Asignar cursos y grupos, entregar materiales, evaluar actividades y mostrar tus resultados.",
+          "Registrar asistencia, reservar asesorías, tramitar apoyos autorizados y dar seguimiento académico.",
+          "Revisar comprobantes, mostrar el calendario de pagos y emitir recibos.",
+          "Generar credencial y documentos académicos autorizados y comprobar la vigencia de las constancias.",
+          "Atender solicitudes de soporte, proteger accesos y mantener el funcionamiento del campus.",
+          "Los recordatorios por correo se activan desde tus preferencias. La lectura de esta página no autoriza publicidad, la publicación de tus fotografías ni la divulgación de tu expediente.",
+          "La confirmación electrónica sirve para documentar la inscripción y el uso del expediente conforme a la versión presentada. No autoriza publicidad, testimonios, publicación de fotografías, venta de datos ni el uso de documentos para trámites externos. Los usos opcionales se solicitan por separado y rechazarlos no limita el servicio académico contratado."
+        ]
+      },
+      {
+        "id": "acceso",
+        "title": "Acceso a documentos y servicios",
+        "paragraphs": [
+          "Las postulaciones a vacantes son voluntarias. Al enviarlas, administración recibe tu nombre, correo institucional, curso y mensaje; no se entrega automáticamente tu expediente ni se envían tus datos al empleador. Los referidos usan códigos de recomendación y requieren revisión administrativa para autorizar descuentos.",
+          "El alumno accede a los registros asociados a su cuenta y curso. Administración gestiona expedientes, pagos y servicios escolares. Las cuentas de control escolar y cobranza tienen permisos separados, comprobados por el servidor. Las altas por importación requieren revisión administrativa y conservan las matrículas existentes. Las constancias de estudios tienen vigencia y una consulta pública limitada al curso y estado del documento. El nuevo acceso docente limita sus operaciones a los grupos asignados y a las funciones académicas autorizadas; no habilita la consulta de documentos de identidad ni la gestión de pagos.",
+          "El servicio utiliza Google Sheets, Google Drive y Apps Script para registros, archivos y comunicaciones; GitHub Pages para servir las páginas y Cloudflare Turnstile en los formularios que lo requieren. Estos proveedores pueden procesar datos técnicos necesarios para prestar sus servicios conforme a su configuración y condiciones.",
+          "Los documentos del expediente no se publican junto al código del sitio. Los enlaces del campus solicitan una sesión autorizada para entregar archivos privados. El uso de servicios externos enlazados, como una videollamada, queda sujeto también a las condiciones de ese proveedor.",
+          "La consulta pública del QR de una constancia muestra el código, curso, fecha y estado de vigencia. No muestra CURP, fotografía, comprobantes, calificaciones ni el expediente. Comparte tus documentos académicos solo con las personas a quienes deseas entregarlos.",
+          "La app puede conservar una autorización de dispositivo para mantener tu sesión. Puedes revocar accesos desde Mis dispositivos. Los materiales guardados sin conexión se asocian a tu cuenta en ese teléfono y se eliminan de la biblioteca de la app al cerrar sesión o cambiar de cuenta.",
+          "Los acuses de inscripción son privados y se vinculan a la matrícula. Solo los consulta el titular en su campus y el personal administrativo con funciones de control escolar. La validación pública de constancias no permite consultar firmas ni acuses. Los proveedores operan los servicios mencionados; no se afirma que toda la información se almacene exclusivamente en México. Una transferencia a un tercero por una finalidad distinta debe informarse y contar con la base o autorización que corresponda."
+        ]
+      },
+      {
+        "id": "derechos",
+        "title": "Consulta, corrección y derechos ARCO",
+        "paragraphs": [
+          "Puedes solicitar acceso, rectificación, cancelación u oposición al tratamiento de tus datos, así como información sobre limitaciones de uso y la revocación del consentimiento cuando proceda.",
+          "Escribe a soporte@evolvacademy.mx con el asunto «Solicitud de privacidad / ARCO», tu nombre, un medio de respuesta y una descripción clara de lo que solicitas. Para iniciar la atención no adjuntes CURP, identificaciones ni documentos bancarios al correo; se coordinará un medio privado para acreditar identidad o representación cuando sea necesario.",
+          "La ley prevé, en general, 20 días hábiles para comunicar la determinación y, si procede, 15 días hábiles para hacerla efectiva, con las ampliaciones justificadas que correspondan. La cancelación puede estar sujeta a obligaciones de conservación y bloqueo.",
+          "Los datos de contacto editables pueden actualizarse desde Mis datos. Ese apartado no limita tu derecho a solicitar la corrección de otros registros."
+        ]
+      },
+      {
+        "id": "conservacion",
+        "title": "Conservación y eliminación",
+        "paragraphs": [
+          "Los respaldos privados conservan copias de registros académicos y administrativos seleccionados para recuperar cambios accidentales. No incluyen contraseñas, sesiones ni copias de los archivos de identidad. Solo el propietario autorizado puede acceder a su almacenamiento.",
+          "La conservación debe responder a la finalidad del dato y a las obligaciones aplicables a cada registro. El expediente, los resultados académicos y los comprobantes pueden requerir tratamientos y plazos diferentes; esta página no establece un plazo único de eliminación para todos los documentos.",
+          "Si deseas cancelar tu cuenta o pedir la eliminación de archivos, solicita la revisión por el canal de privacidad. Cerrar sesión o desinstalar la app no elimina por sí mismo los registros administrativos del campus.",
+          "Si detectas un acceso desconocido, revoca la sesión desde Mis dispositivos y contacta a soporte. Si ocurre una vulneración con afectación significativa, debe informarse a las personas afectadas conforme a la legislación aplicable.",
+          "La evidencia de aceptación conserva la versión aceptada para aclaraciones y obligaciones aplicables; no se modifica al actualizar el sitio. No se promete eliminar inmediatamente un registro cuando exista una obligación de conservación. Al terminar su finalidad se revisa su bloqueo o eliminación. Solicita al canal de privacidad la revisión del plazo aplicable a tu expediente concreto."
+        ]
+      },
+      {
+        "id": "menores",
+        "title": "Alumnos menores de edad",
+        "paragraphs": [
+          "Para menores de 18 años, la madre, padre o tutor debe leer y confirmar el acuerdo durante la inscripción desde su propio correo, declarar ser mayor de edad y manifestar su representación. Un código acredita acceso a ese correo; por sí solo no acredita patria potestad o tutela. Administración debe revisar la representación antes de tenerla por acreditada y coordinar privadamente los documentos estrictamente necesarios.",
+          "El menor no debe hacerse pasar por su representante. La inscripción electrónica queda identificada como declaración de tutor pendiente de revisión cuando corresponde. No se suben diagnósticos, información de salud, documentos de terceros ni datos no solicitados a los campos generales del expediente."
+        ]
+      },
+      {
+        "id": "cambios",
+        "title": "Versiones y contacto",
+        "paragraphs": [
+          "Los cambios se comunicarán en esta dirección y, cuando modifiquen las finalidades o condiciones que requieren una nueva manifestación, se presentará la nueva versión antes de pedirla. No se sustituye el texto de un acuse anterior.",
+          "La lectura del aviso, la aceptación del reglamento y la declaración de autenticidad de los documentos se presentan separadas. El acuse no acredita por sí mismo que un documento sea auténtico ni sustituye la revisión administrativa. Un registro anterior de lectura no se convierte automáticamente en una firma.",
+          "La aceptación es electrónica, mediante nombre escrito y código temporal enviado al correo. Es evidencia del proceso; no se presenta como e.firma del SAT, firma electrónica avanzada ni constancia de conservación NOM-151."
+        ]
+      }
+    ]
+  },
+  "terms": {
+    "title": "Reglamento y acuerdo de inscripción y expediente",
+    "sections": [
+      {
+        "id": "servicio",
+        "title": "Qué incluye este acuerdo",
+        "paragraphs": [
+          "Este reglamento regula la inscripción, la convivencia académica y el uso del campus y expediente de Evolva Academy. La persona prestadora del servicio es el responsable legal identificado en el aviso vigente. El acuerdo se presenta antes del envío de los documentos.",
+          "Cada inscripción indica curso, duración, modalidad, precio y forma de pago. El acuse conserva la oferta mostrada al confirmar; una actualización posterior del catálogo no modifica por sí sola ese plan. Este reglamento no incorpora cargos, penalizaciones o renuncias que no hayan sido informados."
+        ]
+      },
+      {
+        "id": "expediente",
+        "title": "Documentos e identidad",
+        "paragraphs": [
+          "El alumno o su representante declara que la información y los documentos aportados le corresponden, son legibles y no han sido alterados para engañar. Para inscripción se solicita CURP en PDF y fotografía para el expediente y credencial. Si existe un error, administración pedirá aclaración o corrección por un canal privado.",
+          "Subir un archivo no transfiere su propiedad ni autoriza a Evolva a utilizarlo para créditos, trámites ajenos al curso, publicidad o publicación en redes. No se solicitan originales físicos, NIP, contraseñas bancarias o códigos de terceros por esta aceptación.",
+          "La academia debe limitar los accesos al personal autorizado, usar los documentos para las finalidades informadas y atender las solicitudes de privacidad. La declaración del alumno no elimina estas responsabilidades."
+        ]
+      },
+      {
+        "id": "acceso",
+        "title": "Cuenta, matrícula y seguridad",
+        "paragraphs": [
+          "La matrícula EVOLVA-###### identifica la cuenta y se conserva al reinscribirse. Los registros académicos y pagos se distinguen por curso. El acceso institucional utiliza los seis dígitos de la matrícula y la contraseña del campus; la clave del buzón institucional es independiente.",
+          "Conserva tus credenciales, evita compartirlas y reporta accesos desconocidos. Puedes revisar y cerrar sesiones en Mis dispositivos. Evolva no solicita tu contraseña por mensajes de soporte."
+        ]
+      },
+      {
+        "id": "academico",
+        "title": "Actividades y convivencia",
+        "paragraphs": [
+          "Consulta materiales, fechas y criterios de evaluación del curso. Entrega trabajos propios, cita fuentes y respeta a docentes y compañeros. No compartas datos o documentos de otros alumnos ni publiques capturas de conversaciones privadas sin autorización.",
+          "Los exámenes informan su duración e intentos disponibles antes de comenzar. Los registros pueden requerir revisión por errores o incidencias; solicita una aclaración por soporte con la actividad y motivo. No se aplican sanciones automáticas por presentar una aclaración.",
+          "Ante un incidente, administración debe comunicar el motivo, permitir una explicación y aplicar una medida proporcional conforme al caso. Una restricción de seguridad no autoriza a divulgar el expediente ni elimina el derecho a consultar o corregir datos."
+        ]
+      },
+      {
+        "id": "pagos",
+        "title": "Pagos, cupos y aclaraciones",
+        "paragraphs": [
+          "El calendario y las condiciones de la inscripción se muestran para el curso elegido. Un comprobante enviado permanece en revisión hasta su confirmación; subirlo no equivale a pago confirmado. Si existe una discrepancia, solicita conciliación por soporte.",
+          "Si los grupos están llenos, la solicitud puede quedar en espera. No se promete un lugar ni debe realizarse un pago para asegurar una asignación que administración no ha confirmado. Las becas o descuentos requieren autorización y vigencia propias.",
+          "Una solicitud de baja, cancelación o devolución se atiende según la oferta aceptada y las disposiciones aplicables; este documento no establece una regla de “sin devoluciones”, un cobro automático ni renuncia a derechos. Antes de pagar, pide aclaración de cualquier condición que no esté especificada."
+        ]
+      },
+      {
+        "id": "documentos",
+        "title": "Credencial y constancias",
+        "paragraphs": [
+          "La credencial y las constancias se generan con la información del expediente y las autorizaciones correspondientes. La constancia de estudios acredita una inscripción y tiene vigencia. La constancia de finalización requiere concluir, aprobar y autorización de emisión; es gratuita conforme a la oferta vigente.",
+          "El QR permite consultar la vigencia con datos mínimos y no abre el expediente. Estos documentos describen el servicio y resultados registrados; no se promete un título, cédula profesional o reconocimiento oficial no identificado en la oferta."
+        ]
+      },
+      {
+        "id": "menores",
+        "title": "Si el alumno es menor de edad",
+        "paragraphs": [
+          "La madre, padre o tutor realiza la aceptación y confirma ser mayor de edad y contar con representación. Debe utilizar un correo propio, distinto al del alumno. Administración podrá solicitar la acreditación necesaria por un medio privado.",
+          "El código enviado al correo no verifica automáticamente la relación familiar o tutela. El acuse identifica la declaración y su revisión pendiente. El alumno no firma como si fuera su madre, padre o tutor."
+        ]
+      },
+      {
+        "id": "aceptacion",
+        "title": "Cómo se confirma durante la inscripción",
+        "paragraphs": [
+          "Quien acepta debe leer el aviso y este reglamento, escribir su nombre completo, confirmar por separado la lectura, el acuerdo y la declaración sobre documentos, y solicitar un código al correo correspondiente. Al escribir el código y pulsar “Firmar e inscribirme” manifiesta su aceptación de la versión mostrada.",
+          "El servidor valida el código, su vencimiento, los datos de la solicitud y la versión. Solo si la inscripción se completa se vincula el acuse a la matrícula. Cambiar la oferta, datos o versión exige revisar y obtener un código nuevo.",
+          "Se conserva el texto exacto, curso y plan, nombre y correo de quien aceptó, fecha del servidor, identificador y huella de integridad. El código y la contraseña no aparecen en la copia. Puede consultarse el acuse desde el campus y descargarse como texto. Es un mecanismo de aceptación electrónica; no se afirma una certificación de identidad o firma avanzada."
+        ]
+      },
+      {
+        "id": "atencion",
+        "title": "Contacto y cambios",
+        "paragraphs": [
+          "Atención académica, documentos, privacidad y aclaraciones: soporte@evolvacademy.mx. Para una solicitud inicial no envíes identificaciones ni datos bancarios por correo; administración coordinará un canal privado si son necesarios.",
+          "Los cambios se publican con una nueva versión y no reescriben acuses previos. Este reglamento no elimina derechos de protección de datos ni derechos de las personas consumidoras. La identidad y domicilio del prestador deben estar completos antes de habilitar la firma."
+        ]
+      }
+    ]
+  }
+}
