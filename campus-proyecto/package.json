@@ -5,9 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node scripts/build-campus.mjs",
     "check": "tsc --noEmit",
-    "test": "node tests/check-backend.mjs && node tests/check-frontend.mjs && node tests/check-app-session.mjs && node tests/check-community.mjs && node tests/check-school.mjs && node tests/check-operations.mjs && node tests/check-payments.mjs && node tests/check-credential.mjs && node tests/check-enterprise.mjs && node tests/check-admission-pdf.mjs && node tests/check-admission-experience.mjs && node tests/check-services-v26.mjs && node tests/check-document-design.mjs",
+    "test": "node tests/check-backend.mjs && node tests/check-frontend.mjs && node tests/check-app-session.mjs && node tests/check-community.mjs && node tests/check-school.mjs && node tests/check-operations.mjs && node tests/check-payments.mjs && node tests/check-credential.mjs && node tests/check-enterprise.mjs && node tests/check-admission-pdf.mjs && node tests/check-admission-experience.mjs && node tests/check-services-v26.mjs && node tests/check-document-design.mjs && node tests/check-deployment-assets.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
