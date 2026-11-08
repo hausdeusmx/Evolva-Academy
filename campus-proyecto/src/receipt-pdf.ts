@@ -1,21 +1,14 @@
 import {studentMatricula} from './student-identity';
-import {PDFDocument,rgb,pushGraphicsState,popGraphicsState,rectangle,clip,endPath,type PDFFont} from 'pdf-lib';
-import fontkit from '@pdf-lib/fontkit';import {reportFonts} from './report-fonts';import {logoJpegBase64} from './brand';
-const wine=rgb(.31,.047,.09),ink=rgb(.22,.15,.17),muted=rgb(.48,.40,.43),rose=rgb(.96,.92,.94);
-function lines(s:string,font:PDFFont,size:number,width:number){const out:string[]=[];let line='';for(const char of String(s||'—').replace(/[\r\n]/g,' ')){if(font.widthOfTextAtSize(line+char,size)>width){out.push(line);line='';}line+=char;}if(line)out.push(line);return out;}
+import {createDocumentKit,documentColors,documentDate,wrapDocumentText} from './report-pdf';
 export async function createReceiptPDF(data:any){
  const r=data.receipt;if(!r||!r.id||!r.student?.folio||!Number.isFinite(r.amount)||r.amount<=0)throw Error('El recibo no tiene datos válidos.');
- const pdf=await PDFDocument.create();pdf.registerFontkit(fontkit);const bytes=(s:string)=>Uint8Array.from(atob(s),c=>c.charCodeAt(0)),regular=await pdf.embedFont(bytes(reportFonts.regular),{subset:true}),bold=await pdf.embedFont(bytes(reportFonts.bold),{subset:true}),logo=await pdf.embedJpg(bytes(logoJpegBase64)),page=pdf.addPage([595.28,841.89]);
- pdf.setTitle('Recibo de pago '+r.id);pdf.setAuthor('Evolva Academy');pdf.setCreationDate(new Date(r.issuedAt));
- const text=(s:any,x:number,y:number,size=10,font=regular,color=ink)=>page.drawText(String(s??''),{x,y,size,font,color});
- page.drawRectangle({x:0,y:0,width:595.28,height:841.89,color:rgb(.995,.99,.992)});page.drawRectangle({x:0,y:700,width:595.28,height:142,color:wine});page.pushOperators(pushGraphicsState(),rectangle(43,742,210,71),clip(),endPath());const scale=210/1840;page.drawImage(logo,{x:43-110*scale,y:742+(720+620)*scale-2048*scale,width:2048*scale,height:2048*scale});page.pushOperators(popGraphicsState());
- text('SERVICIOS ESCOLARES / CONTROL DE PAGOS',44,718,8,regular,rgb(1,1,1));text('RECIBO DE PAGO',44,662,25,bold,wine);text(r.id,44,636,10,bold,muted);
- if(r.demo){page.drawRectangle({x:44,y:592,width:507,height:25,color:rgb(1,.94,.79)});text('DATOS FICTICIOS - RECIBO DE PRUEBA',55,600,9,bold,wine);}
- text('ALUMNO/A',44,565,8,bold,muted);let nameSize=17;while(lines(r.student.name,bold,nameSize,507).length>3&&nameSize>9)nameSize--;if(lines(r.student.name,bold,nameSize,507).length>3)throw Error('El nombre es demasiado largo para el recibo. Solicita revisión a administración.');let y=543;for(const line of lines(r.student.name,bold,nameSize,507)){text(line,44,y,nameSize,bold);y-=22;}
- text('Matrícula: '+studentMatricula(r.student),44,y-4,10);const course=lines(r.student.course,regular,10,507);course.slice(0,3).forEach((l,i)=>text(l,44,y-26-i*14,10));y-=55+(Math.min(3,course.length)-1)*14;
- if(r.student.group){text('Grupo: '+r.student.group,44,416,9,regular,muted);y-=25;}
- page.drawRectangle({x:44,y:330,width:507,height:72,color:rose});text('IMPORTE CONFIRMADO',59,381,8,bold,muted);text(new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(r.amount),59,349,27,bold,wine);text('MXN',493,352,10,bold,wine);y=300;
- let field=0;for(const [label,value] of [['CONCEPTO / PERIODO',r.period],['REFERENCIA',r.reference||'Sin referencia'],['FECHA DE REGISTRO',r.registeredAt?new Date(/^\d{4}-\d{2}-\d{2}$/.test(r.registeredAt)?r.registeredAt+'T12:00:00Z':r.registeredAt).toLocaleDateString('es-MX',{timeZone:'America/Ciudad_Juarez',dateStyle:'long'}):'No registrada']]){y=[300,239,178][field++];text(label,44,y,8,bold,muted);y-=19;for(const line of lines(String(value),regular,11,507).slice(0,3)){text(line,44,y,11);y-=15;}y-=17;}
- page.drawLine({start:{x:44,y:132},end:{x:551,y:132},color:rgb(.88,.82,.85),thickness:.7});text('Emitido: '+new Date(r.issuedAt).toLocaleString('es-MX',{timeZone:'America/Ciudad_Juarez',dateStyle:'medium',timeStyle:'short'}),44,110,9,regular,muted);text('Registro interno: '+String(data.fingerprint||'').slice(0,32),44,91,7,regular,muted);text('Recibo interno de pago. No es un comprobante fiscal.',44,58,8,regular,muted);text('Evolva Academy · evolvacademy.mx',44,37,8,bold,wine);
- return pdf.save();
+ const k=await createDocumentKit('Recibo de pago '+r.id,r.issuedAt),{pdf,regular,bold,serif,write,lines,header,footer,ornament}=k,{wine,muted,rose,border,gold}=documentColors;
+ const pages:any[]=[];let page:any,y=0;
+ function next(){page=pdf.addPage([595.28,841.89]);pages.push(page);header(page,'TESORERÍA / CONTROL DE PAGOS');write(page,'Recibo de pago',40,690,31,serif,wine);y=660-lines(page,r.id,40,660,9,515,bold,muted,13)-19;ornament(page,520,330,280,20,wine,.045);}
+ function ensure(h:number){if(y-h<120)next();}
+ function field(label:string,value:any,size=10,font=regular){const rows=wrapDocumentText(value||'No registrado',font,size,487),h=rows.length*size*1.35+36;ensure(h);write(page,label,54,y-8,6.7,bold,muted);let rowY=y-23;for(const row of rows){if(rowY<125){y=0;next();rowY=y-15;}write(page,row,54,rowY,size,font,wine);rowY-=size*1.35;}page.drawLine({start:{x:40,y:rowY-6},end:{x:555,y:rowY-6},thickness:.5,color:border});y=rowY-13;}
+ next();if(r.demo){write(page,'MUESTRA · DATOS FICTICIOS · SIN VALIDEZ',40,y,7,bold,gold);y-=27;}
+ ensure(85);page.drawRectangle({x:40,y:y-70,width:515,height:78,color:rose});write(page,'IMPORTE CONFIRMADO',55,y-12,7,bold,muted);write(page,new Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(r.amount),55,y-48,30,bold,wine);write(page,'MXN',506,y-46,9,bold,wine);y-=100;
+ field('ALUMNO/A',r.student.name,18,bold);field('MATRÍCULA',studentMatricula(r.student),11,bold);field('CURSO / GRUPO',r.student.course+(r.student.group?' · '+r.student.group:''));field('CONCEPTO / PERIODO',r.period);field('REFERENCIA',r.reference||'Sin referencia');field('FECHA DE REGISTRO',documentDate(r.registeredAt));
+ pages.forEach((p,i)=>{write(p,'Emitido: '+documentDate(r.issuedAt)+' · Registro interno: '+String(data.fingerprint||'').slice(0,32),40,98,6.5,regular,muted);write(p,'Recibo interno de pago. No es un comprobante fiscal.',40,78,7,regular,muted);footer(p,i+1,pages.length,'Recibo de pago');});return pdf.save();
 }

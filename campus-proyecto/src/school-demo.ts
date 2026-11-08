@@ -36,4 +36,4 @@ export function schoolDemo(action:string,b:any,student:any,admin:boolean):any{co
  throw Error('Operación de prueba no disponible.');
 }
 
-export function schoolDemoCertificate(d:any){const s=state(),key=d.student.folio;s.qr[key]??={code:'EVC-'+clientId().replace(/-/g,'').toUpperCase(),status:'VIGENTE',issuedAt:new Date().toISOString(),revision:clientId()};if(s.qr[key].status!=='VIGENTE')fail('La constancia fue cancelada.');save(s);return {...d,certificateCode:s.qr[key].code,issuedAt:s.qr[key].issuedAt,validationUrl:(window.location.origin||'https://example.test')+'/validar-constancia.html?codigo='+s.qr[key].code};}
+export function schoolDemoCertificate(d:any){const s=state(),key=d.student.folio;s.qr[key]??={code:'EVC-'+clientId().replace(/-/g,'').toUpperCase(),status:'VIGENTE',issuedAt:new Date().toISOString(),revision:clientId()};if(s.qr[key].status!=='VIGENTE')fail('La constancia fue cancelada.');save(s);return {...d,certificateCode:s.qr[key].code,issuedAt:s.qr[key].issuedAt,validationUrl:(/^https:\/\//.test(window.location.origin)?window.location.origin:'https://evolvacademy.mx')+'/validar-constancia.html?codigo='+s.qr[key].code};}
