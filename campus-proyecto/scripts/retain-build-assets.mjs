@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 
 // Open tabs still import their original hashed chunks after a new deployment.
 // Retain public JS/CSS for the last 16 builds (up to 30 days / 64 MiB).
@@ -8,7 +9,11 @@ import {spawnSync} from 'node:child_process';
 const assetName=/^[A-Za-z0-9_-]+-[A-Za-z0-9_-]{8}\.(?:js|css)$/;
 const MAX_FILE=5*1024*1024,MAX_TOTAL=64*1024*1024;
 function activeAssets(text){try{const d=JSON.parse(text);if(d.schema===1&&Array.isArray(d.assets))return new Set(d.assets.filter(n=>typeof n==='string'&&assetName.test(n)));}catch{}return null;}
-export function writeBuildManifest(outputDirectory){const dir=path.join(outputDirectory,'assets'),assets=fs.readdirSync(dir,{withFileTypes:true}).filter(e=>e.isFile()&&assetName.test(e.name)).map(e=>e.name).sort();fs.writeFileSync(path.join(outputDirectory,'build-assets.json'),JSON.stringify({schema:1,assets})+'\n');}
+export function writeBuildManifest(outputDirectory){
+ const dir=path.join(outputDirectory,'assets'),assets=fs.readdirSync(dir,{withFileTypes:true}).filter(e=>e.isFile()&&assetName.test(e.name)).map(e=>e.name).sort(),version=createHash('sha256').update(assets.join('\n')).digest('hex').slice(0,12);
+ fs.writeFileSync(path.join(outputDirectory,'build-assets.json'),JSON.stringify({schema:1,version,assets})+'\n');
+ for(const entry of fs.readdirSync(outputDirectory,{withFileTypes:true})){if(!entry.isFile()||!entry.name.endsWith('.html'))continue;const file=path.join(outputDirectory,entry.name),html=fs.readFileSync(file,'utf8').replace(/<meta name="evolva-build" content="[a-f0-9]{12}">/g,'');fs.writeFileSync(file,html.replace('</head>','<meta name="evolva-build" content="'+version+'"></head>'));}
+}
 export function collectBuildAssets(repoRoot,outputDirectory,{limit=16}={}){
  const retained=new Map();let total=0;
  const add=(name,bytes)=>{if(!assetName.test(name)||retained.has(name)||bytes.length>MAX_FILE||total+bytes.length>MAX_TOTAL)return;retained.set(name,bytes);total+=bytes.length;};
