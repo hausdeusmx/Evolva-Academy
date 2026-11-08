@@ -7,6 +7,7 @@ on:
       - "campus-proyecto/**"
       - "assets/**"
       - "*.html"
+      - "inicio/**"
       - "tests/**"
       - ".github/workflows/build-campus.yml"
   workflow_dispatch:
