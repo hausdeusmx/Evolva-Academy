@@ -1,7 +1,7 @@
 import {studentMatricula} from './student-identity';
 import {pushGraphicsState,popGraphicsState,rectangle,clip,endPath} from 'pdf-lib';
 import {createDocumentKit,documentColors,documentDate,wrapDocumentText} from './report-pdf';
-import {credentialContact,campusAddress} from './credential-contact';
+import {credentialContact,credentialCurp,campusAddress} from './credential-contact';
 
 export async function createCredentialPDF(data:any):Promise<Uint8Array>{
  if(!data.photo||!['image/png','image/jpeg'].includes(data.photo.mime))throw Error('La credencial requiere una fotografía JPG o PNG.');
@@ -14,8 +14,10 @@ export async function createCredentialPDF(data:any):Promise<Uint8Array>{
  front.drawRectangle({x:11,y:26,width:64,height:82,color:white});
  const scale=Math.max(60/photo.width,78/photo.height);front.pushOperators(pushGraphicsState(),rectangle(13,28,60,78),clip(),endPath());front.drawImage(photo,{x:13+(60-photo.width*scale)/2,y:28+(78-photo.height*scale)/2,width:photo.width*scale,height:photo.height*scale});front.pushOperators(popGraphicsState());
  write(front,'CREDENCIAL DE ESTUDIANTE',98,137,5.1,bold,muted);front.drawLine({start:{x:98,y:130},end:{x:232,y:130},color:gold,thickness:.7});
- const nameHeight=fit(front,s.name,98,116,10.5,134,4,bold,wine);const courseY=Math.min(86,116-nameHeight-7);fit(front,s.course,98,courseY,6,134,3);
- write(front,'MATRÍCULA',98,39,4.8,bold,muted);fit(front,studentMatricula(s),98,27,10,134,1,bold,wine);
+ fit(front,s.name,98,116,9.5,134,3,bold,wine);
+ write(front,'CURSO',98,84,4.8,bold,muted);fit(front,s.course,98,74,6,134,2);
+ write(front,'MATRÍCULA',98,54,4.8,bold,muted);fit(front,studentMatricula(s),98,42,8.5,134,1,bold,wine);
+ write(front,'CURP',98,31,4.8,bold,muted);fit(front,credentialCurp(s)||'No registrada',98,21,6.4,134,1,bold,wine);
  write(front,'EVOLVA',12,14,5.8,bold,white);write(front,'ACADEMY',12,6,4.5,regular,white);
  front.drawRectangle({x:87,y:0,width:157,height:17,color:rose});fit(front,'GRUPO '+(s.group||'Por asignar'),98,7,5,81,1,bold,wine);fit(front,s.status||'Sin estado',185,7,4.5,47,1,bold,wine);
  if(data.demo)write(front,'MUESTRA',171,146,4.3,bold,gold);

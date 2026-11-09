@@ -11,3 +11,5 @@ export function credentialContact(student:any){
  const folio=String(student.folio||'').trim().toUpperCase();
  return {institutional:String(student.institutional||'').trim()||institutionalCampusEmail(folio)||'Por asignar',phone:String(student.phone||'').trim()||'Sin registrar',school:schoolEmail};
 }
+
+export function credentialCurp(student:any){const value=String(student?.curp||'').trim().toUpperCase();return /^[A-Z0-9]{18}$/.test(value)?value:'';}

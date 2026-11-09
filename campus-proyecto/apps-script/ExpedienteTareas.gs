@@ -147,7 +147,7 @@ function portalAcademicAction_(ss,auth,b){
   if(action==='documents')return portalDocumentArchive_(ss,folio);
   if(action==='upload_document')return portalUploadDocument_(ss,a,b);
   if(action==='document_file'){var r=portalDocuments_(ss,folio).filter(function(r){return String(r.ID)===String(b.id);})[0];if(!r)portalFail_('Documento no disponible para tu cuenta.',404);return portalPrivateFile_(r.ARCHIVO);}
-  if(action==='credential'){var photo=portalDocuments_(ss,folio).filter(function(r){return r.TIPO==='FOTOGRAFIA';})[0];if(!photo)throw Error('Sube tu fotografía en Expediente del alumno para generar tu credencial.');return {ok:true,student:portalStudent_(a),photo:portalPrivateFile_(photo.ARCHIVO),issuedAt:new Date().toISOString(),signer:{name:'Alexis Soto',role:'Director General'}};}
+  if(action==='credential'){var photo=portalDocuments_(ss,folio).filter(function(r){return r.TIPO==='FOTOGRAFIA';})[0];if(!photo)throw Error('Sube tu fotografía en Expediente del alumno para generar tu credencial.');return {ok:true,credentialVersion:29,student:Object.assign(portalStudent_(a),{curp:String(a.CURP||'').trim().toUpperCase()}),photo:portalPrivateFile_(photo.ARCHIVO),issuedAt:new Date().toISOString(),signer:{name:'Alexis Soto',role:'Director General'}};}
   if(action==='tasks')return portalStudentTasks_(ss,a);
   if(action==='submit_task')return portalSubmitTask_(ss,a,b);
   if(action==='task_file')return portalPrivateFile_(portalRequireTask_(ss,b.id,folio).ARCHIVO);
