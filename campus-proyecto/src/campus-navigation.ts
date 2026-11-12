@@ -2,7 +2,7 @@
 export function initialCampusSection(href:string,sections:readonly string[]){
  const url=new URL(href),requested=url.searchParams.get('seccion');
  if(requested&&sections.includes(requested))return requested;
- if(url.pathname.endsWith('/documentos.html'))return 'constancias';
- if(url.pathname.endsWith('/reinscripcion.html'))return 'reinscripcion';
+ if(/\/documentos(?:\.html|\/|\/index\.html)$/.test(url.pathname))return 'constancias';
+ if(/\/reinscripcion(?:\.html|\/|\/index\.html)$/.test(url.pathname))return 'reinscripcion';
  return 'inicio';
 }

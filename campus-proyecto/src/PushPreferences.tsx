@@ -11,7 +11,7 @@ export default function PushPreferences(){
   if(!supported||homeScreen||demo){setState({loading:false,ready:false,registered:false,key:''});return;}
   setError('');setState(s=>({...s,loading:true}));try{
    const health=await portalAPI('health');if(!health.features?.includes('web_push')){if(active)setState({loading:false,ready:false,registered:false,key:''});return;}
-   const registration=await navigator.serviceWorker.register(new URL('./push-sw.js',location.href),{scope:new URL('./',location.href).pathname});await navigator.serviceWorker.ready;
+   const registration=await navigator.serviceWorker.register(new URL('./push-sw.js',document.baseURI||location.href),{scope:new URL('./',document.baseURI||location.href).pathname});await navigator.serviceWorker.ready;
    let subscription=await registration.pushManager.getSubscription();const status=await portalAPI('push_status',{endpoint:subscription?.endpoint});
    if(subscription&&!status.registered){await subscription.unsubscribe();subscription=null;}
    if(active)setState({loading:false,ready:true,registered:!!subscription&&status.registered,key:status.publicKey,registration});

@@ -1,4 +1,4 @@
-export const isTeacherExperience=location.pathname.endsWith('/docentes.html');
+export const isTeacherExperience=/\/docentes(?:\.html|\/|\/index\.html)$/.test(location.pathname);
 const endpoint=String(window.EVOLVA_CONFIG?.API_URL||'').trim(),key='evolva-teacher:'+endpoint;
 let token=sessionStorage.getItem(key)||'';
 export async function teacherRequest(action:string,body:any={}):Promise<any>{

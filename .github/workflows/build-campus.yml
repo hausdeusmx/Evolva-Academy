@@ -8,6 +8,8 @@ on:
       - "assets/**"
       - "*.html"
       - "inicio/**"
+      - "scripts/**"
+      - "site-routes.json"
       - "tests/**"
       - ".github/workflows/build-campus.yml"
   workflow_dispatch:
@@ -55,6 +57,7 @@ jobs:
         run: |
           node tests/check-course-catalog.mjs
           node tests/check-flows.mjs
+          node tests/check-clean-routes.mjs
           node tests/check-mail-delivery.mjs
           node tests/check-registration-legal.mjs
 
@@ -62,11 +65,15 @@ jobs:
         working-directory: campus-proyecto
         run: pnpm run build
 
+      - name: Verify clean routes
+        run: node tests/check-clean-routes.mjs --built
+
       - name: Publish generated campus files to Pages root
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add campus/
+          git add campus/ assets/clean-routes.js campus-proyecto/public/clean-routes.js
+          for route in $(node -e "console.log(require('./site-routes.json').public.concat(Object.keys(require('./site-routes.json').redirects).map(s=>s.slice(1,-1))).join(' '))"); do git add "$route/"; done
           if git diff --cached --quiet; then
             echo "No generated campus changes to publish."
             exit 0

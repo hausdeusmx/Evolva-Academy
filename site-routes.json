@@ -1,0 +1,44 @@
+{
+  "public": [
+    "alumnos",
+    "beneficios",
+    "calificaciones",
+    "certificado",
+    "correos",
+    "cuenta",
+    "cursos",
+    "inscripcion",
+    "pagos",
+    "privacidad",
+    "reglamento",
+    "soporte",
+    "validar",
+    "validar-constancia",
+    "validar-estudios"
+  ],
+  "campus": [
+    "activar",
+    "admin",
+    "app",
+    "docentes",
+    "documentos",
+    "reinscripcion",
+    "tutores",
+    "validar"
+  ],
+  "aliases": {
+    "/index.html": "/inicio/",
+    "/inicio/index.html": "/inicio/",
+    "/Correos.html": "/correos/",
+    "/diplomados.html": "/cursos/",
+    "/admin.html": "/campus/admin/",
+    "/reinscripcion.html": "/campus/reinscripcion/",
+    "/campus/index.html": "/campus/"
+  },
+  "redirects": {
+    "/admin/": "/campus/admin/",
+    "/reinscripcion/": "/campus/reinscripcion/",
+    "/diplomados/": "/cursos/",
+    "/Correos/": "/correos/"
+  }
+}

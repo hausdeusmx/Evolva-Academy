@@ -13,7 +13,7 @@
  function checkBuild(){
   if(checking||navigator.onLine===false||Date.now()-lastCheck<60000||typeof window.fetch!=='function')return;
   var tag=document.querySelector('meta[name="evolva-build"]'),current=tag&&tag.getAttribute('content');if(!/^[a-f0-9]{12}$/.test(current||''))return;
-  checking=true;lastCheck=Date.now();var url=new URL('./build-assets.json',window.location.href);url.searchParams.set('_comprobar',String(lastCheck));
+  checking=true;lastCheck=Date.now();var url=new URL('./build-assets.json',document.baseURI||window.location.href);url.searchParams.set('_comprobar',String(lastCheck));
   var controller=typeof window.AbortController==='function'?new window.AbortController():null,timer=controller?window.setTimeout(function(){controller.abort();},8000):null;
   return window.fetch(url.href,{cache:'no-store',credentials:'omit',signal:controller?controller.signal:undefined}).then(function(r){return r.ok?r.json():null;}).then(function(data){if(data&&/^[a-f0-9]{12}$/.test(data.version||'')&&data.version!==current)showUpdate(false);}).catch(function(){/* An unavailable version check must not block the campus. */}).finally(function(){if(timer)window.clearTimeout(timer);checking=false;});
  }
