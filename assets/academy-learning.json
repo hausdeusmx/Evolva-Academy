@@ -1,0 +1,261 @@
+{
+  "finanzas": {
+    "audience": "Personas que quieren ordenar sus ingresos, gastos y metas.",
+    "requirement": "Una libreta o una hoja de cálculo para tus ejercicios.",
+    "title": "Tu primer presupuesto: darle un destino a tu dinero",
+    "intro": "Un presupuesto es un registro para comparar lo que entra, lo que sale y lo que decides reservar para una meta. Empieza por un periodo que puedas revisar con frecuencia.",
+    "steps": [
+      "Anota los ingresos disponibles del periodo, sin contar dinero que todavía no recibes.",
+      "Separa tus gastos por concepto y registra también los pequeños.",
+      "Calcula la diferencia entre ingresos y gastos. Si falta dinero, revisa tus decisiones antes de comprometer nuevos gastos.",
+      "Asigna una cantidad posible a una meta y revisa el registro al terminar el periodo."
+    ],
+    "example": "Ejemplo de práctica: si recibes $2,000 y registras gastos por $1,450, la diferencia es $550. Esa diferencia todavía debe cubrir cualquier gasto que no hayas anotado.",
+    "questions": [
+      {
+        "id": "saldo",
+        "text": "Con ingresos de $2,000 y gastos registrados de $1,450, ¿cuál es la diferencia?",
+        "options": [
+          "$450",
+          "$550",
+          "$650"
+        ],
+        "correct": 1,
+        "explanation": "2,000 − 1,450 = 550. Revisa que el registro incluya todos tus gastos."
+      },
+      {
+        "id": "registro",
+        "text": "¿Qué registro te ayuda a revisar tu presupuesto?",
+        "options": [
+          "Solo los gastos grandes",
+          "Ingresos y todos los gastos del periodo",
+          "El dinero que esperas recibir sin confirmarlo"
+        ],
+        "correct": 1,
+        "explanation": "Un registro completo permite comparar el plan con lo que realmente ocurrió."
+      }
+    ]
+  },
+  "auxilios": {
+    "audience": "Personas interesadas en prevención y una respuesta responsable ante emergencias.",
+    "requirement": "Disposición para seguir las indicaciones del curso y reconocer los límites de una práctica en línea.",
+    "title": "Organizar tu aprendizaje de prevención",
+    "intro": "Antes de una práctica, identifica su objetivo, los materiales solicitados y las indicaciones del docente. Esta muestra se concentra en cómo estudiar el curso; no incluye maniobras clínicas.",
+    "steps": [
+      "Revisa el objetivo de cada unidad antes de abrir los materiales.",
+      "Distingue el contenido de estudio de una situación real de emergencia.",
+      "Anota tus dudas y consúltalas con el docente antes de una práctica.",
+      "Usa las evaluaciones para revisar lo aprendido y consulta la retroalimentación."
+    ],
+    "example": "Una ficha de estudio puede tener tres apartados: qué aprendí, qué necesito preguntar y qué indicaciones debo revisar antes de practicar.",
+    "questions": [
+      {
+        "id": "objetivo",
+        "text": "Antes de una práctica del curso, ¿qué debes revisar?",
+        "options": [
+          "El objetivo y las indicaciones del docente",
+          "Solo el título de la clase",
+          "Únicamente la calificación de otro alumno"
+        ],
+        "correct": 0,
+        "explanation": "Conocer el objetivo y las indicaciones ayuda a preparar una práctica de forma ordenada."
+      },
+      {
+        "id": "dudas",
+        "text": "Si una indicación del material no queda clara, ¿cómo continúas tu aprendizaje?",
+        "options": [
+          "La adivino",
+          "Anoto la duda y la consulto con el docente",
+          "La omito sin revisarla"
+        ],
+        "correct": 1,
+        "explanation": "Consultar las dudas permite aclarar el alcance de las actividades antes de realizarlas."
+      }
+    ]
+  },
+  "excel": {
+    "audience": "Personas que desean organizar información de trabajo con hojas de cálculo.",
+    "requirement": "Acceso a una computadora y a una herramienta de hojas de cálculo para practicar.",
+    "title": "De una lista a una tabla que sí te sirve",
+    "intro": "Una tabla útil tiene una fila por registro y una columna por dato. Esta estructura facilita ordenar, filtrar y revisar resultados.",
+    "steps": [
+      "Escribe encabezados claros: fecha, concepto, cantidad y precio.",
+      "Coloca un registro en cada fila y evita combinar celdas dentro de los datos.",
+      "Usa una fórmula para calcular importes, por ejemplo =C2*D2.",
+      "Para sumar una columna, usa una función como =SUMA(E2:E5). El nombre de la función puede variar según el idioma de tu herramienta."
+    ],
+    "example": "Si C2 contiene 3 unidades y D2 contiene un precio de $25, =C2*D2 devuelve 75. Al cambiar la cantidad, la fórmula actualiza el resultado.",
+    "questions": [
+      {
+        "id": "importe",
+        "text": "Con C2 = 3 y D2 = 25, ¿qué resultado da =C2*D2?",
+        "options": [
+          "28",
+          "75",
+          "325"
+        ],
+        "correct": 1,
+        "explanation": "El asterisco multiplica: 3 × 25 = 75."
+      },
+      {
+        "id": "estructura",
+        "text": "¿Cómo organizas una tabla de ventas?",
+        "options": [
+          "Un registro por fila y un dato por columna",
+          "Todos los datos en una sola celda",
+          "Una hoja distinta por cada número"
+        ],
+        "correct": 0,
+        "explanation": "Una estructura consistente permite ordenar y filtrar los registros."
+      }
+    ]
+  },
+  "canva": {
+    "audience": "Personas que necesitan crear publicaciones y materiales visuales para un proyecto.",
+    "requirement": "Una cuenta en una herramienta de diseño. Para esta muestra basta papel o un documento.",
+    "title": "Una publicación, un mensaje principal",
+    "intro": "Antes de elegir colores o imágenes, define qué debe entender la persona que verá tu publicación. Una jerarquía clara ayuda a ordenar la información.",
+    "steps": [
+      "Escribe un solo objetivo para tu pieza: informar, invitar o presentar algo.",
+      "Elige un título que comunique la idea principal.",
+      "Añade solo los datos que ayuden a entender el mensaje y decidir el siguiente paso.",
+      "Revisa legibilidad, alineación y contraste antes de exportar."
+    ],
+    "example": "Para anunciar un taller, puedes organizar la pieza en este orden: nombre del taller, fecha, modalidad y forma de inscripción.",
+    "questions": [
+      {
+        "id": "jerarquia",
+        "text": "¿Qué conviene definir antes de diseñar?",
+        "options": [
+          "El objetivo del mensaje",
+          "Diez tipografías distintas",
+          "Una imagen sin relación con el tema"
+        ],
+        "correct": 0,
+        "explanation": "El objetivo guía qué información incluir y cuál debe destacar."
+      },
+      {
+        "id": "revision",
+        "text": "Antes de compartir una publicación, ¿qué revisas?",
+        "options": [
+          "Solo que tenga muchos colores",
+          "Legibilidad y que los datos sean correctos",
+          "Que todos los textos tengan el mismo tamaño"
+        ],
+        "correct": 1,
+        "explanation": "La pieza debe poder leerse y comunicar información correcta."
+      }
+    ]
+  },
+  "atencion": {
+    "audience": "Personas que atienden clientes o quieren mejorar su comunicación en ventas.",
+    "requirement": "Disposición para practicar conversaciones y analizar casos de atención.",
+    "title": "Escuchar antes de ofrecer una solución",
+    "intro": "Una conversación de atención empieza por entender qué necesita la otra persona. Confirmar lo que escuchaste reduce confusiones antes de ofrecer opciones.",
+    "steps": [
+      "Permite que el cliente explique su situación.",
+      "Haz una pregunta concreta para aclarar lo que falta.",
+      "Resume la necesidad para confirmar que entendiste.",
+      "Explica las opciones disponibles y el siguiente paso sin prometer lo que no puedes cumplir."
+    ],
+    "example": "Cliente: “Mi pedido no llegó”. Respuesta de práctica: “Revisemos qué ocurrió. ¿Me compartes la referencia del pedido para consultar su estado?”.",
+    "questions": [
+      {
+        "id": "escuchar",
+        "text": "¿Qué haces antes de ofrecer una solución?",
+        "options": [
+          "Interrumpir para vender otro producto",
+          "Entender y confirmar la necesidad",
+          "Prometer un resultado sin revisarlo"
+        ],
+        "correct": 1,
+        "explanation": "Confirmar la necesidad permite elegir una respuesta relacionada con el problema."
+      },
+      {
+        "id": "promesa",
+        "text": "¿Cuál es una comunicación clara?",
+        "options": [
+          "Garantizar algo que no depende de ti",
+          "Explicar las opciones y el siguiente paso disponible",
+          "Evitar explicar el proceso"
+        ],
+        "correct": 1,
+        "explanation": "Una explicación concreta ayuda al cliente a saber qué ocurrirá después."
+      }
+    ]
+  },
+  "negocios": {
+    "audience": "Personas que administran o están organizando un pequeño negocio.",
+    "requirement": "Una libreta o una hoja de cálculo para registrar operaciones de práctica.",
+    "title": "Registrar tu caja para decidir con información",
+    "intro": "Un registro de caja muestra el saldo inicial, las entradas y las salidas de un periodo. Tener dinero en caja no significa automáticamente que todo sea ganancia.",
+    "steps": [
+      "Anota con cuánto dinero empieza el periodo.",
+      "Registra cada entrada con fecha y concepto.",
+      "Registra cada salida y conserva su referencia.",
+      "Calcula el saldo esperado y compáralo con el dinero disponible."
+    ],
+    "example": "Caja inicial de $500 + entradas de $1,200 − salidas de $900 = saldo esperado de $800.",
+    "questions": [
+      {
+        "id": "caja",
+        "text": "Con $500 iniciales, $1,200 de entradas y $900 de salidas, ¿cuál es el saldo esperado?",
+        "options": [
+          "$800",
+          "$1,700",
+          "$900"
+        ],
+        "correct": 0,
+        "explanation": "500 + 1,200 − 900 = 800."
+      },
+      {
+        "id": "registro",
+        "text": "¿Qué permite revisar una diferencia en caja?",
+        "options": [
+          "Un registro de entradas y salidas con referencias",
+          "Recordar únicamente las ventas más grandes",
+          "Mezclar gastos personales sin registrarlos"
+        ],
+        "correct": 0,
+        "explanation": "Los registros y sus referencias permiten revisar de dónde viene cada movimiento."
+      }
+    ]
+  },
+  "marketing": {
+    "audience": "Personas que desean planear la comunicación digital de un proyecto o negocio.",
+    "requirement": "Un proyecto de práctica, real o ficticio, y una herramienta para organizar contenido.",
+    "title": "Elegir un objetivo antes de publicar",
+    "intro": "Un plan de contenido empieza por definir qué quieres lograr y a quién te diriges. Después eliges el mensaje, el canal y una forma de revisar el resultado.",
+    "steps": [
+      "Define un objetivo concreto para la publicación.",
+      "Describe a quién quieres ayudar o informar.",
+      "Elige una llamada a la acción relacionada con el objetivo.",
+      "Selecciona una métrica que permita revisar ese objetivo, sin confundir alcance con ventas."
+    ],
+    "example": "Si quieres que las personas consulten un programa de curso, puedes usar “Ver temario” como llamada a la acción y revisar las visitas al programa.",
+    "questions": [
+      {
+        "id": "objetivo",
+        "text": "Si tu objetivo es que consulten un temario, ¿qué llamada a la acción es más directa?",
+        "options": [
+          "Ver temario",
+          "Cerrar la página",
+          "Un mensaje sin enlace ni indicación"
+        ],
+        "correct": 0,
+        "explanation": "La llamada a la acción debe orientar al siguiente paso que buscas."
+      },
+      {
+        "id": "medicion",
+        "text": "Para revisar visitas a una página de programa, ¿qué dato se relaciona mejor?",
+        "options": [
+          "Visitas registradas en esa página",
+          "El color del logotipo",
+          "El número de hojas de una libreta"
+        ],
+        "correct": 0,
+        "explanation": "La métrica debe corresponder con el objetivo que definiste."
+      }
+    ]
+  }
+}

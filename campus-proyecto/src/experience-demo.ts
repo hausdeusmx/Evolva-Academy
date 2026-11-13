@@ -1,0 +1,19 @@
+import {learningDemo} from './learning-demo';import {demoRecords} from './demo-academics';import {academicAccess} from './academic-access';
+const key='evolva-experience-demo-v30';
+function state(){try{return JSON.parse(localStorage.getItem(key)||'null')||{owners:{},reviews:[]};}catch{return {owners:{},reviews:[]};}}
+function save(s:any){localStorage.setItem(key,JSON.stringify(s));}
+function fail(message:string,status=400):never{throw Object.assign(Error(message),{status});}
+export async function experienceDemo(action:string,b:any,student:any,admin=false){
+ const s=state();if(action.startsWith('v30_admin_')){if(!admin)fail('Acceso administrativo requerido.',403);if(action==='v30_admin_reviews')return {ok:true,reviews:s.reviews};const r=s.reviews.find((r:any)=>r.id===b.id);if(!r)fail('Opinión no encontrada.',404);if(r.revision!==b.revision)fail('El registro cambió.',409);if(!b.confirm)fail('Confirma la decisión.');if(b.state==='PUBLICADA'&&(!r.consent||r.state!=='PENDIENTE'))fail('La autorización cambió.',409);if(!['PUBLICADA','RECHAZADA','OCULTA'].includes(b.state))fail('Estado no válido.');Object.assign(r,{state:b.state,note:b.note,revision:crypto.randomUUID()});save(s);return {ok:true};}
+ if(!student||admin)fail('Inicia sesión como alumno.',403);const who=student.folio;s.owners[who]??={notes:[],projects:[{submissionId:'DEMO-PROJECT-'+who,title:'Proyecto de práctica aprobado',score:8.5,date:new Date().toISOString(),description:'',included:false,revision:'',hasFile:false}]};const own=s.owners[who];
+ if(action.includes('note')||action.includes('portfolio')){if(academicAccess({payments:demoRecords()[who]?.payments||[]}).blocked)fail('Tu pago está en revisión.',403);}
+ if(action==='v30_notes'){const lessons=(await learningDemo('student','lessons',{},student)).lessons.filter((l:any)=>!l.locked);return {ok:true,lessons,notes:own.notes};}
+ if(action==='v30_note_save'){const lessons=(await learningDemo('student','lessons',{},student)).lessons,l=lessons.find((l:any)=>l.id===b.lessonId&&!l.locked);if(!l)fail('Clase no disponible.',404);const previous=own.notes.find((n:any)=>n.lessonId===l.id);if((previous?.revision||'')!==(b.revision||''))fail('El registro cambió.',409);const note={id:l.id,lessonId:l.id,title:l.title,text:String(b.text||'').slice(0,8000),favorite:b.favorite===true,revision:crypto.randomUUID()};own.notes=own.notes.filter((n:any)=>n.lessonId!==l.id);own.notes.push(note);save(s);return {ok:true,note};}
+ if(action==='v30_portfolio')return {ok:true,student,projects:own.projects};
+ if(action==='v30_portfolio_save'){const p=own.projects.find((p:any)=>p.submissionId===b.submissionId);if(!p)fail('Trabajo no disponible.',404);if(p.revision!==b.revision)fail('El registro cambió.',409);Object.assign(p,{description:String(b.description||'').slice(0,700),included:b.included===true,revision:crypto.randomUUID()});save(s);return {ok:true};}
+ const id='DEMO-REVIEW-'+who,review=s.reviews.find((r:any)=>r.id===id);if(action==='v30_review')return {ok:true,review:review||null};
+ if((review?.revision||'')!==(b.revision||''))fail('El registro cambió.',409);
+ if(action==='v30_review_withdraw'){if(review)Object.assign(review,{consent:false,state:'RETIRADA',revision:crypto.randomUUID()});save(s);return {ok:true};}
+ if(action==='v30_review_save'){if(b.consent!==true||String(b.text).trim().length<20)fail('Revisa el texto y la autorización.');const parts=student.name.split(' ');const next={id,matricula:student.matricula||student.accountFolio||who,course:student.course,displayName:b.displayMode==='initials'?parts.map((p:string)=>p[0]).join('. '):parts[0]+' '+parts[parts.length-1][0]+'.',text:b.text,rating:Number(b.rating),consent:true,state:'PENDIENTE',note:'',revision:crypto.randomUUID()};s.reviews=s.reviews.filter((r:any)=>r.id!==id);s.reviews.unshift(next);save(s);return {ok:true,review:next};}
+ fail('Acción no disponible.',404);
+}

@@ -55,9 +55,11 @@ jobs:
 
       - name: Run public site tests
         run: |
+          node scripts/build-experience.mjs
           node tests/check-course-catalog.mjs
           node tests/check-flows.mjs
           node tests/check-clean-routes.mjs
+          node tests/check-experience.mjs
           node tests/check-mail-delivery.mjs
           node tests/check-registration-legal.mjs
 
@@ -73,6 +75,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add campus/ assets/clean-routes.js campus-proyecto/public/clean-routes.js
+          git add inicio/index.html cursos.html clase-muestra/ cursos/
           for route in $(node -e "console.log(require('./site-routes.json').public.concat(Object.keys(require('./site-routes.json').redirects).map(s=>s.slice(1,-1))).join(' '))"); do git add "$route/"; done
           if git diff --cached --quiet; then
             echo "No generated campus changes to publish."
