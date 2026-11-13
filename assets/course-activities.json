@@ -1,0 +1,94 @@
+[
+  {
+    "id": "finanzas",
+    "course": "Finanzas Personales",
+    "title": "Presupuesto semanal y una meta de ahorro",
+    "objective": "Organizar ingresos y gastos de un caso ficticio y justificar una decisión de ahorro.",
+    "case": "Mariana dispone de $2,000 MXN esta semana. Sus gastos previstos son $650 de alimentos, $250 de transporte, $150 de servicios y $200 de entretenimiento. Quiere reunir $1,500 para una meta personal. Trabaja únicamente con estos datos ficticios.",
+    "questions": [
+      {"title": "Organiza el presupuesto", "prompt": "Clasifica los cuatro gastos como necesarios o ajustables. Calcula el gasto total y el saldo disponible. Explica tus operaciones."},
+      {"title": "Propón una meta", "prompt": "Elige una cantidad semanal de ahorro que quepa en el saldo. Calcula cuántas semanas necesitaría Mariana para reunir $1,500 y explica tu elección."},
+      {"title": "Responde a un cambio", "prompt": "Si aparece un gasto adicional de $300, ajusta tu propuesta sin gastar más de $2,000. Describe qué cambiarías y por qué."}
+    ],
+    "checklist": ["Incluí operaciones y cantidades en MXN", "Mi propuesta no excede el ingreso del caso", "Expliqué una decisión con mis propias palabras"]
+  },
+  {
+    "id": "auxilios",
+    "course": "Primeros Auxilios",
+    "title": "Comunicación ante una situación de emergencia",
+    "objective": "Distinguir datos observables y preparar un reporte claro de una situación ficticia.",
+    "case": "Caso ficticio: en un centro comunitario una persona cae y pide ayuda. Hay una caja en el pasillo y el lugar está concurrido. Solo sabes el nombre del centro; no conoces su dirección exacta. Esta actividad es escrita: no realices llamadas de prueba al 9-1-1 ni maniobras sobre otra persona.",
+    "questions": [
+      {"title": "Separa hechos y suposiciones", "prompt": "Enumera tres hechos observables del caso y dos datos que faltan. Evita inventar un diagnóstico o describir tratamientos."},
+      {"title": "Prepara un reporte", "prompt": "Redacta un guion breve para comunicar qué ocurrió, dónde sucedió y qué información de ubicación necesitas confirmar. Marca los datos que aún desconoces."},
+      {"title": "Revisa tu comunicación", "prompt": "Consulta la fuente oficial indicada. Explica por qué debes responder las preguntas del operador y esperar a que concluya la conversación."}
+    ],
+    "checklist": ["Distinguí los hechos de los datos desconocidos", "El reporte permite identificar el lugar y el incidente", "La respuesta es escrita y cita la fuente consultada"],
+    "sources": [{"title": "Gobierno de México  Cómo realizo una llamada al 9 1 1", "url": "https://www.gob.mx/911/es/articulos/como-realizo-una-llamada-al-9-1-1-90817?idiom=es"}]
+  },
+  {
+    "id": "excel",
+    "course": "Excel básico para el trabajo",
+    "title": "Organiza un registro de ventas",
+    "objective": "Diseñar una tabla clara y explicar fórmulas que calculan importes de ventas.",
+    "case": "Una papelería ficticia registra estas ventas: 3 libretas a $25 cada una, 2 carpetas a $18 cada una y 5 plumas a $10 cada una. Necesita un registro que permita actualizar las cantidades sin volver a hacer todas las operaciones.",
+    "questions": [
+      {"title": "Diseña la tabla", "prompt": "Crea en este documento una tabla con Producto, Cantidad, Precio unitario e Importe. Registra las tres ventas y calcula el total."},
+      {"title": "Escribe las fórmulas", "prompt": "Si Cantidad está en B y Precio unitario en C, escribe la fórmula del importe de la fila 2 y la fórmula para sumar D2 a D4. Explica qué hace cada una."},
+      {"title": "Comprueba un cambio", "prompt": "Las libretas vendidas cambian de 3 a 4. Calcula el nuevo importe y total general. Explica qué se actualizaría automáticamente en una hoja de cálculo."}
+    ],
+    "checklist": ["Incluí encabezados y unidades claras", "Las fórmulas corresponden a las columnas indicadas", "Comprobé el total después del cambio"]
+  },
+  {
+    "id": "canva",
+    "course": "Canva para redes y negocios",
+    "title": "Planifica una publicación para un negocio",
+    "objective": "Preparar un mensaje visual con información clara, jerarquía y una acción para el lector.",
+    "case": "La cafetería ficticia Nube abre el sábado a las 10:00 en Calle Ejemplo 25. Su producto principal es café de olla a $35. Desea publicar una invitación en redes dirigida a personas que viven cerca. No añadas promociones o características que el caso no menciona.",
+    "questions": [
+      {"title": "Define el mensaje", "prompt": "Escribe el público, el objetivo de la publicación y un texto de hasta 50 palabras que incluya fecha, hora, lugar y precio."},
+      {"title": "Diseña la jerarquía", "prompt": "Describe qué información irá primero, qué tipografías y colores usarías y cómo asegurarías que el texto se lea bien en un teléfono. Puedes añadir un boceto o una imagen propia."},
+      {"title": "Revisa antes de publicar", "prompt": "Propón una llamada a la acción y explica dos comprobaciones que harías antes de publicar. Indica el origen o licencia de las imágenes que usarías."}
+    ],
+    "checklist": ["El texto incluye todos los datos del caso", "La propuesta se entiende en pantalla pequeña", "Identifiqué el origen de las imágenes"]
+  },
+  {
+    "id": "atencion",
+    "course": "Atención al cliente y ventas",
+    "title": "Responde a una solicitud de un cliente",
+    "objective": "Redactar una respuesta respetuosa que aclare el problema y proponga seguimiento.",
+    "case": "Caso ficticio: una persona escribe que recibió una libreta distinta a la que pidió. Cuenta con su número de pedido y una fotografía del producto. Aún no se ha revisado el registro de compra y desconoces si existe una política de cambio aplicable al caso.",
+    "questions": [
+      {"title": "Comprende la necesidad", "prompt": "Resume el problema sin culpar al cliente. Escribe dos preguntas útiles para revisar el pedido sin pedir información personal innecesaria."},
+      {"title": "Redacta una respuesta", "prompt": "Escribe un mensaje de 80 a 120 palabras con saludo, reconocimiento de la situación, datos que revisarías y siguiente paso. Evita prometer una solución que aún no está autorizada."},
+      {"title": "Da seguimiento", "prompt": "Propón cómo registrarías el caso y un mensaje breve de seguimiento. Explica cómo confirmarías que el cliente comprendió el siguiente paso."}
+    ],
+    "checklist": ["Usé un tono respetuoso y claro", "Solicité solo datos necesarios", "No prometí cambios o devoluciones sin autorización"]
+  },
+  {
+    "id": "negocios",
+    "course": "Administración de pequeños negocios",
+    "title": "Organiza la operación de una semana",
+    "objective": "Relacionar inventario, ventas y responsabilidades en un negocio pequeño.",
+    "case": "Una tienda ficticia inicia la semana con 30 libretas. Compra 20 más y vende 35. Cada libreta se vende en $25 y cuesta $15 al negocio. Además, paga $100 de transporte en la semana. No consideres impuestos, otros gastos o productos que el caso no menciona.",
+    "questions": [
+      {"title": "Controla el inventario", "prompt": "Calcula las existencias finales. Explica qué comprobantes o registros usarías para verificar entradas y salidas de mercancía."},
+      {"title": "Distingue dinero y resultado", "prompt": "Calcula el ingreso por ventas, el costo de las unidades vendidas y el resultado después del transporte. Distingue ese resultado del dinero usado para comprar las 20 libretas nuevas."},
+      {"title": "Asigna responsabilidades", "prompt": "Propón tres actividades para la próxima semana. Para cada una indica responsable, fecha de revisión y un dato que permita comprobar su cumplimiento."}
+    ],
+    "checklist": ["Las existencias finales coinciden con entradas y salidas", "Distinguí inventario comprado y costo de unidades vendidas", "Cada actividad tiene responsable y forma de revisión"]
+  },
+  {
+    "id": "marketing",
+    "course": "Marketing digital básico",
+    "title": "Planea y evalúa una campaña digital",
+    "objective": "Relacionar un objetivo de comunicación con una publicación y sus métricas.",
+    "case": "Una librería ficticia quiere invitar a un club de lectura. En una publicación de prueba obtuvo 1,000 impresiones, 40 clics en el enlace y 8 registros. La siguiente sesión será el viernes a las 18:00 y se requiere registro previo. No inventes resultados adicionales.",
+    "questions": [
+      {"title": "Define a quién y para qué", "prompt": "Describe el público y redacta un objetivo medible para una próxima publicación. Explica qué resultado usarías para comprobarlo."},
+      {"title": "Propón el contenido", "prompt": "Redacta un texto de hasta 60 palabras con una llamada a registrarse. Describe la imagen que lo acompañaría y el dato que falta confirmar antes de publicarlo."},
+      {"title": "Interpreta los resultados", "prompt": "Calcula el porcentaje de clics respecto a impresiones y el de registros respecto a clics. Explica una limitación de estos datos y una mejora que probarías."}
+    ],
+    "checklist": ["El objetivo se puede medir", "El mensaje indica qué debe hacer el lector", "Expliqué las operaciones y una limitación de los resultados"]
+  }
+]

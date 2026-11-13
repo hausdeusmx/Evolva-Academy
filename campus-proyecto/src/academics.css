@@ -28,3 +28,7 @@
 .ac-document-checks>span.complete{background:#f0f6f1;border-color:#d5e5da}
 .ac-task-card,.ac-file{border-color:#eee3e6}
 @media(max-width:650px){.ac-id-set{gap:20px}.ac-id-set .ac-id-card{border-radius:10px}}
+
+.ac-word-course{display:grid;grid-template-columns:60px minmax(0,1fr) auto;gap:23px;align-items:center;margin-bottom:24px;border-color:#ddc8d1}.ac-word-mark{display:flex;flex-direction:column;align-items:center;gap:8px;color:#691f3c;background:#f4eaf0;border-radius:12px;padding:18px 8px}.ac-word-mark span{font-size:8px;letter-spacing:.14em;font-weight:700}.ac-word-course h3{font-size:22px;line-height:1.3;margin:8px 0 12px;color:#4d1a31}.ac-word-course p{font-size:13px;margin:0 0 8px;color:#6e6068}.ac-word-course small{display:block;font-size:11px;line-height:1.8;color:#7b6671}.ac-word-course .btn{white-space:normal;text-align:center;max-width:240px}.ac-word-task{padding:20px 0;border-top:1px solid #eadce2;margin-top:20px}.ac-word-task .ac-help{margin:12px 0 0}.ac-word-card-button{justify-content:center;width:100%;margin-top:12px;font-size:12px}
+@media(max-width:1050px){.ac-word-course{grid-template-columns:50px minmax(0,1fr)}.ac-word-course>.btn{grid-column:2;justify-self:start}}
+@media(max-width:620px){.ac-word-course{grid-template-columns:1fr;gap:18px}.ac-word-mark{flex-direction:row;justify-self:start;padding:12px;gap:10px}.ac-word-course>.btn{grid-column:1;width:100%;max-width:none}.ac-word-course h3{font-size:21px}}
