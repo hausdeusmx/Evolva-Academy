@@ -1,0 +1,38 @@
+{
+  "scope": "synthetic_database_pilot",
+  "schema": "evolva_trial",
+  "result": "pass",
+  "checks": [
+    "student_row_isolation",
+    "enrollment_and_shared_course_isolation",
+    "reenrollment_preserves_matricula",
+    "institutional_email_uses_six_matricula_digits",
+    "own_private_identity_only",
+    "curp_absent_from_dashboard",
+    "payment_calendar_present",
+    "pending_payment_review_flag",
+    "student_cannot_write_grades_matricula_or_approvals",
+    "user_metadata_does_not_grant_admin",
+    "unlinked_suspended_and_anonymous_access_denied",
+    "test_auth_records_rolled_back"
+  ],
+  "security_advisor_findings": 0,
+  "client_tests_passed": 8,
+  "live_http_checks": ["anonymous_dashboard_denied", "invalid_credentials_denied"],
+  "browser_checks": ["login_layout", "empty_form_validation"],
+  "blocked": "Persistent synthetic Auth accounts require explicit authorization; privileged temporary bootstrap was rejected and not deployed.",
+  "performance_advisor": {
+    "severity": "INFO",
+    "unused_indexes": ["trial_enrollments_course_idx", "trial_documents_enrollment_idx"],
+    "disposition": "retained_for_foreign_keys_in_new_small_tables",
+    "reference": "https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index"
+  },
+  "limitations": [
+    "SQL role and claim tests; no browser/Auth login test",
+    "No production latency measurement",
+    "No real data or files migrated",
+    "No real email sent",
+    "No persistent test login accounts",
+    "Current campus still uses Apps Script V29"
+  ]
+}

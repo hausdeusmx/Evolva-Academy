@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://ijrbznsznmoemdmjmrox.supabase.co; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'self'">
+  <title>Evolva Academy · Campus de prueba</title>
+  <meta name="description" content="Acceso privado al entorno de prueba del campus Evolva Academy.">
+  <link rel="stylesheet" href="./style.css"><script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <div class="trial-bar"><span class="dot"></span> Entorno de prueba <span>·</span> Datos ficticios</div>
+  <main id="login-view" class="login-layout">
+    <section class="welcome">
+      <img src="./logo.png" class="brand" alt="Evolva Academy">
+      <div class="welcome-copy"><span class="eyebrow">TU CAMPUS, MÁS CERCA</span><h1>Tu siguiente<br>paso empieza<br><em>aquí.</em></h1><p>Un espacio para consultar tu avance, tus calificaciones y tus próximos pagos.</p>
+      <div class="welcome-footer"><span class="brand-mark">E</span><span>Aprender. Evolucionar. Avanzar.</span></div></div>
+      <div class="orb orb-one"></div><div class="orb orb-two"></div>
+    </section>
+    <section class="login-panel">
+      <div class="login-card"><span class="pill">CAMPUS · PRUEBA PRIVADA</span><h2>Qué gusto verte.</h2><p class="muted">Ingresa con una cuenta habilitada para esta prueba.</p>
+        <form id="login-form">
+          <label for="email">Correo institucional</label><input id="email" name="email" type="email" autocomplete="username" placeholder="000001@evolvacademy.mx" required maxlength="254">
+          <label for="password">Contraseña del campus</label><div class="password-field"><input id="password" name="password" type="password" autocomplete="current-password" required maxlength="200"><button id="show-password" type="button" aria-label="Mostrar contraseña" aria-pressed="false">Mostrar</button></div>
+          <p id="login-error" class="error" role="alert" hidden></p>
+          <button class="primary" id="login-submit" type="submit">Entrar al campus <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></button>
+        </form>
+        <div class="login-note"><span aria-hidden="true">◇</span><p>Este acceso es para probar la nueva conexión. Las cuentas actuales de alumnos continúan en el campus habitual.</p></div>
+        <a class="support" href="mailto:soporte@evolvacademy.mx">¿Necesitas ayuda? soporte@evolvacademy.mx</a>
+      </div>
+      <small>© Evolva Academy · Campus de prueba</small>
+    </section>
+  </main>
+  <div id="campus-view" class="campus-layout" hidden>
+    <aside class="sidebar"><img src="./logo.png" class="brand" alt="Evolva Academy"><span class="eyebrow">MI CAMPUS</span><nav aria-label="Secciones del campus">
+      <button data-section="overview" class="nav-button active" aria-current="page"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="m3 10 9-7 9 7v10H3ZM9 20v-7h6v7"/></svg> Mi resumen</button>
+      <button data-section="grades" class="nav-button"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg> Calificaciones</button>
+      <button data-section="payments" class="nav-button"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 10h18M8 3v5M16 3v5M7 14h3M14 14h3"/></svg> Mis pagos</button>
+      <button data-section="account" class="nav-button"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21v-2a8 8 0 0 1 16 0v2"/></svg> Mi cuenta</button>
+    </nav><div class="sidebar-bottom"><p id="sidebar-name"></p><small id="sidebar-matricula"></small><button id="logout" class="logout">Cerrar sesión</button></div></aside>
+    <div class="campus-content"><header class="topbar"><span>Mi campus <span class="crumb">/</span> <strong id="section-name">Mi resumen</strong></span><div><span class="pill">PRUEBA PRIVADA</span><button id="refresh" class="secondary">Actualizar</button></div></header>
+      <main class="dashboard"><div id="status-message" role="status" class="status" hidden></div><div id="campus-error" role="alert" class="error" hidden></div>
+        <section data-panel="overview"><div class="page-heading"><div><span class="eyebrow">CADA PASO CUENTA</span><h1 id="greeting"></h1><p class="muted">Este es el avance de tu curso de prueba.</p></div><span class="course-tag" id="course-tag"></span></div>
+          <div class="stats"><article class="stat"><span>Mi avance</span><strong id="progress"></strong><div class="track"><div id="progress-bar"></div></div><small>Del curso completado</small></article><article class="stat"><span>Promedio general</span><strong id="average"></strong><small>Escala de 0 a 10</small></article><article class="stat"><span>Próxima cuota</span><strong id="next-amount"></strong><small id="next-date"></small></article></div>
+          <div class="summary-grid"><article class="card course-card"><span class="eyebrow">ESTÁS APRENDIENDO</span><h2 id="course-title"></h2><div class="details"><div><span>Matrícula</span><strong id="overview-matricula"></strong></div><div><span>Grupo</span><strong id="group"></strong></div></div></article><article class="card"><span class="eyebrow">ESTADO ACADÉMICO</span><h2 id="access-title"></h2><p id="access-description" class="muted"></p><p class="small-note">Los documentos y las actividades del campus habitual siguen disponibles desde su plataforma actual.</p></article></div>
+        </section>
+        <section data-panel="grades" hidden><div class="page-heading"><div><span class="eyebrow">TU RECORRIDO</span><h1>Calificaciones</h1><p class="muted">Resultados del curso seleccionado.</p></div></div><article class="card table-card"><div class="table-scroll"><table><thead><tr><th>Actividad</th><th>Calificación</th></tr></thead><tbody id="grade-rows"></tbody></table></div></article></section>
+        <section data-panel="payments" hidden><div class="page-heading"><div><span class="eyebrow">ORGANIZA TUS PAGOS</span><h1>Calendario de pagos</h1><p class="muted">Fechas e importes ficticios para validar la consulta.</p></div></div><article class="card table-card"><div class="table-scroll"><table><thead><tr><th>Periodo</th><th>Fecha</th><th>Monto</th><th>Estado</th></tr></thead><tbody id="payment-rows"></tbody></table></div></article><h2 class="subheading">Comprobantes de prueba</h2><div id="submission-list"></div></section>
+        <section data-panel="account" hidden><div class="page-heading"><div><span class="eyebrow">TU IDENTIDAD ACADÉMICA</span><h1>Mi cuenta</h1><p class="muted">Datos de la cuenta ficticia.</p></div></div><article class="card"><dl id="account-details" class="account-details"></dl><p class="small-note">La consulta general no muestra documentos de identidad ni CURP. Las credenciales y constancias no se emiten en esta prueba.</p></article></section>
+        <footer>Aprender. Evolucionar. Avanzar. <span>Consultas protegidas · Evolva Academy</span></footer>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
