@@ -17,15 +17,19 @@ La matrícula mantiene el formato `EVOLVA-######`. Es independiente de las inscr
 - Sin permisos del alumno para cambiar matrícula, calificaciones, pagos o autorización de constancia.
 - Identidad separada: la CURP no aparece en la respuesta general del panel.
 - Sin datos personales reales, documentos almacenados, enlaces públicos, contraseñas o claves privadas en estos archivos.
-- Los alumnos ficticios no tienen cuentas Auth vinculadas ni contraseñas; no existe todavía un inicio de sesión de prueba desde el campus.
+- Los alumnos ficticios no tienen cuentas Auth vinculadas ni contraseñas; el acceso válido requiere habilitar esas cuentas con autorización. La interfaz privada y el adaptador de acceso ya están preparados de forma independiente del campus publicado.
 
 ## Archivos y validación
 
 - `schema.sql`: definición y datos ficticios aplicados al proyecto vacío mediante `apply_migration`. No ejecutar de nuevo en el mismo proyecto ni en producción.
 - `verify.sql`: pruebas de permisos con roles y claims simulados en PostgreSQL. Crea vínculos Auth solo dentro de una transacción que termina en `ROLLBACK`; no envía correos ni deja cuentas nuevas.
 - `verification.json`: resultado y límites de la prueba.
+- `web/`: interfaz privada y adaptador con acceso por contraseña, consulta agrupada y cierre/renovación de sesión. Solo contiene configuración publicable de Supabase.
+- `client.test.mjs`: ocho pruebas automatizadas de sesión, aislamiento de respuestas y errores.
+- `live-check.mjs`: comprobaciones HTTP en vivo que no crean cuentas ni envían correos.
+- `AUTH_MIGRATION.md`: revisión del formato actual de contraseñas, transición propuesta y bloqueo pendiente de cuentas ficticias.
 
-Las pruebas verifican aislamiento entre alumnos, CURP, selección de cursos, reinscripción con la misma matrícula, calendario, estado de revisión del pago, restricciones de escritura y denegación a usuarios anónimos, sin vínculo o suspendidos. No equivalen a una prueba de inicio de sesión real por HTTP ni a una medición de rendimiento en producción.
+Las pruebas SQL verifican aislamiento entre alumnos, CURP, selección de cursos, reinscripción con la misma matrícula, calendario, estado de revisión del pago, restricciones de escritura y denegación a usuarios anónimos, sin vínculo o suspendidos. Las ocho pruebas del adaptador usan respuestas controladas. Las comprobaciones HTTP reales verifican el rechazo del acceso anónimo y de credenciales inválidas. No se ha probado un inicio de sesión válido ni medido rendimiento en producción.
 
 El asesor de seguridad no reportó hallazgos. El asesor de rendimiento indicó dos índices aún sin uso; se conservan porque cubren claves foráneas y las tablas contienen muy pocos datos. Referencia: https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index
 

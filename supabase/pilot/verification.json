@@ -17,6 +17,10 @@
     "test_auth_records_rolled_back"
   ],
   "security_advisor_findings": 0,
+  "client_tests_passed": 8,
+  "live_http_checks": ["anonymous_dashboard_denied", "invalid_credentials_denied"],
+  "browser_checks": ["login_layout", "empty_form_validation"],
+  "blocked": "Persistent synthetic Auth accounts require explicit authorization; privileged temporary bootstrap was rejected and not deployed.",
   "performance_advisor": {
     "severity": "INFO",
     "unused_indexes": ["trial_enrollments_course_idx", "trial_documents_enrollment_idx"],
