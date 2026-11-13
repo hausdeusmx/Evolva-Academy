@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-07-v23",
+  "version": "2026-11-13-v31",
   "privacy": {
     "title": "Aviso de privacidad y tratamiento del expediente",
     "sections": [
@@ -40,6 +40,13 @@
           "Los recordatorios por correo se activan desde tus preferencias. La lectura de esta página no autoriza publicidad, la publicación de tus fotografías ni la divulgación de tu expediente.",
           "La confirmación electrónica sirve para documentar la inscripción y el uso del expediente conforme a la versión presentada. No autoriza publicidad, testimonios, publicación de fotografías, venta de datos ni el uso de documentos para trámites externos. Los usos opcionales se solicitan por separado y rechazarlos no limita el servicio académico contratado.",
           "El acuse PDF se envía al correo confirmado de quien acepta (alumno mayor de edad o su representante). El alta y los datos de acceso se entregan al alumno por correo solo después de la aprobación administrativa. El folio de solicitud se conserva como matrícula al aprobar. Se mantienen estados de envío para detectar errores y evitar reenvíos automáticos de mensajes inciertos."
+        ]
+      },
+      {
+        "id": "consentimiento-educativo",
+        "title": "Consentimiento educativo y administrativo",
+        "paragraphs": [
+          "Autorizo expresamente a la persona responsable identificada en este documento a tratar mis datos de identidad, contacto, documentos, registros académicos y, cuando los aporte, datos patrimoniales de pagos, exclusivamente para revisar y administrar mi inscripción, prestar el curso, evaluar, emitir documentos escolares y atender los servicios descritos en el aviso. La foto es opcional y se usa para mi credencial. Si firmo como representante, manifiesto esta autorización respecto del alumno bajo mi representación, sujeta a revisión administrativa. Conservo mis derechos ARCO y de revocación; esta aceptación no autoriza publicidad, venta de datos ni publicación de mis documentos o imagen."
         ]
       },
       {
@@ -94,15 +101,42 @@
           "La lectura del aviso, la aceptación del reglamento y la declaración de autenticidad de los documentos se presentan separadas. El acuse no acredita por sí mismo que un documento sea auténtico ni sustituye la revisión administrativa. Un registro anterior de lectura no se convierte automáticamente en una firma.",
           "La aceptación es electrónica, mediante nombre escrito y código temporal enviado al correo. Es evidencia del proceso; no se presenta como e.firma del SAT, firma electrónica avanzada ni constancia de conservación NOM-151."
         ]
+      },
+      {
+        "id": "fundamento",
+        "title": "Referencias legales y alcance",
+        "paragraphs": [
+          "Constitución Política de los Estados Unidos Mexicanos, artículo 16, segundo párrafo: protección de datos y derechos de acceso, rectificación, cancelación y oposición.",
+          "Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP): artículos 5 (principios), 7 (consentimiento expreso, datos patrimoniales y revocación), 14 a 16 (información y aviso), 18 a 20 (seguridad, vulneraciones y confidencialidad) y 21 (derechos ARCO)."
+        ]
+      },
+      {
+        "id": "servicios-v26",
+        "title": "Trámites, tutores y servicios adicionales",
+        "paragraphs": [
+          "Los trámites escolares guardan la solicitud del alumno, curso, estado y respuesta del equipo. Una solicitud no modifica por sí sola la matrícula, las cuotas ni la inscripción vigente.",
+          "Para alumnos menores, administración puede autorizar un acceso de madre, padre o tutor tras revisar por un canal privado su representación y el alcance. El acceso usa el correo autorizado y un código temporal. Solo permite consultar las categorías académicas o de pagos expresamente habilitadas; no permite descargar identidad, CURP, contratos, contraseñas ni mensajes privados. Puede revocarse y deja de funcionar cuando el alumno cumple 18 años.",
+          "Los pagos con tarjeta se realizan en el checkout del proveedor que se identifique antes de continuar. Evolva conserva referencia de orden, monto, moneda y resultado verificado; no recibe ni almacena el número de tarjeta, código de seguridad o NIP. El proveedor aplica su propio aviso. No se confirma un pago por el texto de una URL o por una captura.",
+          "La biblioteca sin conexión de la APK guarda materiales cifrados en el dispositivo, asociados a la cuenta que inició sesión. Las lecturas pendientes se sincronizan cuando vuelve la conexión y el servidor comprueba acceso y versión del material; no modifican calificaciones. Se borran al cerrar sesión o cambiar de cuenta.",
+          "Las metas e insignias se calculan a partir de actividad y evaluaciones disponibles. Son reconocimientos del campus y no sustituyen una constancia ni una acreditación oficial. El historial administrativo permite al personal autorizado consultar actor, fecha y campos operativos de cambios; oculta cuerpos privados, credenciales y documentos."
+        ]
       }
     ]
   },
   "terms": {
-    "title": "Reglamento y acuerdo de inscripción y expediente",
+    "title": "Reglamento de inscripción y consentimiento para fines educativos",
     "sections": [
       {
+        "id": "alcance",
+        "title": "1. Objeto y alcance del acuerdo",
+        "paragraphs": [
+          "Este reglamento establece los compromisos del alumno y del prestador identificado en el encabezado, así como el uso del expediente para el curso y la oferta que se presentan antes de firmar. Forma parte de la solicitud junto con el aviso de privacidad y la oferta aceptada.",
+          "Reservar un folio no equivale a admisión, pago ni cuenta activa. La solicitud pasa a revisión al enviar los documentos y la aceptación. Administración comunica la resolución y, después de aprobar, el folio se conserva como matrícula."
+        ]
+      },
+      {
         "id": "servicio",
-        "title": "Qué incluye este acuerdo",
+        "title": "2. Qué incluye este acuerdo",
         "paragraphs": [
           "El proceso tiene etapas: solicitud básica y folio; documentos y aceptación; revisión administrativa; y, solo al aprobar, alta y correo de acceso con información de pago. Reservar un folio, subir archivos o recibir el acuse no equivale a admisión ni autoriza acceso al campus.",
           "Este reglamento regula la inscripción, la convivencia académica y el uso del campus y expediente de Evolva Academy. La persona prestadora del servicio es el responsable legal identificado en el aviso vigente. El acuerdo se presenta antes del envío de los documentos.",
@@ -110,8 +144,18 @@
         ]
       },
       {
+        "id": "consentimiento-educativo",
+        "title": "3. Autorización expresa para fines educativos",
+        "paragraphs": [
+          "Autorizo expresamente a la persona responsable identificada en este documento a tratar mis datos de identidad, contacto, documentos, registros académicos y, cuando los aporte, datos patrimoniales de pagos, exclusivamente para revisar y administrar mi inscripción, prestar el curso, evaluar, emitir documentos escolares y atender los servicios descritos en el aviso. La foto es opcional y se usa para mi credencial. Si firmo como representante, manifiesto esta autorización respecto del alumno bajo mi representación, sujeta a revisión administrativa. Conservo mis derechos ARCO y de revocación; esta aceptación no autoriza publicidad, venta de datos ni publicación de mis documentos o imagen.",
+          "Las finalidades necesarias comprenden revisar identidad y expediente; gestionar inscripción, reinscripción, matrícula, cuenta y correo institucional; asignar cursos y grupos; entregar materiales; registrar asistencia, trabajos, exámenes y calificaciones; dar asesorías y soporte; gestionar pagos y recibos; y emitir credencial y constancias autorizadas. Los documentos de identidad se revisan privadamente y no se anexan al correo de acuse.",
+          "Esta autorización no permite usar tus documentos para otros trámites ni compartir tu expediente públicamente. La publicidad, testimonios, difusión de imagen y otras finalidades opcionales requieren una elección separada. Rechazarlas no condiciona el servicio académico.",
+          "No solicitamos diagnósticos, datos de salud ni biometría en los campos generales. La fotografía opcional no se usa para reconocimiento facial. Evita aportar datos de terceros o información ajena a la solicitud. Si un trámite requiere datos sensibles, deberá explicarse y recabarse la autorización específica que corresponda."
+        ]
+      },
+      {
         "id": "expediente",
-        "title": "Documentos e identidad",
+        "title": "4. Documentos e identidad",
         "paragraphs": [
           "El alumno o su representante declara que la información y los documentos aportados le corresponden, son legibles y no han sido alterados para engañar. Para revisar la solicitud se piden identificación INE o pasaporte en PDF y CURP en PDF. La fotografía es opcional y se usará para la credencial escolar; puede completarse después. Si existe un error, administración pedirá aclaración o corrección por un canal privado.",
           "Subir un archivo no transfiere su propiedad ni autoriza a Evolva a utilizarlo para créditos, trámites ajenos al curso, publicidad o publicación en redes. No se solicitan originales físicos, NIP, contraseñas bancarias o códigos de terceros por esta aceptación.",
@@ -120,16 +164,16 @@
       },
       {
         "id": "acceso",
-        "title": "Cuenta, matrícula y seguridad",
+        "title": "5. Cuenta, matrícula y seguridad",
         "paragraphs": [
           "La matrícula EVOLVA-###### identifica la cuenta y se conserva al reinscribirse. Los registros académicos y pagos se distinguen por curso. El acceso institucional utiliza los seis dígitos de la matrícula y la contraseña del campus; la clave del buzón institucional es independiente.",
           "Conserva tus credenciales, evita compartirlas y reporta accesos desconocidos. Puedes revisar y cerrar sesiones en Mis dispositivos. Evolva no solicita tu contraseña por mensajes de soporte.",
-          "Los datos de acceso no se entregan al reservar el folio. Después de aprobar, se envían el correo institucional de acceso, un enlace privado para crear la contraseña y la información de pago. El enlace es temporal y de un solo uso; no se envía la contraseña del buzón institucional como si fuera la del campus."
+          "Los datos de acceso no se entregan al reservar el folio. Después de aprobar, se envían el correo institucional de acceso, una clave temporal de un solo uso y la información de pago. Antes de entrar al campus se debe crear una contraseña personal. La clave del buzón institucional es independiente."
         ]
       },
       {
         "id": "academico",
-        "title": "Actividades y convivencia",
+        "title": "6. Actividades y convivencia",
         "paragraphs": [
           "Consulta materiales, fechas y criterios de evaluación del curso. Entrega trabajos propios, cita fuentes y respeta a docentes y compañeros. No compartas datos o documentos de otros alumnos ni publiques capturas de conversaciones privadas sin autorización.",
           "Los exámenes informan su duración e intentos disponibles antes de comenzar. Los registros pueden requerir revisión por errores o incidencias; solicita una aclaración por soporte con la actividad y motivo. No se aplican sanciones automáticas por presentar una aclaración.",
@@ -138,7 +182,7 @@
       },
       {
         "id": "pagos",
-        "title": "Pagos, cupos y aclaraciones",
+        "title": "7. Pagos, cupos y aclaraciones",
         "paragraphs": [
           "El calendario y las condiciones de la inscripción se muestran para el curso elegido. Un comprobante enviado permanece en revisión hasta su confirmación; subirlo no equivale a pago confirmado. Si existe una discrepancia, solicita conciliación por soporte.",
           "Si los grupos están llenos, la solicitud puede quedar en espera. No se promete un lugar ni debe realizarse un pago para asegurar una asignación que administración no ha confirmado. Las becas o descuentos requieren autorización y vigencia propias.",
@@ -148,7 +192,7 @@
       },
       {
         "id": "documentos",
-        "title": "Credencial y constancias",
+        "title": "8. Credencial y constancias",
         "paragraphs": [
           "La credencial y las constancias se generan con la información del expediente y las autorizaciones correspondientes. La constancia de estudios acredita una inscripción y tiene vigencia. La constancia de finalización requiere concluir, aprobar y autorización de emisión; es gratuita conforme a la oferta vigente.",
           "El QR permite consultar la vigencia con datos mínimos y no abre el expediente. Estos documentos describen el servicio y resultados registrados; no se promete un título, cédula profesional o reconocimiento oficial no identificado en la oferta."
@@ -156,7 +200,7 @@
       },
       {
         "id": "menores",
-        "title": "Si el alumno es menor de edad",
+        "title": "9. Si el alumno es menor de edad",
         "paragraphs": [
           "La madre, padre o tutor realiza la aceptación y confirma ser mayor de edad y contar con representación. Debe utilizar un correo propio, distinto al del alumno. Administración podrá solicitar la acreditación necesaria por un medio privado.",
           "El código enviado al correo no verifica automáticamente la relación familiar o tutela. El acuse identifica la declaración y su revisión pendiente. El alumno no firma como si fuera su madre, padre o tutor."
@@ -164,22 +208,64 @@
       },
       {
         "id": "aceptacion",
-        "title": "Cómo se confirma durante la inscripción",
+        "title": "10. Cómo se confirma durante la inscripción",
         "paragraphs": [
-          "Quien acepta debe leer el aviso y este reglamento, escribir su nombre completo, confirmar por separado la lectura, el acuerdo y la declaración sobre documentos, y solicitar un código al correo correspondiente. Al escribir el código y pulsar “Firmar y enviar a revisión” manifiesta su aceptación de la versión mostrada.",
+          "Quien acepta lee el reglamento completo y el aviso, confirma por separado lectura, aceptación, autorización de uso educativo y autenticidad de documentos, escribe su nombre completo y solicita un código a su correo. Después de revisar la oferta, introduce el código y pulsa «Firmar y enviar a revisión».",
           "El servidor valida el código, su vencimiento, los datos de la solicitud y la versión. Solo si el envío documental se completa se vincula el acuse al folio. La matrícula y cuenta de alumno se activan después de aprobar. Cambiar la oferta, datos o versión exige revisar y obtener un código nuevo.",
-          "Se conserva el texto exacto, curso y plan, nombre y correo de quien aceptó, fecha del servidor, identificador y huella de integridad. El código y la contraseña no aparecen en la copia. Puede consultarse el acuse desde el campus y descargarse como texto. Es un mecanismo de aceptación electrónica; no se afirma una certificación de identidad o firma avanzada.",
+          "Se conserva el texto exacto, curso y plan, nombre y correo de quien aceptó, fecha del servidor, identificador y huella de integridad. El código y la contraseña no aparecen en la copia. Puede consultarse y descargarse el acuse PDF desde el campus. Es un mecanismo de aceptación electrónica; no se afirma una certificación de identidad o firma avanzada.",
           "El acuse PDF con la aceptación y los textos se envía por correo al firmante confirmado. No incluye los PDF de identidad ni de CURP. Si el sistema indica que un correo no pudo enviarse, administración puede revisar y reintentarlo; un estado de envío no confirmado no se reenvía automáticamente."
         ]
       },
       {
         "id": "atencion",
-        "title": "Contacto y cambios",
+        "title": "11. Contacto y cambios",
         "paragraphs": [
           "Atención académica, documentos, privacidad y aclaraciones: soporte@evolvacademy.mx. Para una solicitud inicial no envíes identificaciones ni datos bancarios por correo; administración coordinará un canal privado si son necesarios.",
           "Los cambios se publican con una nueva versión y no reescriben acuses previos. Este reglamento no elimina derechos de protección de datos ni derechos de las personas consumidoras. La identidad y domicilio del prestador deben estar completos antes de habilitar la firma."
         ]
+      },
+      {
+        "id": "fundamento",
+        "title": "12. Fundamento en la legislación mexicana",
+        "paragraphs": [
+          "Constitución Política de los Estados Unidos Mexicanos, artículo 16, segundo párrafo: protección de datos y derechos de acceso, rectificación, cancelación y oposición.",
+          "Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP): artículos 5 (principios), 7 (consentimiento expreso, datos patrimoniales y revocación), 14 a 16 (información y aviso), 18 a 20 (seguridad, vulneraciones y confidencialidad) y 21 (derechos ARCO).",
+          "Código Civil Federal, artículos 1803 y 1834 bis: manifestación electrónica del consentimiento, integridad, atribución y consulta posterior, en los asuntos de su competencia. Código de Comercio, artículos 89, 89 bis y 93: mensajes de datos y forma electrónica en materia mercantil, cuando resulten aplicables.",
+          "Estas referencias explican el marco de la aceptación y del tratamiento de datos; no sustituyen requisitos legales especiales ni acreditan un reconocimiento oficial del curso. La confirmación por correo se registra como evidencia de aceptación, sin presentarse como e.firma del SAT, firma avanzada ni certificación NOM-151."
+        ]
+      },
+      {
+        "id": "fuentes",
+        "title": "13. Consulta de las fuentes oficiales",
+        "paragraphs": [
+          "Constitución Política de los Estados Unidos Mexicanos · artículo 16, segundo párrafo: https://www.diputados.gob.mx/LeyesBiblio/pdf/CPEUM.pdf",
+          "Ley Federal de Protección de Datos Personales en Posesión de los Particulares: https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPDPPP.pdf",
+          "Código Civil Federal · artículos 1803 y 1834 bis: https://www.diputados.gob.mx/LeyesBiblio/pdf/CCF.pdf",
+          "Código de Comercio · artículos 89, 89 bis y 93: https://www.diputados.gob.mx/LeyesBiblio/pdf/CCom.pdf"
+        ]
       }
     ]
-  }
+  },
+  "educationalConsent": {
+    "id": "USO_EDUCATIVO_V31",
+    "text": "Autorizo expresamente a la persona responsable identificada en este documento a tratar mis datos de identidad, contacto, documentos, registros académicos y, cuando los aporte, datos patrimoniales de pagos, exclusivamente para revisar y administrar mi inscripción, prestar el curso, evaluar, emitir documentos escolares y atender los servicios descritos en el aviso. La foto es opcional y se usa para mi credencial. Si firmo como representante, manifiesto esta autorización respecto del alumno bajo mi representación, sujeta a revisión administrativa. Conservo mis derechos ARCO y de revocación; esta aceptación no autoriza publicidad, venta de datos ni publicación de mis documentos o imagen."
+  },
+  "sources": [
+    {
+      "title": "Constitución Política de los Estados Unidos Mexicanos · artículo 16, segundo párrafo",
+      "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/CPEUM.pdf"
+    },
+    {
+      "title": "Ley Federal de Protección de Datos Personales en Posesión de los Particulares",
+      "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPDPPP.pdf"
+    },
+    {
+      "title": "Código Civil Federal · artículos 1803 y 1834 bis",
+      "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/CCF.pdf"
+    },
+    {
+      "title": "Código de Comercio · artículos 89, 89 bis y 93",
+      "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/CCom.pdf"
+    }
+  ]
 }
