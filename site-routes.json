@@ -16,7 +16,9 @@
     "validar-constancia",
     "validar-estudios",
     "servicios.escolares",
-    "reinscripcion"
+    "reinscripcion",
+    "empresas",
+    "lista-espera"
   ],
   "campus": [
     "activar",
@@ -27,7 +29,9 @@
     "reinscripcion",
     "tutores",
     "validar",
-    "servicios.escolares"
+    "servicios.escolares",
+    "empresas",
+    "lista-espera"
   ],
   "aliases": {
     "/index.html": "/inicio/",

@@ -14,6 +14,7 @@ const schoolPage=fs.readFileSync(output+'servicios.escolares.html','utf8').repla
 fs.writeFileSync(repo+'servicios.escolares.html',schoolPage);
 const reenrollmentPage=fs.readFileSync(output+'reinscripcion.html','utf8').replace(/(src|href)="(?:\.\/)?assets\//g,'$1="/campus/assets/');
 fs.writeFileSync(repo+'reinscripcion.html',reenrollmentPage.replace(/(src|href)="\.\/(clean-routes\.js|config\.js|campus-update\.js|manifest\.webmanifest|push-icon-192\.png|favicon\.svg)/g,'$1="/campus/$2'));
+for(const route of ['empresas','lista-espera']){const page=fs.readFileSync(output+route+'.html','utf8').replace(/(src|href)="(?:\.\/)?assets\//g,'$1="/campus/assets/').replace(/(src|href)="\.\/(clean-routes\.js|config\.js|campus-update\.js|manifest\.webmanifest|push-icon-192\.png|favicon\.svg)/g,'$1="/campus/$2');fs.writeFileSync(repo+route+'.html',page);}
 writeBuildManifest(output);
 const restored=restoreBuildAssets(output,retained);console.log('Retained '+restored+' public asset files for open campus tabs.');
 
