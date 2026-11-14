@@ -1,0 +1,23 @@
+export const normalize=(s:any)=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+export type SearchItem={id:string;title:string;body:string;type:string;section:string};
+export function campusIndex(d:any,extra:any,nav:{id:string;label:string}[]):SearchItem[]{
+ const blocked=!!d.academicAccess?.blocked;
+ return [...nav.map(n=>({id:'nav:'+n.id,title:n.label,body:'Sección de tu campus',type:'Acceso',section:n.id})),
+ ...(d.notices||[]).map((n:any)=>({id:'notice:'+n.id,title:n.title,body:n.body||'',type:'Aviso',section:'avisos'})),
+ ...(!blocked?(extra.lessons||[]).filter((l:any)=>!l.locked).map((l:any)=>({id:'lesson:'+l.id,title:l.title,body:[l.module,l.description,l.content].filter(x=>typeof x==='string').join(' '),type:'Clase',section:'clases'})):[]),
+ ...(!blocked?(extra.tasks||[]).map((t:any)=>({id:'task:'+t.id,title:t.title,body:[t.module,t.instructions,t.description].filter(x=>typeof x==='string').join(' '),type:'Actividad',section:'tareas'})):[]),
+ ...(extra.events||[]).map((e:any)=>({id:'event:'+e.id,title:e.title,body:e.description||'',type:'Calendario',section:'calendario'}))];
+}
+export function searchCampus(items:SearchItem[],q:string){const terms=normalize(q).trim().split(/\s+/).filter(Boolean).slice(0,12);if(!terms.length)return items.filter(i=>i.type==='Acceso').slice(0,8);return items.map(item=>({item,score:terms.reduce((n,t)=>n+(normalize(item.title).includes(t)?4:normalize(item.body).includes(t)?1:0),0)})).filter(x=>x.score>=terms.length).sort((a,b)=>b.score-a.score).slice(0,24).map(x=>x.item);}
+export function planStudy(lessons:any[],tasks:any[],days:number[],minutes:number,start=new Date()){
+ const items=[...tasks.filter(t=>!t.submission||/correcci[oó]n/i.test(t.submission.status||'')).map(t=>({id:'t:'+t.id,title:t.title,section:'tareas',due:t.dueDate||t.deadline||''})),...lessons.filter(l=>!l.studied&&!l.locked).map(l=>({id:'l:'+l.id,title:l.title,section:'clases',due:''}))];
+ const slots:any[]=[];if(!days.length||!Number.isFinite(minutes)||minutes<15||minutes>180)return slots;
+ for(let n=0;n<28&&slots.length<items.length;n++){const date=new Date(start);date.setDate(date.getDate()+n);if(!days.includes(date.getDay()))continue;const item=items[slots.length];slots.push({...item,date:[date.getFullYear(),String(date.getMonth()+1).padStart(2,'0'),String(date.getDate()).padStart(2,'0')].join('-'),minutes});}return slots;
+}
+const stop=new Set(['como','para','sobre','esta','este','que','cual','puedo','quiero','explica','del','una','los','las','por','con','son']);
+export function materialAnswers(lessons:any[],question:string){
+ const terms=normalize(question).split(/[^a-z0-9]+/).filter(t=>t.length>2&&!stop.has(t)).slice(0,12);if(!terms.length)return [];
+ return lessons.filter(l=>!l.locked).map(l=>{const body=[l.description,l.content,l.summary,l.body].filter(x=>typeof x==='string').join('\n');const sentences=body.split(/\n+|(?<=[.!?])\s+/).filter(Boolean);const ranked=sentences.map(text=>({text,score:terms.filter(t=>normalize(text).includes(t)).length})).sort((a,b)=>b.score-a.score);const score=(ranked[0]?.score||0)+terms.filter(t=>normalize(l.title).includes(t)).length;return {id:String(l.id),title:String(l.title),score,excerpts:ranked.filter(x=>x.score>0).slice(0,2).map(x=>x.text.slice(0,700))};}).filter(x=>x.score>0&&x.excerpts.length).sort((a,b)=>b.score-a.score).slice(0,3);
+}
+export const studentNavGroups=[{label:'Tu espacio',ids:['inicio','semana','buscar','plan-estudio','avisos']},{label:'Aprender',ids:['clases','tareas','examenes','progreso','calificaciones','calendario','apuntes','portafolio','practicas','asistente','asistencia','asesorias','logros']},{label:'Mi cuenta',ids:['cursos','reinscripcion','perfil','pagos','tarjeta','recibos','dispositivos','recordatorios','app','privacidad']},{label:'Servicios escolares',ids:['credencial','constancias','expediente','tramites','ayuda','chat','opinion','encuestas','bienvenida','empleo','referidos']}];
+export const adminNavGroups=[{label:'Resumen',ids:['workspace','system']},{label:'Alumnos y admisiones',ids:['admissions','grades','enrollments','student-followup','followup','student-import','capacity','public-groups','guardians']},{label:'Aprendizaje',ids:['course-editor','teachers','lessons','tasks','exams','internal-exams','calendar','attendance','modules','rubrics','advising']},{label:'Pagos',ids:['payments','finance','card-checkout','scholarships']},{label:'Servicios y comunidad',ids:['documents','doc-reviews','certificates','study-letters','requests','legal','legal-receipts','email-compose','mail','push','support','chat','surveys','testimonials','jobs','referrals']},{label:'Control',ids:['reports','audit','backups','area-accounts','app-release']}];

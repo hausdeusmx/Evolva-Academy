@@ -1,3 +1,5 @@
+import {createReadCache} from './request-cache';
+import {recordIncident,setIncidentReporter,clearDiagnostics} from './operational-diagnostics';
 import {experienceDemo} from './experience-demo';
 import {portalHealth} from './portal-health';
 import {servicesV26Demo} from './services-v26-demo';
@@ -30,14 +32,15 @@ let session=sessionStore.getItem(namespace+':session')||sessionStorage.getItem(n
 let supportsDeviceSession=false,authEpoch=0,renewal:Promise<void>|null=null;
 function saveSession(value:string){session=value;if(value)sessionStore.setItem(namespace+':session',value);else{localStorage.removeItem(namespace+':session');sessionStorage.removeItem(namespace+':session');}}
 async function renewSession(){if(!isAppExperience||!supportsDeviceSession)return false;const token=await readDeviceToken(namespace);if(!token)return false;if(!renewal){const epoch=authEpoch;renewal=(async()=>{try{const data=await post('refresh_session',{refreshToken:token});if(epoch!==authEpoch)throw Error('La cuenta cambió. Vuelve a intentar.');saveSession(data.session);}catch(error:any){if(error.status===401&&epoch===authEpoch){saveSession('');await saveDeviceToken(namespace,'');}throw error;}})().finally(()=>{renewal=null;});}await renewal;return true;}
+const materialsCache=createReadCache(15000,12);
 const pendingReads=new Map<string,Promise<any>>();
-const readActions=new Set(['dashboard','session','credential','documents','student_profile','tasks','lessons','calendar','folio','v30_notes','v30_portfolio','v30_review']);
-async function health(force=false){const d=await portalHealth(endpoint,force);supportsDeviceSession=d.features?.includes('persistent_sessions')===true;return d;}
+const readActions=new Set(['v35_student_hub','dashboard','session','credential','documents','student_profile','tasks','lessons','calendar','folio','v30_notes','v30_portfolio','v30_review']);
+async function health(force=false){const d=await portalHealth(endpoint,force);supportsDeviceSession=d.features?.includes('persistent_sessions')===true;if(d.features?.includes('operations_monitor'))setIncidentReporter(i=>post('v35_incident',{operation:i.action,status:i.status}));return d;}
 async function real(action:string,body:any={}){
  if(action==='health')return health(body.force===true);
  const epoch=authEpoch,enrollment=activeEnrollment(),key=JSON.stringify([epoch,session,enrollment,action,body]);
  const run=async()=>{let d;try{d=await post(action,body);}catch(error:any){if(error.status!==401||['login','logout','refresh_session','logout_device','request_password_reset','reset_password'].includes(action))throw error;if(isAppExperience&&!supportsDeviceSession)await health();if(await renewSession())d=await post(action,body);else{saveSession('');throw error;}}if(readActions.has(action)&&(epoch!==authEpoch||enrollment!==activeEnrollment()))throw Object.assign(Error('La cuenta o el curso cambió. Vuelve a consultar.'),{status:409});return d;};
- if(!readActions.has(action)){pendingReads.clear();return run();}
+ if(!readActions.has(action)){pendingReads.clear();materialsCache.clear();return run();}
  const pending=pendingReads.get(key);if(pending)return pending;
  const work=run().finally(()=>{if(pendingReads.get(key)===work)pendingReads.delete(key);});pendingReads.set(key,work);return work;
 }
@@ -93,12 +96,13 @@ async function request(action:string,body:any={},params=''):Promise<any>{const q
  throw Error('Esta acción no está disponible.');
 }
 export async function portalAPI(action:string,body?:any,params=''){
+ if(action==='logout'){materialsCache.clear();clearDiagnostics();}
  let latest:any=null;
  const serverChecks=!demo&&(protectedAcademicActions.includes(action)||action==='documents')&&(await health()).features?.includes('payment_access')===true;
  if(!serverChecks&&(protectedAcademicActions.includes(action)||action==='documents'))latest=await request('dashboard');
  if(!serverChecks&&protectedAcademicActions.includes(action))requireAcademicAccess(latest);
  if(action==='exam_link'&&!serverChecks&&!latest.academicAccess?.enforced){const exam=latest.exams.find((e:any)=>e.id===body?.id);if(!exam||exam.locked||!/^https:\/\//.test(exam.url||''))throw Error('El examen no está disponible para tu cuenta.');return {ok:true,url:exam.url};}
- const d=await request(action,body,params);
+ let d;try{d=await request(action,body,params);}catch(error:any){recordIncident(action,error?.status||0);throw error;}
  if(action==='documents'&&!serverChecks&&academicAccess(latest).blocked)return {...d,deliveries:[]};
  if(action==='status'&&d.dashboard?.student)return {...d,dashboard:paymentCalendar(paymentDashboard(d.dashboard))};
  return action==='dashboard'?paymentCalendar(paymentDashboard(d)):d;
@@ -107,3 +111,17 @@ export async function portalTransport(action:string,body?:any,params=''){try{ret
 async function base64File(file:File){const bytes=new Uint8Array(await file.arrayBuffer());let s='';for(let i=0;i<bytes.length;i+=16384)s+=String.fromCharCode(...bytes.subarray(i,i+16384));return btoa(s);}
 export async function downloadFile(action:string,options:any){let bytes:Uint8Array,mime='application/pdf',name='documento.pdf';if(action==='proof'){const d=await request('proof',options);bytes=Uint8Array.from(atob(d.base64),c=>c.charCodeAt(0));mime=d.mime;name='comprobante.'+(mime==='application/pdf'?'pdf':mime==='image/png'?'png':'jpg');}else if(options.kind==='boleta'){const d=await request('issue_report'),{createAcademicReportPDF}=await import('./report-pdf');const extra=(options.student?.matricula||options.student?.accountFolio||options.student?.folio)===d.snapshot.student.folio?{status:options.student.status,registered:options.student.registered}:{};bytes=await createAcademicReportPDF({...d.snapshot,student:{...d.snapshot.student,...extra}},d.meta);name='reporte-academico-'+d.snapshot.student.folio+'.pdf';}else{const d=await request('certificate');if(d.base64)bytes=Uint8Array.from(atob(d.base64),c=>c.charCodeAt(0));else{const{createCompletionCertificatePDF}=await import('./certificate-pdf');bytes=await createCompletionCertificatePDF(d.data);}name='constancia-finalizacion-'+(d.data?.student?.matricula||d.data?.student?.folio||options.student?.matricula||options.student?.accountFolio||options.student?.folio||'alumno')+'.pdf';}const url=URL.createObjectURL(new Blob([new Uint8Array(bytes)],{type:mime})),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),600000);return {url,name};}
 
+
+// Opt-in short-lived view cache. Identity, grades, payments and document authorization stay fresh.
+export async function campusMaterials(blocked=false,fresh=false){
+ const epoch=authEpoch,enrollment=activeEnrollment(),key=JSON.stringify([epoch,session,enrollment,blocked]);
+ const data=await materialsCache.get(key,async()=>{
+  const h=demo?null:await health();
+  if(h?.features?.includes('student_hub_batch'))return portalAPI('v35_student_hub');
+  const results=await Promise.allSettled([blocked?Promise.resolve({lessons:[]}):portalAPI('lessons'),blocked?Promise.resolve({tasks:[]}):portalAPI('tasks'),portalAPI('calendar')]);
+  const value=(i:number)=>results[i].status==='fulfilled'?results[i].value:{};
+  return {lessons:value(0).lessons||[],tasks:value(1).tasks||[],events:value(2).events||[],partial:results.some(r=>r.status==='rejected')};
+ },fresh);
+ if(epoch!==authEpoch||enrollment!==activeEnrollment())throw Object.assign(Error('La cuenta o el curso cambió. Vuelve a consultar.'),{status:409});
+ return data;
+}

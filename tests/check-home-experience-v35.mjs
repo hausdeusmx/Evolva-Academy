@@ -1,0 +1,10 @@
+import assert from 'node:assert/strict';import fs from 'node:fs';
+import {learningRoutes,routeCourses} from '../assets/home-experience-v35.mjs';import {publicCourse} from '../assets/course-discovery-domain.mjs';
+const html=fs.readFileSync('inicio/index.html','utf8'),courses=JSON.parse(fs.readFileSync('assets/course-catalog.json','utf8'));
+for(const id of ['conoce-campus','rutas-aprendizaje','proximos-grupos','v35-public-theme','v35-public-size'])assert(html.includes('id="'+id+'"'));
+for(const route of learningRoutes)assert.equal(routeCourses(route,courses).length,route.courses.length);assert.equal(routeCourses(learningRoutes[0],[]).length,0);
+assert.equal(publicCourse({id:'finanzas',name:'Finanzas Personales',mode:'monthly',amount:400,periods:6,plan:{total:null,months:6}},courses).total,2400);assert.equal(publicCourse({id:'excel',name:'Excel básico para el trabajo',mode:'weekly',amount:100,periods:8,plan:{total:800,weeks:8}},courses).total,800);
+assert(html.includes('preload="none"'));assert(html.includes('<track default kind="captions"'));assert(html.includes('datos ficticios'));assert(html.includes('Cada curso se solicita y paga por separado'));
+assert(fs.statSync('assets/campus-tour-v35.mp4').size>10000);assert(fs.statSync('assets/campus-tour-v35.mp4').size<8*1024*1024);assert(fs.readFileSync('assets/campus-tour-es.vtt','utf8').includes('00:40.000'));
+const js=fs.readFileSync('assets/home-experience-v35.mjs','utf8');assert(js.includes('credentials:\'omit\''));assert(!/innerHTML|sessionStorage|auth_token|password/i.test(js));assert(js.includes('v35_public_groups'));assert(js.includes('IntersectionObserver'));assert(js.includes('cada curso')||html.includes('Cada curso'));
+console.log('V35 home passed: priced course routes including null-total monthly plans, empty unpublished groups, deferred public loading, appearance controls, captioned 40-second campus demo and bounded video asset.');
