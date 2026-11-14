@@ -11,7 +11,7 @@ window.EvolvaAdmissionAgreement=Object.freeze({render(publication){
   const details=document.createElement('details');details.open=key==='terms';details.className='agreement-document';details.append(node('summary',key==='terms'?'Leer reglamento completo':'Leer aviso de privacidad completo'));
   for(const section of data.documents[key].sections){const article=document.createElement('section');article.append(node('h4',section.title));for(const p of section.paragraphs)article.append(node('p',p));details.append(article);}body.append(details);
  }
- const consent=data.documents.educationalConsent,ready=data.version==='2026-11-13-v31'&&consent?.id==='USO_EDUCATIVO_V31'&&typeof consent.text==='string'&&consent.text.length>80;
+ const consent=data.documents.educationalConsent,ready=['2026-11-13-v31','2026-11-13-v33'].includes(data.version)&&consent?.id==='USO_EDUCATIVO_V31'&&typeof consent.text==='string'&&consent.text.length>80;
  const field=document.getElementById('admissionEducationalConsent');field.checked=false;field.required=ready;field.disabled=!ready;
  document.getElementById('admissionEducationalConsentRow').hidden=!ready;
  document.getElementById('admissionEducationalConsentText').textContent=ready?consent.text:'';
