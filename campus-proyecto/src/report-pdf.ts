@@ -6,7 +6,7 @@ import {reportFonts} from './report-fonts.ts';
 import {logoJpegBase64} from './brand.ts';
 import {REPORT_TITLE} from './report-record.ts';
 
-export const documentColors={wine:rgb(80/255,12/255,23/255),ink:rgb(.18,.13,.16),muted:rgb(.46,.40,.43),rose:rgb(.965,.941,.949),border:rgb(.875,.837,.853),gold:rgb(.69,.53,.38),white:rgb(1,1,1)};
+export const documentColors={wine:rgb(70/255,10/255,18/255),ink:rgb(.17,.14,.14),muted:rgb(.43,.39,.39),rose:rgb(.965,.965,.965),border:rgb(.86,.84,.84),gold:rgb(.43,.17,.20),white:rgb(1,1,1)};
 // Keep Spanish names and accents. Embedded Unicode fonts handle their glyphs.
 export const documentText=(value:unknown)=>String(value??'').replace(/[\u0000-\u001f\u007f]/g,' ').replace(/\s+/g,' ').trim();
 export function wrapDocumentText(value:unknown,font:PDFFont,size:number,width:number){
