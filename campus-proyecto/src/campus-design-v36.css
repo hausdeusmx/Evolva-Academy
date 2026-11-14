@@ -79,3 +79,6 @@ html body [data-campus-design="36"] .content :is(h1,h2,h3):not(.campus36-course 
 html body [data-campus-design="36"] .topbar button{color:#460a12!important}
 html[data-evolva-theme=dark] body [data-campus-design="36"] .content :is(h1,h2,h3):not(.campus36-course *):not(.device-course *):not(.service-hero *){color:#f2eaea!important}
 html body [data-campus-design="36"] .sidebar .campus36-nav-item>svg{color:inherit!important;opacity:1!important}
+html[data-evolva-theme=dark] body [data-campus-design="36"] .topbar button{color:#f2eaea!important}
+html[data-evolva-theme=dark] body [data-campus-design="36"] .topbar :is(.folio-search,.v35-search-shortcut,.avatar){background:#3b2424!important;color:#f2eaea!important;border-color:#604848!important}
+html[data-evolva-theme=dark] body [data-campus-design="36"] .content :is(.doc-certificate,.doc-id) :is(h1,h2,h3){color:#460a12!important}
