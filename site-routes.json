@@ -15,7 +15,8 @@
     "validar",
     "validar-constancia",
     "validar-estudios",
-    "servicios.escolares"
+    "servicios.escolares",
+    "reinscripcion"
   ],
   "campus": [
     "activar",
@@ -34,12 +35,11 @@
     "/Correos.html": "/correos/",
     "/diplomados.html": "/cursos/",
     "/admin.html": "/campus/admin/",
-    "/reinscripcion.html": "/campus/reinscripcion/",
+    "/reinscripcion.html": "/reinscripcion/",
     "/campus/index.html": "/campus/"
   },
   "redirects": {
     "/admin/": "/campus/admin/",
-    "/reinscripcion/": "/campus/reinscripcion/",
     "/diplomados/": "/cursos/",
     "/Correos/": "/correos/"
   }

@@ -5,7 +5,7 @@ export function coursePlanCopy(plan:any){
  if(plan.exempt)return {label:'Beca del 100%',amount:0,detail:'Apoyo vigente · revisa las fechas de cada cuota'};
  if(plan.configured===true){
   const mode=plan.mode==='monthly'?'Cuota mensual':plan.mode==='total'?'Pago total':'Cuota semanal';
-  return {label:mode,amount:Number(plan.installmentAmount)||null,detail:plan.mode==='total'?'Un solo pago · '+money(plan.total):String(plan.count)+' cuotas · '+String(plan.weeks)+' semanas · Total del curso: '+money(plan.total)};
+  return {label:mode,amount:Number(plan.installmentAmount)||null,detail:plan.mode==='total'?'Un solo pago · '+money(plan.total):String(plan.count)+' cuotas · '+(plan.mode==='monthly'?String(plan.months)+' meses':String(plan.weeks)+' semanas')+' · Total del curso: '+money(plan.total)};
  }
  const months=Number(plan.months||0),monthly=Number(plan.monthly||0);
  if(months>0&&monthly>0)return {label:'Cuota mensual',amount:monthly,detail:String(months)+' mensualidades · Total '+money(months*monthly)};

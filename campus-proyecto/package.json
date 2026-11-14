@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "node scripts/build-campus.mjs",
     "check": "tsc --noEmit",
-    "test": "node tests/check-backend.mjs && node tests/check-frontend.mjs && node tests/check-app-session.mjs && node tests/check-community.mjs && node tests/check-school.mjs && node tests/check-operations.mjs && node tests/check-payments.mjs && node tests/check-credential.mjs && node tests/check-enterprise.mjs && node tests/check-admission-pdf.mjs && node tests/check-admission-experience.mjs && node tests/check-services-v26.mjs && node tests/check-document-design.mjs && node tests/check-deployment-assets.mjs && node tests/check-document-entry.mjs && node tests/check-first-access.mjs && node tests/check-query-performance.mjs && node tests/check-activity-word.mjs && node tests/check-school-services.mjs",
+    "test": "node tests/check-backend.mjs && node tests/check-frontend.mjs && node tests/check-app-session.mjs && node tests/check-community.mjs && node tests/check-school.mjs && node tests/check-operations.mjs && node tests/check-payments.mjs && node tests/check-credential.mjs && node tests/check-enterprise.mjs && node tests/check-admission-pdf.mjs && node tests/check-admission-experience.mjs && node tests/check-services-v26.mjs && node tests/check-document-design.mjs && node tests/check-deployment-assets.mjs && node tests/check-document-entry.mjs && node tests/check-first-access.mjs && node tests/check-query-performance.mjs && node tests/check-activity-word.mjs && node tests/check-school-services.mjs && node tests/check-reenrollment-curp.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

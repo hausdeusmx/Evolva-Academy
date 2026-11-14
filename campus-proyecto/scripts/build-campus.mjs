@@ -12,6 +12,8 @@ const build=spawnSync(process.execPath,[fileURLToPath(new URL('../node_modules/v
 if(build.error)throw build.error;if(build.status!==0)process.exit(build.status||1);
 const schoolPage=fs.readFileSync(output+'servicios.escolares.html','utf8').replace(/(src|href)="(?:\.\/)?assets\//g,'$1="/campus/assets/');
 fs.writeFileSync(repo+'servicios.escolares.html',schoolPage);
+const reenrollmentPage=fs.readFileSync(output+'reinscripcion.html','utf8').replace(/(src|href)="(?:\.\/)?assets\//g,'$1="/campus/assets/');
+fs.writeFileSync(repo+'reinscripcion.html',reenrollmentPage.replace(/(src|href)="\.\/(clean-routes\.js|config\.js|campus-update\.js|manifest\.webmanifest|push-icon-192\.png|favicon\.svg)/g,'$1="/campus/$2'));
 writeBuildManifest(output);
 const restored=restoreBuildAssets(output,retained);console.log('Retained '+restored+' public asset files for open campus tabs.');
 
