@@ -55,6 +55,7 @@ jobs:
 
       - name: Run public site tests
         run: |
+          node scripts/clean-routes.mjs
           node scripts/build-experience.mjs
           node tests/check-course-catalog.mjs
           node tests/check-flows.mjs
