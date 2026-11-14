@@ -14,7 +14,8 @@
     "soporte",
     "validar",
     "validar-constancia",
-    "validar-estudios"
+    "validar-estudios",
+    "servicios.escolares"
   ],
   "campus": [
     "activar",
@@ -24,7 +25,8 @@
     "documentos",
     "reinscripcion",
     "tutores",
-    "validar"
+    "validar",
+    "servicios.escolares"
   ],
   "aliases": {
     "/index.html": "/inicio/",
