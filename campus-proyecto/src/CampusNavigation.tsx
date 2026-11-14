@@ -1,0 +1,8 @@
+import {useEffect,useState} from 'react';
+import {ChevronDown,ArrowUpRight,LockKeyhole} from 'lucide-react';
+import {studentNavGroups} from './experience-v35-domain';
+export function CampusNavigation({nav,active,go,blocked,unread}:{nav:any[];active:string;go:(id:string)=>void;blocked:boolean;unread:boolean}){
+ const[expanded,setExpanded]=useState<Record<string,boolean>>({'Tu espacio':true});
+ useEffect(()=>{const group=studentNavGroups.find(g=>g.ids.includes(active));if(group)setExpanded({[group.label]:true});},[active]);
+ return <nav className="campus36-navigation" aria-label="Navegación principal">{studentNavGroups.map(group=><section className="campus36-nav-section" key={group.label}><button className="campus36-nav-heading" aria-expanded={!!expanded[group.label]} aria-controls={'nav36-'+group.ids[0]} onClick={()=>setExpanded(previous=>({...previous,[group.label]:!previous[group.label]}))}>{group.label}<ChevronDown size={14}/></button><div id={'nav36-'+group.ids[0]} hidden={!expanded[group.label]}>{group.ids.map(id=>nav.find(n=>n.id===id)).filter(Boolean).map(item=><button className={'campus36-nav-item '+(active===item.id?'active':'')} key={item.id} aria-current={active===item.id?'page':undefined} onClick={()=>go(item.id)}><item.icon size={18} strokeWidth={1.7}/><span>{item.label}</span>{blocked&&['clases','tareas','examenes'].includes(item.id)&&<LockKeyhole size={13} aria-label="Pendiente de revisión de pago"/>}{item.id==='avisos'&&unread&&<i className="nav-dot"/>}{active===item.id&&<ArrowUpRight className="campus36-active-arrow" size={13}/>}</button>)}</div></section>)}</nav>;
+}

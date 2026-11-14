@@ -1,13 +1,13 @@
 import {rgb,pushGraphicsState,popGraphicsState,rectangle,clip,endPath} from 'pdf-lib';
 import {createDocumentKit,wrapDocumentText,documentText} from './report-pdf';
-const wine=rgb(70/255,10/255,18/255),ink=rgb(.22,.14,.17),muted=rgb(.49,.36,.41),rose=rgb(.97,.93,.95),border=rgb(.89,.82,.85),white=rgb(1,1,1);
+const wine=rgb(80/255,12/255,23/255),ink=rgb(.22,.14,.17),muted=rgb(.49,.36,.41),rose=rgb(.97,.93,.95),border=rgb(.89,.82,.85),white=rgb(1,1,1);
 export async function createAdmissionReceiptPDF(receipt:any,options:{logoBytes?:Uint8Array}={}){
  const d=receipt?.data,p=d?.offer?.plan;if(!d?.id||!d.student?.name||!d.signer?.name||!d.publication?.documents?.privacy||!d.publication?.documents?.terms||!p||!Number.isFinite(Number(p.total)))throw Error('El acuse no tiene datos completos. Vuelve a consultarlo.');
  const k=await createDocumentKit('Acuse de inscripción - '+d.matricula,d.acceptedAt),{pdf,regular,bold,serif,write,ornament,footer}=k;
  let logoBytes=options.logoBytes;if(!logoBytes){const r=await fetch(new URL('evolva-acuse-logo.jpg',document.baseURI));if(!r.ok)throw Error('No se pudo cargar el logo del acuse. Intenta de nuevo.');logoBytes=new Uint8Array(await r.arrayBuffer());}const logo=await pdf.embedJpg(logoBytes),pages:any[]=[];let page:any,y=0;
  const rows=(value:any,size=9,width=507,font=regular)=>wrapDocumentText(value,font,size,width);
  const brand=(p:any,x:number,bottom:number,width:number)=>{const scale=width/1272,height=356*scale;p.pushOperators(pushGraphicsState(),rectangle(x,bottom,width,height),clip(),endPath());p.drawImage(logo,{x:x-132*scale,y:bottom-(1536-946)*scale,width:1536*scale,height:1536*scale});p.pushOperators(popGraphicsState());};
- function newPage(label:string){page=pdf.addPage([595.28,841.89]);pages.push(page);page.drawRectangle({x:0,y:834,width:595.28,height:8,color:wine});page.drawRectangle({x:40,y:748,width:151,height:51,color:wine});brand(page,48,754,135);write(page,'EVOLVA ACADEMY',377,789,10,bold,wine);write(page,label,377,772,6.5,regular,muted);page.drawLine({start:{x:40,y:730},end:{x:555,y:730},thickness:.7,color:border});ornament(page,566,747,70,12,wine,.2);y=706;}
+ function newPage(label:string){page=pdf.addPage([595.28,841.89]);pages.push(page);page.drawRectangle({x:0,y:724,width:595.28,height:118,color:wine});page.drawRectangle({x:0,y:719,width:595.28,height:5,color:rose});brand(page,42,759,146);write(page,'DOCUMENTOS ESCOLARES',374,794,7,bold,white);write(page,label,374,775,6.1,regular,white);page.drawLine({start:{x:374,y:759},end:{x:553,y:759},thickness:.6,color:rgb(.69,.53,.38)});y=695;}
  function ensure(height:number){if(y-height<67)newPage('ACUSE · CONTINUACIÓN');}
  function paragraph(value:any,size=9,color=ink,font=regular,width=507,leading=size*1.45){for(const line of rows(value,size,width,font)){ensure(leading);write(page,line,44,y-size,size,font,color);y-=leading;}y-=7;}
  function heading(value:string){ensure(42);y-=8;paragraph(value,12,wine,bold,507,16);}
@@ -16,7 +16,7 @@ export async function createAdmissionReceiptPDF(receipt:any,options:{logoBytes?:
  const mode=({weekly:'Semanal',monthly:'Mensual',total:'Pago total'} as Record<string,string>)[d.offer.paymentMode]||d.offer.paymentMode,money='$'+Number(p.total).toFixed(2)+' MXN',date=new Date(d.acceptedAt),dateText=Number.isFinite(date.getTime())?date.toLocaleString('es-MX',{timeZone:'America/Ciudad_Juarez',day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'})+' · Ciudad Juárez':d.acceptedAt;
  newPage('ADMISIONES · EXPEDIENTE DIGITAL');
  if(d.demo){page.drawRectangle({x:44,y:y-8,width:507,height:23,color:rgb(1,.94,.77)});write(page,'EJEMPLO DE DISEÑO · DATOS FICTICIOS · SIN VALIDEZ',53,y,8,bold,wine);y-=38;}
- paragraph('TU SOLICITUD, EN UN DOCUMENTO',7,muted,bold);paragraph('Acuse de inscripción',27,wine,serif,507,32);
+ paragraph('Acuse de inscripción',27,wine,serif,507,32);
  const status=d.admissionStatus==='PENDIENTE_DE_REVISION'?'RECIBIDA · EN REVISIÓN AL ENVIAR':'ACEPTACIÓN REGISTRADA';page.drawRectangle({x:44,y:y-20,width:507,height:24,color:rose});write(page,status,55,y-12,8,bold,wine);y-=30;paragraph('Registra el envío y la aceptación. No confirma admisión, pago ni acceso al campus.',8,muted);
  // Folio and date share one row so the receipt cover stays compact.
  const dateLines=rows(dateText,8,224),identityHeight=Math.max(42,dateLines.length*11+22);ensure(identityHeight);page.drawRectangle({x:44,y:y-identityHeight,width:507,height:identityHeight,color:rgb(.995,.985,.99),borderColor:border,borderWidth:.6});write(page,'FOLIO DE SOLICITUD / MATRÍCULA',56,y-13,6.5,bold,muted);write(page,documentText(d.matricula),56,y-30,10,bold,wine);write(page,'FECHA DE ENVÍO Y ACEPTACIÓN',310,y-13,6.5,bold,muted);dateLines.forEach((line,i)=>write(page,line,310,y-28-i*11,8));y-=identityHeight+7;

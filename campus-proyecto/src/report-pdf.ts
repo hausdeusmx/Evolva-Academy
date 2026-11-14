@@ -6,7 +6,7 @@ import {reportFonts} from './report-fonts.ts';
 import {logoJpegBase64} from './brand.ts';
 import {REPORT_TITLE} from './report-record.ts';
 
-export const documentColors={wine:rgb(72/255,10/255,21/255),ink:rgb(.19,.14,.16),muted:rgb(.46,.38,.41),rose:rgb(.97,.94,.95),border:rgb(.87,.81,.83),gold:rgb(.68,.51,.32),white:rgb(1,1,1)};
+export const documentColors={wine:rgb(80/255,12/255,23/255),ink:rgb(.18,.13,.16),muted:rgb(.46,.40,.43),rose:rgb(.965,.941,.949),border:rgb(.875,.837,.853),gold:rgb(.69,.53,.38),white:rgb(1,1,1)};
 // Keep Spanish names and accents. Embedded Unicode fonts handle their glyphs.
 export const documentText=(value:unknown)=>String(value??'').replace(/[\u0000-\u001f\u007f]/g,' ').replace(/\s+/g,' ').trim();
 export function wrapDocumentText(value:unknown,font:PDFFont,size:number,width:number){
@@ -18,7 +18,7 @@ export function documentDate(value:unknown){const raw=String(value||'');if(!raw)
 export function documentDuration(data:any){const plan=data.plan||{};const weeks=Number(plan.weeks),months=Number(plan.months);return Number.isFinite(weeks)&&weeks>0?weeks+' semanas':Number.isFinite(months)&&months>0?months+' meses':'No registrada';}
 export function qrMatrix(url:string){const qr=qrcode(0,'M');qr.addData(url,'Byte');qr.make();const n=qr.getModuleCount();return Array.from({length:n},(_,r)=>Array.from({length:n},(_,c)=>qr.isDark(r,c)));}
 export async function createDocumentKit(title:string,issuedAt?:string){
- const pdf=await PDFDocument.create();pdf.setTitle(title);pdf.setAuthor('Evolva Academy');pdf.setCreator('Evolva Academy · Servicios Escolares');if(issuedAt&&Number.isFinite(Date.parse(issuedAt)))pdf.setCreationDate(new Date(issuedAt));pdf.registerFontkit(fontkit);
+ const pdf=await PDFDocument.create();pdf.setTitle(title);pdf.setAuthor('Evolva Academy');pdf.setCreator('Evolva Academy · Documentos 36');if(issuedAt&&Number.isFinite(Date.parse(issuedAt)))pdf.setCreationDate(new Date(issuedAt));pdf.registerFontkit(fontkit);
  const bytes=(s:string)=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
  const regular=await pdf.embedFont(bytes(reportFonts.regular),{subset:true}),bold=await pdf.embedFont(bytes(reportFonts.bold),{subset:true}),signature=await pdf.embedFont(bytes(reportFonts.signature),{subset:true}),serif=await pdf.embedFont(bytes(reportFonts.serif),{subset:true}),logo=await pdf.embedJpg(bytes(logoJpegBase64));
  const {wine,ink,muted,border,white}=documentColors;
@@ -31,8 +31,8 @@ export async function createDocumentKit(title:string,issuedAt?:string){
  // Original botanical motif shared by every document, drawn as vectors for print.
  const ornament=(page:any,x:number,y:number,height:number,width=23,color=wine,opacity=1)=>{page.drawLine({start:{x:x+width/2,y},end:{x:x+width/2,y:y+height},thickness:.65,color,opacity});for(let j=6;j<height-14;j+=25){const mid=x+width/2;page.drawSvgPath('M 0 0 C -12 -1 -12 -13 -11 -17 C -1 -15 3 -7 0 0 Z',{x:mid,y:y+j+18,scale:width/25,color,opacity});page.drawSvgPath('M 0 0 C 12 -1 12 -13 11 -17 C 1 -15 -3 -7 0 0 Z',{x:mid,y:y+j+8,scale:width/25,color,opacity});}};
  const center=(page:any,value:unknown,y:number,size:number,width:number,font=regular,color=ink,cx=(page.getWidth()-30)/2,maxRows=2)=>{let actual=size;while(wrapDocumentText(value,font,actual,width).length>maxRows&&actual>7)actual-=.25;const rows=wrapDocumentText(value,font,actual,width);if(rows.length>maxRows)throw Error('El texto excede el espacio del documento. Solicita revisión a administración.');rows.forEach((row,i)=>write(page,row,cx-font.widthOfTextAtSize(row,actual)/2,y-i*actual*1.3,actual,font,color));return rows.length*actual*1.3;};
- const header=(page:any,label:string)=>{const w=page.getWidth(),h=page.getHeight();page.drawRectangle({x:0,y:h-8,width:w,height:8,color:wine});page.drawRectangle({x:40,y:h-94,width:151,height:51,color:wine});brand(page,48,h-89,135);write(page,'EVOLVA ACADEMY',w-218,h-53,10,bold,wine);write(page,label,w-218,h-70,7,regular,muted);page.drawLine({start:{x:40,y:h-112},end:{x:w-40,y:h-112},thickness:.8,color:border});ornament(page,w-32,h-103,72,12,wine,.22);};
- const footer=(page:any,index:number,count:number,note='Servicios escolares')=>{const w=page.getWidth();page.drawLine({start:{x:40,y:47},end:{x:w-40,y:47},thickness:.6,color:border});write(page,'EVOLVA ACADEMY  /  '+note.toUpperCase(),40,31,6.5,bold,muted);write(page,'soporte@evolvacademy.mx',40,19,6.5,regular,muted);write(page,index+' / '+count,w-64,25,7,regular,muted);};
+ const header=(page:any,label:string)=>{const w=page.getWidth(),h=page.getHeight();page.drawRectangle({x:0,y:h-118,width:w,height:118,color:wine});page.drawRectangle({x:0,y:h-123,width:w,height:5,color:documentColors.rose});brand(page,42,h-83,146);write(page,'DOCUMENTOS ESCOLARES',w-221,h-48,7,bold,white);write(page,label,w-221,h-67,6.5,regular,white);page.drawLine({start:{x:w-221,y:h-83},end:{x:w-42,y:h-83},thickness:.6,color:documentColors.gold});};
+ const footer=(page:any,index:number,count:number,note='Servicios escolares')=>{const w=page.getWidth();page.drawLine({start:{x:40,y:47},end:{x:w-40,y:47},thickness:.5,color:border});page.drawRectangle({x:40,y:20,width:3,height:17,color:wine});write(page,'EVOLVA ACADEMY  /  '+note.toUpperCase(),51,32,6.2,bold,muted);write(page,'soporte@evolvacademy.mx',51,20,6.2,regular,muted);write(page,String(index).padStart(2,'0')+' / '+String(count).padStart(2,'0'),w-71,27,7,bold,wine);};
  return {pdf,regular,bold,serif,signature,write,lines,brand,qr,field,sign,ornament,center,header,footer};
 }
 export async function createAcademicReportPDF(data:any,meta:{code:string,issuedAt:string,validationUrl:string}){
