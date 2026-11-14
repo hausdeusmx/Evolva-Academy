@@ -63,6 +63,7 @@ jobs:
           node tests/check-mail-delivery.mjs
           node tests/check-registration-legal.mjs
           node tests/check-privacy-publication.mjs
+          node tests/check-home-carousel.mjs
 
       - name: Build campus
         working-directory: campus-proyecto
