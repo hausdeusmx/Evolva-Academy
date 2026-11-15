@@ -9,7 +9,7 @@ import sys
 from pathlib import Path
 
 from docx import Document
-from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_TAB_ALIGNMENT
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, RGBColor
@@ -22,7 +22,7 @@ doc = Document()
 section = doc.sections[0]
 section.page_width = Inches(8.5)
 section.page_height = Inches(11)
-section.top_margin = Inches(0.86)
+section.top_margin = Inches(0.98)
 section.bottom_margin = Inches(0.65)
 section.left_margin = section.right_margin = Inches(0.72)
 section.header_distance = Inches(0.25)
@@ -35,10 +35,12 @@ for name in ['Normal', 'Title', 'Subtitle', 'Heading 1', 'Heading 2', 'Caption']
     style.font.size = Pt(11)
     style.paragraph_format.space_after = Pt(6)
     style.paragraph_format.line_spacing = 1.1
-doc.styles['Title'].font.size = Pt(20)
+doc.styles['Title'].font.size = Pt(24)
 doc.styles['Title'].font.bold = True
 doc.styles['Title'].paragraph_format.space_after = Pt(7)
-doc.styles['Subtitle'].font.size = Pt(10)
+doc.styles['Subtitle'].font.size = Pt(11)
+doc.styles['Subtitle'].font.color.rgb = RGBColor.from_string('460A12')
+doc.styles['Subtitle'].font.bold = True
 doc.styles['Heading 1'].font.size = Pt(13)
 doc.styles['Heading 1'].font.bold = True
 doc.styles['Heading 1'].paragraph_format.space_before = Pt(11)
@@ -77,7 +79,12 @@ logo = Image.open(ROOT / 'assets/evolva-email-logo.png').convert('RGB')
 logo.thumbnail((510, 510), Image.Resampling.LANCZOS)
 logo_path = work / 'evolva-word-logo.jpg'
 logo.save(logo_path, quality=95, optimize=True)
+header.paragraph_format.tab_stops.add_tab_stop(Inches(6.9), WD_TAB_ALIGNMENT.RIGHT)
 header.add_run().add_picture(str(logo_path), width=Inches(1.7))
+label_run = header.add_run('\tACTIVIDADES Y TRABAJOS')
+label_run.font.size = Pt(8)
+label_run.font.bold = True
+label_run.font.color.rgb = RGBColor.from_string('460A12')
 picture = header._p.xpath('.//wp:docPr')[0]
 picture.set('descr', 'Logo oficial de Evolva Academy')
 doc.add_paragraph('{{ACTIVITY_TITLE}}', 'Title')
@@ -90,15 +97,23 @@ for border in doc.element.xpath('.//w:pBdr'):
     border.getparent().remove(border)
 footer = section.footer.paragraphs[0]
 footer.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+footer.paragraph_format.space_before = Pt(5)
 run = footer.add_run('Evolva Academy  |  Actividad editable  |  ')
 run.font.size = Pt(8)
+run.font.color.rgb = RGBColor.from_string('460A12')
 field = OxmlElement('w:fldSimple')
 field.set(qn('w:instr'), 'PAGE')
 footer._p.append(field)
 doc.core_properties.author = 'Evolva Academy'
 doc.core_properties.last_modified_by = 'Evolva Academy'
 doc.core_properties.title = 'Actividad editable de curso'
-doc.core_properties.subject = 'Actividades y trabajos del campus'
+doc.core_properties.subject = 'Actividades y trabajos del campus diseño 38'
+# Thin brand line belongs to the repeated header, never to the document Title.
+borders = OxmlElement('w:pBdr')
+edge = OxmlElement('w:bottom')
+for attr, value in [('val','single'),('sz','6'),('space','7'),('color','460A12')]: edge.set(qn('w:'+attr), value)
+borders.append(edge)
+header._p.get_or_add_pPr().append(borders)
 path = work / 'base-actividad.docx'
 doc.save(path)
 output = ROOT / 'campus-proyecto/src/activity-word-template.json'

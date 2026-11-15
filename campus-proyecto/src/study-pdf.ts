@@ -2,8 +2,8 @@ import {studentMatricula} from './student-identity';
 import {createDocumentKit,documentColors,documentDate,documentDuration,wrapDocumentText} from './report-pdf';
 export async function createStudyLetterPDF(data:any):Promise<Uint8Array>{
  const k=await createDocumentKit('Constancia de estudios - Evolva Academy',data.issuedAt),{pdf,regular,bold,serif,write,lines,field,sign,qr,header,footer,ornament}=k,{wine,muted,border,gold}=documentColors,s=data.student||{},page=pdf.addPage([595.28,841.89]);
- header(page,'SERVICIOS ESCOLARES / INSCRIPCIÓN');ornament(page,510,235,380,28,wine,.06);
- write(page,'Constancia de estudios',40,689,27,serif,wine);write(page,'A QUIEN CORRESPONDA',40,657,8,bold,muted);
+ header(page,'SERVICIOS ESCOLARES / INSCRIPCIÓN');ornament(page,531,260,345,18,wine,.08);
+ write(page,'Constancia de estudios',40,689,29,serif,wine);write(page,'A QUIEN CORRESPONDA',40,657,8,bold,muted);
  if(data.demo)write(page,'MUESTRA · SIN VALIDEZ ACADÉMICA',40,638,7,bold,gold);
  write(page,'Por medio de la presente se hace constar que:',40,607,10.5,regular,muted);
  let size=20;while(wrapDocumentText(s.name||'Alumno',bold,size,515).length>2&&size>10)size-=.5;
